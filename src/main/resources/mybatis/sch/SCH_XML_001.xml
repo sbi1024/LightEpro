@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.LightEpro.sch.mapper.SCH_MAPPER_001">
+    <select id="findSchTitleBySchmSeq" resultType="java.util.Map">
+        /* findSchTitleBySchmSeq */
+        SELECT IFNULL(MAX(tss.SCHM_SEQ) ,'1') AS schmSeq ,
+               IFNULL(MAX(tss.SCH_SEQ) ,'2') AS schSeq ,
+               IFNULL(MAX(tss.SCHM_SEQ) ,'1') AS schmSeq1 ,
+               IFNULL(MAX(tss.SCH_SEQ) ,'2') AS schSeq1 ,
+               IFNULL(MAX(tss.SCHM_SEQ) ,'1') AS schmSeq2 ,
+               IFNULL(MAX(tss.SCH_SEQ) ,'2') AS schSeq2 ,
+               IFNULL(MAX(tss.SCHM_SEQ) ,'1') AS schmSeq3 ,
+               IFNULL(MAX(tss.SCH_SEQ) ,'2') AS schSeq3 ,
+               IFNULL(MAX(tss.SCHM_SEQ) ,'1') AS schmSeq4 ,
+               IFNULL(MAX(tss.SCH_SEQ) ,'2') AS schSeq4
+        FROM t_sc_sch tss
+        WHERE 1 = 1;
+    </select>
+</mapper>

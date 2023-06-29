@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.LightEpro.sch.mapper.SCH_MAPPER_000">
+    <select id = "findCurrentSchValue" resultType="int">
+        select ${DB_NAME}.nextval('sch') from dual;
+    </select>
+
+    <insert id="insertSingleSch">
+        /* insertSingleSch */
+        INSERT INTO T_SC_SCH (SCHM_SEQ,
+                              SCH_SEQ,
+                              START_DATE,
+                              END_DATE,
+                              ALL_DAY_YN,
+                              SCH_TITLE,
+                              SCH_CONTENT,
+                              USE_YND,
+                              CREATE_DATE,
+                              CREATE_SEQ)
+        VALUES (#{schmSeq},
+                #{schSeq},
+                STR_TO_DATE(#{startDate} , '%Y%m%d%H%i'),
+                STR_TO_DATE(#{endDate} , '%Y%m%d%H%i'),
+                #{alldayYn},
+                #{schTitle},
+                #{schContent},
+                #{useYnd},
+                now(),
+                #{createSeq})
+    </insert>
+</mapper>
