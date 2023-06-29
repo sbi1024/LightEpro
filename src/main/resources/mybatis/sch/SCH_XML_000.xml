@@ -3,30 +3,84 @@
 
 <mapper namespace="com.example.LightEpro.sch.mapper.SCH_MAPPER_000">
     <select id = "findCurrentSchValue" resultType="int">
-        select ${DB_NAME}.nextval('sch') from dual;
+        select practice.nextval('sch') from dual;
     </select>
 
     <insert id="insertSingleSch">
         /* insertSingleSch */
         INSERT INTO T_SC_SCH (SCHM_SEQ,
-                              SCH_SEQ,
-                              START_DATE,
-                              END_DATE,
-                              ALL_DAY_YN,
-                              SCH_TITLE,
-                              SCH_CONTENT,
-                              USE_YND,
-                              CREATE_DATE,
-                              CREATE_SEQ)
+                                        SCH_SEQ,
+                                        START_DATE,
+                                        END_DATE,
+                                        ALL_DAY_YN,
+                                        SCH_TITLE,
+                                        SCH_CONTENT,
+                                        USE_YND,
+                                        CREATE_DATE,
+                                        CREATE_SEQ)
         VALUES (#{schmSeq},
                 #{schSeq},
-                STR_TO_DATE(#{startDate} , '%Y%m%d%H%i'),
-                STR_TO_DATE(#{endDate} , '%Y%m%d%H%i'),
+                #{startDate},
+                #{endDate},
                 #{alldayYn},
                 #{schTitle},
                 #{schContent},
-                #{useYnd},
+                'Y',
                 now(),
-                #{createSeq})
+                #{empSeq})
+    </insert>
+
+
+    <insert id="insertSchParticipants" parameterType="java.util.List">
+        /* insertSchParticipants */
+        INSERT INTO T_SC_SCH_USER (SCHM_SEQ,
+                                   SCH_SEQ,
+                                   CDE_SEQ,
+                                   CDE_TYPE,
+                                   SCH_PARTITION_TYPE,
+                                   SCH_AUTORITY,
+                                   USE_YND,
+                                   CREATE_DATE,
+                                   CREATE_SEQ)
+        VALUES <foreach collection="list" item="participants" separator=",">
+                    (
+                        #{participants.schmSeq},
+                        #{participants.schSeq},
+                        #{participants.cdeSeq},
+                        #{participants.cdeType},
+                        '10',
+                        #{participants.schAutority},
+                        'Y',
+                        now(),
+                        #{participants.createSeq}
+                    )
+                </foreach>
+    </insert>
+
+
+    <insert id="insertSchDisclosureScopes" parameterType="java.util.List">
+        /* insertSchDisclosureScopes */
+        INSERT INTO T_SC_SCH_USER (SCHM_SEQ,
+                                   SCH_SEQ,
+                                   CDE_SEQ,
+                                   CDE_TYPE,
+                                   SCH_PARTITION_TYPE,
+                                   SCH_AUTORITY,
+                                   USE_YND,
+                                   CREATE_DATE,
+                                   CREATE_SEQ)
+        VALUES <foreach collection="list" item="disclosureScopes" separator=",">
+                    (
+                        #{disclosureScopes.schmSeq},
+                        #{disclosureScopes.schSeq},
+                        #{disclosureScopes.cdeSeq},
+                        #{disclosureScopes.cdeType},
+                        '20',
+                        #{disclosureScopes.schAutority},
+                        'Y',
+                        now(),
+                        #{disclosureScopes.createSeq}
+                    )
+             </foreach>
     </insert>
 </mapper>
