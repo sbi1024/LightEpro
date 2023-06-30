@@ -2,19 +2,47 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.LightEpro.sch.mapper.SCH_MAPPER_001">
-    <select id="findSchTitleBySchmSeq" resultType="java.util.Map">
-        /* findSchTitleBySchmSeq */
-        SELECT IFNULL(MAX(tss.SCHM_SEQ) ,'1') AS schmSeq ,
-               IFNULL(MAX(tss.SCH_SEQ) ,'2') AS schSeq ,
-               IFNULL(MAX(tss.SCHM_SEQ) ,'1') AS schmSeq1 ,
-               IFNULL(MAX(tss.SCH_SEQ) ,'2') AS schSeq1 ,
-               IFNULL(MAX(tss.SCHM_SEQ) ,'1') AS schmSeq2 ,
-               IFNULL(MAX(tss.SCH_SEQ) ,'2') AS schSeq2 ,
-               IFNULL(MAX(tss.SCHM_SEQ) ,'1') AS schmSeq3 ,
-               IFNULL(MAX(tss.SCH_SEQ) ,'2') AS schSeq3 ,
-               IFNULL(MAX(tss.SCHM_SEQ) ,'1') AS schmSeq4 ,
-               IFNULL(MAX(tss.SCH_SEQ) ,'2') AS schSeq4
+    <select id="findSchBySchmSeqAndSchSeq" resultType="com.example.LightEpro.sch.dto.sch_001.SCH_RS_DTO_001$Sch">
+        /* findSchBySchmSeqAndSchSeq */
+        SELECT tss.SCHM_SEQ            AS schmSeq,
+               tss.SCH_SEQ             AS schSeq,
+               tss.SCH_TITLE           AS schTitle,
+               tss.SCH_CONTENT         AS schContent,
+               tss.START_DATE          AS startDate,
+               tss.END_DATE            AS endDate,
+               tss.CREATE_DATE         AS createDate,
+               tss.CREATE_SEQ          AS createSeq,
+               tss.MODIFY_DATE         AS modifyDate,
+               tss.MODIFY_SEQ          AS modifySeq
         FROM t_sc_sch tss
-        WHERE 1 = 1;
+        WHERE 1 = 1
+          AND tss.SCHM_SEQ = #{schmSeq}
+          AND tss.SCH_SEQ = #{schSeq}
+    </select>
+
+    <select id="findParticipantsBySchmSeqAndSchSeq" resultType="com.example.LightEpro.sch.dto.sch_001.SCH_RS_DTO_001$Participant">
+        /* findParticipantsBySchmSeqAndSchSeq */
+        SELECT tssu.CDE_SEQ            AS cdeSeq,
+               tssu.CDE_TYPE           AS cdeType,
+               tssu.SCH_PARTITION_TYPE AS schPartitionType,
+               tssu.SCH_AUTORITY       AS schAutority
+        FROM t_sc_sch_user tssu
+        WHERE 1 = 1
+          AND tssu.SCHM_SEQ = #{schmSeq}
+          AND tssu.SCH_SEQ = #{schSeq}
+          AND tssu.SCH_PARTITION_TYPE = '10'
+    </select>
+
+    <select id="findDisclosureScopesBySchmSeqAndSchSeq" resultType="com.example.LightEpro.sch.dto.sch_001.SCH_RS_DTO_001$DisclosureScope">
+        /* findDisclosureScopesBySchmSeqAndSchSeq */
+        SELECT tssu.CDE_SEQ            AS cdeSeq,
+               tssu.CDE_TYPE           AS cdeType,
+               tssu.SCH_PARTITION_TYPE AS schPartitionType,
+               tssu.SCH_AUTORITY       AS schAutority
+        FROM t_sc_sch_user tssu
+        WHERE 1 = 1
+          AND tssu.SCHM_SEQ = #{schmSeq}
+          AND tssu.SCH_SEQ = #{schSeq}
+          AND tssu.SCH_PARTITION_TYPE = '20'
     </select>
 </mapper>

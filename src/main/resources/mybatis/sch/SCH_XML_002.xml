@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.LightEpro.sch.mapper.SCH_MAPPER_002">
+    <delete id="deleteSchUsers" parameterType="com.example.LightEpro.sch.dto.sch_002.SCH_RQ_DTO_002$Sch">
+        /* deleteSchUsers */
+        DELETE tssu FROM T_SC_SCH_USER tssu
+        WHERE 1 = 1
+          AND tssu.SCHM_SEQ = #{sch.schmSeq}
+          AND tssu.SCH_SEQ = #{sch.schSeq}
+          AND tssu.SCH_PARTITION_TYPE IN ('10','20')
+    </delete>
+
+    <update id="modifySingleSch" parameterType="com.example.LightEpro.sch.dto.sch_002.SCH_RQ_DTO_002$Sch">
+        /* modifySingleSch */
+        UPDATE T_SC_SCH TSS
+        SET TSS.START_DATE  = #{sch.startDate},
+            TSS.END_DATE    = #{sch.endDate},
+            TSS.ALL_DAY_YN  = #{sch.alldayYn},
+            TSS.SCH_TITLE   = #{sch.schTitle},
+            TSS.SCH_CONTENT = #{sch.schContent},
+            TSS.MODIFY_DATE = NOW(),
+            TSS.MODIFY_SEQ  = #{sch.empSeq}
+        WHERE 1 = 1
+          AND TSS.SCHM_SEQ = #{sch.schmSeq}
+          AND TSS.SCH_SEQ = #{sch.schSeq}
+    </update>
+
+    <insert id="insertSchParticipants" parameterType="java.util.List">
+        /* insertSchParticipants */
+        INSERT INTO T_SC_SCH_USER (SCHM_SEQ,
+        SCH_SEQ,
+        CDE_SEQ,
+        CDE_TYPE,
+        SCH_PARTITION_TYPE,
+        SCH_AUTORITY,
+        USE_YND,
+        CREATE_DATE,
+        CREATE_SEQ)
+        VALUES
+        <foreach collection="list" item="participants" separator=",">
+            (
+            #{participants.schmSeq},
+            #{participants.schSeq},
+            #{participants.cdeSeq},
+            #{participants.cdeType},
+            '10',
+            #{participants.schAutority},
+            'Y',
+            now(),
+            #{participants.createSeq}
+            )
+        </foreach>
+    </insert>
+
+
+    <insert id="insertSchDisclosureScopes" parameterType="java.util.List">
+        /* insertSchDisclosureScopes */
+        INSERT INTO T_SC_SCH_USER (SCHM_SEQ,
+        SCH_SEQ,
+        CDE_SEQ,
+        CDE_TYPE,
+        SCH_PARTITION_TYPE,
+        SCH_AUTORITY,
+        USE_YND,
+        CREATE_DATE,
+        CREATE_SEQ)
+        VALUES
+        <foreach collection="list" item="disclosureScopes" separator=",">
+            (
+            #{disclosureScopes.schmSeq},
+            #{disclosureScopes.schSeq},
+            #{disclosureScopes.cdeSeq},
+            #{disclosureScopes.cdeType},
+            '20',
+            #{disclosureScopes.schAutority},
+            'Y',
+            now(),
+            #{disclosureScopes.createSeq}
+            )
+        </foreach>
+    </insert>
+</mapper>

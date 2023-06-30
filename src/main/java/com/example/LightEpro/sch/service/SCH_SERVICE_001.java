@@ -1,8 +1,8 @@
 package com.example.LightEpro.sch.service;
 
-import java.util.List;
-import java.util.Map;
+import com.example.LightEpro.sch.dto.sch_001.SCH_RQ_DTO_001;
+import com.example.LightEpro.sch.dto.sch_001.SCH_RS_DTO_001;
 
 public interface SCH_SERVICE_001 {
-    List<Map<String, Object>> findSchTitleBySchmSeq(Map<String, Object> request) throws Exception;
+    SCH_RS_DTO_001 findSingleSch(SCH_RQ_DTO_001 schRqDto001);
 }

@@ -6,28 +6,28 @@
         select practice.nextval('sch') from dual;
     </select>
 
-    <insert id="insertSingleSch">
+    <insert id="insertSingleSch" parameterType="com.example.LightEpro.sch.dto.sch_000.SCH_RQ_DTO_000$Sch">
         /* insertSingleSch */
         INSERT INTO T_SC_SCH (SCHM_SEQ,
-                                        SCH_SEQ,
-                                        START_DATE,
-                                        END_DATE,
-                                        ALL_DAY_YN,
-                                        SCH_TITLE,
-                                        SCH_CONTENT,
-                                        USE_YND,
-                                        CREATE_DATE,
-                                        CREATE_SEQ)
-        VALUES (#{schmSeq},
-                #{schSeq},
-                #{startDate},
-                #{endDate},
-                #{alldayYn},
-                #{schTitle},
-                #{schContent},
+                              SCH_SEQ,
+                              START_DATE,
+                              END_DATE,
+                              ALL_DAY_YN,
+                              SCH_TITLE,
+                              SCH_CONTENT,
+                              USE_YND,
+                              CREATE_DATE,
+                              CREATE_SEQ)
+        VALUES (#{sch.schmSeq},
+                #{sch.schSeq},
+                #{sch.startDate},
+                #{sch.endDate},
+                #{sch.alldayYn},
+                #{sch.schTitle},
+                #{sch.schContent},
                 'Y',
                 now(),
-                #{empSeq})
+                #{sch.empSeq})
     </insert>
 
 
