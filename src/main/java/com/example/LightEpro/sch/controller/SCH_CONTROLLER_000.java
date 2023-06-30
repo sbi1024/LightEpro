@@ -21,7 +21,7 @@ public class SCH_CONTROLLER_000 {
 
     private final SCH_SERVICE_000 schService000;
 
-    // 일정 등록 API
+    // 단일 일정 등록 API
     @RequestMapping(value = "/SCH_000", method = {RequestMethod.GET, RequestMethod.POST})
     public SCH_RESPONSE SCH_000(@RequestBody @Valid SCH_RQ_DTO_000 schRqDto000) {
         SCH_RESPONSE schResponse = new SCH_RESPONSE();

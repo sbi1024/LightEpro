@@ -10,8 +10,9 @@ import java.util.List;
 
 @Mapper
 public interface SCH_MAPPER_002 {
+    SCH_RQ_DTO_002.Sch findCreateSeqBySchmSeqAndSchSeq(SCH_RQ_DTO_002 schRqDto002);
     int deleteSchUsers(SCH_RQ_DTO_002 schRqDto002);
-    int modifySingleSch(SCH_RQ_DTO_002 schRqDto002);
+    int updateSingleSch(SCH_RQ_DTO_002 schRqDto002);
     int insertSchParticipants(List<SCH_RQ_DTO_002.Participant> participants);
     int insertSchDisclosureScopes(List<SCH_RQ_DTO_002.DisclosureScope> disclosureScopes);
 }

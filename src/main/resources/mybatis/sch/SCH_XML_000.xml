@@ -27,7 +27,7 @@
                 #{sch.schContent},
                 'Y',
                 now(),
-                #{sch.empSeq})
+                #{sch.createSeq})
     </insert>
 
 

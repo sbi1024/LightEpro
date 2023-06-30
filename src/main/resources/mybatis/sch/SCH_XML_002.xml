@@ -11,6 +11,18 @@
           AND tssu.SCH_PARTITION_TYPE IN ('10','20')
     </delete>
 
+    <select id="findCreateSeqBySchmSeqAndSchSeq"
+            parameterType="com.example.LightEpro.sch.dto.sch_002.SCH_RQ_DTO_002$Sch"
+            resultType="com.example.LightEpro.sch.dto.sch_002.SCH_RQ_DTO_002$Sch">
+        /* findCreateSeqBySchmSeqAndSchSeq */
+        SELECT tss.CREATE_SEQ AS createSeq ,
+               tss.CREATE_DATE AS createDate
+        FROM t_sc_sch tss
+        WHERE 1 = 1
+          AND tss.SCHM_SEQ = #{sch.schmSeq}
+          AND tss.SCH_SEQ = #{sch.schSeq}
+    </select>
+
     <update id="modifySingleSch" parameterType="com.example.LightEpro.sch.dto.sch_002.SCH_RQ_DTO_002$Sch">
         /* modifySingleSch */
         UPDATE T_SC_SCH TSS
@@ -20,7 +32,7 @@
             TSS.SCH_TITLE   = #{sch.schTitle},
             TSS.SCH_CONTENT = #{sch.schContent},
             TSS.MODIFY_DATE = NOW(),
-            TSS.MODIFY_SEQ  = #{sch.empSeq}
+            TSS.MODIFY_SEQ  = #{sch.modifySeq}
         WHERE 1 = 1
           AND TSS.SCHM_SEQ = #{sch.schmSeq}
           AND TSS.SCH_SEQ = #{sch.schSeq}
@@ -36,7 +48,9 @@
         SCH_AUTORITY,
         USE_YND,
         CREATE_DATE,
-        CREATE_SEQ)
+        CREATE_SEQ,
+        MODIFY_DATE,
+        MODIFY_SEQ)
         VALUES
         <foreach collection="list" item="participants" separator=",">
             (
@@ -47,8 +61,10 @@
             '10',
             #{participants.schAutority},
             'Y',
+            #{participants.createDate},
+            #{participants.createSeq},
             now(),
-            #{participants.createSeq}
+            #{participants.modifySeq}
             )
         </foreach>
     </insert>
@@ -64,7 +80,9 @@
         SCH_AUTORITY,
         USE_YND,
         CREATE_DATE,
-        CREATE_SEQ)
+        CREATE_SEQ,
+        MODIFY_DATE,
+        MODIFY_SEQ)
         VALUES
         <foreach collection="list" item="disclosureScopes" separator=",">
             (
@@ -75,8 +93,10 @@
             '20',
             #{disclosureScopes.schAutority},
             'Y',
+            #{disclosureScopes.createDate},
+            #{disclosureScopes.createSeq},
             now(),
-            #{disclosureScopes.createSeq}
+            #{disclosureScopes.modifySeq}
             )
         </foreach>
     </insert>

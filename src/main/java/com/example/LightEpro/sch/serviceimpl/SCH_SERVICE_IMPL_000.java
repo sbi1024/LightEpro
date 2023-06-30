@@ -22,7 +22,7 @@ public class SCH_SERVICE_IMPL_000 implements SCH_SERVICE_000 {
         // 일정 등록을 위한 일정 시퀀스 값 추출 (int 형)
         int curSeq = findCurrentSchValue();
         // 일정 시퀀스 번호 주입 메소드 호출
-        setSchmSeqAndSchseq(curSeq, schRqDto000);
+        assignObject(curSeq, schRqDto000);
         // 단일 일정 등록 메소드 호출
         int singleSchInsertCnt = insertSingleSch(schRqDto000);
         // 단일 일정에 포함된 참여자 등록 메소드 호출
@@ -53,8 +53,9 @@ public class SCH_SERVICE_IMPL_000 implements SCH_SERVICE_000 {
 
     // 일정 시퀀스 번호 주입 메소드
     @Override
-    public void setSchmSeqAndSchseq(int curSeq, SCH_RQ_DTO_000 schRqDto000) throws Exception {
+    public void assignObject(int curSeq, SCH_RQ_DTO_000 schRqDto000) throws Exception {
         // schRqDto000 객체로 부터 내부 클래스 객체 생성
+        SCH_RQ_DTO_000.Emp emp = schRqDto000.getEmp();
         SCH_RQ_DTO_000.Sch sch = schRqDto000.getSch();
         List<SCH_RQ_DTO_000.Participant> participants = schRqDto000.getParticipants();
         List<SCH_RQ_DTO_000.DisclosureScope> disclosureScopes = schRqDto000.getDisclosureScopes();
@@ -62,19 +63,20 @@ public class SCH_SERVICE_IMPL_000 implements SCH_SERVICE_000 {
         // 일정 객체에 curSeq 값 할당
         sch.setSchmSeq(curSeq);
         sch.setSchSeq(curSeq);
+        sch.setCreateSeq(emp.getEmpSeq());
 
         // 반복문을 통해 participant 객체에 schmSeq , schSeq , createSeq 값 할당
         for (SCH_RQ_DTO_000.Participant participant : participants) {
             participant.setSchmSeq(curSeq);
             participant.setSchSeq(curSeq);
-            participant.setCreateSeq(sch.getEmpSeq());
+            participant.setCreateSeq(emp.getEmpSeq());
         }
 
         // 반복문을 통해 disclosureScope 객체에 schmSeq , schSeq , createSeq 값 할당
         for (SCH_RQ_DTO_000.DisclosureScope disclosureScope : disclosureScopes) {
             disclosureScope.setSchmSeq(curSeq);
             disclosureScope.setSchSeq(curSeq);
-            disclosureScope.setCreateSeq(sch.getEmpSeq());
+            disclosureScope.setCreateSeq(emp.getEmpSeq());
         }
     }
 

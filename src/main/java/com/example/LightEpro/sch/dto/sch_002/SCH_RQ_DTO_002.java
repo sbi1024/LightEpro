@@ -4,24 +4,34 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 public class SCH_RQ_DTO_002 {
     @NotNull
-    private Sch sch;
+    private @Valid Emp emp;
     @NotNull
-    private List<@Valid Participant> participants;
+    private @Valid Sch sch;
     @NotNull
-    private List<@Valid DisclosureScope> disclosureScopes;
+    private @Valid List<Participant> participants;
+    @NotNull
+    private @Valid List<DisclosureScope> disclosureScopes;
+
+    @Data
+    public static class Emp {
+        @Positive
+        private int empSeq;
+    }
 
     @Data
     public static class Sch {
-        @NotNull
+        @Positive
         private int schmSeq;
-        @NotNull
+        @Positive
         private int schSeq;
         @NotNull
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmm", timezone = "Asia/Seoul")
@@ -29,42 +39,53 @@ public class SCH_RQ_DTO_002 {
         @NotNull
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmm", timezone = "Asia/Seoul")
         private LocalDateTime endDate;
+        @NotBlank
         private String alldayYn;
-        @NotNull
+        @NotBlank
         private String schTitle;
         @NotNull
         private String schContent;
-        @NotNull
-        private int empSeq;
+        private LocalDateTime createDate;
+        private int createSeq;
+        private LocalDateTime modifyDate;
+        private int modifySeq;
     }
 
     @Data
     public static class Participant {
         private int schmSeq;
         private int schSeq;
-        @NotNull
+        @Positive
         private int cdeSeq;
-        @NotNull
+        @NotBlank
         private String cdeType;
+        @NotBlank
         private String schPartitionType;
+        @NotBlank
         private String schAutority;
         private String useYnd;
         private LocalDateTime createDate;
         private int createSeq;
+        private LocalDateTime modifyDate;
+        private int modifySeq;
     }
 
     @Data
     public static class DisclosureScope {
         private int schmSeq;
         private int schSeq;
-        @NotNull
+        @Positive
         private String cdeSeq;
-        @NotNull
+        @NotBlank
         private String cdeType;
+        @NotBlank
         private String schPartitionType;
+        @NotBlank
         private String schAutority;
         private String useYnd;
         private LocalDateTime createDate;
         private int createSeq;
+        private LocalDateTime modifyDate;
+        private int modifySeq;
     }
 }
