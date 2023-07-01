@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class VERSION_CHECK {
     @RequestMapping("/VERSION_CHECK")
     public String VersionCheck(){
-        String version = "2023_06_30";
+        String version = "2023_07_01";
         log.trace(version);
         log.debug(version);
         log.info(version);

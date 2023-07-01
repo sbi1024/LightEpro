@@ -2,8 +2,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.LightEpro.sch.mapper.SCH_MAPPER_000">
+
     <select id = "findCurrentSchValue" resultType="int">
+        /* findCurrentSchValue */
         select practice.nextval('sch') from dual;
+    </select>
+
+    <select id = "findCurrentCalValue" resultType="int">
+        /* findCurrentCalValue */
+        select practice.nextval('cal') from dual;
+    </select>
+
+    <select id="checkRegistrant" parameterType="int" resultType="int">
+        /* checkRegistrant */
+        SELECT COUNT(1) AS registrantCnt
+        FROM T_SC_SCH TSS
+                 INNER JOIN T_SC_SCH_USER TSSU
+                            ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
+                                AND TSS.SCH_SEQ = TSSU.SCH_SEQ
+                                AND TSS.CREATE_SEQ = TSSU.CDE_SEQ
+        WHERE 1 = 1
+          AND TSS.SCHM_SEQ = #{curSeq}
+          AND TSS.SCH_SEQ = #{curSeq}
+          AND TSSU.SCH_PARTITION_TYPE = '10'
+    </select>
+
+    <select id="checkCalUser" parameterType="int" resultType="int">
+        /* checkCalUser */
+        SELECT COUNT(*) AS participantCnt
+        FROM T_SC_CAL_USER TSCU
+        WHERE 1 = 1
+          AND TSCU.CAL_SEQ = #{calSeq}
+          AND TSCU.CDE_SEQ = #{cdeSeq}
+          AND TSCU.USE_YND = 'Y'
+    </select>
+
+    <select id="checkCalType" parameterType="int" resultType="string">
+        /* checkCalType */
+        SELECT IFNULL(TSC.CAL_TYPE, '') AS calType
+        FROM T_SC_CAL TSC
+        WHERE 1 = 1
+          AND TSC.CAL_SEQ = #{calSeq}
+    </select>
+
+    <select id="checkEcalExist" parameterType="int" resultType="int">
+        /* checkEcalExist */
+        SELECT IFNULL(MIN(TSC.CAL_SEQ),0) AS calSeq
+        FROM T_SC_CAL TSC
+        WHERE 1 = 1
+          AND TSC.CAL_TYPE = 'E'
+          AND TSC.CREATE_SEQ = #{cdeSeq}
+          AND TSC.USE_YND = 'Y'
     </select>
 
     <insert id="insertSingleSch" parameterType="com.example.LightEpro.sch.dto.sch_000.SCH_RQ_DTO_000$Sch">
@@ -18,16 +67,16 @@
                               USE_YND,
                               CREATE_DATE,
                               CREATE_SEQ)
-        VALUES (#{sch.schmSeq},
-                #{sch.schSeq},
-                #{sch.startDate},
-                #{sch.endDate},
-                #{sch.alldayYn},
-                #{sch.schTitle},
-                #{sch.schContent},
+        VALUES (#{schmSeq},
+                #{schSeq},
+                #{startDate},
+                #{endDate},
+                #{alldayYn},
+                #{schTitle},
+                #{schContent},
                 'Y',
                 now(),
-                #{sch.createSeq})
+                #{createSeq})
     </insert>
 
 
@@ -39,6 +88,7 @@
                                    CDE_TYPE,
                                    SCH_PARTITION_TYPE,
                                    SCH_AUTORITY,
+                                   CAL_SEQ,
                                    USE_YND,
                                    CREATE_DATE,
                                    CREATE_SEQ)
@@ -50,6 +100,7 @@
                         #{participants.cdeType},
                         '10',
                         #{participants.schAutority},
+                        #{participants.calSeq},
                         'Y',
                         now(),
                         #{participants.createSeq}
@@ -66,6 +117,7 @@
                                    CDE_TYPE,
                                    SCH_PARTITION_TYPE,
                                    SCH_AUTORITY,
+                                   CAL_SEQ,
                                    USE_YND,
                                    CREATE_DATE,
                                    CREATE_SEQ)
@@ -77,10 +129,71 @@
                         #{disclosureScopes.cdeType},
                         '20',
                         #{disclosureScopes.schAutority},
+                        #{disclosureScopes.calSeq},
                         'Y',
                         now(),
                         #{disclosureScopes.createSeq}
                     )
              </foreach>
+    </insert>
+
+    <insert id="insertEcal">
+        /* insertEcal */
+        INSERT INTO T_SC_CAL (CAL_SEQ,
+                              CAL_TITLE,
+                              CAL_TYPE,
+                              USE_YND,
+                              CREATE_DATE,
+                              CREATE_SEQ)
+        VALUES (#{currentCalValue},
+                '개인캘린더',
+                'E',
+                'Y',
+                NOW(),
+                #{cdeSeq});
+    </insert>
+
+    <insert id="insertEcalUser">
+        /* insertEcalUser */
+        INSERT INTO T_SC_CAL_USER (CAL_SEQ,
+                                   CDE_SEQ,
+                                   CDE_TYPE,
+                                   CAL_PARTITION_TYPE,
+                                   CAL_AUTORITY,
+                                   USE_YND,
+                                   CREATE_DATE,
+                                   CREATE_SEQ)
+        VALUES (#{currentCalValue},
+                #{cdeSeq},
+                'E',
+                '100',
+                'M',
+                'Y',
+                NOW(),
+                #{cdeSeq});
+    </insert>
+
+    <insert id="insertSchParticipant" parameterType="int">
+        /* insertSchParticipant */
+        INSERT INTO T_SC_SCH_USER (SCHM_SEQ,
+                                   SCH_SEQ,
+                                   CDE_SEQ,
+                                   CDE_TYPE,
+                                   SCH_PARTITION_TYPE,
+                                   SCH_AUTORITY,
+                                   CAL_SEQ,
+                                   USE_YND,
+                                   CREATE_DATE,
+                                   CREATE_SEQ)
+        VALUES(#{curSeq},
+               #{curSeq},
+               #{cdeSeq},
+               'E',
+               '10',
+               'M',
+               #{calSeq},
+               'Y',
+               now(),
+               #{cdeSeq})
     </insert>
 </mapper>

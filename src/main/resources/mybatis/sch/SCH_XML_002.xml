@@ -23,8 +23,8 @@
           AND tss.SCH_SEQ = #{sch.schSeq}
     </select>
 
-    <update id="modifySingleSch" parameterType="com.example.LightEpro.sch.dto.sch_002.SCH_RQ_DTO_002$Sch">
-        /* modifySingleSch */
+    <update id="updateSingleSch" parameterType="com.example.LightEpro.sch.dto.sch_002.SCH_RQ_DTO_002$Sch">
+        /* updateSingleSch */
         UPDATE T_SC_SCH TSS
         SET TSS.START_DATE  = #{sch.startDate},
             TSS.END_DATE    = #{sch.endDate},

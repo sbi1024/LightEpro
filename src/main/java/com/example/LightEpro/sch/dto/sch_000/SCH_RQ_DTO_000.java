@@ -14,9 +14,9 @@ public class SCH_RQ_DTO_000 {
     private @Valid Emp emp;
     @NotNull
     private @Valid Sch sch;
-    @NotNull
+
     private @Valid List<Participant> participants;
-    @NotNull
+
     private @Valid List<DisclosureScope> disclosureScopes;
 
     @Data
@@ -43,6 +43,8 @@ public class SCH_RQ_DTO_000 {
         private String schTitle;
         @NotNull
         private String schContent;
+        @Positive
+        private int calSeq;
         private int createSeq;
     }
 
@@ -58,8 +60,7 @@ public class SCH_RQ_DTO_000 {
         private String schPartitionType;
         @NotBlank
         private String schAutority;
-        private String useYnd;
-        private LocalDateTime createDate;
+        private int calSeq;
         private int createSeq;
     }
 
@@ -75,8 +76,7 @@ public class SCH_RQ_DTO_000 {
         private String schPartitionType;
         @NotBlank
         private String schAutority;
-        private String useYnd;
-        private LocalDateTime createDate;
+        private int calSeq;
         private int createSeq;
     }
 }
