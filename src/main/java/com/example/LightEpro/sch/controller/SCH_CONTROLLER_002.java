@@ -1,9 +1,7 @@
 package com.example.LightEpro.sch.controller;
 
-import com.example.LightEpro.sch.dto.SCH_RESPONSE;
-import com.example.LightEpro.sch.dto.sch_001.SCH_RQ_DTO_001;
+import com.example.LightEpro.sch.response.SCH_RESPONSE;
 import com.example.LightEpro.sch.dto.sch_002.SCH_RQ_DTO_002;
-import com.example.LightEpro.sch.service.SCH_SERVICE_001;
 import com.example.LightEpro.sch.service.SCH_SERVICE_002;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,27 +23,19 @@ public class SCH_CONTROLLER_002 {
 
     // 단일 일정 수정 API
     @RequestMapping(value = "/SCH_002", method = {RequestMethod.GET, RequestMethod.POST})
-    public SCH_RESPONSE SCH_002(@RequestBody @Valid SCH_RQ_DTO_002 schRqDto002) {
+    public SCH_RESPONSE SCH_002(@RequestBody @Valid SCH_RQ_DTO_002 schRqDto002) throws Exception{
         SCH_RESPONSE schResponse = new SCH_RESPONSE();
-        try {
-            log.info("SCH_002 API START !!!");
-            log.info("SCH_002 REQUEST DATA : " + schRqDto002);
 
-            schResponse.setResponseData(schService002.modifySingleSch(schRqDto002));
-            schResponse.setResponseMsg("200");
-            schResponse.setReponseCode("SUCCESS");
+        log.info("SCH_002 API START !!!");
+        log.info("SCH_002 REQUEST DATA : " + schRqDto002);
 
-            log.info("SCH_002 RESPONSE DATA : " + schResponse);
-            log.info("SCH_002 API END !!!");
-        } catch (Exception e) {
-            log.error(e.getMessage());
+        schResponse.setResponseData(schService002.modifySingleSch(schRqDto002));
+        schResponse.setResponseMsg("200");
+        schResponse.setReponseCode("SUCCESS");
 
-            schResponse.setResponseMsg("");
-            schResponse.setReponseCode("FAIL");
+        log.info("SCH_002 RESPONSE DATA : " + schResponse);
+        log.info("SCH_002 API END !!!");
 
-            e.printStackTrace();
-            e.getMessage();
-        }
         return schResponse;
     }
 }

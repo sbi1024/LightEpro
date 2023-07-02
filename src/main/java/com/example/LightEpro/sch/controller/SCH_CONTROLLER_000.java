@@ -1,7 +1,7 @@
 package com.example.LightEpro.sch.controller;
 
 import com.example.LightEpro.sch.dto.sch_000.SCH_RQ_DTO_000;
-import com.example.LightEpro.sch.dto.SCH_RESPONSE;
+import com.example.LightEpro.sch.response.SCH_RESPONSE;
 import com.example.LightEpro.sch.service.SCH_SERVICE_000;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,27 +23,21 @@ public class SCH_CONTROLLER_000 {
 
     // 단일 일정 등록 API
     @RequestMapping(value = "/SCH_000", method = {RequestMethod.GET, RequestMethod.POST})
-    public SCH_RESPONSE SCH_000(@RequestBody @Valid SCH_RQ_DTO_000 schRqDto000) {
+    public SCH_RESPONSE SCH_000(@RequestBody @Valid SCH_RQ_DTO_000 schRqDto000) throws Exception{
         SCH_RESPONSE schResponse = new SCH_RESPONSE();
-        try {
-            log.info("SCH_000 API START !!!");
-            log.info("SCH_000 REQUEST DATA : " + schRqDto000);
 
-            schResponse.setResponseData(schService000.createSingleSch(schRqDto000));
-            schResponse.setReponseCode("200");
-            schResponse.setResponseMsg("SUCCESS");
+        log.info("SCH_000 API START !!!");
+        log.info("SCH_000 REQUEST DATA : " + schRqDto000);
 
-            log.info("SCH_000 RESPONSE DATA : " + schResponse);
-            log.info("SCH_000 API END !!!");
-        } catch (Exception e) {
-            log.error(e.getMessage());
+        schResponse.setResponseData(schService000.createSingleSch(schRqDto000));
+        schResponse.setReponseCode("200");
+        schResponse.setResponseMsg("SUCCESS");
 
-            schResponse.setReponseCode("");
-            schResponse.setResponseMsg("FAIL");
+        log.info("SCH_000 RESPONSE DATA : " + schResponse);
+        log.info("SCH_000 API END !!!");
 
-            e.printStackTrace();
-            e.getMessage();
-        }
         return schResponse;
     }
+    
+    // 일정 등록시 요청값 재 검증 진행
 }

@@ -1,4 +1,4 @@
-package com.example.LightEpro.sch.dto;
+package com.example.LightEpro.sch.response;
 
 import lombok.Data;
 
