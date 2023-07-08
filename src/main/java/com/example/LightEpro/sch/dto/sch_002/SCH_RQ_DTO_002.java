@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,9 +17,9 @@ public class SCH_RQ_DTO_002 {
     private @Valid Emp emp;
     @NotNull
     private @Valid Sch sch;
-    @NotNull
+
     private @Valid List<Participant> participants;
-    @NotNull
+
     private @Valid List<DisclosureScope> disclosureScopes;
 
     @Data
@@ -45,6 +46,8 @@ public class SCH_RQ_DTO_002 {
         private String schTitle;
         @NotNull
         private String schContent;
+        @Positive
+        private int calSeq;
         private LocalDateTime createDate;
         private int createSeq;
         private LocalDateTime modifyDate;
@@ -63,6 +66,8 @@ public class SCH_RQ_DTO_002 {
         private String schPartitionType;
         @NotBlank
         private String schAutority;
+        @PositiveOrZero
+        private int calSeq;
         private String useYnd;
         private LocalDateTime createDate;
         private int createSeq;
@@ -75,13 +80,15 @@ public class SCH_RQ_DTO_002 {
         private int schmSeq;
         private int schSeq;
         @Positive
-        private String cdeSeq;
+        private int cdeSeq;
         @NotBlank
         private String cdeType;
         @NotBlank
         private String schPartitionType;
         @NotBlank
         private String schAutority;
+        @PositiveOrZero
+        private int calSeq;
         private String useYnd;
         private LocalDateTime createDate;
         private int createSeq;

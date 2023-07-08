@@ -1,6 +1,8 @@
 package com.example.LightEpro.sch.controller;
 
+import com.example.LightEpro.sch.constant.CONST_VALUE;
 import com.example.LightEpro.sch.dto.sch_000.SCH_RQ_DTO_000;
+import com.example.LightEpro.sch.mapper.SCH_MAPPER_000;
 import com.example.LightEpro.sch.response.SCH_RESPONSE;
 import com.example.LightEpro.sch.service.SCH_SERVICE_000;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @ResponseBody
@@ -20,24 +24,46 @@ import javax.validation.Valid;
 public class SCH_CONTROLLER_000 {
 
     private final SCH_SERVICE_000 schService000;
+    private final SCH_MAPPER_000 schMapper000;
 
     // 단일 일정 등록 API
     @RequestMapping(value = "/SCH_000", method = {RequestMethod.GET, RequestMethod.POST})
-    public SCH_RESPONSE SCH_000(@RequestBody @Valid SCH_RQ_DTO_000 schRqDto000) throws Exception{
-        SCH_RESPONSE schResponse = new SCH_RESPONSE();
-
+    public SCH_RESPONSE SCH_000(@RequestBody @Valid SCH_RQ_DTO_000 schRqDto000) throws Exception {
         log.info("SCH_000 API START !!!");
         log.info("SCH_000 REQUEST DATA : " + schRqDto000);
 
+        validApiRequest(schRqDto000);
+
+        SCH_RESPONSE schResponse = new SCH_RESPONSE();
+        schResponse.setResponseStatus("SUCCESS");
+        schResponse.setReponseCode(200);
+        schResponse.setResponseMsg("SCH_000 API SUCCESS");
         schResponse.setResponseData(schService000.createSingleSch(schRqDto000));
-        schResponse.setReponseCode("200");
-        schResponse.setResponseMsg("SUCCESS");
 
         log.info("SCH_000 RESPONSE DATA : " + schResponse);
         log.info("SCH_000 API END !!!");
 
         return schResponse;
     }
-    
-    // 일정 등록시 요청값 재 검증 진행
+
+    // SCH_000 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
+    public void validApiRequest(SCH_RQ_DTO_000 schRqDto000) throws Exception {
+        SCH_RQ_DTO_000.Sch sch = schRqDto000.getSch();
+        List<SCH_RQ_DTO_000.Participant> participants = schRqDto000.getParticipants();
+        List<SCH_RQ_DTO_000.DisclosureScope> disclosureScopes = schRqDto000.getDisclosureScopes();
+
+        LocalDateTime startDate = sch.getStartDate();
+        LocalDateTime endDate = sch.getEndDate();
+
+        // TODO 수정 예정_1
+        if (startDate.isAfter(endDate)) {
+            throw new Exception("일정의 시작일자가 , 종료일자보다 큽니다.");
+        }
+        // TODO 수정 예정_2
+        // 개인캘린더 등록시 요청값에 참여자 및 공개범위 데이터가 포함되어 있는 경우 강제 Exception 발생
+        String calType = schMapper000.checkCalType(sch.getCalSeq());
+        if (calType.equals(CONST_VALUE.ECAL_TYPE) && (participants != null || disclosureScopes != null)) {
+            throw new Exception("개인 캘린더 일정 등록시에는 , 참여자 및 공개범위 데이터가 포함되지 않습니다.");
+        }
+    }
 }

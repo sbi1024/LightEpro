@@ -12,6 +12,7 @@
                tss.SCH_CONTENT         AS schContent,
                tss.START_DATE          AS startDate,
                tss.END_DATE            AS endDate,
+               TSS.ALL_DAY_YN          AS alldayYn,
                tss.CREATE_DATE         AS createDate,
                tss.CREATE_SEQ          AS createSeq,
                tss.MODIFY_DATE         AS modifyDate,

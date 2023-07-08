@@ -1,6 +1,8 @@
+# 서버 관련 설정
 server:
   port: 8080
 
+# db 관련 설정
 spring:
   datasource:
     url: jdbc:log4jdbc:mariadb://localhost:3306/practice
@@ -8,9 +10,22 @@ spring:
     username: root
     password: 1234
 
+# mybatis 관련 설정
 mybatis:
   mapper-locations: classpath*:mybatis/**/*.xml
 
 
+# log4j2 관련 설정
 logging:
   config: classpath:log4j2.xml
+
+# health check 관련 설정
+management:
+  endpoints:
+    web:
+      base-path: /LightEpro
+      path-mapping:
+        health: HealthCheck
+  endpoint:
+    health:
+      show-details: always

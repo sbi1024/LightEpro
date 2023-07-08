@@ -1,5 +1,6 @@
 package com.example.LightEpro.sch.serviceimpl;
 
+import com.example.LightEpro.sch.constant.CONST_VALUE;
 import com.example.LightEpro.sch.dto.sch_000.SCH_RQ_DTO_000;
 import com.example.LightEpro.sch.dto.sch_001.SCH_RQ_DTO_001;
 import com.example.LightEpro.sch.dto.sch_001.SCH_RS_DTO_001;
@@ -11,6 +12,7 @@ import com.example.LightEpro.sch.service.SCH_SERVICE_001;
 import com.example.LightEpro.sch.service.SCH_SERVICE_002;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,12 +22,13 @@ import java.util.List;
 public class SCH_SERVICE_IMPL_002 implements SCH_SERVICE_002 {
     private final SCH_MAPPER_002 schMapper002;
 
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public SCH_RS_DTO_002 modifySingleSch(SCH_RQ_DTO_002 schRqDto002) throws Exception {
         // 해당 일정에 대한 t_sc_sch_user 테이블 데이터 삭제
         int deleteSchUsersCnt = deleteSchUsers(schRqDto002);
         // 일정 시퀀스 번호 주입 메소드 호출
-        int curseq = assignObject(schRqDto002);
+        int curSeq = assignObject(schRqDto002);
         // 단일 일정 수정 메소드 호출
         int updateSchCnt = updateSingleSch(schRqDto002);
         // 일정 참여자 등록 메소드 호출
@@ -33,10 +36,21 @@ public class SCH_SERVICE_IMPL_002 implements SCH_SERVICE_002 {
         // 일정 공개범위 등록 메소드 호출
         int disclosureScopesInsertCnt = insertSchDisclosureScopes(schRqDto002);
 
+        // 단일 일정 등록시 , 참여자에 본인이 포함되어 있는지 확인
+        int checkRegistrantCnt = schMapper002.checkRegistrant(curSeq);
+        // 참여자에 본인이 포함되어 있지 않다면 , 본인을 참여자로 등록 진행
+        if (checkRegistrantCnt == 0) {
+            int insertRegistCnt = schMapper002.insertSchParticipant(curSeq,
+                    schRqDto002.getSch().getCalSeq(),
+                    schRqDto002.getEmp().getEmpSeq());
+            // cnt + 1 진행
+            participantsInsertCnt += insertRegistCnt;
+        }
+
         // SCH_RS_DTO_002  객체 생성
         SCH_RS_DTO_002 schRsDto002 = SCH_RS_DTO_002.builder()
-                .schmSeq(curseq)
-                .schSeq(curseq)
+                .schmSeq(curSeq)
+                .schSeq(curSeq)
                 .deleteSchCnt(deleteSchUsersCnt)
                 .updateSchCnt(updateSchCnt)
                 .participantsInsertCnt(participantsInsertCnt)
@@ -65,33 +79,37 @@ public class SCH_SERVICE_IMPL_002 implements SCH_SERVICE_002 {
 
         // 일정 시퀀스 값 할당
         int curSeq = sch.getSchmSeq();
-
         // 본래 일정의 createSeq , createDate 값을 추출
         SCH_RQ_DTO_002.Sch createSeqBySchmSeqAndSchSeq = schMapper002.findCreateSeqBySchmSeqAndSchSeq(schRqDto002);
         // originCreateSeq 추출
         int originSchCreateSeq = createSeqBySchmSeqAndSchSeq.getCreateSeq();
         // originSchCreateDate 추출
         LocalDateTime originSchCreateDate = createSeqBySchmSeqAndSchSeq.getCreateDate();
-
         // sch 객체에 empSeq 값 할당
         sch.setModifySeq(emp.getEmpSeq());
 
         // 반복문을 통해 participant 객체에 schmSeq , schSeq , createSeq , createDate , modifySeq값 할당
-        for (SCH_RQ_DTO_002.Participant participant : participants) {
-            participant.setSchmSeq(curSeq);
-            participant.setSchSeq(curSeq);
-            participant.setCreateSeq(originSchCreateSeq);
-            participant.setCreateDate(originSchCreateDate);
-            participant.setModifySeq(emp.getEmpSeq());
+        if (participants != null && participants.size() > 0) {
+            for (SCH_RQ_DTO_002.Participant participant : participants) {
+                participant.setSchmSeq(curSeq);
+                participant.setSchSeq(curSeq);
+                participant.setCalSeq(findCalSeq(sch.getCalSeq(), participant.getCdeSeq()));
+                participant.setCreateSeq(originSchCreateSeq);
+                participant.setCreateDate(originSchCreateDate);
+                participant.setModifySeq(emp.getEmpSeq());
+            }
         }
 
         // 반복문을 통해 disclosureScope 객체에 schmSeq , schSeq , createSeq , createDate , modifySeq값 할당
-        for (SCH_RQ_DTO_002.DisclosureScope disclosureScope : disclosureScopes) {
-            disclosureScope.setSchmSeq(curSeq);
-            disclosureScope.setSchSeq(curSeq);
-            disclosureScope.setCreateSeq(originSchCreateSeq);
-            disclosureScope.setCreateDate(originSchCreateDate);
-            disclosureScope.setModifySeq(emp.getEmpSeq());
+        if (disclosureScopes != null && disclosureScopes.size() > 0) {
+            for (SCH_RQ_DTO_002.DisclosureScope disclosureScope : disclosureScopes) {
+                disclosureScope.setSchmSeq(curSeq);
+                disclosureScope.setSchSeq(curSeq);
+                disclosureScope.setCalSeq(findCalSeq(sch.getCalSeq(), disclosureScope.getCdeSeq()));
+                disclosureScope.setCreateSeq(originSchCreateSeq);
+                disclosureScope.setCreateDate(originSchCreateDate);
+                disclosureScope.setModifySeq(emp.getEmpSeq());
+            }
         }
 
         // return
@@ -110,7 +128,7 @@ public class SCH_SERVICE_IMPL_002 implements SCH_SERVICE_002 {
     public int insertSchParticipants(SCH_RQ_DTO_002 schRqDto002) throws Exception {
         // 참여자 변수 선언
         List<SCH_RQ_DTO_002.Participant> participants = schRqDto002.getParticipants();
-        if (participants.size() == 0) {
+        if (participants == null || participants.size() == 0) {
             return 0;
         }
         // 단일 일정에 포함된 참여자 등록
@@ -124,12 +142,46 @@ public class SCH_SERVICE_IMPL_002 implements SCH_SERVICE_002 {
     public int insertSchDisclosureScopes(SCH_RQ_DTO_002 schRqDto002) throws Exception {
         // 공개범위 변수 선언
         List<SCH_RQ_DTO_002.DisclosureScope> disclosureScopes = schRqDto002.getDisclosureScopes();
-        if (disclosureScopes.size() == 0) {
+        if (disclosureScopes == null || disclosureScopes.size() == 0) {
             return 0;
         }
         // 단일 일정에 포함된 공개범위 등록
         int insertRow = schMapper002.insertSchDisclosureScopes(disclosureScopes);
         // return
         return insertRow;
+    }
+
+    @Override
+    public int findCalSeq(int calSeq, int cdeSeq) throws Exception {
+        // return 변수 선언
+        int verifyCalSeq = 0;
+        int checkCnt = schMapper002.checkCalUser(calSeq, cdeSeq);
+        if (checkCnt > 0) {
+            verifyCalSeq = calSeq;
+        } else {
+            int notVerifyCalSeq = schMapper002.checkEcalExist(cdeSeq);
+            if (notVerifyCalSeq == 0) {
+                int newEcalSeq = insertEcalendar(cdeSeq);
+                verifyCalSeq = newEcalSeq;
+            } else {
+                verifyCalSeq = notVerifyCalSeq;
+            }
+        }
+        return verifyCalSeq;
+    }
+
+    @Override
+    public int insertEcalendar(int cdeSeq) throws Exception {
+        int currentCalValue = findCurrentCalValue();
+        schMapper002.insertEcal(currentCalValue, cdeSeq);
+        schMapper002.insertEcalUser(currentCalValue, cdeSeq);
+        return currentCalValue;
+    }
+
+    @Override
+    public int findCurrentCalValue() throws Exception {
+        int currentCalValue = schMapper002.findCurrentCalValue();
+        // return
+        return currentCalValue;
     }
 }

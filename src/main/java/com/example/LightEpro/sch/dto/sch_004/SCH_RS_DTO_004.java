@@ -1,4 +1,4 @@
-package com.example.LightEpro.sch.dto.sch_001;
+package com.example.LightEpro.sch.dto.sch_004;
 
 import lombok.Builder;
 import lombok.Data;
@@ -8,13 +8,10 @@ import java.util.List;
 
 @Data
 @Builder
-public class SCH_RS_DTO_001 {
-    private Sch sch;
-    private List<Participant> participants;
-    private List<DisclosureScope> disclosureScopes;
-
+public class SCH_RS_DTO_004 {
+    private List<SchInfo> schInfos;
     @Data
-    public static class Sch {
+    public static class SchInfo {
         private int schmSeq;
         private int schSeq;
         private String schTitle;
@@ -22,25 +19,18 @@ public class SCH_RS_DTO_001 {
         private LocalDateTime startDate;
         private LocalDateTime endDate;
         private String alldayYn;
-        private LocalDateTime createDate;
         private int createSeq;
-        private LocalDateTime modifyDate;
+        private LocalDateTime createDate;
         private int modifySeq;
-    }
+        private LocalDateTime modifyDate;
 
-    @Data
-    public static class Participant {
         private int cdeSeq;
         private String cdeType;
+        private int calSeq;
         private String schPartitionType;
         private String schAutority;
-    }
 
-    @Data
-    public static class DisclosureScope {
-        private int cdeSeq;
-        private String cdeType;
-        private String schPartitionType;
-        private String schAutority;
+        private String calTitle;
+        private String calType;
     }
 }

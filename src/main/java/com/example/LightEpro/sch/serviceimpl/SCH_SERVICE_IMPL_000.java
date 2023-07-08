@@ -7,6 +7,7 @@ import com.example.LightEpro.sch.mapper.SCH_MAPPER_000;
 import com.example.LightEpro.sch.service.SCH_SERVICE_000;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class SCH_SERVICE_IMPL_000 implements SCH_SERVICE_000 {
     private final SCH_MAPPER_000 schMapper000;
 
     // 단일 일정 등록 메소드
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public SCH_RS_DTO_000 createSingleSch(SCH_RQ_DTO_000 schRqDto000) throws Exception {
         // 일정 등록을 위한 일정 시퀀스 값 추출
@@ -71,12 +73,6 @@ public class SCH_SERVICE_IMPL_000 implements SCH_SERVICE_000 {
         SCH_RQ_DTO_000.Sch sch = schRqDto000.getSch();
         List<SCH_RQ_DTO_000.Participant> participants = schRqDto000.getParticipants();
         List<SCH_RQ_DTO_000.DisclosureScope> disclosureScopes = schRqDto000.getDisclosureScopes();
-
-        // 개인캘린더 등록시 요청값에 참여자 및 공개범위 데이터가 포함되어 있는 경우 강제 Exception 발생
-        String calType = schMapper000.checkCalType(sch.getCalSeq());
-        if (calType.equals(CONST_VALUE.ECAL_TYPE) && (participants != null || disclosureScopes != null)) {
-            throw new Exception("개인 캘린더 등록시에는 , 참여자 및 공개범위 데이터가 포함되지 않습니다.");
-        }
 
         // 일정 객체에 curSeq 값 할당
         sch.setSchmSeq(curSeq);

@@ -24,14 +24,14 @@ public class SCH_CONTROLLER_003 {
     // 단일 일정 삭제 API
     @RequestMapping(value = "/SCH_003", method = {RequestMethod.GET, RequestMethod.POST})
     public SCH_RESPONSE SCH_003(@RequestBody @Valid SCH_RQ_DTO_003 schRqDto003) throws Exception{
-        SCH_RESPONSE schResponse = new SCH_RESPONSE();
-
         log.info("SCH_003 API START !!!");
         log.info("SCH_003 REQUEST DATA : " + schRqDto003);
 
+        SCH_RESPONSE schResponse = new SCH_RESPONSE();
+        schResponse.setResponseStatus("SUCCESS");
+        schResponse.setReponseCode(200);
+        schResponse.setResponseMsg("SCH_003 API SUCCESS");
         schResponse.setResponseData(schService003.deleteSingleSch(schRqDto003));
-        schResponse.setResponseMsg("200");
-        schResponse.setReponseCode("SUCCESS");
 
         log.info("SCH_003 RESPONSE DATA : " + schResponse);
         log.info("SCH_003 API END !!!");

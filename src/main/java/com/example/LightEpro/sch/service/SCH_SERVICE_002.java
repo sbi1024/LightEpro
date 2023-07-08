@@ -15,5 +15,9 @@ public interface SCH_SERVICE_002 {
     int insertSchParticipants(SCH_RQ_DTO_002 schRqDto) throws Exception;
     int insertSchDisclosureScopes(SCH_RQ_DTO_002 schRqDto) throws Exception;
 
+    int findCalSeq(int calSeq, int cdeSeq) throws Exception;
 
+    int insertEcalendar(int cdeSeq) throws Exception;
+    // 캘린더 시퀀스 번호 할당 메소드
+    int findCurrentCalValue() throws Exception;
 }

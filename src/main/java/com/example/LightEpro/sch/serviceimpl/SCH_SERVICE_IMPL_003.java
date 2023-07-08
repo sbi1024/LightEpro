@@ -10,6 +10,7 @@ import com.example.LightEpro.sch.service.SCH_SERVICE_002;
 import com.example.LightEpro.sch.service.SCH_SERVICE_003;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SCH_SERVICE_IMPL_003 implements SCH_SERVICE_003 {
     private final SCH_MAPPER_003 schMapper003;
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public SCH_RS_DTO_003 deleteSingleSch(SCH_RQ_DTO_003 schRqDto003) {
         int updateSchDelStCnt = schMapper003.updateSchDelStatus(schRqDto003);
