@@ -5,12 +5,12 @@
 
     <select id = "findCurrentSchValue" resultType="int">
         /* findCurrentSchValue */
-        select practice.nextval('sch') from dual;
+        SELECT practice.nextval('sch') FROM dual;
     </select>
 
     <select id = "findCurrentCalValue" resultType="int">
         /* findCurrentCalValue */
-        select practice.nextval('cal') from dual;
+        SELECT practice.nextval('cal') FROM dual;
     </select>
 
     <select id="checkRegistrant" parameterType="int" resultType="int">

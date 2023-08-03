@@ -1,0 +1,15 @@
+{
+  "emp": {
+    "empSeq": 1000
+  },
+  "sch": {
+    "schmSeq": 0,
+    "schSeq": 0,
+    "startDate": "202308031530",
+    "endDate": "202308031630",
+    "alldayYn": "Y",
+    "schTitle": "엠케이원 제목2",
+    "schContent": "엠케이원 내용2",
+    "calSeq": 1
+  }
+}

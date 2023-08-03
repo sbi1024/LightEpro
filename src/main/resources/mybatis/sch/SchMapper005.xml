@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.LightEpro.sch.mapper.SchMapper005">
+    <select id="findCurrentCalValue" resultType="int">
+        /* findCurrentCalValue */
+        SELECT practice.nextval('cal')
+        FROM dual;
+    </select>
+
+    <insert id="insertSingleCalendar" parameterType="com.example.LightEpro.sch.dto.sch005.SchRqDto005">
+        /* insertSingleCalendar */
+        INSERT INTO T_SC_CAL (CAL_SEQ,
+                              CAL_TITLE,
+                              CAL_CONTENT,
+                              CAL_COLOR,
+                              CAL_TYPE,
+                              USE_YND,
+                              CREATE_DATE,
+                              CREATE_SEQ)
+        VALUES (#{calender.calSeq},
+                #{calender.calTitle},
+                #{calender.calContent},
+                <choose>
+                    <when test="calender.calColor == null or calender.calColor == ''">
+                        '#748FFC'
+                    </when>
+                    <otherwise>
+                        #{calender.calColor}
+                    </otherwise>
+                </choose>,
+                #{calender.calType},
+                'Y',
+                NOW(),
+                #{emp.empSeq});
+    </insert>
+
+    <insert id="insertCalOwner" parameterType="com.example.LightEpro.sch.dto.sch005.SchRqDto005">
+        INSERT INTO T_SC_CAL_USER (CAL_SEQ,
+                                   CDE_SEQ,
+                                   CDE_TYPE,
+                                   CAL_PARTITION_TYPE,
+                                   CAL_AUTORITY,
+                                   USE_YND,
+                                   CREATE_DATE,
+                                   CREATE_SEQ)
+        VALUES (#{owner.calSeq},
+                #{owner.cdeSeq},
+                #{owner.cdeType},
+                100,
+                #{owner.calPartitionType},
+                'Y',
+                NOW(),
+                #{emp.empSeq})
+    </insert>
+
+    <insert id="insertCalManager" parameterType="com.example.LightEpro.sch.dto.sch005.SchRqDto005">
+        INSERT INTO T_SC_CAL_USER (CAL_SEQ,
+                                   CDE_SEQ,
+                                   CDE_TYPE,
+                                   CAL_PARTITION_TYPE,
+                                   CAL_AUTORITY,
+                                   USE_YND,
+                                   CREATE_DATE,
+                                   CREATE_SEQ)
+        VALUES <foreach collection="managers" item="manager" separator=",">
+                    (
+                        #{manager.calSeq},
+                        #{manager.cdeSeq},
+                        #{manager.cdeType},
+                        200,
+                        #{manager.calPartitionType},
+                        'Y',
+                        NOW(),
+                        #{emp.empSeq}
+                    )
+                </foreach>
+    </insert>
+</mapper>
