@@ -27,9 +27,9 @@ public class SchRqDto000 {
 
     @Data
     public static class Sch {
-        @PositiveOrZero
+        @Min(0) @Max(0)
         private int schmSeq;
-        @PositiveOrZero
+        @Min(0) @Max(0)
         private int schSeq;
         @NotNull
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmm", timezone = "Asia/Seoul")

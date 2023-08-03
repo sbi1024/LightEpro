@@ -2,6 +2,7 @@ package com.example.LightEpro.sch.exception;
 
 
 import com.example.LightEpro.sch.response.SchResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 
 @RestControllerAdvice
+@Slf4j
 public class ExceptionHandle extends RuntimeException {
     // Exception 일괄 처리 메소드
     @ExceptionHandler(Exception.class)
@@ -23,6 +25,9 @@ public class ExceptionHandle extends RuntimeException {
         schResponse.setResponseMsg(errorCode.getExceptionMsg());
         schResponse.setResponseData(errorCode.getExceptionData());
 
+        log.error("$$$ Exception !!! (Exception) $$$");
+        log.error("$$$ handleException !!! (schResponse : " + schResponse + ") $$$");
+
         e.printStackTrace();
         e.getMessage();
 
@@ -34,13 +39,16 @@ public class ExceptionHandle extends RuntimeException {
     public SchResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         ExceptionCode errorCode = ExceptionCode.VALID_REQUEST_EXCEPTION;
         List<ObjectError> allErrors = e.getBindingResult().getAllErrors();
-        errorCode.setExceptionMsg(String.valueOf(allErrors));
+        errorCode.setExceptionData(String.valueOf(allErrors));
 
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus(errorCode.getExceptionStatus());
         schResponse.setReponseCode(errorCode.getExceptionCode());
         schResponse.setResponseMsg(errorCode.getExceptionMsg());
         schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ MethodArgumentNotValidException !!! (Exception) $$$");
+        log.error("$$$ handleMethodArgumentNotValidException !!! (schResponse : " + schResponse + ") $$$");
 
         e.printStackTrace();
         e.getMessage();
@@ -59,6 +67,9 @@ public class ExceptionHandle extends RuntimeException {
         schResponse.setReponseCode(errorCode.getExceptionCode());
         schResponse.setResponseMsg(errorCode.getExceptionMsg());
         schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ ExceptionCustom.NotFountSchException !!! (Exception) $$$");
+        log.error("$$$ NotFountSchException !!! (schResponse : " + schResponse + ") $$$");
 
         e.printStackTrace();
         e.getMessage();
@@ -80,6 +91,9 @@ public class ExceptionHandle extends RuntimeException {
         schResponse.setResponseMsg(errorCode.getExceptionMsg());
         schResponse.setResponseData(errorCode.getExceptionData());
 
+        log.error("$$$ ExceptionCustom.NotValidSchStartEndDateException !!! (Exception) $$$");
+        log.error("$$$ NotValidSchStartEndDateException !!! (schResponse : " + schResponse + ") $$$");
+
         e.printStackTrace();
         e.getMessage();
 
@@ -99,6 +113,9 @@ public class ExceptionHandle extends RuntimeException {
         schResponse.setReponseCode(errorCode.getExceptionCode());
         schResponse.setResponseMsg(errorCode.getExceptionMsg());
         schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ ExceptionCustom.IncorrectIncludException !!! (Exception) $$$");
+        log.error("$$$ IncorrectIncludException !!! (schResponse : " + schResponse + ") $$$");
 
         e.printStackTrace();
         e.getMessage();

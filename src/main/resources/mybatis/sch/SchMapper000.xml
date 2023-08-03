@@ -29,7 +29,7 @@
 
     <select id="checkCalUser" parameterType="int" resultType="int">
         /* checkCalUser */
-        SELECT COUNT(*) AS participantCnt
+        SELECT COUNT(1) AS participantCnt
         FROM T_SC_CAL_USER TSCU
         WHERE 1 = 1
           AND TSCU.CAL_SEQ = #{calSeq}

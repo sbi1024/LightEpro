@@ -10,13 +10,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ResponseBody
 @Slf4j
 public class VersionCheck {
-    @RequestMapping("/VERSION_CHECK")
-    public SchResponse VersionCheck(){
-        String version = "2023_08_02";
+    @RequestMapping("/versionCheck")
+    public SchResponse versionCheck(){
+        log.info("versionCheck Method Start !!!");
 
+        String version = "2023/08/03 13:20";
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseData(version);
 
+        log.info("versionCheck Method Return Data : " + schResponse);
+        log.info("versionCheck Method End !!!");
         return schResponse;
     }
 }

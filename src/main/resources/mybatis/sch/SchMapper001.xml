@@ -21,6 +21,7 @@
         WHERE 1 = 1
           AND tss.SCHM_SEQ = #{sch.schmSeq}
           AND tss.SCH_SEQ = #{sch.schSeq}
+          AND tss.USE_YND = 'Y'
     </select>
 
     <select id="findParticipantsBySchmSeqAndSchSeq"

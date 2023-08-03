@@ -22,19 +22,19 @@ public class SchController003 {
     private final SchService003 schService003;
 
     // 단일 일정 삭제 API
-    @RequestMapping(value = "/SCH_003", method = {RequestMethod.GET, RequestMethod.POST})
-    public SchResponse SCH_003(@RequestBody @Valid SchRqDto003 schRqDto003) throws Exception{
-        log.info("SCH_003 API START !!!");
-        log.info("SCH_003 REQUEST DATA : " + schRqDto003);
+    @RequestMapping(value = "/sch003", method = {RequestMethod.GET, RequestMethod.POST})
+    public SchResponse sch003(@RequestBody @Valid SchRqDto003 schRqDto003) throws Exception{
+        log.info("sch003 API START !!!");
+        log.info("sch003 REQUEST DATA : " + schRqDto003);
 
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setReponseCode(200);
-        schResponse.setResponseMsg("SCH_003 API SUCCESS");
+        schResponse.setResponseMsg("sch003 API SUCCESS");
         schResponse.setResponseData(schService003.deleteSingleSch(schRqDto003));
 
-        log.info("SCH_003 RESPONSE DATA : " + schResponse);
-        log.info("SCH_003 API END !!!");
+        log.info("sch003 RESPONSE DATA : " + schResponse);
+        log.info("sch003 API END !!!");
 
         return schResponse;
     }

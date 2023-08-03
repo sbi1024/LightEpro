@@ -28,21 +28,22 @@ public class SchController000 {
     private final SchMapper000 schMapper000;
 
     // 단일 일정 등록 API
-    @RequestMapping(value = "/SCH_000", method = {RequestMethod.GET, RequestMethod.POST})
-    public SchResponse SCH_000(@RequestBody @Valid SchRqDto000 schRqDto000) throws Exception {
-        log.info("SCH_000 API START !!!");
-        log.info("SCH_000 REQUEST DATA : " + schRqDto000);
+    @RequestMapping(value = "/sch000", method = {RequestMethod.GET, RequestMethod.POST})
+    public SchResponse sch000(@RequestBody @Valid SchRqDto000 schRqDto000) throws Exception {
+        log.info("sch000 Api Start !!!");
+        log.info("sch000 Request Data : " + schRqDto000);
 
         validApiRequest(schRqDto000);
+        log.info("sch000 validApiRequest Success !!! ");
 
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setReponseCode(200);
-        schResponse.setResponseMsg("SCH_000 API SUCCESS");
+        schResponse.setResponseMsg("sch000 API SUCCESS");
         schResponse.setResponseData(schService000.createSingleSch(schRqDto000));
 
-        log.info("SCH_000 RESPONSE DATA : " + schResponse);
-        log.info("SCH_000 API END !!!");
+        log.info("sch000 Response Data : " + schResponse);
+        log.info("sch000 Api End !!!");
 
         return schResponse;
     }
@@ -59,11 +60,15 @@ public class SchController000 {
 
         // 시작일자 값이 , 종료일자보다 큰 경우 Exception 처리
         if (startDate.isAfter(endDate)) {
+            log.error("$$$ sch000 validApiRequest fail !!! (NotValidSchStartEndDateException) $$$");
+            log.error("$$$ sch000 validApiRequest fail !!! (schRqDto000 : " + schRqDto000 + ") $$$");
             throw new ExceptionCustom.NotValidSchStartEndDateException();
         }
         // 개인캘린더 등록시에 , 참여자 혹은 공개범위 데이터가 포함되는 경우 Exception 발생
         String calType = schMapper000.checkCalType(sch.getCalSeq());
         if (calType.equals(ConstValue.ECAL_TYPE) && (participants != null || disclosureScopes != null)) {
+            log.error("$$$ sch000 validApiRequest fail !!! (IncorrectIncludException) $$$");
+            log.error("$$$ sch000 validApiRequest fail !!! (schRqDto000 : " + schRqDto000 + ") $$$");
             throw new ExceptionCustom.IncorrectIncludException();
         }
     }

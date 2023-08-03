@@ -28,21 +28,21 @@ public class SchController002 {
     private final SchMapper002 schMapper002;
 
     // 단일 일정 수정 API
-    @RequestMapping(value = "/SCH_002", method = {RequestMethod.GET, RequestMethod.POST})
-    public SchResponse SCH_002(@RequestBody @Valid SchRqDto002 schRqDto002) throws Exception{
-        log.info("SCH_002 API START !!!");
-        log.info("SCH_002 REQUEST DATA : " + schRqDto002);
+    @RequestMapping(value = "/sch002", method = {RequestMethod.GET, RequestMethod.POST})
+    public SchResponse sch002(@RequestBody @Valid SchRqDto002 schRqDto002) throws Exception{
+        log.info("sch002 API START !!!");
+        log.info("sch002 REQUEST DATA : " + schRqDto002);
 
         validApiRequest(schRqDto002);
 
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setReponseCode(200);
-        schResponse.setResponseMsg("SCH_002 API SUCCESS");
+        schResponse.setResponseMsg("sch002 API SUCCESS");
         schResponse.setResponseData(schService002.modifySingleSch(schRqDto002));
 
-        log.info("SCH_002 RESPONSE DATA : " + schResponse);
-        log.info("SCH_002 API END !!!");
+        log.info("sch002 RESPONSE DATA : " + schResponse);
+        log.info("sch002 API END !!!");
 
         return schResponse;
     }

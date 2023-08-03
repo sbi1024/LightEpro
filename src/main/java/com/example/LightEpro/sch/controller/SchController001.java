@@ -19,19 +19,19 @@ public class SchController001 {
     private final SchService001 schService001;
 
     // 단일 일정 상세 조회 API
-    @RequestMapping(value = "/SCH_001", method = {RequestMethod.GET, RequestMethod.POST})
-    public SchResponse SCH_001(@RequestBody @Valid SchRqDto001 schRqDto001) throws Exception{
-        log.info("SCH_001 API START !!!");
+    @RequestMapping(value = "/sch001", method = {RequestMethod.GET, RequestMethod.POST})
+    public SchResponse sch001(@RequestBody @Valid SchRqDto001 schRqDto001) throws Exception{
+        log.info("sch001 API START !!!");
         log.info("SCH_001 REQUEST DATA : " + schRqDto001);
 
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setReponseCode(200);
-        schResponse.setResponseMsg("SCH_001 API SUCCESS");
+        schResponse.setResponseMsg("sch001 API SUCCESS");
         schResponse.setResponseData(schService001.findSingleSch(schRqDto001));
 
-        log.info("SCH_001 RESPONSE DATA : " + schResponse);
-        log.info("SCH_001 API END !!!");
+        log.info("sch001 RESPONSE DATA : " + schResponse);
+        log.info("sch001 API END !!!");
 
         return schResponse;
     }

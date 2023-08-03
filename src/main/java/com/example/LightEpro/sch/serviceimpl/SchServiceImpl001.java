@@ -19,6 +19,7 @@ public class SchServiceImpl001 implements SchService001 {
     @Override
     public SchRsDto001 findSingleSch(SchRqDto001 schRqDto001) throws Exception{
         SchRsDto001.Sch sch = schMapper001.findSchBySchmSeqAndSchSeq(schRqDto001);
+        // 일정조회시 , 존재하지 않는 일정인 경우 Exception 처리 진행
         if(sch == null){
             throw new ExceptionCustom.NotFountSchException();
         }

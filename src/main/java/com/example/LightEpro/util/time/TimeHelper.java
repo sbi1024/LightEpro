@@ -1,4 +1,4 @@
-package com.example.LightEpro.util;
+package com.example.LightEpro.util.time;
 
 public class TimeHelper {
     /**
