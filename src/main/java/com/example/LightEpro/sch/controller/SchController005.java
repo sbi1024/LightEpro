@@ -39,4 +39,6 @@ public class SchController005 {
 
         return schResponse;
     }
+    
+    // TODO 개인캘린더 등록시에 , 관리자 관련 요청값이 들어온다면 Exception 처리 필요 
 }

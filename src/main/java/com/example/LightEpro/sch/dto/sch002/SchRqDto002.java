@@ -17,6 +17,8 @@ public class SchRqDto002 {
     private @Valid Emp emp;
     @NotNull
     private @Valid Sch sch;
+    @NotNull
+    private @Valid Calendar calendar;
 
     private @Valid List<Participant> participants;
 
@@ -44,14 +46,17 @@ public class SchRqDto002 {
         private String alldayYn;
         @NotBlank
         private String schTitle;
-        @NotNull
         private String schContent;
-        @Positive
-        private int calSeq;
         private LocalDateTime createDate;
         private int createSeq;
         private LocalDateTime modifyDate;
         private int modifySeq;
+    }
+
+    @Data
+    public static class Calendar {
+        @Positive
+        private int calSeq;
     }
 
     @Data
@@ -62,11 +67,6 @@ public class SchRqDto002 {
         private int cdeSeq;
         @NotBlank
         private String cdeType;
-        @Positive
-        private int schPartitionType;
-        @NotBlank
-        private String schAutority;
-        @PositiveOrZero
         private int calSeq;
         private String useYnd;
         private LocalDateTime createDate;
@@ -83,11 +83,6 @@ public class SchRqDto002 {
         private int cdeSeq;
         @NotBlank
         private String cdeType;
-        @Positive
-        private int schPartitionType;
-        @NotBlank
-        private String schAutority;
-        @PositiveOrZero
         private int calSeq;
         private String useYnd;
         private LocalDateTime createDate;

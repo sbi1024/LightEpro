@@ -41,9 +41,9 @@ public class SchServiceImpl000 implements SchService000 {
         // 참여자에 본인이 포함되어 있지 않다면 , 본인을 참여자로 등록 진행
         if (checkRegistrantCnt == 0) {
             log.info("createSingleSch Method checkRegistrantCnt = 0");
-            int insertRegistCnt = schMapper000.insertSchParticipant(curSeq,
-                    schRqDto000.getSch().getCalSeq(),
-                    schRqDto000.getEmp().getEmpSeq());
+            int insertRegistCnt = schMapper000.insertSchParticipant(
+                    curSeq, schRqDto000.getCalendar().getCalSeq(), schRqDto000.getEmp().getEmpSeq()
+            );
             // cnt + 1 진행
             participantsInsertCnt += insertRegistCnt;
         }
@@ -84,6 +84,7 @@ public class SchServiceImpl000 implements SchService000 {
         // schRqDto000 객체로 부터 내부 클래스 객체 생성
         SchRqDto000.Emp emp = schRqDto000.getEmp();
         SchRqDto000.Sch sch = schRqDto000.getSch();
+        SchRqDto000.Calendar calendar = schRqDto000.getCalendar();
         List<SchRqDto000.Participant> participants = schRqDto000.getParticipants();
         List<SchRqDto000.DisclosureScope> disclosureScopes = schRqDto000.getDisclosureScopes();
 
@@ -97,7 +98,7 @@ public class SchServiceImpl000 implements SchService000 {
             for (SchRqDto000.Participant participant : participants) {
                 participant.setSchmSeq(curSeq);
                 participant.setSchSeq(curSeq);
-                participant.setCalSeq(findCalSeq(sch.getCalSeq(), participant.getCdeSeq()));
+                participant.setCalSeq(findCalSeq(calendar.getCalSeq(), participant.getCdeSeq()));
                 participant.setCreateSeq(emp.getEmpSeq());
 
             }
@@ -108,7 +109,7 @@ public class SchServiceImpl000 implements SchService000 {
             for (SchRqDto000.DisclosureScope disclosureScope : disclosureScopes) {
                 disclosureScope.setSchmSeq(curSeq);
                 disclosureScope.setSchSeq(curSeq);
-                disclosureScope.setCalSeq(findCalSeq(sch.getCalSeq(), disclosureScope.getCdeSeq()));
+                disclosureScope.setCalSeq(findCalSeq(calendar.getCalSeq(), disclosureScope.getCdeSeq()));
                 disclosureScope.setCreateSeq(emp.getEmpSeq());
             }
         }

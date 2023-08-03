@@ -47,17 +47,17 @@
     <insert id="insertSchParticipants" parameterType="java.util.List">
         /* insertSchParticipants */
         INSERT INTO T_SC_SCH_USER (SCHM_SEQ,
-        SCH_SEQ,
-        CDE_SEQ,
-        CDE_TYPE,
-        SCH_PARTITION_TYPE,
-        SCH_AUTORITY,
-        CAL_SEQ,
-        USE_YND,
-        CREATE_DATE,
-        CREATE_SEQ,
-        MODIFY_DATE,
-        MODIFY_SEQ)
+                                    SCH_SEQ,
+                                    CDE_SEQ,
+                                    CDE_TYPE,
+                                    SCH_PARTITION_TYPE,
+                                    SCH_AUTORITY,
+                                    CAL_SEQ,
+                                    USE_YND,
+                                    CREATE_DATE,
+                                    CREATE_SEQ,
+                                    MODIFY_DATE,
+                                    MODIFY_SEQ)
         VALUES
         <foreach collection="list" item="participants" separator=",">
             (
@@ -66,7 +66,14 @@
             #{participants.cdeSeq},
             #{participants.cdeType},
             '10',
-            #{participants.schAutority},
+            <choose>
+                <when test="participants.cdeSeq == participants.createSeq">
+                    'M'
+                </when>
+                <otherwise>
+                    'W'
+                </otherwise>
+            </choose>,
             #{participants.calSeq},
             'Y',
             #{participants.createDate},
@@ -81,34 +88,34 @@
     <insert id="insertSchDisclosureScopes" parameterType="java.util.List">
         /* insertSchDisclosureScopes */
         INSERT INTO T_SC_SCH_USER (SCHM_SEQ,
-        SCH_SEQ,
-        CDE_SEQ,
-        CDE_TYPE,
-        SCH_PARTITION_TYPE,
-        SCH_AUTORITY,
-        CAL_SEQ,
-        USE_YND,
-        CREATE_DATE,
-        CREATE_SEQ,
-        MODIFY_DATE,
-        MODIFY_SEQ)
+                                   SCH_SEQ,
+                                   CDE_SEQ,
+                                   CDE_TYPE,
+                                   SCH_PARTITION_TYPE,
+                                   SCH_AUTORITY,
+                                   CAL_SEQ,
+                                   USE_YND,
+                                   CREATE_DATE,
+                                   CREATE_SEQ,
+                                   MODIFY_DATE,
+                                   MODIFY_SEQ)
         VALUES
-        <foreach collection="list" item="disclosureScopes" separator=",">
-            (
-            #{disclosureScopes.schmSeq},
-            #{disclosureScopes.schSeq},
-            #{disclosureScopes.cdeSeq},
-            #{disclosureScopes.cdeType},
-            '20',
-            #{disclosureScopes.schAutority},
-            #{disclosureScopes.calSeq},
-            'Y',
-            #{disclosureScopes.createDate},
-            #{disclosureScopes.createSeq},
-            now(),
-            #{disclosureScopes.modifySeq}
-            )
-        </foreach>
+            <foreach collection="list" item="disclosureScopes" separator=",">
+                (
+                    #{disclosureScopes.schmSeq},
+                    #{disclosureScopes.schSeq},
+                    #{disclosureScopes.cdeSeq},
+                    #{disclosureScopes.cdeType},
+                    '20',
+                    'S',
+                    #{disclosureScopes.calSeq},
+                    'Y',
+                    #{disclosureScopes.createDate},
+                    #{disclosureScopes.createSeq},
+                    now(),
+                    #{disclosureScopes.modifySeq}
+                )
+            </foreach>
     </insert>
 
     <select id="checkCalType" parameterType="int" resultType="string">
@@ -187,9 +194,11 @@
           AND TSS.SCHM_SEQ = #{curSeq}
           AND TSS.SCH_SEQ = #{curSeq}
           AND TSSU.SCH_PARTITION_TYPE = '10'
+          AND TSSU.SCH_AUTORITY = 'M'
+          AND TSSU.USE_YND = 'Y'
     </select>
 
-    <insert id="insertSchParticipant" parameterType="int">
+    <insert id="insertSchParticipant">
         /* insertSchParticipant */
         INSERT INTO T_SC_SCH_USER (SCHM_SEQ,
                                    SCH_SEQ,
@@ -200,7 +209,9 @@
                                    CAL_SEQ,
                                    USE_YND,
                                    CREATE_DATE,
-                                   CREATE_SEQ)
+                                   CREATE_SEQ,
+                                   MODIFY_DATE,
+                                   MODIFY_SEQ)
         VALUES(#{curSeq},
                #{curSeq},
                #{cdeSeq},
@@ -209,7 +220,9 @@
                'M',
                #{calSeq},
                'Y',
-               now(),
-               #{cdeSeq})
+               #{createDate},
+               #{cdeSeq},
+               NOW(),
+               #{empSeq})
     </insert>
 </mapper>

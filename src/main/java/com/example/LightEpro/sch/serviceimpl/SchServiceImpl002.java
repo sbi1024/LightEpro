@@ -35,7 +35,9 @@ public class SchServiceImpl002 implements SchService002 {
         // 참여자에 본인이 포함되어 있지 않다면 , 본인을 참여자로 등록 진행
         if (checkRegistrantCnt == 0) {
             int insertRegistCnt = schMapper002.insertSchParticipant(curSeq,
-                    schRqDto002.getSch().getCalSeq(),
+                    schRqDto002.getCalendar().getCalSeq(),
+                    schRqDto002.getSch().getCreateSeq(),
+                    schRqDto002.getSch().getCreateDate(),
                     schRqDto002.getEmp().getEmpSeq());
             // cnt + 1 진행
             participantsInsertCnt += insertRegistCnt;
@@ -68,6 +70,7 @@ public class SchServiceImpl002 implements SchService002 {
         // schRqDto002 객체로 부터 내부 클래스 객체 생성
         SchRqDto002.Emp emp = schRqDto002.getEmp();
         SchRqDto002.Sch sch = schRqDto002.getSch();
+        SchRqDto002.Calendar calendar = schRqDto002.getCalendar();
         List<SchRqDto002.Participant> participants = schRqDto002.getParticipants();
         List<SchRqDto002.DisclosureScope> disclosureScopes = schRqDto002.getDisclosureScopes();
 
@@ -79,6 +82,11 @@ public class SchServiceImpl002 implements SchService002 {
         int originSchCreateSeq = createSeqBySchmSeqAndSchSeq.getCreateSeq();
         // originSchCreateDate 추출
         LocalDateTime originSchCreateDate = createSeqBySchmSeqAndSchSeq.getCreateDate();
+
+        // sch 객체에 originSchCreateSeq / originSchCreateDate 값 할당
+        sch.setCreateSeq(originSchCreateSeq);
+        sch.setCreateDate(originSchCreateDate);
+
         // sch 객체에 empSeq 값 할당
         sch.setModifySeq(emp.getEmpSeq());
 
@@ -87,7 +95,7 @@ public class SchServiceImpl002 implements SchService002 {
             for (SchRqDto002.Participant participant : participants) {
                 participant.setSchmSeq(curSeq);
                 participant.setSchSeq(curSeq);
-                participant.setCalSeq(findCalSeq(sch.getCalSeq(), participant.getCdeSeq()));
+                participant.setCalSeq(findCalSeq(calendar.getCalSeq(), participant.getCdeSeq()));
                 participant.setCreateSeq(originSchCreateSeq);
                 participant.setCreateDate(originSchCreateDate);
                 participant.setModifySeq(emp.getEmpSeq());
@@ -99,7 +107,7 @@ public class SchServiceImpl002 implements SchService002 {
             for (SchRqDto002.DisclosureScope disclosureScope : disclosureScopes) {
                 disclosureScope.setSchmSeq(curSeq);
                 disclosureScope.setSchSeq(curSeq);
-                disclosureScope.setCalSeq(findCalSeq(sch.getCalSeq(), disclosureScope.getCdeSeq()));
+                disclosureScope.setCalSeq(findCalSeq(calendar.getCalSeq(), disclosureScope.getCdeSeq()));
                 disclosureScope.setCreateSeq(originSchCreateSeq);
                 disclosureScope.setCreateDate(originSchCreateDate);
                 disclosureScope.setModifySeq(emp.getEmpSeq());

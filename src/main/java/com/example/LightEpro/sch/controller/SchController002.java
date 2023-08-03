@@ -50,6 +50,7 @@ public class SchController002 {
     // SCH_002 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
     public void validApiRequest(SchRqDto002 schRqDto002) throws Exception {
         SchRqDto002.Sch sch = schRqDto002.getSch();
+        SchRqDto002.Calendar calendar = schRqDto002.getCalendar();
         List<SchRqDto002.Participant> participants = schRqDto002.getParticipants();
         List<SchRqDto002.DisclosureScope> disclosureScopes = schRqDto002.getDisclosureScopes();
 
@@ -62,7 +63,7 @@ public class SchController002 {
             throw new ExceptionCustom.NotValidSchStartEndDateException();
         }
         // 개인캘린더 수정시에 , 참여자 혹은 공개범위 데이터가 포함되는 경우 Exception 발생
-        String calType = schMapper002.checkCalType(sch.getCalSeq());
+        String calType = schMapper002.checkCalType(calendar.getCalSeq());
         if (calType.equals(ConstValue.ECAL_TYPE) && (participants != null || disclosureScopes != null)) {
             throw new ExceptionCustom.IncorrectIncludException();
         }

@@ -1,12 +1,15 @@
 {
   "emp": {
-    "empSeq": 1000
+    "empSeq": "2000"
   },
   "sch": {
-    "startDate": "202308031530",
-    "endDate": "202308031630",
-    "alldayYn": "Y",
-    "schTitle": "단일 일정 등록 테스트"
+    "schmSeq": "115",
+    "schSeq": "115",
+    "startDate": "202306251510",
+    "endDate": "202306251510",
+    "alldayYn": "N",
+    "schTitle": "수정 테스트",
+    "schContent": "수정 테스트"
   },
   "calendar": {
     "calSeq": "8"

@@ -4,6 +4,7 @@ import com.example.LightEpro.sch.dto.sch002.SchRqDto002;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -37,5 +38,7 @@ public interface SchMapper002 {
 
     int insertSchParticipant(@Param("curSeq") int curSeq,
                              @Param("calSeq") int calSeq,
-                             @Param("cdeSeq") int cdeSeq) throws Exception;
+                             @Param("cdeSeq") int cdeSeq,
+                             @Param("createDate") LocalDateTime createDate,
+                             @Param("empSeq") int empSeq) throws Exception;
 }

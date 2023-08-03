@@ -25,6 +25,8 @@
           AND TSS.SCHM_SEQ = #{curSeq}
           AND TSS.SCH_SEQ = #{curSeq}
           AND TSSU.SCH_PARTITION_TYPE = '10'
+          AND TSSU.SCH_AUTORITY = 'M'
+          AND TSSU.USE_YND = 'Y'
     </select>
 
     <select id="checkCalUser" parameterType="int" resultType="int">
@@ -99,7 +101,14 @@
                         #{participants.cdeSeq},
                         #{participants.cdeType},
                         '10',
-                        #{participants.schAutority},
+                        <choose>
+                            <when test="participants.cdeSeq == participants.createSeq">
+                                'M'
+                            </when>
+                            <otherwise>
+                                'W'
+                            </otherwise>
+                        </choose>,
                         #{participants.calSeq},
                         'Y',
                         now(),
@@ -128,7 +137,7 @@
                         #{disclosureScopes.cdeSeq},
                         #{disclosureScopes.cdeType},
                         '20',
-                        #{disclosureScopes.schAutority},
+                        'S',
                         #{disclosureScopes.calSeq},
                         'Y',
                         now(),

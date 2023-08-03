@@ -14,6 +14,8 @@ public class SchRqDto000 {
     private @Valid Emp emp;
     @NotNull
     private @Valid Sch sch;
+    @NotNull
+    private @Valid Calendar calendar;
 
     private @Valid List<Participant> participants;
 
@@ -27,9 +29,7 @@ public class SchRqDto000 {
 
     @Data
     public static class Sch {
-        @Min(0) @Max(0)
         private int schmSeq;
-        @Min(0) @Max(0)
         private int schSeq;
         @NotNull
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmm", timezone = "Asia/Seoul")
@@ -41,11 +41,14 @@ public class SchRqDto000 {
         private String alldayYn;
         @NotBlank
         private String schTitle;
-        @NotNull
         private String schContent;
+        private int createSeq;
+    }
+
+    @Data
+    public static class Calendar {
         @Positive
         private int calSeq;
-        private int createSeq;
     }
 
     @Data
@@ -56,10 +59,6 @@ public class SchRqDto000 {
         private int cdeSeq;
         @NotBlank
         private String cdeType;
-        @Positive
-        private int schPartitionType;
-        @NotBlank
-        private String schAutority;
         private int calSeq;
         private int createSeq;
     }
@@ -72,10 +71,6 @@ public class SchRqDto000 {
         private int cdeSeq;
         @NotBlank
         private String cdeType;
-        @Positive
-        private int schPartitionType;
-        @NotBlank
-        private String schAutority;
         private int calSeq;
         private int createSeq;
     }
