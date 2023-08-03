@@ -1,0 +1,17 @@
+package com.example.LightEpro.sch.exception;
+
+public class ExceptionCustom {
+    /**
+     * 디비상에 존재하지 않는 일정을 찾는 경우 발생 Exception
+     */
+    public static class NotFountSchException extends Exception{}
+    /**
+     * 일정의 시작일자 값이 종료일자보다 큰 경우 발생 Exception
+     */
+    public static class NotValidSchStartEndDateException extends Exception{}
+
+    /**
+     * 개인 캘린더 등록시에 , 참여자 혹은 공개범위 값이 요청값에 포함되는 경우 발생 Exception
+     */
+    public static class IncorrectIncludException extends Exception{}
+}

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.LightEpro.sch.mapper.SchMapper002">
+
+    <select id = "findCurrentCalValue" resultType="int">
+        /* findCurrentCalValue */
+        select practice.nextval('cal') from dual;
+    </select>
+
+    <delete id="deleteSchUsers" parameterType="com.example.LightEpro.sch.dto.sch002.SchRqDto002$Sch">
+        /* deleteSchUsers */
+        DELETE tssu FROM T_SC_SCH_USER tssu
+        WHERE 1 = 1
+          AND tssu.SCHM_SEQ = #{sch.schmSeq}
+          AND tssu.SCH_SEQ = #{sch.schSeq}
+          AND tssu.SCH_PARTITION_TYPE IN ('10','20')
+    </delete>
+
+    <select id="findCreateSeqBySchmSeqAndSchSeq"
+            parameterType="com.example.LightEpro.sch.dto.sch002.SchRqDto002$Sch"
+            resultType="com.example.LightEpro.sch.dto.sch002.SchRqDto002$Sch">
+        /* findCreateSeqBySchmSeqAndSchSeq */
+        SELECT tss.CREATE_SEQ AS createSeq ,
+               tss.CREATE_DATE AS createDate
+        FROM t_sc_sch tss
+        WHERE 1 = 1
+          AND tss.SCHM_SEQ = #{sch.schmSeq}
+          AND tss.SCH_SEQ = #{sch.schSeq}
+    </select>
+
+    <update id="updateSingleSch" parameterType="com.example.LightEpro.sch.dto.sch002.SchRqDto002$Sch">
+        /* updateSingleSch */
+        UPDATE T_SC_SCH TSS
+        SET TSS.START_DATE  = #{sch.startDate},
+            TSS.END_DATE    = #{sch.endDate},
+            TSS.ALL_DAY_YN  = #{sch.alldayYn},
+            TSS.SCH_TITLE   = #{sch.schTitle},
+            TSS.SCH_CONTENT = #{sch.schContent},
+            TSS.MODIFY_DATE = NOW(),
+            TSS.MODIFY_SEQ  = #{sch.modifySeq}
+        WHERE 1 = 1
+          AND TSS.SCHM_SEQ = #{sch.schmSeq}
+          AND TSS.SCH_SEQ = #{sch.schSeq}
+    </update>
+
+    <insert id="insertSchParticipants" parameterType="java.util.List">
+        /* insertSchParticipants */
+        INSERT INTO T_SC_SCH_USER (SCHM_SEQ,
+        SCH_SEQ,
+        CDE_SEQ,
+        CDE_TYPE,
+        SCH_PARTITION_TYPE,
+        SCH_AUTORITY,
+        CAL_SEQ,
+        USE_YND,
+        CREATE_DATE,
+        CREATE_SEQ,
+        MODIFY_DATE,
+        MODIFY_SEQ)
+        VALUES
+        <foreach collection="list" item="participants" separator=",">
+            (
+            #{participants.schmSeq},
+            #{participants.schSeq},
+            #{participants.cdeSeq},
+            #{participants.cdeType},
+            '10',
+            #{participants.schAutority},
+            #{participants.calSeq},
+            'Y',
+            #{participants.createDate},
+            #{participants.createSeq},
+            now(),
+            #{participants.modifySeq}
+            )
+        </foreach>
+    </insert>
+
+
+    <insert id="insertSchDisclosureScopes" parameterType="java.util.List">
+        /* insertSchDisclosureScopes */
+        INSERT INTO T_SC_SCH_USER (SCHM_SEQ,
+        SCH_SEQ,
+        CDE_SEQ,
+        CDE_TYPE,
+        SCH_PARTITION_TYPE,
+        SCH_AUTORITY,
+        CAL_SEQ,
+        USE_YND,
+        CREATE_DATE,
+        CREATE_SEQ,
+        MODIFY_DATE,
+        MODIFY_SEQ)
+        VALUES
+        <foreach collection="list" item="disclosureScopes" separator=",">
+            (
+            #{disclosureScopes.schmSeq},
+            #{disclosureScopes.schSeq},
+            #{disclosureScopes.cdeSeq},
+            #{disclosureScopes.cdeType},
+            '20',
+            #{disclosureScopes.schAutority},
+            #{disclosureScopes.calSeq},
+            'Y',
+            #{disclosureScopes.createDate},
+            #{disclosureScopes.createSeq},
+            now(),
+            #{disclosureScopes.modifySeq}
+            )
+        </foreach>
+    </insert>
+
+    <select id="checkCalType" parameterType="int" resultType="string">
+        /* checkCalType */
+        SELECT IFNULL(TSC.CAL_TYPE, '') AS calType
+        FROM T_SC_CAL TSC
+        WHERE 1 = 1
+          AND TSC.CAL_SEQ = #{calSeq}
+    </select>
+
+    <select id="checkCalUser" parameterType="int" resultType="int">
+        /* checkCalUser */
+        SELECT COUNT(*) AS participantCnt
+        FROM T_SC_CAL_USER TSCU
+        WHERE 1 = 1
+          AND TSCU.CAL_SEQ = #{calSeq}
+          AND TSCU.CDE_SEQ = #{cdeSeq}
+          AND TSCU.USE_YND = 'Y'
+    </select>
+
+    <select id="checkEcalExist" parameterType="int" resultType="int">
+        /* checkEcalExist */
+        SELECT IFNULL(MIN(TSC.CAL_SEQ),0) AS calSeq
+        FROM T_SC_CAL TSC
+        WHERE 1 = 1
+          AND TSC.CAL_TYPE = 'E'
+          AND TSC.CREATE_SEQ = #{cdeSeq}
+          AND TSC.USE_YND = 'Y'
+    </select>
+
+    <insert id="insertEcal">
+        /* insertEcal */
+        INSERT INTO T_SC_CAL (CAL_SEQ,
+                              CAL_TITLE,
+                              CAL_TYPE,
+                              USE_YND,
+                              CREATE_DATE,
+                              CREATE_SEQ)
+        VALUES (#{currentCalValue},
+                '개인캘린더',
+                'E',
+                'Y',
+                NOW(),
+                #{cdeSeq});
+    </insert>
+
+    <insert id="insertEcalUser">
+        /* insertEcalUser */
+        INSERT INTO T_SC_CAL_USER (CAL_SEQ,
+                                   CDE_SEQ,
+                                   CDE_TYPE,
+                                   CAL_PARTITION_TYPE,
+                                   CAL_AUTORITY,
+                                   USE_YND,
+                                   CREATE_DATE,
+                                   CREATE_SEQ)
+        VALUES (#{currentCalValue},
+                #{cdeSeq},
+                'E',
+                '100',
+                'M',
+                'Y',
+                NOW(),
+                #{cdeSeq});
+    </insert>
+
+    <select id="checkRegistrant" parameterType="int" resultType="int">
+        /* checkRegistrant */
+        SELECT COUNT(1) AS registrantCnt
+        FROM T_SC_SCH TSS
+                 INNER JOIN T_SC_SCH_USER TSSU
+                            ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
+                                AND TSS.SCH_SEQ = TSSU.SCH_SEQ
+                                AND TSS.CREATE_SEQ = TSSU.CDE_SEQ
+        WHERE 1 = 1
+          AND TSS.SCHM_SEQ = #{curSeq}
+          AND TSS.SCH_SEQ = #{curSeq}
+          AND TSSU.SCH_PARTITION_TYPE = '10'
+    </select>
+
+    <insert id="insertSchParticipant" parameterType="int">
+        /* insertSchParticipant */
+        INSERT INTO T_SC_SCH_USER (SCHM_SEQ,
+                                   SCH_SEQ,
+                                   CDE_SEQ,
+                                   CDE_TYPE,
+                                   SCH_PARTITION_TYPE,
+                                   SCH_AUTORITY,
+                                   CAL_SEQ,
+                                   USE_YND,
+                                   CREATE_DATE,
+                                   CREATE_SEQ)
+        VALUES(#{curSeq},
+               #{curSeq},
+               #{cdeSeq},
+               'E',
+               '10',
+               'M',
+               #{calSeq},
+               'Y',
+               now(),
+               #{cdeSeq})
+    </insert>
+</mapper>

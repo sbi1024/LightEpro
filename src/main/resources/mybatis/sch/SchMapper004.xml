@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.LightEpro.sch.mapper.SchMapper004">
+    <select id="selectSchList" resultType="com.example.LightEpro.sch.dto.sch004.SchRsDto004$SchInfo">
+        /* selectSchList */
+        SELECT TSS.SCHM_SEQ                AS schmSeq,
+               TSS.SCH_SEQ                 AS schSeq,
+               TSS.SCH_TITLE               AS schTitle,
+               TSS.SCH_CONTENT             AS schContent,
+               TSS.START_DATE              AS startDate,
+               TSS.END_DATE                AS endDate,
+               TSS.ALL_DAY_YN              AS alldayYn,
+               TSS.CREATE_SEQ              AS createSeq,
+               TSS.CREATE_DATE             AS createDate,
+               TSS.MODIFY_SEQ              AS modifySeq,
+               TSS.MODIFY_DATE             AS modifyDate,
+
+               TSSU.CDE_SEQ                AS cdeSeq,
+               TSSU.CDE_TYPE               AS cdeType,
+               TSSU.CAL_SEQ                AS calSeq,
+               TSSU.SCH_PARTITION_TYPE     AS schPartitionType,
+               TSSU.SCH_AUTORITY           AS schAutority,
+
+               TSC.CAL_TITLE               AS calTitle,
+               TSC.CAL_TYPE                AS calType
+
+
+        FROM T_SC_SCH TSS
+                 INNER JOIN T_SC_SCH_USER TSSU
+                            ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
+                                AND TSS.SCH_SEQ = TSSU.SCH_SEQ
+                                AND TSSU.CDE_SEQ = #{emp.empSeq}
+                                AND TSSU.CDE_TYPE = 'E'
+                                AND TSS.USE_YND = 'Y'
+                                AND TSSU.USE_YND = 'Y'
+                 INNER JOIN T_SC_CAL TSC
+                            ON TSSU.CAL_SEQ = TSC.CAL_SEQ
+                                AND TSC.USE_YND = 'Y'
+
+        WHERE 1 = 1
+
+            AND TSSU.CAL_SEQ IN
+                <foreach collection="sch.calSeqs" item="sch.calSeqs" open="(" separator="," close=")">
+                    #{sch.calSeqs}
+                </foreach>
+
+            AND  (TSS.START_DATE BETWEEN #{sch.startDate} AND #{sch.endDate} OR
+                 TSS.END_DATE BETWEEN #{sch.startDate} AND #{sch.endDate} OR
+                 #{sch.startDate} BETWEEN TSS.START_DATE AND TSS.END_DATE OR
+                 #{sch.endDate} BETWEEN TSS.START_DATE AND TSS.END_DATE)
+    </select>
+</mapper>
