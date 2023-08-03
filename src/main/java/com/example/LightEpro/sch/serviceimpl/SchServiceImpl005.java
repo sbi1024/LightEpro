@@ -34,11 +34,11 @@ public class SchServiceImpl005 implements SchService005 {
         assignObject(curSeq, schRqDto005);
 
         // 캘린더 등록 메소드 호출
-        int insertCalRow = schMapper005.insertSingleCalendar(schRqDto005);
+        int insertCalRow = insertSingleCalendar(schRqDto005);
         // 캘린더 소유자 등록 메소드 호출
-        int insertCalOwnerRow = schMapper005.insertCalOwner(schRqDto005);
+        int insertCalOwnerRow = insertCalOwner(schRqDto005);
         // 캘린더 관리자 등록 메소드 호출
-        int insertCalManagerRow = schMapper005.insertCalManager(schRqDto005);
+        int insertCalManagerRow = insertCalManager(schRqDto005);
 
         SchRsDto005 rsDto005 = SchRsDto005.builder()
                 .calSeq(curSeq)
@@ -74,19 +74,66 @@ public class SchServiceImpl005 implements SchService005 {
         SchRqDto005.Owner owner = schRqDto005.getOwner();
         List<SchRqDto005.Manager> managers = schRqDto005.getManagers();
 
-        // 캘랜더 객체에 캘린더 시퀀스 할당
+        // 사용자 empSeq 값 추출
+        int empSeq = emp.getEmpSeq();
+
+        // 캘랜더 객체에 캘린더 시퀀스 , createSeq 할당
         calender.setCalSeq(curSeq);
-        // 소유자 객채에 캘린더 시퀀스 할당
+        calender.setCreateSeq(empSeq);
+        // 소유자 객채에 캘린더 시퀀스 , createSeq 할당
         owner.setCalSeq(curSeq);
+        owner.setCreateSeq(empSeq);
 
         if (managers != null && managers.size() > 0) {
-            // 반복문을 통해 manager 객체에 calSeq 값 할당
+            // 반복문을 통해 관리자 객체에 calSeq , createSeq 할당
             for (SchRqDto005.Manager manager : managers) {
                 manager.setCalSeq(curSeq);
+                manager.setCreateSeq(empSeq);
             }
         }
 
         log.info("assignObject Method Result Data : " + schRqDto005);
         log.info("assignObject Method End !!!");
+    }
+
+    @Override
+    public int insertSingleCalendar(SchRqDto005 schRqDto005) throws Exception {
+        log.info("insertSingleCalendar Method Start !!!");
+        log.info("insertSingleCalendar Method Request Data : " + schRqDto005);
+
+        int insertCalRow = schMapper005.insertSingleCalendar(schRqDto005);
+
+        log.info("insertSingleCalendar Method Return Data : " + insertCalRow);
+        log.info("insertSingleCalendar Method End !!!");
+        return insertCalRow;
+    }
+
+    @Override
+    public int insertCalOwner(SchRqDto005 schRqDto005) throws Exception {
+        log.info("insertCalOwner Method Start !!!");
+        log.info("insertCalOwner Method Request Data : " + schRqDto005);
+
+        int insertCalOwner = schMapper005.insertCalOwner(schRqDto005);
+
+        log.info("insertCalOwner Method Return Data : " + insertCalOwner);
+        log.info("insertCalOwner Method End !!!");
+        return insertCalOwner;
+    }
+
+    @Override
+    public int insertCalManager(SchRqDto005 schRqDto005) throws Exception {
+        log.info("insertCalManager Method Start !!!");
+        log.info("insertCalManager Method Request Data : " + schRqDto005);
+
+        List<SchRqDto005.Manager> managers = schRqDto005.getManagers();
+        if (managers == null || managers.size() == 0) {
+            log.info("insertCalManager Method managers Data == null || managers.size() == 0");
+            return 0;
+        }
+        int insertCalManager = schMapper005.insertCalManager(managers);
+
+        log.info("insertCalManager Method Return Data : " + insertCalManager);
+        log.info("insertCalManager Method End !!!");
+        return insertCalManager;
     }
 }

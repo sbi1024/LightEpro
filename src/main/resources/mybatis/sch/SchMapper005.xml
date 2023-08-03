@@ -31,7 +31,7 @@
                 #{calender.calType},
                 'Y',
                 NOW(),
-                #{emp.empSeq});
+                #{calender.createSeq});
     </insert>
 
     <insert id="insertCalOwner" parameterType="com.example.LightEpro.sch.dto.sch005.SchRqDto005">
@@ -47,13 +47,13 @@
                 #{owner.cdeSeq},
                 #{owner.cdeType},
                 100,
-                #{owner.calPartitionType},
+                'M',
                 'Y',
                 NOW(),
-                #{emp.empSeq})
+                #{owner.createSeq})
     </insert>
 
-    <insert id="insertCalManager" parameterType="com.example.LightEpro.sch.dto.sch005.SchRqDto005">
+    <insert id="insertCalManager" parameterType="list">
         INSERT INTO T_SC_CAL_USER (CAL_SEQ,
                                    CDE_SEQ,
                                    CDE_TYPE,
@@ -62,16 +62,16 @@
                                    USE_YND,
                                    CREATE_DATE,
                                    CREATE_SEQ)
-        VALUES <foreach collection="managers" item="manager" separator=",">
+        VALUES <foreach collection="list" item="manager" separator=",">
                     (
                         #{manager.calSeq},
                         #{manager.cdeSeq},
                         #{manager.cdeType},
                         200,
-                        #{manager.calPartitionType},
+                        'W',
                         'Y',
                         NOW(),
-                        #{emp.empSeq}
+                        #{manager.createSeq}
                     )
                 </foreach>
     </insert>

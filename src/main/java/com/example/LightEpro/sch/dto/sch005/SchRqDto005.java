@@ -35,6 +35,7 @@ public class SchRqDto005 {
         @NotBlank
         private String calContent;
         private String calColor;
+        private int createSeq;
     }
 
     @Data
@@ -44,8 +45,7 @@ public class SchRqDto005 {
         private int cdeSeq;
         @NotBlank
         private String cdeType;
-        @NotBlank
-        private String calPartitionType;
+        private int createSeq;
     }
 
     @Data
@@ -53,7 +53,7 @@ public class SchRqDto005 {
         private int calSeq;
         private int cdeSeq;
         private String cdeType;
-        private String calPartitionType;
+        private int createSeq;
     }
 
 }

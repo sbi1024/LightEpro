@@ -7,4 +7,8 @@ public interface SchService005 {
     SchRsDto005 createCalendar(SchRqDto005 schRqDto005) throws Exception;
     int findCurrentCalValue() throws Exception;
     void assignObject(int curSeq, SchRqDto005 schRqDto005) throws Exception;
+
+    int insertSingleCalendar(SchRqDto005 schRqDto005) throws Exception;
+    int insertCalOwner(SchRqDto005 schRqDto005) throws Exception;
+    int insertCalManager(SchRqDto005 schRqDto005) throws Exception;
 }

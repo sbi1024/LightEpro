@@ -71,7 +71,7 @@
         </Console>
 
         <RollingFile name="fileLightEpro" fileName="./logs/LightEpro.log" filePattern="./logs/LightEpro.log.%d{yyyy-MM-dd}">
-            <PatternLayout pattern="[%-5level][%d{yyyy-MM-dd HH:mm:ss}]%msg%n" />
+            <PatternLayout pattern="[%style{%d{yyyy-MM-dd HH:mm:ss}}{cyan}] [%highlight{%p}][%L LINE] [%style{%t}{bright,blue}] [%style{%c}{bright,yellow}] : %style{%msg%n%throwable}{bright,magenta}" />
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" />
             </Policies>
