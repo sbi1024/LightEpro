@@ -41,4 +41,6 @@ public interface SchMapper002 {
                              @Param("cdeSeq") int cdeSeq,
                              @Param("createDate") LocalDateTime createDate,
                              @Param("empSeq") int empSeq) throws Exception;
+
+    int checkSchExist(SchRqDto002 schRqDto002);
 }

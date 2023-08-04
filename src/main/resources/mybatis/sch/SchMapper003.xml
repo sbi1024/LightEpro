@@ -2,6 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.LightEpro.sch.mapper.SchMapper003">
+    <select id="checkSchExist" parameterType="com.example.LightEpro.sch.dto.sch003.SchRqDto003" resultType="int">
+        /* checkSchExist */
+        SELECT COUNT(1)
+        FROM T_SC_SCH TSS
+        WHERE 1 = 1
+          AND TSS.SCHM_SEQ = #{sch.schmSeq}
+          AND TSS.SCH_SEQ = #{sch.schSeq}
+          AND TSS.USE_YND = 'Y'
+    </select>
+
     <update id="updateSchDelStatus" parameterType="com.example.LightEpro.sch.dto.sch003.SchRqDto003">
         /* updateSchDelStatus */
         UPDATE T_SC_SCH TSS

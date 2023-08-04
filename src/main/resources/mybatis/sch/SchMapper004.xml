@@ -41,8 +41,8 @@
         WHERE 1 = 1
 
             AND TSSU.CAL_SEQ IN
-                <foreach collection="sch.calSeqs" item="sch.calSeqs" open="(" separator="," close=")">
-                    #{sch.calSeqs}
+                <foreach collection="cal.calSeqs" item="cal.calSeqs" open="(" separator="," close=")">
+                    #{cal.calSeqs}
                 </foreach>
 
             AND  (TSS.START_DATE BETWEEN #{sch.startDate} AND #{sch.endDate} OR

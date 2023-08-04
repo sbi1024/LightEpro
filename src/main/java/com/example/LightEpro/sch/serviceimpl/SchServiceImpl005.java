@@ -80,6 +80,7 @@ public class SchServiceImpl005 implements SchService005 {
         // 캘랜더 객체에 캘린더 시퀀스 , createSeq 할당
         calender.setCalSeq(curSeq);
         calender.setCreateSeq(empSeq);
+
         // 소유자 객채에 캘린더 시퀀스 , createSeq 할당
         owner.setCalSeq(curSeq);
         owner.setCreateSeq(empSeq);

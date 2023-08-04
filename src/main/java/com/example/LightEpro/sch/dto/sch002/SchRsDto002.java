@@ -1,11 +1,10 @@
 package com.example.LightEpro.sch.dto.sch002;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Data
 @Builder
-public class schRsDto002 {
+public class SchRsDto002 {
     private int schmSeq;
     private int schSeq;
     private int deleteSchCnt;

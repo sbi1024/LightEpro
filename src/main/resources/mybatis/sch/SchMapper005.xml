@@ -35,6 +35,7 @@
     </insert>
 
     <insert id="insertCalOwner" parameterType="com.example.LightEpro.sch.dto.sch005.SchRqDto005">
+        /* insertCalOwner */
         INSERT INTO T_SC_CAL_USER (CAL_SEQ,
                                    CDE_SEQ,
                                    CDE_TYPE,
@@ -54,6 +55,7 @@
     </insert>
 
     <insert id="insertCalManager" parameterType="list">
+        /* insertCalManager */
         INSERT INTO T_SC_CAL_USER (CAL_SEQ,
                                    CDE_SEQ,
                                    CDE_TYPE,

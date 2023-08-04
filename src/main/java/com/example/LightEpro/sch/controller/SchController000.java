@@ -65,7 +65,7 @@ public class SchController000 {
             log.error("$$$ sch000 validApiRequest fail !!! (schRqDto000 : " + schRqDto000 + ") $$$");
             throw new ExceptionCustom.NotValidSchStartEndDateException();
         }
-        // 개인캘린더 등록시에 , 참여자 혹은 공개범위 데이터가 포함되는 경우 Exception 발생
+        // 개인캘린더 등록시에 , 참여자 혹은 공개범위 데이터가 포함되는 경우 Exception 처리
         String calType = schMapper000.checkCalType(calendar.getCalSeq());
         if (calType.equals(ConstValue.ECAL_TYPE) && (participants != null || disclosureScopes != null)) {
             log.error("$$$ sch000 validApiRequest fail !!! (IncorrectIncludException) $$$");

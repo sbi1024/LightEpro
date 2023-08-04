@@ -60,12 +60,23 @@ public class SchController002 {
 
         // 시작일자 값이 , 종료일자보다 큰 경우 Exception 처리
         if (startDate.isAfter(endDate)) {
+            log.error("$$$ sch002 validApiRequest fail !!! (NotValidSchStartEndDateException) $$$");
+            log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
             throw new ExceptionCustom.NotValidSchStartEndDateException();
         }
-        // 개인캘린더 수정시에 , 참여자 혹은 공개범위 데이터가 포함되는 경우 Exception 발생
+        // 개인캘린더 수정시에 , 참여자 혹은 공개범위 데이터가 포함되는 경우 Exception 처리
         String calType = schMapper002.checkCalType(calendar.getCalSeq());
         if (calType.equals(ConstValue.ECAL_TYPE) && (participants != null || disclosureScopes != null)) {
+            log.error("$$$ sch002 validApiRequest fail !!! (IncorrectIncludException) $$$");
+            log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
             throw new ExceptionCustom.IncorrectIncludException();
+        }
+        // 일정 수정 진행 전 , 요청값으로 받은 일정 시퀀스값을 통해 일정이 존재하는지 판단 후 , 존재하지 않는다면 Exception 처리
+        int schCnt = schMapper002.checkSchExist(schRqDto002);
+        if (schCnt == 0) {
+            log.error("$$$ sch002 validApiRequest fail !!! (NotFountSchException) $$$");
+            log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
+            throw new ExceptionCustom.NotFountSchException();
         }
     }
 }

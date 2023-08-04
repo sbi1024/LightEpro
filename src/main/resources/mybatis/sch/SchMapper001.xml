@@ -2,26 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.LightEpro.sch.mapper.SchMapper001">
+    <select id="checkSchExist" parameterType="com.example.LightEpro.sch.dto.sch001.SchRqDto001" resultType="int">
+        /* checkSchExist */
+        SELECT COUNT(1)
+        FROM T_SC_SCH TSS
+        WHERE 1 = 1
+          AND TSS.SCHM_SEQ = #{sch.schmSeq}
+          AND TSS.SCH_SEQ = #{sch.schSeq}
+          AND TSS.USE_YND = 'Y'
+    </select>
+
+
     <select id="findSchBySchmSeqAndSchSeq"
             parameterType="com.example.LightEpro.sch.dto.sch001.SchRqDto001$Sch"
             resultType="com.example.LightEpro.sch.dto.sch001.SchRsDto001$Sch">
         /* findSchBySchmSeqAndSchSeq */
-        SELECT tss.SCHM_SEQ            AS schmSeq,
-               tss.SCH_SEQ             AS schSeq,
-               tss.SCH_TITLE           AS schTitle,
-               tss.SCH_CONTENT         AS schContent,
-               tss.START_DATE          AS startDate,
-               tss.END_DATE            AS endDate,
+        SELECT TSS.SCHM_SEQ            AS schmSeq,
+               TSS.SCH_SEQ             AS schSeq,
+               TSS.SCH_TITLE           AS schTitle,
+               TSS.SCH_CONTENT         AS schContent,
+               TSS.START_DATE          AS startDate,
+               TSS.END_DATE            AS endDate,
                TSS.ALL_DAY_YN          AS alldayYn,
-               tss.CREATE_DATE         AS createDate,
-               tss.CREATE_SEQ          AS createSeq,
-               tss.MODIFY_DATE         AS modifyDate,
-               tss.MODIFY_SEQ          AS modifySeq
-        FROM t_sc_sch tss
+               TSS.CREATE_DATE         AS createDate,
+               TSS.CREATE_SEQ          AS createSeq,
+               TSS.MODIFY_DATE         AS modifyDate,
+               TSS.MODIFY_SEQ          AS modifySeq
+        FROM T_SC_SCH TSS
         WHERE 1 = 1
-          AND tss.SCHM_SEQ = #{sch.schmSeq}
-          AND tss.SCH_SEQ = #{sch.schSeq}
-          AND tss.USE_YND = 'Y'
+          AND TSS.SCHM_SEQ = #{sch.schmSeq}
+          AND TSS.SCH_SEQ = #{sch.schSeq}
+          AND TSS.USE_YND = 'Y'
     </select>
 
     <select id="findParticipantsBySchmSeqAndSchSeq"
@@ -32,25 +43,27 @@
                tssu.CDE_TYPE           AS cdeType,
                tssu.SCH_PARTITION_TYPE AS schPartitionType,
                tssu.SCH_AUTORITY       AS schAutority
-        FROM t_sc_sch_user tssu
+        FROM T_SC_SCH_USER TSSU
         WHERE 1 = 1
-          AND tssu.SCHM_SEQ = #{sch.schmSeq}
-          AND tssu.SCH_SEQ = #{sch.schSeq}
-          AND tssu.SCH_PARTITION_TYPE = '10'
+          AND TSSU.SCHM_SEQ = #{sch.schmSeq}
+          AND TSSU.SCH_SEQ = #{sch.schSeq}
+          AND TSSU.SCH_PARTITION_TYPE = '10'
+          AND TSSU.USE_YND = 'Y'
     </select>
 
     <select id="findDisclosureScopesBySchmSeqAndSchSeq"
             parameterType="com.example.LightEpro.sch.dto.sch001.SchRqDto001$Sch"
             resultType="com.example.LightEpro.sch.dto.sch001.SchRsDto001$DisclosureScope">
         /* findDisclosureScopesBySchmSeqAndSchSeq */
-        SELECT tssu.CDE_SEQ            AS cdeSeq,
-               tssu.CDE_TYPE           AS cdeType,
-               tssu.SCH_PARTITION_TYPE AS schPartitionType,
-               tssu.SCH_AUTORITY       AS schAutority
-        FROM t_sc_sch_user tssu
+        SELECT TSSU.CDE_SEQ            AS cdeSeq,
+               TSSU.CDE_TYPE           AS cdeType,
+               TSSU.SCH_PARTITION_TYPE AS schPartitionType,
+               TSSU.SCH_AUTORITY       AS schAutority
+        FROM T_SC_SCH_USER TSSU
         WHERE 1 = 1
-          AND tssu.SCHM_SEQ = #{sch.schmSeq}
-          AND tssu.SCH_SEQ = #{sch.schSeq}
-          AND tssu.SCH_PARTITION_TYPE = '20'
+          AND TSSU.SCHM_SEQ = #{sch.schmSeq}
+          AND TSSU.SCH_SEQ = #{sch.schSeq}
+          AND TSSU.SCH_PARTITION_TYPE = '20'
+          AND TSSU.USE_YND = 'Y'
     </select>
 </mapper>

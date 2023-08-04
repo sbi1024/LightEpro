@@ -41,15 +41,15 @@ public class SchServiceImpl000 implements SchService000 {
         // 참여자에 본인이 포함되어 있지 않다면 , 본인을 참여자로 등록 진행
         if (checkRegistrantCnt == 0) {
             log.info("createSingleSch Method checkRegistrantCnt = 0");
-            int insertRegistCnt = schMapper000.insertSchParticipant(
-                    curSeq, schRqDto000.getCalendar().getCalSeq(), schRqDto000.getEmp().getEmpSeq()
-            );
+            int insertRegistCnt = schMapper000.insertSchParticipant(curSeq,
+                    schRqDto000.getCalendar().getCalSeq(),
+                    schRqDto000.getEmp().getEmpSeq());
             // cnt + 1 진행
             participantsInsertCnt += insertRegistCnt;
         }
 
         // SCH_RS_DTO_000 생성
-        SchRsDto000 rsDto000 = SchRsDto000.builder()
+        SchRsDto000 schRsDto000 = SchRsDto000.builder()
                 .schmSeq(curSeq)
                 .schSeq(curSeq)
                 .singleSchInsertCnt(singleSchInsertCnt)
@@ -57,10 +57,10 @@ public class SchServiceImpl000 implements SchService000 {
                 .disclosureScopesInsertCnt(disclosureScopesInsertCnt)
                 .build();
 
-        log.info("createSingleSch Method Return Data : " + rsDto000);
+        log.info("createSingleSch Method Return Data : " + schRsDto000);
         log.info("createSingleSch Method End !!!");
         // return
-        return rsDto000;
+        return schRsDto000;
     }
 
     // 일정 시퀀스 번호 할당 메소드
@@ -118,6 +118,7 @@ public class SchServiceImpl000 implements SchService000 {
     }
 
     // 일정의 참여자 및 공개범위 인원의 캘린더 시퀀스 번호 추출
+    // TODO 변수명 변경 필요 , 직관적이지 않음.
     @Override
     public int findCalSeq(int calSeq, int cdeSeq) throws Exception {
         log.info("findCalSeq Method Start !!!");

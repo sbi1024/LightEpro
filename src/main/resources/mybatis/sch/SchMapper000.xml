@@ -45,6 +45,7 @@
         FROM T_SC_CAL TSC
         WHERE 1 = 1
           AND TSC.CAL_SEQ = #{calSeq}
+          AND TSC.USE_YND = 'Y'
     </select>
 
     <select id="checkEcalExist" parameterType="int" resultType="int">

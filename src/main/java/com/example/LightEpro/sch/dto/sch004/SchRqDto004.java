@@ -15,6 +15,8 @@ public class SchRqDto004 {
     private @Valid Emp emp;
     @NotNull
     private @Valid Sch sch;
+    @NotNull
+    private @Valid Calendar cal;
 
     @Data
     public static class Emp {
@@ -30,6 +32,9 @@ public class SchRqDto004 {
         @NotNull
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmm", timezone = "Asia/Seoul")
         private LocalDateTime endDate;
+    }
+    @Data
+    public static class Calendar {
         @NotNull
         private List<Integer> calSeqs;
     }
