@@ -73,5 +73,6 @@ public class SchController000 {
             throw new ExceptionCustom.IncorrectIncludException();
         }
     }
+    // TODO 캘린더 소유자 관리자
     // TODO 권한체크 후 서비스 로직 실행 건에 대한 확인 필요
 }

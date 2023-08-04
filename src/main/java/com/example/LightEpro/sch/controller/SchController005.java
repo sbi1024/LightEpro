@@ -48,10 +48,19 @@ public class SchController005 {
 
     // sch005 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
     public void validApiRequest(SchRqDto005 schRqDto005) throws Exception {
-
-        String calType = schRqDto005.getCalender().getCalType();
+        SchRqDto005.Emp emp = schRqDto005.getEmp();
+        SchRqDto005.Calender calender = schRqDto005.getCalender();
         SchRqDto005.Owner owner = schRqDto005.getOwner();
         List<SchRqDto005.Manager> managers = schRqDto005.getManagers();
+        // 사원 시퀀스 추출
+        int empSeq = schRqDto005.getEmp().getEmpSeq();
+        // 캘린더 타입 추출
+        String calType = calender.getCalType();
+        // 소유자 시퀀스 추출
+        int ownerCdeSeq = owner.getCdeSeq();
+        // 소유자 시퀀스 타입 추출
+        String ownerCdeType = owner.getCdeType();
+
 
         // 1. 개인캘린더 등록시에 , 관리자 요청값이 포함되어 들어오는 경우 Exception
         if (calType.equals(ConstValue.ECAL_TYPE) && managers != null) {
@@ -60,19 +69,11 @@ public class SchController005 {
             throw new ExceptionCustom.IncorrectIncludException();
         }
 
-        // 2. 캘린더 등록시에 , 캘린더의 소유자 정보가 , 관리자 정보에도 포함이 되어 있다면 Exception
-        // 사유 : 소유자에 포함되어 있는 인원이 , 관리자에도 포함될수 없다 (소유자와 , 관리자의 권한이 다르기 떄문)
-        int ownerCdeSeq = owner.getCdeSeq();
-        String ownerCdeType = owner.getCdeType();
-        for (SchRqDto005.Manager manager : managers) {
-            int manageCdeSeq = manager.getCdeSeq();
-            String manageCdeType = manager.getCdeType();
-            if (ownerCdeSeq == manageCdeSeq && ownerCdeType.equals(manageCdeType)) {
-                log.error("$$$ sch005 validApiRequest fail !!! (IncorrectIncludException) $$$");
-                log.error("$$$ sch005 validApiRequest fail !!! (schRqDto005 : " + schRqDto005 + ") $$$");
-                throw new ExceptionCustom.IncorrectIncludException();
-            }
+        // 2. 캘린더 등록시에 , 캘린더의 소유자 cdeSeq 값은 요청자의 empSeq 값과 일치해야 한다.
+        if (empSeq != ownerCdeSeq) {
+            log.error("$$$ sch005 validApiRequest fail !!! (IncorrectIncludException) $$$");
+            log.error("$$$ sch005 validApiRequest fail !!! (schRqDto005 : " + schRqDto005 + ") $$$");
+            throw new ExceptionCustom.IncorrectIncludException();
         }
-
     }
 }
