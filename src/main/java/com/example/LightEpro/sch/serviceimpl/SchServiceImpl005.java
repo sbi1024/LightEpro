@@ -16,10 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class SchServiceImpl005 implements SchService005 {
-    // TODO 캘린더 등록은 , 개인캘린더 혹은 공유 캘린더를 등록한다.
-    // TODO 이때 , 개인 캘린더인경우 , 캘린더의 소유자가 등록자와 동일하다.
-    // TODO 이떄 , 공유 캘린더인경우,  캘린더의 소유자는 동륵자 이며 , 관리자는 등롲가가 아닌 , 다른 인원이다
-    // TODO (소유자 이면서 관리자인 경우는 존재하지 않는다.)
     private final SchMapper005 schMapper005;
 
     @Transactional(rollbackFor = {Exception.class})

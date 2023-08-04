@@ -48,7 +48,7 @@ public class SchController000 {
         return schResponse;
     }
 
-    // SCH_000 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
+    // sch000 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
     public void validApiRequest(SchRqDto000 schRqDto000) throws Exception {
         SchRqDto000.Sch sch = schRqDto000.getSch();
         SchRqDto000.Calendar calendar = schRqDto000.getCalendar();
@@ -73,4 +73,5 @@ public class SchController000 {
             throw new ExceptionCustom.IncorrectIncludException();
         }
     }
+    // TODO 권한체크 후 서비스 로직 실행 건에 대한 확인 필요
 }

@@ -37,7 +37,6 @@ public class SchController004 {
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setReponseCode(200);
         schResponse.setResponseMsg("sch004 API SUCCESS");
-        // TODO 실행 결과 확인 필요
         schResponse.setResponseData(schService004.selectSchList(schRqDto004));
 
         log.info("sch004 RESPONSE DATA : " + schResponse);
@@ -46,11 +45,14 @@ public class SchController004 {
         return schResponse;
     }
 
-    // SCH_001 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
+    // sch004 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
     public void validApiRequest(SchRqDto004 schRqDto004) throws Exception {
+        // 일정 목록 리스트 조회 전 , 요청값의 캘린더 시퀀스 리스트 값의 길이 판단 후 , 0인 경우 Exception 처리
         List<Integer> calSeqs = schRqDto004.getCal().getCalSeqs();
-        if (calSeqs == null || calSeqs.size() == 0) {
-            // TODO 요청값의 캘린더 시퀀스 사이즈 체크 필요 및 Exception 처리
+        if (calSeqs.size() == 0) {
+            log.error("$$$ sch004 validApiRequest fail !!! (NotValidCalSeqsException) $$$");
+            log.error("$$$ sch004 validApiRequest fail !!! (schRqDto004 : " + schRqDto004 + ") $$$");
+            throw new ExceptionCustom.NotValidCalSeqsException();
         }
     }
 }

@@ -81,7 +81,6 @@ public class SchServiceImpl002 implements SchService002 {
     }
 
     // 일정 시퀀스 번호 주입 메소드
-    // TODO 중간 과정의 데이터 할당이 어떻게 이루어졌는지 , 로그 출력 필요
     @Override
     public int assignObject(SchRqDto002 schRqDto002) throws Exception {
         log.info("assignObject Method Start !!!");
@@ -139,7 +138,7 @@ public class SchServiceImpl002 implements SchService002 {
         // return
         return curSeq;
     }
-    // TODO SELECT 쿼리문 조건절에 USE_YND = 'Y' 조건 추가 필요 및 , 예외처리에도 조건 확인 요망.
+
     // 단일 일정 수정 메소드
     @Override
     public int updateSingleSch(SchRqDto002 schRqDto002) throws Exception {

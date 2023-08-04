@@ -118,7 +118,6 @@ public class SchServiceImpl000 implements SchService000 {
     }
 
     // 일정의 참여자 및 공개범위 인원의 캘린더 시퀀스 번호 추출
-    // TODO 변수명 변경 필요 , 직관적이지 않음.
     @Override
     public int findCalSeq(int calSeq, int cdeSeq) throws Exception {
         log.info("findCalSeq Method Start !!!");

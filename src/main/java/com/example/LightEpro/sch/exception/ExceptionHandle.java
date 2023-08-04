@@ -13,7 +13,9 @@ import java.util.List;
 @RestControllerAdvice
 @Slf4j
 public class ExceptionHandle extends RuntimeException {
-    // Exception 일괄 처리 메소드
+    /**
+     * Exception
+     */
     @ExceptionHandler(Exception.class)
     public SchResponse handleException(Exception e) {
         ExceptionCode errorCode = ExceptionCode.INTERNAL_SERVER_EXCEPTION;
@@ -34,7 +36,10 @@ public class ExceptionHandle extends RuntimeException {
         return schResponse;
     }
 
-    // valid 관련 Exception 일괄처리 메소드
+
+    /**
+     * 유효성 검증 실패시 발생 Exception
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public SchResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         ExceptionCode errorCode = ExceptionCode.VALID_REQUEST_EXCEPTION;
@@ -56,7 +61,10 @@ public class ExceptionHandle extends RuntimeException {
         return schResponse;
     }
 
-    // 일정 조회시 , 디비상 없는 일정인 경우 발생 Exception 일괄처리 메소드
+
+    /**
+     * 일정 조회시 , 디비상 없는 일정인 경우 발생 Exception
+     */
     @ExceptionHandler(ExceptionCustom.NotFountSchException.class)
     public SchResponse NotFountSchException(ExceptionCustom.NotFountSchException e) {
         ExceptionCode errorCode = ExceptionCode.NOT_FOUNT_SCH_EXCEPTION;
@@ -101,7 +109,7 @@ public class ExceptionHandle extends RuntimeException {
     }
 
     /**
-     * 개인 캘린더에 일정등록시 ,참여자 혹은 공개범위 데이터가 포함된 요청값이 들어오는 경우 발생 Exception
+     * 개인 캘린더에 일정등록시 , 참여자 혹은 공개범위 데이터가 포함된 요청값이 들어오는 경우 발생 Exception
      */
     @ExceptionHandler(ExceptionCustom.IncorrectIncludException.class)
     public SchResponse IncorrectIncludException(ExceptionCustom.IncorrectIncludException e) {
@@ -123,4 +131,26 @@ public class ExceptionHandle extends RuntimeException {
         return schResponse;
     }
 
+    /**
+     * 캘린더 시퀀스 값이 유효하지 않는 경우 (요청값의 캘린더 리스트 사이즈가 0 이거나 null 인 경우)
+     */
+    @ExceptionHandler(ExceptionCustom.NotValidCalSeqsException.class)
+    public SchResponse NotValidCalSeqsException(ExceptionCustom.NotValidCalSeqsException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_VALID_CAL_SEQS_EXCEPTION;
+        errorCode.setExceptionData(e.getMessage());
+
+        SchResponse schResponse = new SchResponse();
+        schResponse.setResponseStatus(errorCode.getExceptionStatus());
+        schResponse.setReponseCode(errorCode.getExceptionCode());
+        schResponse.setResponseMsg(errorCode.getExceptionMsg());
+        schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ ExceptionCustom.NotValidCalSeqsException !!! (Exception) $$$");
+        log.error("$$$ NotValidCalSeqsException !!! (schResponse : " + schResponse + ") $$$");
+
+        e.printStackTrace();
+        e.getMessage();
+
+        return schResponse;
+    }
 }

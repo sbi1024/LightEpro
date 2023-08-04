@@ -19,4 +19,14 @@ public class ConstValue {
      * 일정 구성원 타입  (공개범위) = 20
      */
     public static final int DISCLOSURESCOPE_TYPE = 20;
+
+    /**
+     * 캘린더 구성원 타입  (소유자) = 100
+     */
+    public static final int OWNER_TYPE = 100;
+
+    /**
+     * 캘린더 구성원 타입  (관리자) = 200
+     */
+    public static final int MANAGER_TYPE = 200;
 }

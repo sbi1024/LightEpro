@@ -3,9 +3,9 @@
     "empSeq": 1000
   },
   "calender": {
-    "calTitle": "서보인이 공유 캘린더 테스트 함",
-    "calType": "M",
-    "calContent": "202308031630",
+    "calTitle": "서보인 개인 캘린더",
+    "calType": "E",
+    "calContent": "서보인 개인 캘린더 최초 등록",
     "calColor": null
   },
   "owner": {

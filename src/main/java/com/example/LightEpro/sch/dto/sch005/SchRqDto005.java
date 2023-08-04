@@ -32,7 +32,6 @@ public class SchRqDto005 {
         private String calTitle;
         @NotBlank
         private String calType;
-        @NotBlank
         private String calContent;
         private String calColor;
         private int createSeq;
