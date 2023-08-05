@@ -29,4 +29,16 @@ public class ConstValue {
      * 캘린더 구성원 타입  (관리자) = 200
      */
     public static final int MANAGER_TYPE = 200;
+    /**
+     * 마스터 권한 = M
+     */
+    public static final String MASTER_AUTORITY = "M";
+    /**
+     * 수정 권한 = W
+     */
+    public static final String MODIFY_AUTORITY = "W";
+    /**
+     * 조회 권한 = S
+     */
+    public static final String READ_AUTORITY = "S";
 }

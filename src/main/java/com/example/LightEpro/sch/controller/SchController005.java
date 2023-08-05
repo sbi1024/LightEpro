@@ -76,4 +76,13 @@ public class SchController005 {
             throw new ExceptionCustom.IncorrectIncludException();
         }
     }
+
+    // TODO > 구성해야할 API 목록
+    // 1. 캘린더 조회
+    // 2. 캘린더 삭제
+    // 3. 캘린더 수정
+    // 4. 캘린더 목록 조회 (내)
+    // 이후 권한 관련 이슈 체크 및 부서 및 회사 관련 처리를 위한 EMP 쪽 작업 진행
+    // EMP 완료되는 시점에서 프론트작업 진행 필요
+    // 반복일정 어떤식으로 정책확립할지 확인 필요
 }
