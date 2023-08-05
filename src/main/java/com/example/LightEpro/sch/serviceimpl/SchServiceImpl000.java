@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -88,11 +89,34 @@ public class SchServiceImpl000 implements SchService000 {
         List<SchRqDto000.Participant> participants = schRqDto000.getParticipants();
         List<SchRqDto000.DisclosureScope> disclosureScopes = schRqDto000.getDisclosureScopes();
 
-        // 일정 객체에 curSeq 값 할당
+        // 일정 객체에 일정 시퀀스/등록자시퀀스/시작일자,종료일자(분리된 값) 값 할당
         sch.setSchmSeq(curSeq);
         sch.setSchSeq(curSeq);
         sch.setCreateSeq(emp.getEmpSeq());
 
+        // Year,Month,Day 값 추출
+        LocalDateTime startDate = sch.getStartDate();
+        int startYear = startDate.getYear();
+        int startMonth = startDate.getMonthValue();
+        int startDay = startDate.getDayOfMonth();
+
+        // sch에 할당 (startDate)
+        sch.setStartDateYear(startYear);
+        sch.setStartDateMonth(startMonth);
+        sch.setStartDateDay(startDay);
+
+        // Year,Month,Day 값 추출
+        LocalDateTime endDate = sch.getEndDate();
+        int endYear = endDate.getYear();
+        int endMonth = endDate.getMonthValue();
+        int endDay = endDate.getDayOfMonth();
+
+        // sch에 할당 (endDate)
+        sch.setEndDateYear(endYear);
+        sch.setEndDateMonth(endMonth);
+        sch.setEndDateDay(endDay);
+
+        // 참여자 데이터 할당
         if (participants != null && participants.size() > 0) {
             // 반복문을 통해 participant 객체에 schmSeq , schSeq , createSeq 값 할당
             for (SchRqDto000.Participant participant : participants) {
@@ -103,7 +127,7 @@ public class SchServiceImpl000 implements SchService000 {
 
             }
         }
-
+        // 공개범위 데이터 할당
         if (disclosureScopes != null && disclosureScopes.size() > 0) {
             // 반복문을 통해 disclosureScope 객체에 schmSeq , schSeq , createSeq 값 할당
             for (SchRqDto000.DisclosureScope disclosureScope : disclosureScopes) {

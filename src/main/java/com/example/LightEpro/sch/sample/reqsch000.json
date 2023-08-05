@@ -6,7 +6,7 @@
     "startDate": "202308031530",
     "endDate": "202308031630",
     "alldayYn": "Y",
-    "schTitle": "단일 일정 등록 테스트"
+    "schTitle": "단일 일정 반정규화 인덱스 테스트"
   },
   "calendar": {
     "calSeq": "8"

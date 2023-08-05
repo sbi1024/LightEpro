@@ -24,7 +24,7 @@ public class SchController004 {
 
     private final SchService004 schService004;
 
-    // 일정 목록 조회 API
+    // 월 기준 일정 목록 조회 API
     @RequestMapping(value = "/sch004", method = {RequestMethod.GET, RequestMethod.POST})
     public SchResponse sch004(@RequestBody @Valid SchRqDto004 schRqDto004) throws Exception {
         log.info("sch004 API START !!!");

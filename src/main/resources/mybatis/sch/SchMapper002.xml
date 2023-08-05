@@ -44,13 +44,19 @@
     <update id="updateSingleSch" parameterType="com.example.LightEpro.sch.dto.sch002.SchRqDto002$Sch">
         /* updateSingleSch */
         UPDATE T_SC_SCH TSS
-        SET TSS.START_DATE  = #{sch.startDate},
-            TSS.END_DATE    = #{sch.endDate},
-            TSS.ALL_DAY_YN  = #{sch.alldayYn},
-            TSS.SCH_TITLE   = #{sch.schTitle},
-            TSS.SCH_CONTENT = #{sch.schContent},
-            TSS.MODIFY_DATE = NOW(),
-            TSS.MODIFY_SEQ  = #{sch.modifySeq}
+        SET TSS.START_DATE       = #{sch.startDate},
+            TSS.START_DATE_YEAR  = #{sch.startDateYear},
+            TSS.START_DATE_MONTH = #{sch.startDateMonth},
+            TSS.START_DATE_DAY   = #{sch.startDateDay},
+            TSS.END_DATE         = #{sch.endDate},
+            TSS.END_DATE_YEAR    = #{sch.endDateYear},
+            TSS.END_DATE_MONTH   = #{sch.endDateMonth},
+            TSS.END_DATE_DAY     = #{sch.endDateDay},
+            TSS.ALL_DAY_YN       = #{sch.alldayYn},
+            TSS.SCH_TITLE        = #{sch.schTitle},
+            TSS.SCH_CONTENT      = #{sch.schContent},
+            TSS.MODIFY_DATE      = NOW(),
+            TSS.MODIFY_SEQ       = #{sch.modifySeq}
         WHERE 1 = 1
           AND TSS.SCHM_SEQ = #{sch.schmSeq}
           AND TSS.SCH_SEQ = #{sch.schSeq}

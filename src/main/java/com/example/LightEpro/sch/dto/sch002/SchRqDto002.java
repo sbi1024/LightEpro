@@ -39,9 +39,19 @@ public class SchRqDto002 {
         @NotNull
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmm", timezone = "Asia/Seoul")
         private LocalDateTime startDate;
+        private int startDateYear;
+        private int startDateMonth;
+        private int startDateDay;
+
+
         @NotNull
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmm", timezone = "Asia/Seoul")
         private LocalDateTime endDate;
+        private int endDateYear;
+        private int endDateMonth;
+        private int endDateDay;
+
+
         @NotBlank
         private String alldayYn;
         @NotBlank
