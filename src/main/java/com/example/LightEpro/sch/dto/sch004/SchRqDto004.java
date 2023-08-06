@@ -26,12 +26,10 @@ public class SchRqDto004 {
 
     @Data
     public static class Sch {
-        @NotNull
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmm", timezone = "Asia/Seoul")
-        private LocalDateTime startDate;
-        @NotNull
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmm", timezone = "Asia/Seoul")
-        private LocalDateTime endDate;
+        @Positive
+        private int year;
+        @Positive
+        private int month;
     }
     @Data
     public static class Calendar {

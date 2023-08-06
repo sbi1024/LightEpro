@@ -19,7 +19,7 @@ public class SchServiceImpl003 implements SchService003 {
     public SchRsDto003 deleteSingleSch(SchRqDto003 schRqDto003) throws Exception{
         log.info("deleteSingleSch Method Start !!!");
         log.info("deleteSingleSch Method Request Data : " + schRqDto003);
-
+        // TODO 하기 매퍼 메소드 , 서비스 메소드로 분리 필요
         int updateSchDelStCnt = schMapper003.updateSchDelStatus(schRqDto003);
         int updateSchUserDelStCnt = schMapper003.updateSchUsersDelStatus(schRqDto003);
 

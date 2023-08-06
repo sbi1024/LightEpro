@@ -4,29 +4,68 @@
 <mapper namespace="com.example.LightEpro.sch.mapper.SchMapper004">
     <select id="selectSchList" resultType="com.example.LightEpro.sch.dto.sch004.SchRsDto004$SchInfo">
         /* selectSchList */
-        SELECT TSS.SCHM_SEQ                AS schmSeq,
-               TSS.SCH_SEQ                 AS schSeq,
-               TSS.SCH_TITLE               AS schTitle,
-               TSS.SCH_CONTENT             AS schContent,
-               TSS.START_DATE              AS startDate,
-               TSS.END_DATE                AS endDate,
-               TSS.ALL_DAY_YN              AS alldayYn,
-               TSS.CREATE_SEQ              AS createSeq,
-               TSS.CREATE_DATE             AS createDate,
-               TSS.MODIFY_SEQ              AS modifySeq,
-               TSS.MODIFY_DATE             AS modifyDate,
+        SELECT IFNULL(TSS.SCHM_SEQ,'')                                        AS schmSeq,
+               IFNULL(TSS.SCH_SEQ,'')                                         AS schSeq,
+               IFNULL(TSS.SCH_TITLE,'')                                       AS schTitle,
+               IFNULL(TSS.SCH_CONTENT,'')                                     AS schContent,
+               DATE_FORMAT(TSS.START_DATE,'%Y%m%d%H%i')                       AS startDate,
+               DATE_FORMAT(TSS.END_DATE,'%Y%m%d%H%i')                         AS endDate,
+               IFNULL(TSS.ALL_DAY_YN,'')                                      AS alldayYn,
+               IFNULL(TSS.CREATE_SEQ,'')                                      AS createSeq,
+               DATE_FORMAT(TSS.CREATE_DATE,'%Y%m%d%H%i')                      AS createDate,
+               IFNULL(TSS.MODIFY_SEQ,'')                                      AS modifySeq,
+               CASE
+                   WHEN TSS.MODIFY_DATE IS NOT NULL
+                       THEN DATE_FORMAT(TSS.MODIFY_DATE,'%Y%m%d%H%i')
+                   ELSE
+                       ''
+               END                                                            AS modifyDate,
 
-               TSSU.CDE_SEQ                AS cdeSeq,
-               TSSU.CDE_TYPE               AS cdeType,
-               TSSU.CAL_SEQ                AS calSeq,
-               TSSU.SCH_PARTITION_TYPE     AS schPartitionType,
-               TSSU.SCH_AUTORITY           AS schAutority,
+               IFNULL(TSSU.CDE_SEQ,'')                                        AS cdeSeq,
+               IFNULL(TSSU.CDE_TYPE,'')                                       AS cdeType,
+               IFNULL(TSSU.CAL_SEQ,'')                                        AS calSeq,
+               IFNULL(TSSU.SCH_PARTITION_TYPE,'')                             AS schPartitionType,
+               IFNULL(TSSU.SCH_AUTORITY,'')                                   AS schAutority,
 
-               TSC.CAL_TITLE               AS calTitle,
-               TSC.CAL_TYPE                AS calType
+               IFNULL(TSC.CAL_TITLE,'')                                       AS calTitle,
+               IFNULL(TSC.CAL_TYPE,'')                                        AS calType,
+               IFNULL(TSC.CAL_CONTENT,'')                                     AS calContent,
+               IFNULL(TSC.CAL_COLOR,'')                                       AS calColor
 
 
         FROM T_SC_SCH TSS
+
+                 INNER JOIN (SELECT DATE_TSS.SCHM_SEQ, DATE_TSS.SCH_SEQ
+                             FROM (
+                                   SELECT TSS.SCHM_SEQ, TSS.SCH_SEQ
+                                   FROM T_SC_SCH TSS
+                                   WHERE 1 = 1
+                                    AND (TSS.START_DATE_YEAR = #{sch.year} AND TSS.START_DATE_MONTH = #{sch.month})
+
+                                   UNION ALL
+
+                                   SELECT TSS.SCHM_SEQ, TSS.SCH_SEQ
+                                   FROM T_SC_SCH TSS
+                                   WHERE 1 = 1
+                                    AND (TSS.END_DATE_YEAR = #{sch.year} AND TSS.END_DATE_MONTH = #{sch.month})
+
+                                   UNION ALL
+
+                                   SELECT TSS.SCHM_SEQ, TSS.SCH_SEQ
+                                   FROM T_SC_SCH TSS
+                                    WHERE 1 = 1
+                                    AND (
+                                         <![CDATA[
+                                             (TSS.START_DATE_YEAR <= #{sch.year} AND TSS.START_DATE_MONTH < #{sch.month}) AND
+                                             (TSS.END_DATE_YEAR >= #{sch.year} AND TSS.END_DATE_MONTH > #{sch.month})
+                                         ]]>
+                                        )
+                                    ) AS DATE_TSS
+                                    GROUP BY DATE_TSS.SCHM_SEQ, DATE_TSS.SCH_SEQ
+                             ) AS UNION_DATE_SCH
+                            ON TSS.SCHM_SEQ = UNION_DATE_SCH.SCHM_SEQ
+                                AND TSS.SCH_SEQ = UNION_DATE_SCH.SCH_SEQ
+
                  INNER JOIN T_SC_SCH_USER TSSU
                             ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
                                 AND TSS.SCH_SEQ = TSSU.SCH_SEQ
@@ -34,20 +73,16 @@
                                 AND TSSU.CDE_TYPE = 'E'
                                 AND TSS.USE_YND = 'Y'
                                 AND TSSU.USE_YND = 'Y'
+
                  INNER JOIN T_SC_CAL TSC
                             ON TSSU.CAL_SEQ = TSC.CAL_SEQ
                                 AND TSC.USE_YND = 'Y'
 
         WHERE 1 = 1
 
-            AND TSSU.CAL_SEQ IN
-                <foreach collection="cal.calSeqs" item="cal.calSeqs" open="(" separator="," close=")">
-                    #{cal.calSeqs}
-                </foreach>
+            AND TSSU.CAL_SEQ IN <foreach collection="cal.calSeqs" item="cal.calSeqs" open="(" separator="," close=")">
+                                    #{cal.calSeqs}
+                                </foreach>
 
-            AND  (TSS.START_DATE BETWEEN #{sch.startDate} AND #{sch.endDate} OR
-                 TSS.END_DATE BETWEEN #{sch.startDate} AND #{sch.endDate} OR
-                 #{sch.startDate} BETWEEN TSS.START_DATE AND TSS.END_DATE OR
-                 #{sch.endDate} BETWEEN TSS.START_DATE AND TSS.END_DATE)
     </select>
 </mapper>

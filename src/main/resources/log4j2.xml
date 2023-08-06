@@ -89,7 +89,7 @@
         <Logger name="jdbc.resultset" level="OFF" additivity="false">
             <appender-ref ref="console"/>
         </Logger>
-        <Logger name="jdbc.resultsettable" level="INFO" additivity="false">
+        <Logger name="jdbc.resultsettable" level="OFF" additivity="false">
             <appender-ref ref="console"/>
         </Logger>
         <Logger name="jdbc.sqltiming" level="OFF" additivity="false">

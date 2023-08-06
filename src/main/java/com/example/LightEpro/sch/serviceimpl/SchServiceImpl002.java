@@ -111,23 +111,19 @@ public class SchServiceImpl002 implements SchService002 {
         LocalDateTime startDate = sch.getStartDate();
         int startYear = startDate.getYear();
         int startMonth = startDate.getMonthValue();
-        int startDay = startDate.getDayOfMonth();
 
         // sch에 할당 (startDate)
         sch.setStartDateYear(startYear);
         sch.setStartDateMonth(startMonth);
-        sch.setStartDateDay(startDay);
 
         // Year,Month,Day 값 추출
         LocalDateTime endDate = sch.getEndDate();
         int endYear = endDate.getYear();
         int endMonth = endDate.getMonthValue();
-        int endDay = endDate.getDayOfMonth();
 
         // sch에 할당 (endDate)
         sch.setEndDateYear(endYear);
         sch.setEndDateMonth(endMonth);
-        sch.setEndDateDay(endDay);
 
         // 반복문을 통해 participant 객체에 schmSeq , schSeq , createSeq , createDate , modifySeq값 할당
         if (participants != null && participants.size() > 0) {

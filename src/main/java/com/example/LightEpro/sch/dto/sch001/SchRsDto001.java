@@ -15,32 +15,32 @@ public class SchRsDto001 {
 
     @Data
     public static class Sch {
-        private int schmSeq;
-        private int schSeq;
+        private String schmSeq;
+        private String schSeq;
         private String schTitle;
         private String schContent;
-        private LocalDateTime startDate;
-        private LocalDateTime endDate;
+        private String startDate;
+        private String endDate;
         private String alldayYn;
-        private LocalDateTime createDate;
-        private int createSeq;
-        private LocalDateTime modifyDate;
-        private int modifySeq;
+        private String createDate;
+        private String createSeq;
+        private String modifyDate;
+        private String modifySeq;
     }
 
     @Data
     public static class Participant {
-        private int cdeSeq;
+        private String cdeSeq;
         private String cdeType;
-        private int schPartitionType;
+        private String schPartitionType;
         private String schAutority;
     }
 
     @Data
     public static class DisclosureScope {
-        private int cdeSeq;
+        private String cdeSeq;
         private String cdeType;
-        private int schPartitionType;
+        private String schPartitionType;
         private String schAutority;
     }
 }

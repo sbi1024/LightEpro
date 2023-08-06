@@ -3,8 +3,8 @@
     "empSeq": "1000"
   },
   "sch": {
-    "startDate": "202306011310",
-    "endDate": "202308301510"
+    "year": 2023,
+    "month": 6
   },
   "cal": {
     "calSeqs": [1,2,3,4,5,8]

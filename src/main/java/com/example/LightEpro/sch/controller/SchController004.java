@@ -8,6 +8,7 @@ import com.example.LightEpro.sch.service.SchService004;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +31,10 @@ public class SchController004 {
         log.info("sch004 API START !!!");
         log.info("sch004 REQUEST DATA : " + schRqDto004);
 
+        // API 실행시간 체크를 위한 stopWatch 객체 생성
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+
         validApiRequest(schRqDto004);
         log.info("sch004 validApiRequest Success !!! ");
 
@@ -39,7 +44,9 @@ public class SchController004 {
         schResponse.setResponseMsg("sch004 API SUCCESS");
         schResponse.setResponseData(schService004.selectSchList(schRqDto004));
 
-        log.info("sch004 RESPONSE DATA : " + schResponse);
+        stopWatch.stop();
+        log.info("sch004 API runTime : {}", stopWatch.getTotalTimeSeconds());
+        // log.info("sch004 RESPONSE DATA : " + schResponse);
         log.info("sch004 API END !!!");
 
         return schResponse;

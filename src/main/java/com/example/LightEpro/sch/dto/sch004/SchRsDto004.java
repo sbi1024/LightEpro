@@ -12,22 +12,22 @@ public class SchRsDto004 {
     private List<SchInfo> schInfos;
     @Data
     public static class SchInfo {
-        private int schmSeq;
-        private int schSeq;
+        private String schmSeq;
+        private String schSeq;
         private String schTitle;
         private String schContent;
-        private LocalDateTime startDate;
-        private LocalDateTime endDate;
+        private String startDate;
+        private String endDate;
         private String alldayYn;
-        private int createSeq;
-        private LocalDateTime createDate;
-        private int modifySeq;
-        private LocalDateTime modifyDate;
+        private String createSeq;
+        private String createDate;
+        private String modifySeq;
+        private String modifyDate;
 
-        private int cdeSeq;
+        private String cdeSeq;
         private String cdeType;
-        private int calSeq;
-        private int schPartitionType;
+        private String calSeq;
+        private String schPartitionType;
         private String schAutority;
 
         private String calTitle;
