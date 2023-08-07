@@ -18,21 +18,48 @@ public class SchServiceImpl004 implements SchService004 {
     private final SchMapper004 schMapper004;
 
     @Override
-    public SchRsDto004 selectSchList(SchRqDto004 schRqDto004) throws Exception {
+    public SchRsDto004 findSchList(SchRqDto004 schRqDto004) throws Exception {
+        log.info("findSchList Method Start !!!");
+        log.info("findSchList Method Request Data : " + schRqDto004);
+
+        List<SchRsDto004.SchInfo> schInfos = selectSchList(schRqDto004);
+        int schInfoCnt = selectSchListCnt(schRqDto004);
+
+        SchRsDto004 schRsDto004 = SchRsDto004.builder()
+                .schInfos(schInfos)
+                .schInfoCnt(schInfoCnt)
+                .build();
+
+        log.info("findSchList Method Return Data : " + schRqDto004);
+        log.info("findSchList Method End !!!");
+        // return
+        return schRsDto004;
+    }
+
+    @Override
+    public List<SchRsDto004.SchInfo> selectSchList(SchRqDto004 schRqDto004) throws Exception {
         log.info("selectSchList Method Start !!!");
         log.info("selectSchList Method Request Data : " + schRqDto004);
 
         // 일정 목록 조회 메소드 호출
-        // 회사/부서/개인 조건 추가 및 , 참여자 테이블 매핑으로 인한 , 데이터 중복 제거 필요
         List<SchRsDto004.SchInfo> schInfos = schMapper004.selectSchList(schRqDto004);
 
-        SchRsDto004 schRsDto004 = SchRsDto004.builder()
-                .schInfos(schInfos)
-                .build();
-
-        log.info("selectSchList Method Return Data : " + schRqDto004);
+        log.info("selectSchList Method Return Data : " + schInfos);
         log.info("selectSchList Method End !!!");
         // return
-        return schRsDto004;
+        return schInfos;
+    }
+
+    @Override
+    public int selectSchListCnt(SchRqDto004 schRqDto004) throws Exception {
+        log.info("selectSchListCnt Method Start !!!");
+        log.info("selectSchListCnt Method Request Data : " + schRqDto004);
+
+        int schInfoCnt = schMapper004.selectSchListCnt(schRqDto004);
+
+        log.info("selectSchListCnt Method Return Data : " + schInfoCnt);
+        log.info("selectSchListCnt Method End !!!");
+        // return
+        return schInfoCnt;
     }
 }

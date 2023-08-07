@@ -10,6 +10,7 @@ import java.util.List;
 @Builder
 public class SchRsDto004 {
     private List<SchInfo> schInfos;
+    private int schInfoCnt;
     @Data
     public static class SchInfo {
         private String schmSeq;

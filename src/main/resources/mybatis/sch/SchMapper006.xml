@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.LightEpro.sch.mapper.SchMapper006">
+
+    <select id="checkCalExist" resultType="int">
+        /* checkCalExist */
+        SELECT COUNT(1)
+        FROM T_SC_CAL TSC
+        WHERE 1 = 1
+         AND TSC.CAL_SEQ = #{calendar.calSeq}
+         AND TSC.USE_YND = 'Y'
+    </select>
+
+    <select id="selectCalendar" resultType="com.example.LightEpro.sch.dto.sch006.SchRsDto006$Calendar">
+        /* selectCalendar */
+        SELECT IFNULL(TSC.CAL_SEQ, '')                    AS calSeq,
+               IFNULL(TSC.CAL_TITLE, '')                  AS calTitle,
+               IFNULL(TSC.CAL_CONTENT, '')                AS calContent,
+               IFNULL(TSC.CAL_COLOR, '')                  AS calColor,
+               IFNULL(TSC.CAL_TYPE, '')                   AS calType,
+               IFNULL(TSC.USE_YND, '')                    AS useYnd,
+               DATE_FORMAT(TSC.CREATE_DATE, '%Y%m%d%H%i') AS createDate,
+               IFNULL(TSC.CREATE_SEQ, '')                 AS createSeq,
+               CASE
+                   WHEN TSC.MODIFY_DATE IS NOT NULL
+                       THEN DATE_FORMAT(TSC.MODIFY_DATE, '%Y%m%d%H%i')
+                   ELSE
+                       ''
+               END                                        AS modifyDate,
+               IFNULL(TSC.MODIFY_SEQ, '')                 AS modifySeq
+        FROM T_SC_CAL TSC
+        WHERE 1 = 1
+          AND TSC.CAL_SEQ = #{calendar.calSeq}
+          AND TSC.USE_YND = 'Y'
+    </select>
+
+    <select id="selectCalendarUsers" resultType="com.example.LightEpro.sch.dto.sch006.SchRsDto006$CalendarUser">
+        /* selectCalendarUsers */
+        SELECT IFNULL(TSCU.CAL_SEQ, '')                    AS calSeq,
+               IFNULL(TSCU.CDE_SEQ, '')                    AS cdeSeq,
+               IFNULL(TSCU.CDE_TYPE, '')                   AS cdeType,
+               IFNULL(TSCU.CAL_PARTITION_TYPE, '')         AS calPartitionType,
+               IFNULL(TSCU.CAL_AUTORITY, '')               AS calAutority,
+               IFNULL(TSCU.USE_YND, '')                    AS useYnd,
+               DATE_FORMAT(TSCU.CREATE_DATE, '%Y%m%d%H%i') AS createDate,
+               IFNULL(TSCU.CREATE_SEQ, '')                 AS createSeq,
+               CASE
+                   WHEN TSCU.MODIFY_DATE IS NOT NULL
+                       THEN DATE_FORMAT(TSCU.MODIFY_DATE, '%Y%m%d%H%i')
+                   ELSE
+                       ''
+                   END                                     AS modifyDate,
+               IFNULL(TSCU.MODIFY_SEQ, '')                 AS modifySeq
+        FROM T_SC_CAL_USER TSCU
+        WHERE 1 = 1
+          AND TSCU.CAL_SEQ = #{calendar.calSeq}
+          AND TSCU.USE_YND = 'Y'
+    </select>
+
+</mapper>

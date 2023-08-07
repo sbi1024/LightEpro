@@ -36,16 +36,16 @@ public class SchServiceImpl005 implements SchService005 {
         // 캘린더 관리자 등록 메소드 호출
         int insertCalManagerRow = insertCalManager(schRqDto005);
 
-        SchRsDto005 rsDto005 = SchRsDto005.builder()
+        SchRsDto005 schRsDto005 = SchRsDto005.builder()
                 .calSeq(curSeq)
                 .insertCalRow(insertCalRow)
                 .insertCalOwnerRow(insertCalOwnerRow)
                 .insertCalManagerRow(insertCalManagerRow)
                 .build();
 
-        log.info("createCalendar Method Return Data : " + rsDto005);
+        log.info("createCalendar Method Return Data : " + schRsDto005);
         log.info("createCalendar Method End !!!");
-        return rsDto005;
+        return schRsDto005;
     }
 
     @Override

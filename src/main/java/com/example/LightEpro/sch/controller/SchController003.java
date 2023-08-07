@@ -44,9 +44,10 @@ public class SchController003 {
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setReponseCode(200);
         schResponse.setResponseMsg("sch003 API SUCCESS");
-        schResponse.setResponseData(schService003.deleteSingleSch(schRqDto003));
+        schResponse.setResponseData(schService003.removeSingleSch(schRqDto003));
 
         stopWatch.stop();
+
         log.info("sch003 API runTime : {}", stopWatch.getTotalTimeSeconds());
         log.info("sch003 RESPONSE DATA : " + schResponse);
         log.info("sch003 API END !!!");
@@ -59,9 +60,9 @@ public class SchController003 {
         // 일정 삭제 진행 전 , 요청값으로 받은 일정 시퀀스값을 통해 일정이 존재하는지 판단 후 , 존재하지 않는다면 Exception 처리
         int schCnt = schMapper003.checkSchExist(schRqDto003);
         if (schCnt == 0) {
-            log.error("$$$ sch003 validApiRequest fail !!! (NotFountSchException) $$$");
+            log.error("$$$ sch003 validApiRequest fail !!! (NotFoundSchException) $$$");
             log.error("$$$ sch003 validApiRequest fail !!! (schRqDto003 : " + schRqDto003 + ") $$$");
-            throw new ExceptionCustom.NotFountSchException();
+            throw new ExceptionCustom.NotFoundSchException();
         }
     }
 }

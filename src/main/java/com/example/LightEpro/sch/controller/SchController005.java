@@ -46,6 +46,7 @@ public class SchController005 {
         schResponse.setResponseData(schService005.createCalendar(schRqDto005));
 
         stopWatch.stop();
+
         log.info("sch005 API runTime : {}", stopWatch.getTotalTimeSeconds());
         log.info("sch005 RESPONSE DATA : " + schResponse);
         log.info("sch005 API END !!!");

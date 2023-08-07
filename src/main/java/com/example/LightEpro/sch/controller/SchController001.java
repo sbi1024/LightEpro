@@ -45,6 +45,7 @@ public class SchController001 {
 
 
         stopWatch.stop();
+
         log.info("sch001 API runTime : {}", stopWatch.getTotalTimeSeconds());
         log.info("sch001 RESPONSE DATA : " + schResponse);
         log.info("sch001 API END !!!");
@@ -57,9 +58,9 @@ public class SchController001 {
         // 일정 조회 진행 전 , 요청값으로 받은 일정 시퀀스값을 통해 일정이 존재하는지 판단 후 , 존재하지 않는다면 Exception 처리
         int schCnt = schMapper001.checkSchExist(schRqDto001);
         if (schCnt == 0) {
-            log.error("$$$ sch001 validApiRequest fail !!! (NotFountSchException) $$$");
+            log.error("$$$ sch001 validApiRequest fail !!! (NotFoundSchException) $$$");
             log.error("$$$ sch001 validApiRequest fail !!! (schRqDto001 : " + schRqDto001 + ") $$$");
-            throw new ExceptionCustom.NotFountSchException();
+            throw new ExceptionCustom.NotFoundSchException();
         }
     }
 }

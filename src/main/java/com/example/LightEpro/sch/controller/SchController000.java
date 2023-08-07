@@ -48,6 +48,7 @@ public class SchController000 {
         schResponse.setResponseData(schService000.createSingleSch(schRqDto000));
 
         stopWatch.stop();
+
         log.info("sch000 API runTime : {}", stopWatch.getTotalTimeSeconds());
         log.info("sch000 Response Data : " + schResponse);
         log.info("sch000 API End !!!");

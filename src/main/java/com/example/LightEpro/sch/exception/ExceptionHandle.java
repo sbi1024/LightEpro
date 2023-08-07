@@ -65,9 +65,9 @@ public class ExceptionHandle extends RuntimeException {
     /**
      * 일정 조회시 , 디비상 없는 일정인 경우 발생 Exception
      */
-    @ExceptionHandler(ExceptionCustom.NotFountSchException.class)
-    public SchResponse NotFountSchException(ExceptionCustom.NotFountSchException e) {
-        ExceptionCode errorCode = ExceptionCode.NOT_FOUNT_SCH_EXCEPTION;
+    @ExceptionHandler(ExceptionCustom.NotFoundSchException.class)
+    public SchResponse NotFountSchException(ExceptionCustom.NotFoundSchException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_FOUND_SCH_EXCEPTION;
         errorCode.setExceptionData(e.getMessage());
 
         SchResponse schResponse = new SchResponse();
@@ -147,6 +147,28 @@ public class ExceptionHandle extends RuntimeException {
 
         log.error("$$$ ExceptionCustom.NotValidCalSeqsException !!! (Exception) $$$");
         log.error("$$$ NotValidCalSeqsException !!! (schResponse : " + schResponse + ") $$$");
+
+        e.printStackTrace();
+        e.getMessage();
+
+        return schResponse;
+    }
+    /**
+     * 캘린더 조회시 , 디비상 없는 캘린더인 경우 발생 Exception
+     */
+    @ExceptionHandler(ExceptionCustom.NotFoundCalException.class)
+    public SchResponse NotFoundCalException(ExceptionCustom.NotFoundCalException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_FOUND_CAL_EXCEPTION;
+        errorCode.setExceptionData(e.getMessage());
+
+        SchResponse schResponse = new SchResponse();
+        schResponse.setResponseStatus(errorCode.getExceptionStatus());
+        schResponse.setReponseCode(errorCode.getExceptionCode());
+        schResponse.setResponseMsg(errorCode.getExceptionMsg());
+        schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ ExceptionCustom.NotFoundCalException !!! (Exception) $$$");
+        log.error("$$$ NotFoundCalException !!! (schResponse : " + schResponse + ") $$$");
 
         e.printStackTrace();
         e.getMessage();

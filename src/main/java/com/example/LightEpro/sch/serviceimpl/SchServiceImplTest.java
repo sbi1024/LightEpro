@@ -17,7 +17,7 @@ public class SchServiceImplTest implements SchServiceTest {
 
     @Override
     public Object createTestSch(SchRqDto000 schRqDto000) throws Exception{
-        for(int i = 0 ; i < 20000; i++){
+        for(int i = 0 ; i < 1000; i++){
             schServiceImpl000.createSingleSch(schRqDto000);
         }
         return null;

@@ -16,7 +16,7 @@ public class SchRqDto004 {
     @NotNull
     private @Valid Sch sch;
     @NotNull
-    private @Valid Calendar cal;
+    private @Valid Calendar calendar;
 
     @Data
     public static class Emp {
