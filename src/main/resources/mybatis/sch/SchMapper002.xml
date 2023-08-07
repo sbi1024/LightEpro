@@ -28,10 +28,10 @@
           AND TSSU.SCH_PARTITION_TYPE IN ('10','20')
     </delete>
 
-    <select id="findCreateSeqBySchmSeqAndSchSeq"
+    <select id="findCreateInfoBySchmSeqAndSchSeq"
             parameterType="com.example.LightEpro.sch.dto.sch002.SchRqDto002$Sch"
             resultType="com.example.LightEpro.sch.dto.sch002.SchRqDto002$Sch">
-        /* findCreateSeqBySchmSeqAndSchSeq */
+        /* findCreateInfoBySchmSeqAndSchSeq */
         SELECT TSS.CREATE_SEQ AS createSeq ,
                TSS.CREATE_DATE AS createDate
         FROM T_SC_SCH TSS

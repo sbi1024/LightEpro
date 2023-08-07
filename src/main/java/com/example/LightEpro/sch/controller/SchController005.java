@@ -43,7 +43,7 @@ public class SchController005 {
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setReponseCode(200);
         schResponse.setResponseMsg("sch005 API SUCCESS");
-        schResponse.setResponseData(schService005.createCalendar(schRqDto005));
+        schResponse.setResponseData(schService005.createSingleCal(schRqDto005));
 
         stopWatch.stop();
 
@@ -61,7 +61,7 @@ public class SchController005 {
         SchRqDto005.Owner owner = schRqDto005.getOwner();
         List<SchRqDto005.Manager> managers = schRqDto005.getManagers();
         // 사원 시퀀스 추출
-        int empSeq = schRqDto005.getEmp().getEmpSeq();
+        int empSeq = emp.getEmpSeq();
         // 캘린더 타입 추출
         String calType = calender.getCalType();
         // 소유자 시퀀스 추출

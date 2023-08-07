@@ -11,9 +11,9 @@ import javax.validation.constraints.Positive;
 @Data
 public class SchRqDto006 {
     @NotNull
-    private @Valid SchRqDto001.Emp emp;
+    private @Valid Emp emp;
     @NotNull
-    private @Valid SchRqDto002.Calendar calendar;
+    private @Valid Calendar calendar;
 
     @Data
     public static class Emp {

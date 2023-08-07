@@ -8,6 +8,7 @@ import com.example.LightEpro.sch.service.SchService006;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,10 +17,11 @@ import java.util.List;
 @Slf4j
 public class SchServiceImpl006 implements SchService006 {
     private final SchMapper006 schMapper006;
+    @Transactional(rollbackFor = {Exception.class})
     @Override
-    public SchRsDto006 findSingleCalendar(SchRqDto006 schRqDto006) throws Exception {
-        log.info("findSingleCalendar Method Start !!!");
-        log.info("findSingleCalendar Method Request Data : " + schRqDto006);
+    public SchRsDto006 findSingleCal(SchRqDto006 schRqDto006) throws Exception {
+        log.info("findSingleCal Method Start !!!");
+        log.info("findSingleCal Method Request Data : " + schRqDto006);
 
         SchRsDto006.Calendar calendar = findCalendar(schRqDto006);
         List<SchRsDto006.CalendarUser> calendarUsers = findCalendarUsers(schRqDto006);
@@ -29,8 +31,8 @@ public class SchServiceImpl006 implements SchService006 {
                 .calUsers(calendarUsers)
                 .build();
 
-        log.info("findSingleCalendar Method Return Data : " + schRsDto006);
-        log.info("findSingleCalendar Method End !!!");
+        log.info("findSingleCal Method Return Data : " + schRsDto006);
+        log.info("findSingleCal Method End !!!");
         // return
         return schRsDto006;
     }

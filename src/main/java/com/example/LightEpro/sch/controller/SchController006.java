@@ -45,7 +45,7 @@ public class SchController006 {
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setReponseCode(200);
         schResponse.setResponseMsg("sch006 API SUCCESS");
-        schResponse.setResponseData(schService006.findSingleCalendar(schRqDto006));
+        schResponse.setResponseData(schService006.findSingleCal(schRqDto006));
 
         stopWatch.stop();
 

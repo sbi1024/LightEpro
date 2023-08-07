@@ -96,11 +96,11 @@ public class SchServiceImpl002 implements SchService002 {
         // 일정 시퀀스 값 할당
         int curSeq = sch.getSchmSeq();
         // 본래 일정의 createSeq , createDate 값을 추출
-        SchRqDto002.Sch createSeqBySchmSeqAndSchSeq = schMapper002.findCreateSeqBySchmSeqAndSchSeq(schRqDto002);
+        SchRqDto002.Sch createInfo = schMapper002.findCreateInfoBySchmSeqAndSchSeq(schRqDto002);
         // originCreateSeq 추출
-        int originSchCreateSeq = createSeqBySchmSeqAndSchSeq.getCreateSeq();
+        int originSchCreateSeq = createInfo.getCreateSeq();
         // originSchCreateDate 추출
-        LocalDateTime originSchCreateDate = createSeqBySchmSeqAndSchSeq.getCreateDate();
+        LocalDateTime originSchCreateDate = createInfo.getCreateDate();
         // sch 객체에 originSchCreateSeq / originSchCreateDate 값 할당
         sch.setCreateSeq(originSchCreateSeq);
         sch.setCreateDate(originSchCreateDate);

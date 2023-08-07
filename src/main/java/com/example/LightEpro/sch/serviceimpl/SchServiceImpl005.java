@@ -20,9 +20,9 @@ public class SchServiceImpl005 implements SchService005 {
 
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public SchRsDto005 createCalendar(SchRqDto005 schRqDto005) throws Exception {
-        log.info("createCalendar Method Start !!!");
-        log.info("createCalendar Method Request Data : " + schRqDto005);
+    public SchRsDto005 createSingleCal(SchRqDto005 schRqDto005) throws Exception {
+        log.info("createSingleCal Method Start !!!");
+        log.info("createSingleCal Method Request Data : " + schRqDto005);
 
         // 캘린더 등록을 위한 캘린더 시퀀스 값 추출
         int curSeq = findCurrentCalValue();
@@ -43,8 +43,8 @@ public class SchServiceImpl005 implements SchService005 {
                 .insertCalManagerRow(insertCalManagerRow)
                 .build();
 
-        log.info("createCalendar Method Return Data : " + schRsDto005);
-        log.info("createCalendar Method End !!!");
+        log.info("createSingleCal Method Return Data : " + schRsDto005);
+        log.info("createSingleCal Method End !!!");
         return schRsDto005;
     }
 

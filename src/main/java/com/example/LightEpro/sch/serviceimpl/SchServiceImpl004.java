@@ -7,6 +7,7 @@ import com.example.LightEpro.sch.service.SchService004;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 public class SchServiceImpl004 implements SchService004 {
     private final SchMapper004 schMapper004;
 
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public SchRsDto004 findSchList(SchRqDto004 schRqDto004) throws Exception {
         log.info("findSchList Method Start !!!");

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface SchMapper002 {
-    SchRqDto002.Sch findCreateSeqBySchmSeqAndSchSeq(SchRqDto002 schRqDto002) throws Exception;
+    SchRqDto002.Sch findCreateInfoBySchmSeqAndSchSeq(SchRqDto002 schRqDto002) throws Exception;
 
     int deleteSchUsers(SchRqDto002 schRqDto002) throws Exception;
 
