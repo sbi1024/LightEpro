@@ -1,12 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.LightEpro.sch.mapper.SchMapper007">
-    <select id="findCreateInfoByCalSeq" resultType="com.example.LightEpro.sch.dto.sch007.SchRqDto007$Calender">
+    <select id="findCalCreateInfoByCalSeq" resultType="com.example.LightEpro.sch.dto.sch007.SchRqDto007$Calender">
+        /* findCalCreateInfoByCalSeq */
         SELECT TSC.CREATE_SEQ  AS createSeq,
                TSC.CREATE_DATE AS createDate
         FROM T_SC_CAL TSC
         WHERE 1 = 1
           AND TSC.CAL_SEQ = #{calSeq}
+          AND TSC.USE_YND = 'Y'
+    </select>
+
+    <select id="findCalUsersInfoByCalSeq" resultType="com.example.LightEpro.sch.dto.sch007.SchRqDto007$CalendarUser">
+        /* findCalUsersInfoByCalSeq */
+        SELECT IFNULL(TSCU.CAL_SEQ, '')                    AS calSeq,
+               IFNULL(TSCU.CDE_SEQ, '')                    AS cdeSeq,
+               IFNULL(TSCU.CDE_TYPE, '')                   AS cdeType,
+               IFNULL(TSCU.CAL_PARTITION_TYPE, '')         AS calPartitionType,
+               IFNULL(TSCU.CAL_AUTORITY, '')               AS calAutority,
+               IFNULL(TSCU.USE_YND, '')                    AS useYnd,
+               DATE_FORMAT(TSCU.CREATE_DATE, '%Y%m%d%H%i') AS createDate,
+               IFNULL(TSCU.CREATE_SEQ, '')                 AS createSeq,
+               CASE
+                   WHEN TSCU.MODIFY_DATE IS NOT NULL
+                       THEN DATE_FORMAT(TSCU.MODIFY_DATE, '%Y%m%d%H%i')
+                   ELSE
+                       ''
+                   END                                     AS modifyDate,
+               IFNULL(TSCU.MODIFY_SEQ, '')                 AS modifySeq
+        FROM T_SC_CAL_USER TSCU
+        WHERE 1 = 1
+          AND TSCU.CAL_SEQ = #{calendar.calSeq}
+          AND TSCU.USE_YND = 'Y'
+          AND TSCU.CAL_PARTITION_TYPE != '100'
+          AND TSCU.CAL_AUTORITY != 'M'
+    </select>
+
+    <select id="updateSingleCal" resultType="int">
+        /* updateSingleCal */
+        UPDATE T_SC_CAL TSC
+        SET TSC.CAL_TITLE   = #{calender.calTitle},
+            TSC.CAL_TYPE    = #{calender.calType},
+            TSC.CAL_CONTENT = #{calender.calContent},
+            TSC.CAL_COLOR   = #{calender.calColor},
+            TSC.MODIFY_DATE = NOW(),
+            TSC.MODIFY_SEQ  = #{emp.empSeq}
+        WHERE 1 = 1
+          AND TSC.CAL_SEQ = #{calender.calSeq}
           AND TSC.USE_YND = 'Y'
     </select>
 </mapper>

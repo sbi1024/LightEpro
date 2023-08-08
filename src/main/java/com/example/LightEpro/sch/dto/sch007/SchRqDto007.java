@@ -1,6 +1,5 @@
 package com.example.LightEpro.sch.dto.sch007;
 
-import com.example.LightEpro.sch.dto.sch005.SchRqDto005;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -19,6 +18,12 @@ public class SchRqDto007 {
     @NotNull
     private @Valid Owner owner;
     private @Valid List<Manager> managers;
+
+
+    private List<CalendarUser> calUsers;
+    private List<SchRqDto007.CalendarUser> originMatchCalendarUsers;
+    private List<SchRqDto007.CalendarUser> originNonMatchCalendarUsers;
+    private List<SchRqDto007.Manager> newNonMatchCalendarUsers;
 
     @Data
     public static class Emp {
@@ -61,5 +66,19 @@ public class SchRqDto007 {
         private int createSeq;
         private LocalDateTime createDate;
         private int modifySeq;
+    }
+
+    @Data
+    public static class CalendarUser {
+        private String calSeq;
+        private String cdeSeq;
+        private String cdeType;
+        private String calPartitionType;
+        private String calAutority;
+        private String useYnd;
+        private String createDate;
+        private String createSeq;
+        private String modifyDate;
+        private String modifySeq;
     }
 }

@@ -50,6 +50,7 @@ public class SchController007 {
     }
 
     // sch007 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
+    // TODO 캘린더 수정 진행시에 , 소유자 정보가 변경되는지 확인
     public void validApiRequest(SchRqDto007 schRqDto007) throws Exception {
 
     }
