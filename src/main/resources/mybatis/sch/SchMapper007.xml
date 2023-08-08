@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.LightEpro.sch.mapper.SchMapper007">
-    <select id="findCalCreateInfoByCalSeq" resultType="com.example.LightEpro.sch.dto.sch007.SchRqDto007$Calender">
+    <select id="findCalCreateInfoByCalSeq" resultType="com.example.LightEpro.sch.dto.sch007.SchRqDto007$Calendar">
         /* findCalCreateInfoByCalSeq */
         SELECT TSC.CREATE_SEQ  AS createSeq,
                TSC.CREATE_DATE AS createDate
@@ -36,17 +36,74 @@
           AND TSCU.CAL_AUTORITY != 'M'
     </select>
 
-    <select id="updateSingleCal" resultType="int">
+    <update id="updateSingleCal" parameterType="com.example.LightEpro.sch.dto.sch007.SchRqDto007">
         /* updateSingleCal */
         UPDATE T_SC_CAL TSC
-        SET TSC.CAL_TITLE   = #{calender.calTitle},
-            TSC.CAL_TYPE    = #{calender.calType},
-            TSC.CAL_CONTENT = #{calender.calContent},
-            TSC.CAL_COLOR   = #{calender.calColor},
+        SET TSC.CAL_TITLE   = #{calendar.calTitle},
+            TSC.CAL_TYPE    = #{calendar.calType},
+            TSC.CAL_CONTENT = #{calendar.calContent},
+            TSC.CAL_COLOR   = #{calendar.calColor},
             TSC.MODIFY_DATE = NOW(),
             TSC.MODIFY_SEQ  = #{emp.empSeq}
         WHERE 1 = 1
-          AND TSC.CAL_SEQ = #{calender.calSeq}
+          AND TSC.CAL_SEQ = #{calendar.calSeq}
           AND TSC.USE_YND = 'Y'
-    </select>
+    </update>
+
+    <update id="updateNonMatchManagers" parameterType="com.example.LightEpro.sch.dto.sch007.SchRqDto007">
+        /* updateNonMatchManagers */
+        UPDATE T_SC_CAL_USER TSCU
+        SET TSCU.USE_YND = 'N' ,
+            TSCU.MODIFY_DATE = NOW(),
+            TSCU.MODIFY_SEQ = #{emp.empSeq}
+        WHERE 1 = 1
+         AND (
+                 <foreach collection="originNonMatchCalendarUsers" item="calendarUser" open="(" separator="OR" close=")">
+                       TSCU.CAL_SEQ = #{calendarUser.calSeq}
+                       AND TSCU.CDE_SEQ = #{calendarUser.cdeSeq}
+                       AND TSCU.CDE_TYPE = #{calendarUser.cdeType}
+                       AND TSCU.CAL_PARTITION_TYPE = #{calendarUser.calPartitionType}
+                 </foreach>
+             )
+    </update>
+
+    <update id="updateOriginMatchManagers" parameterType="com.example.LightEpro.sch.dto.sch007.SchRqDto007">
+        /* updateOriginMatchManagers */
+        UPDATE T_SC_CAL_USER TSCU
+        SET TSCU.MODIFY_DATE = NOW(),
+            TSCU.MODIFY_SEQ = #{emp.empSeq}
+        WHERE 1 = 1
+         AND (
+                 <foreach collection="originNonMatchCalendarUsers" item="calendarUser" open="(" separator="OR" close=")">
+                       TSCU.CAL_SEQ = #{calendarUser.calSeq}
+                       AND TSCU.CDE_SEQ = #{calendarUser.cdeSeq}
+                       AND TSCU.CDE_TYPE = #{calendarUser.cdeType}
+                       AND TSCU.CAL_PARTITION_TYPE = #{calendarUser.calPartitionType}
+                 </foreach>
+             )
+    </update>
+
+    <insert id="insertNewNonMatchManagers" parameterType="com.example.LightEpro.sch.dto.sch007.SchRqDto007">
+        /* insertNewNonMatchManagers */
+        INSERT INTO T_SC_CAL_USER (CAL_SEQ,
+                                   CDE_SEQ,
+                                   CDE_TYPE,
+                                   CAL_PARTITION_TYPE,
+                                   CAL_AUTORITY,
+                                   USE_YND,
+                                   CREATE_DATE,
+                                   CREATE_SEQ)
+        VALUES <foreach collection="newNonMatchCalendarUsers" item="manager" separator=",">
+                    (
+                        #{manager.calSeq},
+                        #{manager.cdeSeq},
+                        #{manager.cdeType},
+                        200,
+                        'W',
+                        'Y',
+                        NOW(),
+                        #{emp.empSeq}
+                    )
+                </foreach>
+    </insert>
 </mapper>
