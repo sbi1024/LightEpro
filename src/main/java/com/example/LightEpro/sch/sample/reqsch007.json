@@ -2,10 +2,10 @@
   "emp": {
     "empSeq": 1000
   },
-  "calender": {
-    "calSeq" : "11",
+  "calendar": {
+    "calSeq": "13",
     "calTitle": "공유 캘린더 수정 테스트",
-    "calType": "E",
+    "calType": "M",
     "calContent": "공유 캘린더 수정 테스트",
     "calColor": null
   },
@@ -16,6 +16,18 @@
   "managers": [
     {
       "cdeSeq": 2000,
+      "cdeType": "E"
+    },
+    {
+      "cdeSeq": 3000,
+      "cdeType": "E"
+    },
+    {
+      "cdeSeq": 4000,
+      "cdeType": "E"
+    },
+    {
+      "cdeSeq": 5000,
       "cdeType": "E"
     }
   ]

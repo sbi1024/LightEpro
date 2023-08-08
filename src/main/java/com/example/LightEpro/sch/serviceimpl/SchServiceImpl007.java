@@ -27,11 +27,15 @@ public class SchServiceImpl007 implements SchService007 {
         log.info("modifySingleCal Method Start !!!");
         log.info("modifySingleCal Method Request Data : " + schRqDto007);
 
-        // 하기 메소드 실행을 위한 객체 데이터 재 할당 진행
-        int curSeq = assignObject(schRqDto007);
+        // 캘린더 시퀀스 추출
+        int calSeq = schRqDto007.getCalendar().getCalSeq();
 
+        // 캘린더 구성원 일치 / 비일치를 확인한다
+        checkCalUsers(schRqDto007);
         // 캘린더 정보를 수정 한다
-        int updateSingleCalCnt = updateSingleCal(schRqDto007);
+        int modifyCalDetailInfoCnt = modifyCalDetailInfo(schRqDto007);
+        // 캘린더 소유자 정보를 수정 한다
+        int modifyCalOwnerCnt = modifyCalOwner(schRqDto007);
         // 캘린더 관리자 정보를 삭제 한다
         int removeCalManagersCnt = removeCalManagers(schRqDto007);
         // 캘린더 관리자 정보를 수정 한다
@@ -42,8 +46,9 @@ public class SchServiceImpl007 implements SchService007 {
 
         // schRsDto007 객체 builder 패턴을 통해 객체 생성
         SchRsDto007 schRsDto007 = SchRsDto007.builder()
-                .calSeq(curSeq)
-                .updateSingleCalCnt(updateSingleCalCnt)
+                .calSeq(calSeq)
+                .modifyCalDetailInfoCnt(modifyCalDetailInfoCnt)
+                .modifyCalOwnerCnt(modifyCalOwnerCnt)
                 .removeCalManagersCnt(removeCalManagersCnt)
                 .modifyCalManagersCnt(modifyCalManagersCnt)
                 .createCalManagersCnt(createCalManagersCnt)
@@ -58,49 +63,6 @@ public class SchServiceImpl007 implements SchService007 {
     }
 
     @Override
-    public int assignObject(SchRqDto007 schRqDto007) throws Exception {
-        // method start log
-        log.info("assignObject Method Start !!!");
-        log.info("assignObject Method Request Data : " + schRqDto007);
-
-        // 캘린더 구성원 일치/비일치 검증
-        checkCalUsers(schRqDto007);
-
-        // schRqDto007 객체의 멤버 변수 추출
-        SchRqDto007.Emp emp = schRqDto007.getEmp();
-        SchRqDto007.Calendar calendar = schRqDto007.getCalendar();
-        List<SchRqDto007.Manager> managers = schRqDto007.getManagers();
-
-        // 캘린더 최초 등록관련 정보 조회
-        SchRqDto007.Calendar createInfo = schMapper007.findCalCreateInfoByCalSeq(calendar);
-
-        // 캘린더 최초 등록 관련 정보 추출
-        int curSeq = calendar.getCalSeq(); // 캘린더 시퀀스
-        int createSeq = createInfo.getCreateSeq(); // 캘린더 등록자 시퀀스
-        LocalDateTime createDate = createInfo.getCreateDate(); // 캘린더 등록일자
-
-        // empSeq 값 추출
-        int empSeq = emp.getEmpSeq();
-        // Calendar 객체에 empSeq 값 할당
-        calendar.setModifySeq(empSeq);
-
-        // 캘린더 관리자 데이터 재 할당
-        if (managers != null && managers.size() > 0) {
-            for (SchRqDto007.Manager manager : managers) {
-                manager.setCalSeq(curSeq);
-                manager.setCreateDate(createDate);
-                manager.setCreateSeq(createSeq);
-                manager.setModifySeq(empSeq);
-            }
-        }
-
-        // method end log
-        log.info("assignObject Method Result Data : " + curSeq);
-        log.info("assignObject Method End !!!");
-        return curSeq;
-    }
-
-    @Override
     public void checkCalUsers(SchRqDto007 schRqDto007) throws Exception {
         log.info("checkCalUsers Method Start !!!");
         log.info("checkCalUsers Method Request Data : " + schRqDto007);
@@ -108,6 +70,7 @@ public class SchServiceImpl007 implements SchService007 {
         // 기존에 존재하는 캘린더 구성원 데이터 (소유자 정보 제외)
         List<SchRqDto007.CalendarUser> calendarUsers = schMapper007.findCalUsersInfoByCalSeq(schRqDto007);
         List<SchRqDto007.Manager> managers = schRqDto007.getManagers();
+
         // 요청값의 캘린더 관리자 정보가 null 이거나 size 0 인경우 메소드 return
         if (managers == null || managers.size() == 0) {
             return;
@@ -133,7 +96,11 @@ public class SchServiceImpl007 implements SchService007 {
     @Override
     public List<SchRqDto007.CalendarUser> checkOriginMatchCalUsers(List<SchRqDto007.CalendarUser> calendarUsers,
                                                                    List<SchRqDto007.Manager> managers) throws Exception {
-        // 반복문을 통해 일치 데이터 확인
+        // method start log
+        log.info("checkOriginMatchCalUsers Method Start !!!");
+        log.info("checkOriginMatchCalUsers Method calendarUsers : " + calendarUsers + " managers : " + managers);
+
+        // stream을 통해 일치 데이터 확인
         List<SchRqDto007.CalendarUser> originMatchCalendarUsers = calendarUsers.stream()
                 .filter(calUser ->
                         managers.stream().anyMatch(
@@ -145,6 +112,10 @@ public class SchServiceImpl007 implements SchService007 {
                 )
                 .collect(Collectors.toList());
 
+        // method end log
+        log.info("checkOriginMatchCalUsers Method Result Data : " + originMatchCalendarUsers);
+        log.info("checkOriginMatchCalUsers Method End !!!");
+
         return originMatchCalendarUsers;
     }
 
@@ -152,7 +123,11 @@ public class SchServiceImpl007 implements SchService007 {
     @Override
     public List<SchRqDto007.CalendarUser> checkOriginNonMatchCalUsers(List<SchRqDto007.CalendarUser> calendarUsers,
                                                                       List<SchRqDto007.Manager> managers) throws Exception {
-        // 반복문을 통해 비 일치 데이터 확인
+        // method start log
+        log.info("checkOriginNonMatchCalUsers Method Start !!!");
+        log.info("checkOriginNonMatchCalUsers Method calendarUsers : " + calendarUsers + " managers : " + managers);
+
+        // stream을 통해 비 일치 데이터 확인
         List<SchRqDto007.CalendarUser> originNonMatchCalendarUsers = calendarUsers.stream()
                 .filter(calUser ->
                         managers.stream().noneMatch(
@@ -163,6 +138,12 @@ public class SchServiceImpl007 implements SchService007 {
                         )
                 )
                 .collect(Collectors.toList());
+
+        // method end log
+        log.info("checkNewNonMatchCalUsers Method Result Data : " + originNonMatchCalendarUsers);
+        log.info("checkNewNonMatchCalUsers Method End !!!");
+
+        // return
         return originNonMatchCalendarUsers;
     }
 
@@ -170,7 +151,11 @@ public class SchServiceImpl007 implements SchService007 {
     @Override
     public List<SchRqDto007.Manager> checkNewNonMatchCalUsers(List<SchRqDto007.CalendarUser> calendarUsers,
                                                               List<SchRqDto007.Manager> managers) throws Exception {
-        // 반복문을 통해 비 일치 데이터 확인
+        // method start log
+        log.info("checkNewNonMatchCalUsers Method Start !!!");
+        log.info("checkNewNonMatchCalUsers Method calendarUsers : " + calendarUsers + " managers : " + managers);
+
+        // stream을 통해 비 일치 데이터 확인
         List<SchRqDto007.Manager> newNonMatchCalendarUsers = managers.stream()
                 .filter(manager ->
                         calendarUsers.stream().noneMatch(
@@ -181,27 +166,50 @@ public class SchServiceImpl007 implements SchService007 {
                         )
                 )
                 .collect(Collectors.toList());
+
+        // method end log
+        log.info("checkNewNonMatchCalUsers Method Result Data : " + newNonMatchCalendarUsers);
+        log.info("checkNewNonMatchCalUsers Method End !!!");
+
+        // return
         return newNonMatchCalendarUsers;
     }
 
     @Override
-    public int updateSingleCal(SchRqDto007 schRqDto007) throws Exception {
+    public int modifyCalDetailInfo(SchRqDto007 schRqDto007) throws Exception {
         // method start log
-        log.info("updateSingleCal Method Start !!!");
-        log.info("updateSingleCal Method Request Data : " + schRqDto007);
+        log.info("modifyCalDetailInfo Method Start !!!");
+        log.info("modifyCalDetailInfo Method Request Data : " + schRqDto007);
 
-        int updateSingleCalCnt = schMapper007.updateSingleCal(schRqDto007);
+        int updateCalDetailInfoCnt = schMapper007.updateCalDetailInfo(schRqDto007);
 
         // method end log
-        log.info("updateSingleCal Method Start !!!");
-        log.info("updateSingleCal Method Request Data : " + updateSingleCalCnt);
+        log.info("modifyCalDetailInfo Method Start !!!");
+        log.info("modifyCalDetailInfo Method Request Data : " + updateCalDetailInfoCnt);
 
         // return
-        return updateSingleCalCnt;
+        return updateCalDetailInfoCnt;
+    }
+
+    @Override
+    public int modifyCalOwner(SchRqDto007 schRqDto007) throws Exception {
+        // method start log
+        log.info("removeCalManagers Method Start !!!");
+        log.info("removeCalManagers Method Request Data : " + schRqDto007);
+
+        int updateCalOwnerCnt = schMapper007.updateCalOwner(schRqDto007);
+
+        // method end log
+        log.info("removeCalManagers Method Start !!!");
+        log.info("removeCalManagers Method Request Data : " + updateCalOwnerCnt);
+
+        // return
+        return updateCalOwnerCnt;
     }
 
     @Override
     public int removeCalManagers(SchRqDto007 schRqDto007) throws Exception {
+        // method start log
         log.info("removeCalManagers Method Start !!!");
         log.info("removeCalManagers Method Request Data : " + schRqDto007);
 
@@ -212,14 +220,17 @@ public class SchServiceImpl007 implements SchService007 {
 
         int updateManagersCnt = schMapper007.updateNonMatchManagers(schRqDto007);
 
+        // method end log
         log.info("removeCalManagers Method Start !!!");
         log.info("removeCalManagers Method Request Data : " + updateManagersCnt);
+
         // return
         return updateManagersCnt;
     }
 
     @Override
     public int modifyCalManagers(SchRqDto007 schRqDto007) throws Exception {
+        // method start log
         log.info("modifyCalManagers Method Start !!!");
         log.info("modifyCalManagers Method Request Data : " + schRqDto007);
 
@@ -230,14 +241,17 @@ public class SchServiceImpl007 implements SchService007 {
 
         int updateManagersCnt = schMapper007.updateOriginMatchManagers(schRqDto007);
 
+        // method end log
         log.info("modifyCalManagers Method Start !!!");
         log.info("modifyCalManagers Method Request Data : " + updateManagersCnt);
+
         // return
         return updateManagersCnt;
     }
 
     @Override
     public int createCalManagers(SchRqDto007 schRqDto007) throws Exception {
+        // method start log
         log.info("createCalManagers Method Start !!!");
         log.info("createCalManagers Method Request Data : " + schRqDto007);
 
@@ -248,8 +262,10 @@ public class SchServiceImpl007 implements SchService007 {
 
         int insertManagersCnt = schMapper007.insertNewNonMatchManagers(schRqDto007);
 
+        // method end log
         log.info("createCalManagers Method Start !!!");
         log.info("createCalManagers Method Request Data : " + insertManagersCnt);
+
         // return
         return insertManagersCnt;
     }

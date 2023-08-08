@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.LightEpro.sch.mapper.SchMapper007">
-    <select id="findCalCreateInfoByCalSeq" resultType="com.example.LightEpro.sch.dto.sch007.SchRqDto007$Calendar">
-        /* findCalCreateInfoByCalSeq */
-        SELECT TSC.CREATE_SEQ  AS createSeq,
-               TSC.CREATE_DATE AS createDate
-        FROM T_SC_CAL TSC
-        WHERE 1 = 1
-          AND TSC.CAL_SEQ = #{calSeq}
-          AND TSC.USE_YND = 'Y'
-    </select>
-
     <select id="findCalUsersInfoByCalSeq" resultType="com.example.LightEpro.sch.dto.sch007.SchRqDto007$CalendarUser">
         /* findCalUsersInfoByCalSeq */
         SELECT IFNULL(TSCU.CAL_SEQ, '')                    AS calSeq,
@@ -36,8 +26,8 @@
           AND TSCU.CAL_AUTORITY != 'M'
     </select>
 
-    <update id="updateSingleCal" parameterType="com.example.LightEpro.sch.dto.sch007.SchRqDto007">
-        /* updateSingleCal */
+    <update id="updateCalDetailInfo" parameterType="com.example.LightEpro.sch.dto.sch007.SchRqDto007">
+        /* updateCalDetailInfo */
         UPDATE T_SC_CAL TSC
         SET TSC.CAL_TITLE   = #{calendar.calTitle},
             TSC.CAL_TYPE    = #{calendar.calType},
@@ -48,6 +38,19 @@
         WHERE 1 = 1
           AND TSC.CAL_SEQ = #{calendar.calSeq}
           AND TSC.USE_YND = 'Y'
+    </update>
+
+    <update id="updateCalOwner">
+        /* updateCalOwner */
+        UPDATE T_SC_CAL_USER TSCU
+        SET TSCU.MODIFY_DATE = NOW(),
+            TSCU.MODIFY_SEQ  = #{emp.empSeq}
+        WHERE 1 = 1
+          AND TSCU.CAL_SEQ = #{calendar.calSeq}
+          AND TSCU.CAL_PARTITION_TYPE = '100'
+          AND TSCU.CAL_AUTORITY = 'M'
+          AND TSCU.USE_YND = 'Y'
+
     </update>
 
     <update id="updateNonMatchManagers" parameterType="com.example.LightEpro.sch.dto.sch007.SchRqDto007">
@@ -74,7 +77,7 @@
             TSCU.MODIFY_SEQ = #{emp.empSeq}
         WHERE 1 = 1
          AND (
-                 <foreach collection="originNonMatchCalendarUsers" item="calendarUser" open="(" separator="OR" close=")">
+                 <foreach collection="originMatchCalendarUsers" item="calendarUser" open="(" separator="OR" close=")">
                        TSCU.CAL_SEQ = #{calendarUser.calSeq}
                        AND TSCU.CDE_SEQ = #{calendarUser.cdeSeq}
                        AND TSCU.CDE_TYPE = #{calendarUser.cdeType}
@@ -95,7 +98,7 @@
                                    CREATE_SEQ)
         VALUES <foreach collection="newNonMatchCalendarUsers" item="manager" separator=",">
                     (
-                        #{manager.calSeq},
+                        #{calendar.calSeq},
                         #{manager.cdeSeq},
                         #{manager.cdeType},
                         200,

@@ -7,7 +7,8 @@ import lombok.Data;
 @Builder
 public class SchRsDto007 {
     private int calSeq;
-    private int updateSingleCalCnt;
+    private int modifyCalDetailInfoCnt;
+    private int modifyCalOwnerCnt;
     private int removeCalManagersCnt;
     private int modifyCalManagersCnt;
     private int createCalManagersCnt;

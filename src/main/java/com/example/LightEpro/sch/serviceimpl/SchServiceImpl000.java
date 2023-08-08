@@ -82,6 +82,7 @@ public class SchServiceImpl000 implements SchService000 {
     public void assignObject(int curSeq, SchRqDto000 schRqDto000) throws Exception {
         log.info("assignObject Method Start !!!");
         log.info("assignObject Method Request Data : " + "curSeq : " + curSeq + "," + "schRqDto000 :" + schRqDto000);
+
         // schRqDto000 객체로 부터 내부 클래스 객체 생성
         SchRqDto000.Emp emp = schRqDto000.getEmp();
         SchRqDto000.Sch sch = schRqDto000.getSch();
