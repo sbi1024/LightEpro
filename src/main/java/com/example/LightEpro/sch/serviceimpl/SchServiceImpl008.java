@@ -24,9 +24,9 @@ public class SchServiceImpl008 implements SchService008 {
 
         // 캘린더 시퀀스 추출
         int calSeq = schRqDto008.getCalendar().getCalSeq();
-        // 캘린더 정보를 삭제한다.
+        // 캘린더 정보를 삭제한다
         int removeCalDetailInfoCnt = removeCalDetailInfo(schRqDto008);
-        // 캘린더 구성원 들을 삭제한다.
+        // 캘린더 구성원을 삭제한다
         int removeCalUsersCnt = removeCalUsers(schRqDto008);
 
         // schRsDto008 객체 builder 패턴을 통해 객체 생성
