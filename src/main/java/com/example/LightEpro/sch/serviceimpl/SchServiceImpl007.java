@@ -1,6 +1,5 @@
 package com.example.LightEpro.sch.serviceimpl;
 
-import com.example.LightEpro.sch.dto.sch005.SchRqDto005;
 import com.example.LightEpro.sch.dto.sch007.SchRqDto007;
 import com.example.LightEpro.sch.dto.sch007.SchRsDto007;
 import com.example.LightEpro.sch.mapper.SchMapper007;
@@ -10,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,7 +40,6 @@ public class SchServiceImpl007 implements SchService007 {
         int modifyCalManagersCnt = modifyCalManagers(schRqDto007);
         // 캘린더 관리자 정보를 등록 한다
         int createCalManagersCnt = createCalManagers(schRqDto007);
-
 
         // schRsDto007 객체 builder 패턴을 통해 객체 생성
         SchRsDto007 schRsDto007 = SchRsDto007.builder()

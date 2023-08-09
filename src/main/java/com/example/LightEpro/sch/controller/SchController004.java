@@ -1,6 +1,5 @@
 package com.example.LightEpro.sch.controller;
 
-import com.example.LightEpro.sch.dto.sch001.SchRqDto001;
 import com.example.LightEpro.sch.dto.sch004.SchRqDto004;
 import com.example.LightEpro.sch.exception.ExceptionCustom;
 import com.example.LightEpro.sch.response.SchResponse;

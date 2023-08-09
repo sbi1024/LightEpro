@@ -1,12 +1,9 @@
 package com.example.LightEpro.sch.controller;
 
-import com.example.LightEpro.sch.constant.ConstValue;
-import com.example.LightEpro.sch.dto.sch005.SchRqDto005;
 import com.example.LightEpro.sch.dto.sch006.SchRqDto006;
 import com.example.LightEpro.sch.exception.ExceptionCustom;
 import com.example.LightEpro.sch.mapper.SchMapper006;
 import com.example.LightEpro.sch.response.SchResponse;
-import com.example.LightEpro.sch.service.SchService005;
 import com.example.LightEpro.sch.service.SchService006;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

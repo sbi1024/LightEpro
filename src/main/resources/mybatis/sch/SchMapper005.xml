@@ -17,21 +17,21 @@
                               USE_YND,
                               CREATE_DATE,
                               CREATE_SEQ)
-        VALUES (#{calender.calSeq},
-                #{calender.calTitle},
-                #{calender.calContent},
+        VALUES (#{calendar.calSeq},
+                #{calendar.calTitle},
+                #{calendar.calContent},
                 <choose>
-                    <when test="calender.calColor == null or calender.calColor == ''">
+                    <when test="calendar.calColor == null or calendar.calColor == ''">
                         '#748FFC'
                     </when>
                     <otherwise>
-                        #{calender.calColor}
+                        #{calendar.calColor}
                     </otherwise>
                 </choose>,
-                #{calender.calType},
+                #{calendar.calType},
                 'Y',
                 NOW(),
-                #{calender.createSeq});
+                #{calendar.createSeq});
     </insert>
 
     <insert id="insertCalOwner" parameterType="com.example.LightEpro.sch.dto.sch005.SchRqDto005">

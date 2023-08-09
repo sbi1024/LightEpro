@@ -66,7 +66,7 @@ public class SchServiceImpl005 implements SchService005 {
 
         // schRqDto005 객체로 부터 내부 클래스 객체 생성
         SchRqDto005.Emp emp = schRqDto005.getEmp();
-        SchRqDto005.Calender calender = schRqDto005.getCalender();
+        SchRqDto005.Calendar calender = schRqDto005.getCalendar();
         SchRqDto005.Owner owner = schRqDto005.getOwner();
         List<SchRqDto005.Manager> managers = schRqDto005.getManagers();
 

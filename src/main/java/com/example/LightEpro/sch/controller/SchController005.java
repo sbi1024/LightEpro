@@ -1,11 +1,9 @@
 package com.example.LightEpro.sch.controller;
 
 import com.example.LightEpro.sch.constant.ConstValue;
-import com.example.LightEpro.sch.dto.sch004.SchRqDto004;
 import com.example.LightEpro.sch.dto.sch005.SchRqDto005;
 import com.example.LightEpro.sch.exception.ExceptionCustom;
 import com.example.LightEpro.sch.response.SchResponse;
-import com.example.LightEpro.sch.service.SchService004;
 import com.example.LightEpro.sch.service.SchService005;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +55,7 @@ public class SchController005 {
     // sch005 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
     public void validApiRequest(SchRqDto005 schRqDto005) throws Exception {
         SchRqDto005.Emp emp = schRqDto005.getEmp();
-        SchRqDto005.Calender calender = schRqDto005.getCalender();
+        SchRqDto005.Calendar calender = schRqDto005.getCalendar();
         SchRqDto005.Owner owner = schRqDto005.getOwner();
         List<SchRqDto005.Manager> managers = schRqDto005.getManagers();
         // 사원 시퀀스 추출

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.LightEpro.sch.mapper.SchMapper008">
+    <update id="updateCalDetailInfo">
+        UPDATE T_SC_CAL TSC
+        SET TSC.USE_YND     = 'N',
+            TSC.MODIFY_DATE = NOW(),
+            TSC.MODIFY_SEQ  = #{emp.empSeq}
+        WHERE 1 = 1
+          AND TSC.CAL_SEQ = #{calendar.calSeq}
+          AND TSC.USE_YND = 'Y'
+    </update>
+
+    <update id="updateCalUsers">
+        UPDATE T_SC_CAL_USER TSCU
+        SET TSCU.USE_YND = 'N',
+            TSCU.MODIFY_DATE = NOW(),
+            TSCU.MODIFY_SEQ  = #{emp.empSeq}
+        WHERE 1 = 1
+          AND TSCU.CAL_SEQ = #{calendar.calSeq}
+          AND TSCU.USE_YND = 'Y'
+    </update>
+</mapper>

@@ -14,7 +14,7 @@ public class SchRqDto005 {
     @NotNull
     private @Valid SchRqDto005.Emp emp;
     @NotNull
-    private @Valid SchRqDto005.Calender calender;
+    private @Valid SchRqDto005.Calendar calendar;
     @NotNull
     private @Valid SchRqDto005.Owner owner;
     private @Valid List<Manager> managers;
@@ -26,7 +26,7 @@ public class SchRqDto005 {
     }
 
     @Data
-    public static class Calender {
+    public static class Calendar {
         private int calSeq;
         @NotBlank
         private String calTitle;
