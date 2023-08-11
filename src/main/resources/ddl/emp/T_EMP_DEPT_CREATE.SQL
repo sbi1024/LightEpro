@@ -1,0 +1,3 @@
+-- 주 부서 내용 확인 필요
+-- duty_code            varchar(32)      null comment '직책',
+-- position_code        varchar(32)      null comment '직급',

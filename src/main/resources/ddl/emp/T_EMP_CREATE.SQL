@@ -6,7 +6,7 @@ CREATE TABLE `T_EMP`
     `EMP_NAME_CN`      VARCHAR(10) COMMENT '사원 이름(중국)',
     `EMP_NAME_JP`      VARCHAR(10) COMMENT '사원 이름(일본)',
     `EMP_BIRTH_DATE`   DATE COMMENT '사원 태어난 일자',
-    `EMP_HIRE_DATE`    DATE COMMENT '사원 고용 일자',
+    `EMP_HIRE_DATE`    DATE COMMENT '사원 입사 일자',
     `EMP_FIRE_DATE`    DATE COMMENT '사원 퇴사 일자',
     `EMP_PHONE_NUMBER` VARCHAR(10) COMMENT '사원 휴대폰 번호',
     `EMP_JOB`          VARCHAR(10) COMMENT '사원 직업',

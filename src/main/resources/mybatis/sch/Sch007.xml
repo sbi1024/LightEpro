@@ -50,7 +50,6 @@
           AND TSCU.CAL_PARTITION_TYPE = '100'
           AND TSCU.CAL_AUTORITY = 'M'
           AND TSCU.USE_YND = 'Y'
-
     </update>
 
     <update id="updateNonMatchManagers" parameterType="com.example.LightEpro.sch.dto.sch007.SchRqDto007">

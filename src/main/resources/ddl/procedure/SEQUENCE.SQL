@@ -34,7 +34,8 @@ CALL create_sequence('sch');
 
 -- [(nextval) 명령어 예제]
 -- 설명 : sch 이름의 currval 값의 다음값을 호출
-SELECT nextval('sch')
+-- 부가 설명 : nextval 함수 앞에 , 디비 명이 있어야 함
+SELECT practice.nextval('sch')
 FROM DUAL ;
 
 
