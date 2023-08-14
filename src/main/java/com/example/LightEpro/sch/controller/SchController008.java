@@ -36,7 +36,7 @@ public class SchController008 {
 
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
-        schResponse.setReponseCode(200);
+        schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch008 API SUCCESS");
         schResponse.setResponseData(schService008.removeSingleCal(schRqDto008));
 

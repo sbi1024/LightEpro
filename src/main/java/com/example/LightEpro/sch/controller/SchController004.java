@@ -1,7 +1,7 @@
 package com.example.LightEpro.sch.controller;
 
 import com.example.LightEpro.sch.dto.sch004.SchRqDto004;
-import com.example.LightEpro.sch.exception.ExceptionCustom;
+import com.example.LightEpro.sch.exception.SchExceptionCustom;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService004;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,7 @@ public class SchController004 {
 
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
-        schResponse.setReponseCode(200);
+        schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch004 API SUCCESS");
         schResponse.setResponseData(schService004.findSchList(schRqDto004));
 
@@ -59,7 +59,7 @@ public class SchController004 {
         if (calSeqs.size() == 0) {
             log.error("$$$ sch004 validApiRequest fail !!! (NotValidCalSeqsException) $$$");
             log.error("$$$ sch004 validApiRequest fail !!! (schRqDto004 : " + schRqDto004 + ") $$$");
-            throw new ExceptionCustom.NotValidCalSeqsException();
+            throw new SchExceptionCustom.NotValidCalSeqsException();
         }
     }
 }

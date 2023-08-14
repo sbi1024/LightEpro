@@ -2,7 +2,6 @@ package com.example.LightEpro.sch.serviceimpl;
 
 import com.example.LightEpro.sch.dto.sch001.SchRqDto001;
 import com.example.LightEpro.sch.dto.sch001.SchRsDto001;
-import com.example.LightEpro.sch.exception.ExceptionCustom;
 import com.example.LightEpro.sch.mapper.SchMapper001;
 import com.example.LightEpro.sch.service.SchService001;
 import lombok.RequiredArgsConstructor;

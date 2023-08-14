@@ -1,6 +1,9 @@
 package com.example.LightEpro.sch.constant;
 
-public class ConstValue {
+/**
+ * 일정 모듈 상수 모음
+ */
+public class SchConstValue {
     /**
      * 캘린더 타입 개인캘린더 = E
      */

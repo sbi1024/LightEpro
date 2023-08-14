@@ -25,7 +25,7 @@ management:
     web:
       base-path: /LightEpro
       path-mapping:
-        health: HealthCheck
+        health: healthCheck
   endpoint:
     health:
       show-details: always

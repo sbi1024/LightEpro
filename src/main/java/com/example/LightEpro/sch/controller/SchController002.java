@@ -1,8 +1,8 @@
 package com.example.LightEpro.sch.controller;
 
-import com.example.LightEpro.sch.constant.ConstValue;
+import com.example.LightEpro.sch.constant.SchConstValue;
 import com.example.LightEpro.sch.dto.sch002.SchRqDto002;
-import com.example.LightEpro.sch.exception.ExceptionCustom;
+import com.example.LightEpro.sch.exception.SchExceptionCustom;
 import com.example.LightEpro.sch.mapper.SchMapper002;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService002;
@@ -43,7 +43,7 @@ public class SchController002 {
 
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
-        schResponse.setReponseCode(200);
+        schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch002 API SUCCESS");
         schResponse.setResponseData(schService002.modifySingleSch(schRqDto002));
 
@@ -72,21 +72,21 @@ public class SchController002 {
         if (startDate.isAfter(endDate)) {
             log.error("$$$ sch002 validApiRequest fail !!! (NotValidSchStartEndDateException) $$$");
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
-            throw new ExceptionCustom.NotValidSchStartEndDateException();
+            throw new SchExceptionCustom.NotValidSchStartEndDateException();
         }
         // 개인캘린더 수정시에 , 참여자 혹은 공개범위 데이터가 포함되는 경우 Exception 처리
         String calType = schMapper002.checkCalType(calendar.getCalSeq());
-        if (calType.equals(ConstValue.ECAL_TYPE) && (participants != null || disclosureScopes != null)) {
+        if (calType.equals(SchConstValue.ECAL_TYPE) && (participants != null || disclosureScopes != null)) {
             log.error("$$$ sch002 validApiRequest fail !!! (IncorrectIncludException) $$$");
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
-            throw new ExceptionCustom.IncorrectIncludException();
+            throw new SchExceptionCustom.IncorrectIncludException();
         }
         // 일정 수정 진행 전 , 요청값으로 받은 일정 시퀀스값을 통해 일정이 존재하는지 판단 후 , 존재하지 않는다면 Exception 처리
         int schCnt = schMapper002.checkSchExist(schRqDto002);
         if (schCnt == 0) {
             log.error("$$$ sch002 validApiRequest fail !!! (NotFoundSchException) $$$");
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
-            throw new ExceptionCustom.NotFoundSchException();
+            throw new SchExceptionCustom.NotFoundSchException();
         }
     }
 }

@@ -1,9 +1,7 @@
 package com.example.LightEpro.sch.controller;
 
-import com.example.LightEpro.sch.dto.sch000.SchRqDto000;
 import com.example.LightEpro.sch.dto.sch001.SchRqDto001;
-import com.example.LightEpro.sch.exception.ExceptionCustom;
-import com.example.LightEpro.sch.mapper.SchMapper000;
+import com.example.LightEpro.sch.exception.SchExceptionCustom;
 import com.example.LightEpro.sch.mapper.SchMapper001;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService001;
@@ -39,7 +37,7 @@ public class SchController001 {
 
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
-        schResponse.setReponseCode(200);
+        schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch001 API SUCCESS");
         schResponse.setResponseData(schService001.findSingleSch(schRqDto001));
 
@@ -60,7 +58,7 @@ public class SchController001 {
         if (schCnt == 0) {
             log.error("$$$ sch001 validApiRequest fail !!! (NotFoundSchException) $$$");
             log.error("$$$ sch001 validApiRequest fail !!! (schRqDto001 : " + schRqDto001 + ") $$$");
-            throw new ExceptionCustom.NotFoundSchException();
+            throw new SchExceptionCustom.NotFoundSchException();
         }
     }
 }

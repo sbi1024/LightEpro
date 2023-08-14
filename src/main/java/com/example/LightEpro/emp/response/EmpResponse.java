@@ -1,9 +1,9 @@
-package com.example.LightEpro.sch.response;
+package com.example.LightEpro.emp.response;
 
 import lombok.Data;
 
 @Data
-public class SchResponse {
+public class EmpResponse {
     private String responseStatus;
     private int responseCode;
     private String responseMsg;

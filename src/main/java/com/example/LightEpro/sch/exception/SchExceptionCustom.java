@@ -1,6 +1,6 @@
 package com.example.LightEpro.sch.exception;
 
-public class ExceptionCustom {
+public class SchExceptionCustom {
     /**
      * 디비상에 존재하지 않는 일정을 찾는 경우 발생 Exception
      */
