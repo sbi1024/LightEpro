@@ -1,4 +1,4 @@
-package com.example.LightEpro.emp.dto.emp000;
+package com.example.LightEpro.emp.controller.dto.emp000;
 
 import lombok.Builder;
 import lombok.Data;
