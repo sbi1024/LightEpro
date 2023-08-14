@@ -2,7 +2,7 @@ CREATE TABLE `T_EM_DEPT`
 (
     `DEPT_SEQ`        BIGINT      NOT NULL COMMENT '부서 시퀀스',
     `PARENT_DEPT_SEQ` BIGINT      NULL COMMENT '상위 부서 시퀀스',
-    `DEPT_PATH`       VARCHAR(30) NOT NULL COMMENT '부서 경로',
+    `DEPT_PATH`       VARCHAR(30) NULL COMMENT '부서 경로',
     `DEPT_NAME_KR`    VARCHAR(30) NOT NULL COMMENT '부서 이름(한국)',
     `DEPT_NAME_EN`    VARCHAR(30) NULL COMMENT '부서 이름(영어)',
     `DEPT_NAME_CN`    VARCHAR(30) NULL COMMENT '부서 이름(중국)',

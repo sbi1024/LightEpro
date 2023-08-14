@@ -1,9 +1,9 @@
-package com.example.LightEpro.sch.exception;
+package com.example.LightEpro.exception;
 
 import lombok.Getter;
 
 @Getter
-public enum SchExceptionCode {
+public enum ExceptionCode {
     /**
      * common server exception
      */
@@ -24,7 +24,7 @@ public enum SchExceptionCode {
     private final String exceptionMsg;
     private Object exceptionData;
 
-    SchExceptionCode(String exceptionStatus, int exceptionCode, String exceptionMsg, Object exceptionData) {
+    ExceptionCode(String exceptionStatus, int exceptionCode, String exceptionMsg, Object exceptionData) {
         this.exceptionStatus = exceptionStatus;
         this.exceptionCode = exceptionCode;
         this.exceptionMsg = exceptionMsg;

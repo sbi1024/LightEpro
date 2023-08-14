@@ -2,7 +2,7 @@ package com.example.LightEpro.sch.controller;
 
 import com.example.LightEpro.sch.constant.SchConstValue;
 import com.example.LightEpro.sch.dto.sch000.SchRqDto000;
-import com.example.LightEpro.sch.exception.SchExceptionCustom;
+import com.example.LightEpro.exception.ExceptionCustom;
 import com.example.LightEpro.sch.mapper.SchMapper000;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService000;
@@ -79,14 +79,14 @@ public class SchController000 {
         if (startDate.isAfter(endDate)) {
             log.error("$$$ sch000 validApiRequest fail !!! (NotValidSchStartEndDateException) $$$");
             log.error("$$$ sch000 validApiRequest fail !!! (schRqDto000 : " + schRqDto000 + ") $$$");
-            throw new SchExceptionCustom.NotValidSchStartEndDateException();
+            throw new ExceptionCustom.NotValidSchStartEndDateException();
         }
         // 개인캘린더 등록시에 , 참여자 혹은 공개범위 데이터가 포함되는 경우 Exception 처리
         String calType = schMapper000.checkCalType(calSeq);
         if (calType.equals(SchConstValue.ECAL_TYPE) && (participants != null || disclosureScopes != null)) {
             log.error("$$$ sch000 validApiRequest fail !!! (IncorrectIncludException) $$$");
             log.error("$$$ sch000 validApiRequest fail !!! (schRqDto000 : " + schRqDto000 + ") $$$");
-            throw new SchExceptionCustom.IncorrectIncludException();
+            throw new ExceptionCustom.IncorrectIncludException();
         }
     }
 }

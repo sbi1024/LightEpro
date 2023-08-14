@@ -1,7 +1,7 @@
 package com.example.LightEpro.sch.controller;
 
 import com.example.LightEpro.sch.dto.sch006.SchRqDto006;
-import com.example.LightEpro.sch.exception.SchExceptionCustom;
+import com.example.LightEpro.exception.ExceptionCustom;
 import com.example.LightEpro.sch.mapper.SchMapper006;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService006;
@@ -59,7 +59,7 @@ public class SchController006 {
         if(calCnt == 0){
             log.error("$$$ sch006 validApiRequest fail !!! (NotFoundCalException) $$$");
             log.error("$$$ sch006 validApiRequest fail !!! (schRqDto006 : " + schRqDto006 + ") $$$");
-            throw new SchExceptionCustom.NotFoundCalException();
+            throw new ExceptionCustom.NotFoundCalException();
         }
     }
 }

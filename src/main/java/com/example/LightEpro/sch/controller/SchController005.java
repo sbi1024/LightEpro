@@ -2,7 +2,7 @@ package com.example.LightEpro.sch.controller;
 
 import com.example.LightEpro.sch.constant.SchConstValue;
 import com.example.LightEpro.sch.dto.sch005.SchRqDto005;
-import com.example.LightEpro.sch.exception.SchExceptionCustom;
+import com.example.LightEpro.exception.ExceptionCustom;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService005;
 import lombok.RequiredArgsConstructor;
@@ -69,14 +69,14 @@ public class SchController005 {
         if (calType.equals(SchConstValue.ECAL_TYPE) && managers != null) {
             log.error("$$$ sch005 validApiRequest fail !!! (IncorrectIncludException) $$$");
             log.error("$$$ sch005 validApiRequest fail !!! (schRqDto005 : " + schRqDto005 + ") $$$");
-            throw new SchExceptionCustom.IncorrectIncludException();
+            throw new ExceptionCustom.IncorrectIncludException();
         }
 
         // 2. 캘린더 등록시에 , 캘린더의 소유자 cdeSeq 값은 요청자의 empSeq 값과 일치해야 한다.
         if (empSeq != ownerCdeSeq) {
             log.error("$$$ sch005 validApiRequest fail !!! (IncorrectIncludException) $$$");
             log.error("$$$ sch005 validApiRequest fail !!! (schRqDto005 : " + schRqDto005 + ") $$$");
-            throw new SchExceptionCustom.IncorrectIncludException();
+            throw new ExceptionCustom.IncorrectIncludException();
         }
     }
 }

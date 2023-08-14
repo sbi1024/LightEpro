@@ -1,4 +1,4 @@
-package com.example.LightEpro.sch.exception;
+package com.example.LightEpro.exception;
 
 
 import com.example.LightEpro.sch.response.SchResponse;
@@ -12,13 +12,13 @@ import java.util.List;
 
 @RestControllerAdvice
 @Slf4j
-public class SchExceptionHandle extends RuntimeException {
+public class ExceptionHandle extends RuntimeException {
     /**
      * Exception
      */
     @ExceptionHandler(Exception.class)
     public SchResponse handleException(Exception e) {
-        SchExceptionCode errorCode = SchExceptionCode.INTERNAL_SERVER_EXCEPTION;
+        ExceptionCode errorCode = ExceptionCode.INTERNAL_SERVER_EXCEPTION;
         errorCode.setExceptionData(e.getMessage());
 
         SchResponse schResponse = new SchResponse();
@@ -42,7 +42,7 @@ public class SchExceptionHandle extends RuntimeException {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public SchResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        SchExceptionCode errorCode = SchExceptionCode.VALID_REQUEST_EXCEPTION;
+        ExceptionCode errorCode = ExceptionCode.VALID_REQUEST_EXCEPTION;
         List<ObjectError> allErrors = e.getBindingResult().getAllErrors();
         errorCode.setExceptionData(String.valueOf(allErrors));
 
@@ -65,9 +65,9 @@ public class SchExceptionHandle extends RuntimeException {
     /**
      * 일정 조회시 , 디비상 없는 일정인 경우 발생 Exception
      */
-    @ExceptionHandler(SchExceptionCustom.NotFoundSchException.class)
-    public SchResponse NotFountSchException(SchExceptionCustom.NotFoundSchException e) {
-        SchExceptionCode errorCode = SchExceptionCode.NOT_FOUND_SCH_EXCEPTION;
+    @ExceptionHandler(ExceptionCustom.NotFoundSchException.class)
+    public SchResponse NotFountSchException(ExceptionCustom.NotFoundSchException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_FOUND_SCH_EXCEPTION;
         errorCode.setExceptionData(e.getMessage());
 
         SchResponse schResponse = new SchResponse();
@@ -88,9 +88,9 @@ public class SchExceptionHandle extends RuntimeException {
     /**
      * 시작일자 값이 종료일자 값보다 큰 경우 발생 Exception
      */
-    @ExceptionHandler(SchExceptionCustom.NotValidSchStartEndDateException.class)
-    public SchResponse NotValidSchStartEndDateException(SchExceptionCustom.NotValidSchStartEndDateException e) {
-        SchExceptionCode errorCode = SchExceptionCode.NOT_VALID_DATE_EXCEPTION;
+    @ExceptionHandler(ExceptionCustom.NotValidSchStartEndDateException.class)
+    public SchResponse NotValidSchStartEndDateException(ExceptionCustom.NotValidSchStartEndDateException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_VALID_DATE_EXCEPTION;
         errorCode.setExceptionData(e.getMessage());
 
         SchResponse schResponse = new SchResponse();
@@ -111,9 +111,9 @@ public class SchExceptionHandle extends RuntimeException {
     /**
      * 개인 캘린더에 일정등록시 , 참여자 혹은 공개범위 데이터가 포함된 요청값이 들어오는 경우 발생 Exception
      */
-    @ExceptionHandler(SchExceptionCustom.IncorrectIncludException.class)
-    public SchResponse IncorrectIncludException(SchExceptionCustom.IncorrectIncludException e) {
-        SchExceptionCode errorCode = SchExceptionCode.INCORRECT_INCLUDE_EXCEPTION;
+    @ExceptionHandler(ExceptionCustom.IncorrectIncludException.class)
+    public SchResponse IncorrectIncludException(ExceptionCustom.IncorrectIncludException e) {
+        ExceptionCode errorCode = ExceptionCode.INCORRECT_INCLUDE_EXCEPTION;
         errorCode.setExceptionData(e.getMessage());
 
         SchResponse schResponse = new SchResponse();
@@ -134,9 +134,9 @@ public class SchExceptionHandle extends RuntimeException {
     /**
      * 캘린더 시퀀스 값이 유효하지 않는 경우 (요청값의 캘린더 리스트 사이즈가 0 이거나 null 인 경우)
      */
-    @ExceptionHandler(SchExceptionCustom.NotValidCalSeqsException.class)
-    public SchResponse NotValidCalSeqsException(SchExceptionCustom.NotValidCalSeqsException e) {
-        SchExceptionCode errorCode = SchExceptionCode.NOT_VALID_CAL_SEQS_EXCEPTION;
+    @ExceptionHandler(ExceptionCustom.NotValidCalSeqsException.class)
+    public SchResponse NotValidCalSeqsException(ExceptionCustom.NotValidCalSeqsException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_VALID_CAL_SEQS_EXCEPTION;
         errorCode.setExceptionData(e.getMessage());
 
         SchResponse schResponse = new SchResponse();
@@ -156,9 +156,9 @@ public class SchExceptionHandle extends RuntimeException {
     /**
      * 캘린더 조회시 , 디비상 없는 캘린더인 경우 발생 Exception
      */
-    @ExceptionHandler(SchExceptionCustom.NotFoundCalException.class)
-    public SchResponse NotFoundCalException(SchExceptionCustom.NotFoundCalException e) {
-        SchExceptionCode errorCode = SchExceptionCode.NOT_FOUND_CAL_EXCEPTION;
+    @ExceptionHandler(ExceptionCustom.NotFoundCalException.class)
+    public SchResponse NotFoundCalException(ExceptionCustom.NotFoundCalException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_FOUND_CAL_EXCEPTION;
         errorCode.setExceptionData(e.getMessage());
 
         SchResponse schResponse = new SchResponse();
