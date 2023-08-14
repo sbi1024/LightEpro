@@ -10,10 +10,10 @@ CREATE TABLE `T_SC_SCH_USER`
     `USE_YND`            VARCHAR(3)  NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
     `CREATE_DATE`        DATETIME    NOT NULL DEFAULT SYSDATE() COMMENT '최초 등록 일자',
     `CREATE_SEQ`         BIGINT      NOT NULL COMMENT '등록자 시퀀스',
-    `MODIFY_DATE`        DATETIME COMMENT '최종 변경 일자',
-    `MODIFY_SEQ`         BIGINT COMMENT '변경자 시퀀스',
-    `DELETE_DATE`        DATETIME COMMENT '최종 삭제 일자',
-    `DELETE_SEQ`         BIGINT COMMENT '삭제자 시퀀스',
+    `MODIFY_DATE`        DATETIME    NULL COMMENT '최종 변경 일자',
+    `MODIFY_SEQ`         BIGINT      NULL COMMENT '변경자 시퀀스',
+    `DELETE_DATE`        DATETIME    NULL COMMENT '최종 삭제 일자',
+    `DELETE_SEQ`         BIGINT      NULL COMMENT '삭제자 시퀀스',
     PRIMARY KEY (`SCHM_SEQ`, `SCH_SEQ`, `CDE_SEQ`, `CDE_TYPE`),
     INDEX IDX_CAL_SEQ (CAL_SEQ)
 ) COMMENT '일정 구성원 테이블';
