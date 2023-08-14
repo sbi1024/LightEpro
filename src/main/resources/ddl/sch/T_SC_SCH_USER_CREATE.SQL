@@ -15,5 +15,5 @@ CREATE TABLE `T_SC_SCH_USER`
     `DELETE_DATE`        DATETIME    NULL COMMENT '최종 삭제 일자',
     `DELETE_SEQ`         BIGINT      NULL COMMENT '삭제자 시퀀스',
     PRIMARY KEY (`SCHM_SEQ`, `SCH_SEQ`, `CDE_SEQ`, `CDE_TYPE`),
-    INDEX IDX_CAL_SEQ (CAL_SEQ)
+    INDEX IDX_CAL_SEQ (`CAL_SEQ`)
 ) COMMENT '일정 구성원 테이블';
