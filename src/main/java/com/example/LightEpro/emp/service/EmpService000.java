@@ -12,9 +12,4 @@ public interface EmpService000 {
     int findCurrentDeptValue() throws Exception;
 
     int createDepartment(EmpRqDto000 empRqDto000) throws Exception;
-
-    int modifyDeptPath(EmpRqDto000 empRqDto000) throws Exception;
-
-    String getDeptPath(EmpRqDto000 empRqDto000) throws Exception;
-
 }

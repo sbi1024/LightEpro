@@ -1,4 +1,4 @@
-package com.example.LightEpro.emp.dto.emp000;
+package com.example.LightEpro.emp.dto.emp002;
 
 import lombok.Data;
 
@@ -6,10 +6,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.util.List;
 
 @Data
-public class EmpRqDto000 {
+public class EmpRqDto002 {
     @NotNull
     private @Valid Emp emp;
     @NotNull
@@ -23,9 +22,7 @@ public class EmpRqDto000 {
 
     @Data
     public static class Dept {
+        @Positive
         private int deptSeq;
-        private int parentDeptSeq;
-        @NotBlank
-        private String deptName;
     }
 }

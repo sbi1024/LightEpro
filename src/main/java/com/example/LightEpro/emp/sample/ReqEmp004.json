@@ -1,0 +1,9 @@
+{
+  "emp": {
+    "empSeq": "1000"
+  },
+  "dept": {
+    "parentDeptSeq": "28",
+    "deptNameKr": "서보인 부서41111"
+  }
+}

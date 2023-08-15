@@ -1,8 +1,8 @@
 package com.example.LightEpro.emp.controller;
 
-import com.example.LightEpro.emp.dto.emp000.EmpRqDto000;
+import com.example.LightEpro.emp.dto.emp003.EmpRqDto003;
 import com.example.LightEpro.emp.response.EmpResponse;
-import com.example.LightEpro.emp.service.EmpService000;
+import com.example.LightEpro.emp.service.EmpService003;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -18,15 +18,15 @@ import javax.validation.Valid;
 @ResponseBody
 @RequiredArgsConstructor
 @Slf4j
-public class EmpController000 {
+public class EmpController003 {
 
-    private final EmpService000 empService000;
-
-    // 부서 등록 API
-    @RequestMapping(value = "/emp000", method = {RequestMethod.GET, RequestMethod.POST})
-    public EmpResponse emp000(@RequestBody @Valid EmpRqDto000 empRqDto000) throws Exception {
-        log.info("emp000 API Start !!!");
-        log.info("emp000 Request Data : " + empRqDto000);
+    private final EmpService003 empService003;
+    
+    // 부서 상세 조회 API
+    @RequestMapping(value = "/emp003", method = {RequestMethod.GET, RequestMethod.POST})
+    public EmpResponse emp003(@RequestBody @Valid EmpRqDto003 EmpRqDto003) throws Exception {
+        log.info("emp003 API Start !!!");
+        log.info("emp003 Request Data : " + EmpRqDto003);
 
         // API 실행시간 체크를 위한 stopWatch 객체 생성
         StopWatch stopWatch = new StopWatch();
@@ -34,29 +34,29 @@ public class EmpController000 {
         stopWatch.start();
 
         // 유효성 검사 메소드 호출
-        validApiRequest(empRqDto000);
-        log.info("emp000 validApiRequest Success !!! ");
+        validApiRequest(EmpRqDto003);
+        log.info("emp003 validApiRequest Success !!! ");
 
         // EmpResponse 객체 데이터 생성 및 할당
         EmpResponse empResponse = new EmpResponse();
         empResponse.setResponseStatus("SUCCESS");
         empResponse.setResponseCode(200);
-        empResponse.setResponseMsg("emp000 API SUCCESS");
-        empResponse.setResponseData(empService000.createSingleDept(empRqDto000));
+        empResponse.setResponseMsg("emp003 API SUCCESS");
+        empResponse.setResponseData(empService003.findSingleDept(EmpRqDto003));
 
         // stopWatch 종료
         stopWatch.stop();
 
-        log.info("emp000 API runTime : {}", stopWatch.getTotalTimeSeconds());
-        log.info("emp000 Response Data : " + empResponse);
-        log.info("emp000 API End !!!");
+        log.info("emp003 API runTime : {}", stopWatch.getTotalTimeSeconds());
+        log.info("emp003 Response Data : " + empResponse);
+        log.info("emp003 API End !!!");
 
         // return
         return empResponse;
     }
 
-    // emp000 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
-    public void validApiRequest(EmpRqDto000 empRqDto000) throws Exception {
+    // emp003 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
+    public void validApiRequest(EmpRqDto003 EmpRqDto003) throws Exception {
 
     }
 }

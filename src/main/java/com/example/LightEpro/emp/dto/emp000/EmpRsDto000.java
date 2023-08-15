@@ -8,5 +8,4 @@ import lombok.Data;
 public class EmpRsDto000 {
     private int deptSeq;
     private int createDepartmentCnt;
-    private int modifyDeptPathCnt;
 }

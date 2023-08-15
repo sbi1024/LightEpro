@@ -1,64 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.example.LightEpro.emp.mapper.EmpMapper000">
     <select id="findCurrentDeptValue" resultType="int">
         /* findCurrentDeptValue */
         SELECT practice.nextval('dept') FROM dual;
     </select>
 
-    <select id="getDeptPath" resultType="string">
-        /* getDeptPath */
-        WITH RECURSIVE CTE AS (SELECT TED.DEPT_SEQ,
-                                      TED.PARENT_DEPT_SEQ,
-                                      CAST(TED.DEPT_SEQ AS CHAR(100)) AS DEPT_PATH
-                               FROM T_EM_DEPT TED
-                               WHERE 1 = 1
-                                 AND TED.PARENT_DEPT_SEQ = 0
-
-                               UNION ALL
-
-                               SELECT TED.DEPT_SEQ,
-                                      TED.PARENT_DEPT_SEQ,
-                                      CONCAT(CTE.DEPT_PATH, '|', TED.DEPT_SEQ)
-                               FROM T_EM_DEPT TED
-                                        INNER JOIN CTE CTE
-                                                   ON TED.PARENT_DEPT_SEQ = CTE.DEPT_SEQ)
-        SELECT DEPT_PATH       AS deptPath
-        FROM CTE
-        WHERE 1 = 1
-          AND CTE.DEPT_SEQ = #{dept.deptSeq};
-    </select>
-
     <insert id="insertDept">
         /* insertDept */
         INSERT INTO T_EM_DEPT (DEPT_SEQ,
                                PARENT_DEPT_SEQ,
-                               DEPT_PATH,
-                               DEPT_NAME_KR,
-                               DEPT_NAME_EN,
-                               DEPT_NAME_CN,
-                               DEPT_NAME_JP,
+                               DEPT_NAME,
                                USE_YND,
                                CREATE_DATE,
                                CREATE_SEQ)
         VALUES (#{dept.deptSeq},
                 #{dept.parentDeptSeq},
-                #{dept.deptPath},
-                #{dept.deptNameKr},
-                #{dept.deptNameEn},
-                #{dept.deptNameCn},
-                #{dept.deptNameJp},
+                #{dept.deptName},
                 'Y',
                 NOW(),
                 #{emp.empSeq})
     </insert>
-
-    <update id="updateDeptPath">
-        UPDATE T_EM_DEPT TED
-        SET TED.DEPT_PATH = #{dept.deptPath}
-        WHERE 1 = 1
-          AND TED.DEPT_SEQ = #{dept.deptSeq}
-          AND TED.USE_YND = 'Y'
-    </update>
 </mapper>

@@ -1,10 +1,7 @@
 CREATE TABLE `T_EM_EMP`
 (
     `EMP_SEQ`          BIGINT      NOT NULL COMMENT '사원 시퀀스',
-    `EMP_NAME_KR`      VARCHAR(30) NOT NULL COMMENT '사원 이름(한국)',
-    `EMP_NAME_EN`      VARCHAR(30) NULL COMMENT '사원 이름(영어)',
-    `EMP_NAME_CN`      VARCHAR(30) NULL COMMENT '사원 이름(중국)',
-    `EMP_NAME_JP`      VARCHAR(30) NULL COMMENT '사원 이름(일본)',
+    `EMP_NAME`         VARCHAR(30) NOT NULL COMMENT '사원 이름',
     `EMP_BIRTH_DATE`   DATETIME    NULL COMMENT '사원 태어난 일자',
     `EMP_HIRE_DATE`    DATETIME    NOT NULL COMMENT '사원 입사 일자',
     `EMP_FIRE_DATE`    DATETIME    NULL COMMENT '사원 퇴사 일자',

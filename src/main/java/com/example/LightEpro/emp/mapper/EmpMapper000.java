@@ -9,6 +9,4 @@ import java.util.List;
 public interface EmpMapper000 {
     int findCurrentDeptValue() throws Exception;
     int insertDept(EmpRqDto000 empRqDto000) throws Exception;
-    int updateDeptPath(EmpRqDto000 empRqDto000) throws Exception;
-    String getDeptPath(EmpRqDto000 empRqDto000)throws Exception;
 }
