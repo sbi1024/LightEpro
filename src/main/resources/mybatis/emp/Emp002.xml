@@ -4,9 +4,10 @@
     <update id="updateDeptInfo">
         /* updateDeptInfo */
         UPDATE T_EM_DEPT TED
-        SET TED.USE_YND     = 'N',
-            TED.MODIFY_DATE = NOW(),
-            TED.MODIFY_SEQ  = #{emp.empSeq}
+        SET TED.PARENT_DEPT_SEQ = #{dept.parentDeptSeq},
+            TED.DEPT_NAME       = #{dept.deptName},
+            TED.MODIFY_DATE     = NOW(),
+            TED.MODIFY_SEQ      = #{emp.empSeq}
         WHERE 1 = 1
           AND TED.DEPT_SEQ = #{dept.deptSeq}
           AND TED.USE_YND = 'Y'

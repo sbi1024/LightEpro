@@ -21,12 +21,12 @@ import javax.validation.Valid;
 public class EmpController003 {
 
     private final EmpService003 empService003;
-    
-    // 부서 상세 조회 API
+
+    // 부서 삭제 API
     @RequestMapping(value = "/emp003", method = {RequestMethod.GET, RequestMethod.POST})
-    public EmpResponse emp003(@RequestBody @Valid EmpRqDto003 EmpRqDto003) throws Exception {
+    public EmpResponse emp003(@RequestBody @Valid EmpRqDto003 empRqDto003) throws Exception {
         log.info("emp003 API Start !!!");
-        log.info("emp003 Request Data : " + EmpRqDto003);
+        log.info("emp003 Request Data : " + empRqDto003);
 
         // API 실행시간 체크를 위한 stopWatch 객체 생성
         StopWatch stopWatch = new StopWatch();
@@ -34,7 +34,7 @@ public class EmpController003 {
         stopWatch.start();
 
         // 유효성 검사 메소드 호출
-        validApiRequest(EmpRqDto003);
+        validApiRequest(empRqDto003);
         log.info("emp003 validApiRequest Success !!! ");
 
         // EmpResponse 객체 데이터 생성 및 할당
@@ -42,7 +42,7 @@ public class EmpController003 {
         empResponse.setResponseStatus("SUCCESS");
         empResponse.setResponseCode(200);
         empResponse.setResponseMsg("emp003 API SUCCESS");
-        empResponse.setResponseData(empService003.findSingleDept(EmpRqDto003));
+        empResponse.setResponseData(empService003.removeSingleDept(empRqDto003));
 
         // stopWatch 종료
         stopWatch.stop();
@@ -56,7 +56,7 @@ public class EmpController003 {
     }
 
     // emp003 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
-    public void validApiRequest(EmpRqDto003 EmpRqDto003) throws Exception {
+    public void validApiRequest(EmpRqDto003 empRqDto003) throws Exception {
 
     }
 }

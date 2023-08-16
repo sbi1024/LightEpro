@@ -15,65 +15,45 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class EmpServiceImpl001 implements EmpService001 {
 
-    // EmpMapper001 선언
+    // EmpMapper003 선언
     private final EmpMapper001 empMapper001;
 
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public EmpRsDto001 modifySingleDept(EmpRqDto001 empRqDto001) throws Exception {
+    public EmpRsDto001 findSingleDept(EmpRqDto001 empRqDto001) throws Exception {
         // method start log
-        log.info("modifySingleDept Method Start !!!");
-        log.info("modifySingleDept Method Request Data : " + empRqDto001);
+        log.info("findSingleDept Method Start !!!");
+        log.info("findSingleDept Method Request Data : " + empRqDto001);
 
-        // 부서의 정보를 변경한다.
-        int modifyDeptInfoCnt = modifyDeptInfo(empRqDto001);
-        // 매핑 부서의 정보를 변경한다. (modifyMappingDeptInfo(empRqDto001))
-        int modifyMappingDeptInfoCnt = 0;
+        // 부서 정보를 조회한다.
+        EmpRsDto001.DeptInfo deptInfo = findDeptInfo(empRqDto001);
+        // 매핑 부서의 정보를 조회한다.(findMappingDeptInfo(empRqDto003))
 
-        // empRsDto001 객체 builder 패턴을 통해 객체 생성
-        EmpRsDto001 empRsDto001 = EmpRsDto001.builder()
-                .deptSeq(empRqDto001.getDept().getDeptSeq())
-                .modifyDeptInfoCnt(modifyDeptInfoCnt)
-                .modifyMappingDeptInfoCnt(modifyMappingDeptInfoCnt)
+        // empRsDto003 객체 builder 패턴을 통해 객체 생성
+        EmpRsDto001 empRsDto003 = EmpRsDto001.builder()
+                .deptInfo(deptInfo)
                 .build();
 
         // method end log
-        log.info("modifySingleDept Method Return Data : " + empRsDto001);
-        log.info("modifySingleDept Method End !!!");
+        log.info("findSingleDept Method Return Data : " + empRsDto003);
+        log.info("findSingleDept Method End !!!");
 
-        // return
-        return empRsDto001;
+        return empRsDto003;
     }
 
     @Override
-    public int modifyDeptInfo(EmpRqDto001 empRqDto001) throws Exception {
+    public EmpRsDto001.DeptInfo findDeptInfo(EmpRqDto001 empRqDto001) throws Exception {
         // method start log
-        log.info("modifyDeptInfo Method Start !!!");
-        log.info("modifyDeptInfo Method Request Data : " + empRqDto001);
+        log.info("findDeptInfo Method Start !!!");
+        log.info("findDeptInfo Method Request Data : " + empRqDto001);
 
-        int updateDeptInfoCnt = empMapper001.updateDeptInfo(empRqDto001);
+        EmpRsDto001.DeptInfo selectDeptInfo = empMapper001.selectDeptInfo(empRqDto001);
 
         // method end log
-        log.info("modifyDeptInfo Method Return Data : " + updateDeptInfoCnt);
-        log.info("modifyDeptInfo Method End !!!");
+        log.info("findDeptInfo Method Return Data : " + selectDeptInfo);
+        log.info("findDeptInfo Method End !!!");
 
         // return
-        return updateDeptInfoCnt;
-    }
-
-    @Override
-    public int modifyMappingDeptInfo(EmpRqDto001 empRqDto001) throws Exception {
-        // method start log
-        log.info("modifyMappingDeptInfo Method Start !!!");
-        log.info("modifyMappingDeptInfo Method Request Data : " + empRqDto001);
-
-        int updateMappingDeptInfoCnt = empMapper001.updateMappingDeptInfo(empRqDto001);
-
-        // method end log
-        log.info("modifyMappingDeptInfo Method Return Data : " + updateMappingDeptInfoCnt);
-        log.info("modifyMappingDeptInfo Method End !!!");
-
-        // return
-        return updateMappingDeptInfoCnt;
+        return selectDeptInfo;
     }
 }

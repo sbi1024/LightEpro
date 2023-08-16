@@ -22,7 +22,7 @@ import javax.validation.Valid;
 public class EmpController009 {
 
     private final EmpService009 empService009;
-    
+
     // 회사 조직도 조회 API
     @RequestMapping(value = "/emp009", method = {RequestMethod.GET, RequestMethod.POST})
     public EmpResponse emp009(@RequestBody @Valid EmpRqDto009 empRqDto009) throws Exception {

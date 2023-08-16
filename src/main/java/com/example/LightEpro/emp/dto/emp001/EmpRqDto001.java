@@ -1,5 +1,6 @@
 package com.example.LightEpro.emp.dto.emp001;
 
+import com.example.LightEpro.emp.dto.emp002.EmpRqDto002;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -24,8 +25,6 @@ public class EmpRqDto001 {
     public static class Dept {
         @Positive
         private int deptSeq;
-        private int parentDeptSeq;
-        @NotBlank
-        private String deptName;
     }
+
 }

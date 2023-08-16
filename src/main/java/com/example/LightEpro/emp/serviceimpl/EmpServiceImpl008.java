@@ -7,6 +7,7 @@ import com.example.LightEpro.emp.service.EmpService008;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class EmpServiceImpl008 implements EmpService008 {
     // EmpMapper002 선언
     private final EmpMapper008 empMapper008;
 
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public EmpRsDto008 removeSingleComp(EmpRqDto008 empRqDto008) throws Exception {
         // method start log
