@@ -15,7 +15,6 @@ public class EmpRsDto004 {
     public static class DeptInfo {
         private String deptSeq;
         private String parentDeptSeq;
-        private String deptName;
         private String deptPath;
     }
 }

@@ -7,6 +7,7 @@ import com.example.LightEpro.emp.service.EmpService003;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class EmpServiceImpl003 implements EmpService003 {
     // EmpMapper003 선언
     private final EmpMapper003 empMapper003;
 
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public EmpRsDto003 findSingleDept(EmpRqDto003 empRqDto003) throws Exception {
         // method start log
@@ -35,6 +37,7 @@ public class EmpServiceImpl003 implements EmpService003 {
         log.info("findSingleDept Method Return Data : " + empRsDto003);
         log.info("findSingleDept Method End !!!");
 
+        // return
         return empRsDto003;
     }
 

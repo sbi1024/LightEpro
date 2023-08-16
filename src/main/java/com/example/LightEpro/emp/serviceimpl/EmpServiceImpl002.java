@@ -7,6 +7,7 @@ import com.example.LightEpro.emp.service.EmpService002;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class EmpServiceImpl002 implements EmpService002 {
     // EmpMapper002 선언
     private final EmpMapper002 empMapper002;
 
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public EmpRsDto002 removeSingleDept(EmpRqDto002 empRqDto002) throws Exception {
         // method start log

@@ -7,12 +7,16 @@ import com.example.LightEpro.sch.service.SchService009;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class SchServiceImpl009 implements SchService009 {
+
     private final SchMapper009 schMapper009;
+
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public SchRsDto009 findMyCalList(SchRqDto009 schRqDto009) throws Exception {
         // TODO EMP 모듈 쪽 정보가 처리가 되어야 작업 진행 가능할 것으로 확인됨

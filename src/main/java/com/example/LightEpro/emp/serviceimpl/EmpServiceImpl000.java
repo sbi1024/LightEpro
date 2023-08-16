@@ -37,6 +37,7 @@ public class EmpServiceImpl000 implements EmpService000 {
         // method end log
         log.info("createSingleDept Method Return Data : " + empRsDto000);
         log.info("createSingleDept Method End !!!");
+
         // return
         return empRsDto000;
     }
@@ -44,27 +45,27 @@ public class EmpServiceImpl000 implements EmpService000 {
     @Override
     public void assignObject(EmpRqDto000 empRqDto000) throws Exception {
         // method start log
-        log.info("getDeptPath Method Start !!!");
-        log.info("getDeptPath Method Request Data : " + empRqDto000);
+        log.info("assignObject Method Start !!!");
+        log.info("assignObject Method Request Data : " + empRqDto000);
 
         // 부서 시퀀스 할당
         empRqDto000.getDept().setDeptSeq(findCurrentDeptValue());
 
         // method end log
-        log.info("getDeptPath Method End !!!");
+        log.info("assignObject Method End !!!");
     }
 
     @Override
     public int findCurrentDeptValue() throws Exception {
         // method start log
-        log.info("getDeptPath Method Start !!!");
+        log.info("findCurrentDeptValue Method Start !!!");
 
         // 부서 시퀀스 채번
         int currentDeptValue = empMapper000.findCurrentDeptValue();
 
         // method end log
-        log.info("getDeptPath Method Return Data : " + currentDeptValue);
-        log.info("getDeptPath Method End !!!");
+        log.info("findCurrentDeptValue Method Return Data : " + currentDeptValue);
+        log.info("findCurrentDeptValue Method End !!!");
 
         // return
         return currentDeptValue;
@@ -82,6 +83,7 @@ public class EmpServiceImpl000 implements EmpService000 {
         // method end log
         log.info("createDepartment Method Return Data : " + empRqDto000);
         log.info("createDepartment Method End !!!");
+
         // return
         return insertDeptCnt;
     }
