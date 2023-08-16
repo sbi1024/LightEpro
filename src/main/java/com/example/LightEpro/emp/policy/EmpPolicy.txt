@@ -1,6 +1,8 @@
  ------------------------------------------------------
  [SQL 계층형 쿼리 참고 블로그 사이트]
  1. https://hongik-prsn.tistory.com/78
+ 2. https://dncjf0223.tistory.com/59
+
 - 부서 기준 조직도 계층 조회 쿼리 샘플 1
  WITH RECURSIVE CTE AS (SELECT TED.DEPT_SEQ,
                                        TED.PARENT_DEPT_SEQ,
