@@ -11,10 +11,10 @@ spring:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     username: root
     password: 1234
-#  sql:
-#    init:
-#      schema-locations: classpath*:script/CreateTable.sql
-#      mode: always
+  sql:
+    init:
+      schema-locations: classpath*:script/CreateTable.sql
+      mode: always
 
 # mybatis 관련 설정
 mybatis:
