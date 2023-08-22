@@ -38,7 +38,7 @@ public class SchController009 {
 
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
-        schResponse.setReponseCode(200);
+        schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch009 API SUCCESS");
         schResponse.setResponseData(schService009.findMyCalList(schRqDto009));
 

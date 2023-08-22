@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.LightEpro.emp.mapper.EmpMapper006">
+    <select id="selectCompInfo" resultType="com.example.LightEpro.emp.dto.emp006.EmpRsDto006$CompInfo">
+        /* selectCompInfo */
+        SELECT IFNULL(TEC.COMP_SEQ, '')                   AS compSeq,
+               IFNULL(TEC.PARENT_COMP_SEQ, '')            AS parentCompSeq,
+               IFNULL(TEC.COMP_NAME, '')                  AS compName,
+               IFNULL(TEC.USE_YND, '')                    AS useYnd,
+               DATE_FORMAT(TEC.CREATE_DATE, '%Y%m%d%H%i') AS createDate,
+               IFNULL(TEC.CREATE_SEQ, '')                 AS createSeq,
+               CASE
+                   WHEN TEC.MODIFY_DATE IS NOT NULL
+                       THEN DATE_FORMAT(TEC.MODIFY_DATE, '%Y%m%d%H%i')
+                   ELSE
+                       ''
+                   END                                    AS modifyDate,
+               IFNULL(TEC.MODIFY_SEQ, '')                 AS modifySeq
+        FROM T_EM_COMP TEC
+        WHERE 1 = 1
+          AND TEC.COMP_SEQ = #{comp.compSeq}
+          AND TEC.USE_YND = 'Y'
+    </select>
+</mapper>

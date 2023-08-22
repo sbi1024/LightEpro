@@ -1,8 +1,8 @@
 package com.example.LightEpro.sch.controller;
 
-import com.example.LightEpro.sch.constant.ConstValue;
+import com.example.LightEpro.sch.constant.SchConstValue;
 import com.example.LightEpro.sch.dto.sch005.SchRqDto005;
-import com.example.LightEpro.sch.exception.ExceptionCustom;
+import com.example.LightEpro.exception.ExceptionCustom;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService005;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,7 @@ public class SchController005 {
 
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
-        schResponse.setReponseCode(200);
+        schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch005 API SUCCESS");
         schResponse.setResponseData(schService005.createSingleCal(schRqDto005));
 
@@ -66,7 +66,7 @@ public class SchController005 {
         int ownerCdeSeq = owner.getCdeSeq();
 
         // 1. 개인캘린더 등록시에 , 관리자 요청값이 포함되어 들어오는 경우 Exception
-        if (calType.equals(ConstValue.ECAL_TYPE) && managers != null) {
+        if (calType.equals(SchConstValue.ECAL_TYPE) && managers != null) {
             log.error("$$$ sch005 validApiRequest fail !!! (IncorrectIncludException) $$$");
             log.error("$$$ sch005 validApiRequest fail !!! (schRqDto005 : " + schRqDto005 + ") $$$");
             throw new ExceptionCustom.IncorrectIncludException();

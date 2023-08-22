@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class SchResponse {
     private String responseStatus;
-    private int reponseCode;
+    private int responseCode;
     private String responseMsg;
     private Object responseData;
 }

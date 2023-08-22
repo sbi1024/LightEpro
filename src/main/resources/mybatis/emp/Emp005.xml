@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.LightEpro.emp.mapper.EmpMapper005">
+    <select id="findCurrentCompValue" resultType="int">
+        /* findCurrentCompValue */
+        SELECT practice.nextval('comp') FROM dual;
+    </select>
+
+    <insert id="insertComp">
+        /* insertComp */
+        INSERT INTO T_EM_COMP (COMP_SEQ,
+                               PARENT_COMP_SEQ,
+                               COMP_NAME,
+                               USE_YND,
+                               CREATE_DATE,
+                               CREATE_SEQ)
+        VALUES (#{comp.compSeq},
+                #{comp.parentCompSeq},
+                #{comp.compName},
+                'Y',
+                NOW(),
+                #{emp.empSeq})
+    </insert>
+</mapper>

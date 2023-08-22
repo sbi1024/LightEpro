@@ -1,7 +1,7 @@
 package com.example.LightEpro.sch.controller;
 
 import com.example.LightEpro.sch.dto.sch006.SchRqDto006;
-import com.example.LightEpro.sch.exception.ExceptionCustom;
+import com.example.LightEpro.exception.ExceptionCustom;
 import com.example.LightEpro.sch.mapper.SchMapper006;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService006;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @ResponseBody
@@ -40,7 +39,7 @@ public class SchController006 {
 
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
-        schResponse.setReponseCode(200);
+        schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch006 API SUCCESS");
         schResponse.setResponseData(schService006.findSingleCal(schRqDto006));
 

@@ -1,8 +1,8 @@
 package com.example.LightEpro.sch.controller;
 
-import com.example.LightEpro.sch.constant.ConstValue;
+import com.example.LightEpro.sch.constant.SchConstValue;
 import com.example.LightEpro.sch.dto.sch000.SchRqDto000;
-import com.example.LightEpro.sch.exception.ExceptionCustom;
+import com.example.LightEpro.exception.ExceptionCustom;
 import com.example.LightEpro.sch.mapper.SchMapper000;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService000;
@@ -46,7 +46,7 @@ public class SchController000 {
         // SchResponse 객체 데이터 생성 및 할당
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
-        schResponse.setReponseCode(200);
+        schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch000 API SUCCESS");
         schResponse.setResponseData(schService000.createSingleSch(schRqDto000));
 
@@ -83,7 +83,7 @@ public class SchController000 {
         }
         // 개인캘린더 등록시에 , 참여자 혹은 공개범위 데이터가 포함되는 경우 Exception 처리
         String calType = schMapper000.checkCalType(calSeq);
-        if (calType.equals(ConstValue.ECAL_TYPE) && (participants != null || disclosureScopes != null)) {
+        if (calType.equals(SchConstValue.ECAL_TYPE) && (participants != null || disclosureScopes != null)) {
             log.error("$$$ sch000 validApiRequest fail !!! (IncorrectIncludException) $$$");
             log.error("$$$ sch000 validApiRequest fail !!! (schRqDto000 : " + schRqDto000 + ") $$$");
             throw new ExceptionCustom.IncorrectIncludException();

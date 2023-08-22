@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.LightEpro.emp.mapper.EmpMapper001">
+    <select id="selectDeptInfo" resultType="com.example.LightEpro.emp.dto.emp001.EmpRsDto001$DeptInfo">
+        /* selectDeptInfo */
+        SELECT IFNULL(TED.DEPT_SEQ, '')                   AS deptSeq,
+               IFNULL(TED.PARENT_DEPT_SEQ, '')            AS parentDeptSeq,
+               IFNULL(TED.DEPT_NAME, '')                  AS deptName,
+               IFNULL(TED.USE_YND, '')                    AS useYnd,
+               DATE_FORMAT(TED.CREATE_DATE, '%Y%m%d%H%i') AS createDate,
+               IFNULL(TED.CREATE_SEQ, '')                 AS createSeq,
+               CASE
+                   WHEN TED.MODIFY_DATE IS NOT NULL
+                       THEN DATE_FORMAT(TED.MODIFY_DATE, '%Y%m%d%H%i')
+                   ELSE
+                       ''
+                   END                                    AS modifyDate,
+               IFNULL(TED.MODIFY_SEQ, '')                 AS modifySeq
+        FROM T_EM_DEPT TED
+        WHERE 1 = 1
+          AND TED.DEPT_SEQ = #{dept.deptSeq}
+          AND TED.USE_YND = 'Y'
+    </select>
+</mapper>

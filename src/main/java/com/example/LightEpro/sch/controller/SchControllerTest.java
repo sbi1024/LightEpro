@@ -32,7 +32,7 @@ public class SchControllerTest {
 
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
-        schResponse.setReponseCode(200);
+        schResponse.setResponseCode(200);
         schResponse.setResponseMsg("schTest API SUCCESS");
         schResponse.setResponseData(schServiceTest.createTestSch(schRqDto000));
 

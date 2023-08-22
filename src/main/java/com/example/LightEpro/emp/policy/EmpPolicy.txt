@@ -1,0 +1,119 @@
+ ------------------------------------------------------
+ [SQL 계층형 쿼리 참고 블로그 사이트]
+ 1. https://hongik-prsn.tistory.com/78
+ 2. https://dncjf0223.tistory.com/59
+
+- 부서 기준 조직도 계층 조회 쿼리 샘플 1
+ WITH RECURSIVE CTE AS (SELECT TED.DEPT_SEQ,
+                                       TED.PARENT_DEPT_SEQ,
+                                       CAST(TED.DEPT_SEQ AS CHAR(100)) AS DEPT_PATH
+                                FROM T_EM_DEPT TED
+                                WHERE 1 = 1
+                                  AND TED.PARENT_DEPT_SEQ = 0
+
+                                UNION ALL
+
+                                SELECT TED.DEPT_SEQ,
+                                       TED.PARENT_DEPT_SEQ,
+                                       CONCAT(CTE.DEPT_PATH, '|', TED.DEPT_SEQ)
+                                FROM T_EM_DEPT TED
+                                         INNER JOIN CTE CTE
+                                                    ON TED.PARENT_DEPT_SEQ = CTE.DEPT_SEQ)
+         SELECT DEPT_PATH       AS deptPath
+         FROM CTE
+         WHERE 1 = 1
+           AND CTE.DEPT_SEQ = #{dept.deptSeq}
+
+
+ - 부서 기준 조직도 계층 조회 쿼리 샘플 2
+ WITH RECURSIVE CTE AS (SELECT TED.DEPT_SEQ,
+                                       TED.PARENT_DEPT_SEQ,
+                                       CAST(TED.DEPT_SEQ AS CHAR(100)) AS DEPT_PATH
+                                FROM T_EM_DEPT TED
+                                WHERE 1 = 1
+                                  AND TED.DEPT_SEQ = 24
+
+                                UNION ALL
+
+                                SELECT TED.DEPT_SEQ,
+                                       TED.PARENT_DEPT_SEQ,
+                                       CONCAT(CTE.DEPT_PATH, '|', TED.DEPT_SEQ)
+                                FROM T_EM_DEPT TED
+                                         INNER JOIN CTE CTE
+                                                    ON TED.PARENT_DEPT_SEQ = CTE.DEPT_SEQ)
+ SELECT *
+ FROM CTE
+------------------------------------------------------
+ 1. 직책 [Responsibilities of office , Job]
+   - 조직에서 부여된 직무, 책임, 권한
+   - 보직이 부여되는 경우
+   - 예시
+    : 영업 본부장, 생산부장, 인사부장, 총무과장
+    : 대표이사, CFO, CTO, 팀장, 고문, 지점장
+
+ 2. 직위 [Position]
+   - 직책상의 지위나 분담
+   - 직무[Job]에 따른 사회적, 행정적 위치
+   - 내가 해야 하는 일의 범위와 책임의 단위
+   - 예시
+    : 인턴, 사원, 대리, 과장, 차장, 부장, 상무, 전무
+    : 부사장, 사장, 부회장, 회장
+
+ 3. 직급 [Class, Job Grade]
+   - 직무(맡은 일)의 세부적인 등급.
+   - 일 종류, 난이도, 책임도 비슷한 직위를 묶음
+   - 영어권 국가에서는 대부분 사용되지 않음.
+   - 예시
+   : 사원 3호봉, 부장 1호봉, 공무원 5급 2호봉
+
+------------------------------------------------------
+[진행 해야 하는 항목]
+TODO 1. 회사 등록/수정/조회/삭제
+→ 등록/수정/삭제시 Path 컬럼 최적화하여 처리할 수 있도록 확인 필요
+
+TODO 2. 부서 등록/수정/조회/삭제
+→ 등록/수정/삭제시 Path 컬럼 최적화하여 처리할 수 있도록 확인 필요
+
+TODO 3. 사원 등록/수정/조회/삭제 (계정 정보 및 , 어느 부서 회사 까지 한번에 입사처리 진행)
+→ 등록/수정/삭제시 Path 컬럼 최적화하여 처리할 수 있도록 확인 필요
+
+TODO 4. 위 3가지 항목에 대해서 처리가 완료 된 후 , 조직도 조회 가능 여부 확인 필요
+→ 조직도 생성 쿼리에 대해서는 아직 확인된 바 없음.
+
+[확인 필요한 항목]
+TODO 5. 회사/부서 관련 상위 회사 및 상위 부서를 수정하는 경우에 대한 로직 확인 필요
+* 하기 케이스 확인 필요
+    [수정 케이스]
+    부서1
+     ㄴ부서2
+     ㄴ부서3
+    부서4
+     ㄴ부서5
+     ㄴ부서6
+      ㄴ부서7
+      ㄴ부서8
+
+    케이스1. 부서4의 상위 부서를 부서2로 변경하는 경우
+      공통. 변경일자와 변경시퀀스값 수정
+      로직1. 부서 4인 경우 = 상위 부서를 2로 변경하고 , 부서경로를 재 정립한다.
+      로직2. 상위 부서 4인 경우 = 부서경로를 재 정립한다.
+      로직3. 부서 4인 경우의 매핑 테이블 = 부서2로 변경한다.
+
+
+    [삭제 케이스]
+    부서1
+     ㄴ부서2
+     ㄴ부서3
+    부서4
+     ㄴ부서5
+     ㄴ부서6
+      ㄴ부서7
+      ㄴ부서8
+
+    케이스1. 부서4을 삭제하는 경우
+      공통. 변경일자와 변경시퀀스값 수정
+      로직1. 부서가 4인 경우 삭제 처리
+      로직2. 상위 부서가 4인 경우에 대한 모든 부서 시퀀스값을 조회해서 삭제 처리 필요
+      로직3. 삭제 진행전 , 삭제하고자 하는 부서에 포함되어 있는 인원에 대한 부서 변경을 진행할 것인지 , 아님 전부 사용불가처리를 진행할 것인지 확인 후 분기 처리 필요.
+
+TODO 6. 회사/부서 관련 권한 테이블 및 로직 확인 필요
