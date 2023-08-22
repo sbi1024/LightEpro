@@ -1,0 +1,26 @@
+{
+  "user": {
+    "userSeq": 1
+  },
+  "emp": {
+    "empSeq": 1000,
+    "empName": "서보인",
+    "birthDate": "19961024",
+    "hireDate": "20230822",
+    "phoneNumber": "010-1234-5678",
+    "sex": "M"
+  },
+  "empAccount": {
+    "userId": "1",
+    "userPw": "1234"
+  },
+  "empMapping": {
+    "compSeq": 1,
+    "deptSeq": 1,
+    "mainCompYn": "Y",
+    "mainDeptYn": "Y",
+    "positionSeq": 1,
+    "positionSpotSeq": 1,
+    "positionGradeSeq": 1
+  }
+}

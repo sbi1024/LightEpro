@@ -1,18 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.LightEpro.emp.mapper.EmpMapper010">
-    <insert id="insertEmpInfo" >
-        /* insertEmpInfo */
+    <select id="findCurrentEmpValue" resultType="int">
+        /* findCurrentEmpValue */
+        SELECT practice.nextval('emp')
+        FROM dual;
+    </select>
 
+    <insert id="insertEmpInfo">
+        /* insertEmpInfo */
+        INSERT INTO T_EM_EMP (EMP_SEQ,
+                              EMP_NAME,
+                              EMP_BIRTH_DATE,
+                              EMP_HIRE_DATE,
+                              EMP_PHONE_NUMBER,
+                              EMP_SEX,
+                              USE_YND,
+                              CREATE_DATE,
+                              CREATE_SEQ)
+        VALUES (#{emp.empSeq},
+                #{emp.empName},
+                #{emp.birthDate},
+                #{emp.hireDate},
+                #{emp.phoneNumber},
+                #{emp.sex},
+                'Y',
+                NOW(),
+                #{user.userSeq})
     </insert>
 
     <insert id="insertAccountInfo">
         /* insertAccountInfo */
-
+        INSERT INTO T_EM_EMP_ACCOUNT (EMP_ID,
+                                      EMP_PW,
+                                      EMP_SEQ,
+                                      USE_YND,
+                                      CREATE_DATE,
+                                      CREATE_SEQ)
+        VALUES (#{empAccount.userId},
+                #{empAccount.userPw},
+                #{emp.empSeq},
+                'Y',
+                NOW(),
+                #{user.userSeq})
     </insert>
 
     <insert id="insertMappingInfo">
         /* insertMappingInfo */
-
+        INSERT INTO T_EM_EMP_MAPPING (EMP_SEQ,
+                                      DEPT_SEQ,
+                                      COMP_SEQ,
+                                      MAIN_DEPT_YN,
+                                      MAIN_COMP_YN,
+                                      POSITION_SEQ,
+                                      POSITION_SPOT_SEQ,
+                                      POSITION_GRADE_SEQ,
+                                      USE_YND,
+                                      CREATE_DATE,
+                                      CREATE_SEQ)
+        VALUES (#{emp.empSeq},
+                #{empMapping.deptSeq},
+                #{empMapping.compSeq},
+                #{empMapping.mainDeptYn},
+                #{empMapping.mainCompYn},
+                #{empMapping.positionSeq},
+                #{empMapping.positionSpotSeq},
+                #{empMapping.positionGradeSeq},
+                'Y',
+                NOW(),
+                #{user.userSeq})
     </insert>
 </mapper>

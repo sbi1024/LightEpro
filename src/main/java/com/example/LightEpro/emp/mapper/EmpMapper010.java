@@ -7,7 +7,12 @@ import java.util.List;
 
 @Mapper
 public interface EmpMapper010 {
+    int findCurrentEmpValue() throws Exception;
+
     int insertEmpInfo(EmpRqDto010 empRqDto010) throws Exception;
+
     int insertAccountInfo(EmpRqDto010 empRqDto010) throws Exception;
+
     int insertMappingInfo(EmpRqDto010 empRqDto010) throws Exception;
+
 }

@@ -7,11 +7,13 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 
 @Data
 public class EmpRqDto010 {
+    @NotNull
+    private @Valid User user;
     @NotNull
     private @Valid Emp emp;
     @NotNull
@@ -20,14 +22,20 @@ public class EmpRqDto010 {
     private @Valid EmpMapping empMapping;
 
     @Data
+    public static class User {
+        private int userSeq;
+    }
+
+    @Data
     public static class Emp {
         private int empSeq;
         @NotBlank
         private String empName;
-        private LocalDateTime birthDate;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmm", timezone = "Asia/Seoul")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMdd", timezone = "Asia/Seoul")
+        private LocalDate birthDate;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMdd", timezone = "Asia/Seoul")
+        private LocalDate hireDate;
         private String phoneNumber;
-        private String job;
         private String sex;
     }
 

@@ -24,6 +24,9 @@ public class EmpServiceImpl010 implements EmpService010 {
         log.info("createSingleEmp Method Start !!!");
         log.info("createSingleEmp Method Request Data : " + empRqDto010);
 
+        // 객체 데이터 재 할당
+        assignObject(empRqDto010);
+
         // 사원 정보를 등록한다.
         int createEmpCnt = createEmp(empRqDto010);
 
@@ -42,12 +45,42 @@ public class EmpServiceImpl010 implements EmpService010 {
                 .build();
 
 
-        // method start log
-        log.info("createSingleEmp Method Start !!!");
-        log.info("createSingleEmp Method Request Data : " + empRsDto010);
+        // method end log
+        log.info("createSingleEmp Method Return Data : " + empRsDto010);
+        log.info("createSingleEmp Method End !!!");
 
         // return
         return empRsDto010;
+    }
+
+    @Override
+    public void assignObject(EmpRqDto010 empRqDto010) throws Exception {
+        // method start log
+        log.info("assignObject Method Start !!!");
+        log.info("assignObject Method Request Data : " + empRqDto010);
+
+        // empSeq 값을 채번하여 데이터 재 할당을 진행한다.
+        int currentEmpValue = findCurrentEmpValue(empRqDto010);
+        empRqDto010.getEmp().setEmpSeq(currentEmpValue);
+
+        // method end log
+        log.info("createSingleEmp Method End !!!");
+    }
+
+    @Override
+    public int findCurrentEmpValue(EmpRqDto010 empRqDto010) throws Exception {
+        // method start log
+        log.info("findCurrentEmpValue Method Start !!!");
+        log.info("findCurrentEmpValue Method Request Data : " + empRqDto010);
+
+        int currentEmpValue = empMapper010.findCurrentEmpValue();
+
+        // method end log
+        log.info("findCurrentEmpValue Method Return Data : " + currentEmpValue);
+        log.info("findCurrentEmpValue Method End !!!");
+
+        // return
+        return currentEmpValue;
     }
 
     @Override
@@ -58,9 +91,9 @@ public class EmpServiceImpl010 implements EmpService010 {
 
         int insertEmpInfoCnt = empMapper010.insertEmpInfo(empRqDto010);
 
-        // method start log
-        log.info("createEmp Method Start !!!");
-        log.info("createEmp Method Request Data : " + insertEmpInfoCnt);
+        // method end log
+        log.info("createEmp Method Return Data : " + insertEmpInfoCnt);
+        log.info("createEmp Method End !!!");
 
         return insertEmpInfoCnt;
     }
@@ -73,10 +106,11 @@ public class EmpServiceImpl010 implements EmpService010 {
 
         int insertEmpAccountInfoCnt = empMapper010.insertAccountInfo(empRqDto010);
 
-        // method start log
-        log.info("createEmpAccount Method Start !!!");
-        log.info("createEmpAccount Method Request Data : " + insertEmpAccountInfoCnt);
+        // method end log
+        log.info("createEmpAccount Method Return Data : " + insertEmpAccountInfoCnt);
+        log.info("createEmpAccount Method End !!!");
 
+        // return
         return insertEmpAccountInfoCnt;
     }
 
@@ -88,10 +122,11 @@ public class EmpServiceImpl010 implements EmpService010 {
 
         int insertEmpMappingInfoCnt = empMapper010.insertMappingInfo(empRqDto010);
 
-        // method start log
-        log.info("createEmpMapping Method Start !!!");
-        log.info("createEmpMapping Method Request Data : " + insertEmpMappingInfoCnt);
+        // method end log
+        log.info("createEmpMapping Method Return Data : " + insertEmpMappingInfoCnt);
+        log.info("createEmpMapping Method End !!!");
 
+        // return
         return insertEmpMappingInfoCnt;
     }
 }
