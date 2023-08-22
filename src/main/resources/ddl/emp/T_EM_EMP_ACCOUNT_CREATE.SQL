@@ -1,16 +1,15 @@
 CREATE TABLE `T_EM_EMP_ACCOUNT`
 (
-    `EMP_ID`      VARCHAR(30) NOT NULL COMMENT '사용자 아이디',
-    `EMP_PW`      VARCHAR(30) NOT NULL COMMENT '사용자 패스워드',
-    `EMP_SEQ`     BIGINT      NOT NULL COMMENT '사원 시퀀스',
-    `USE_YND`     VARCHAR(3)  NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
-    `CREATE_DATE` DATETIME    NOT NULL DEFAULT SYSDATE() COMMENT '최초 등록 일자',
-    `CREATE_SEQ`  BIGINT      NOT NULL COMMENT '등록자 시퀀스',
-    `MODIFY_DATE` DATETIME    NULL COMMENT '최종 변경 일자',
-    `MODIFY_SEQ`  BIGINT      NULL COMMENT '변경자 시퀀스',
-    `DELETE_DATE` DATETIME    NULL COMMENT '최종 삭제 일자',
-    `DELETE_SEQ`  BIGINT      NULL COMMENT '삭제자 시퀀스',
-    PRIMARY KEY (`EMP_ID`),
-    INDEX `IDX_EMP_SEQ` (`EMP_SEQ`)
+    `EMP_SEQ`     BIGINT       NOT NULL COMMENT '사원 시퀀스',
+    `EMP_ID`      VARCHAR(30)  NOT NULL COMMENT '사용자 아이디',
+    `EMP_PW`      VARCHAR(200) NOT NULL COMMENT '사용자 패스워드',
+    `USE_YND`     VARCHAR(3)   NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
+    `CREATE_DATE` DATETIME     NOT NULL DEFAULT SYSDATE() COMMENT '최초 등록 일자',
+    `CREATE_SEQ`  BIGINT       NOT NULL COMMENT '등록자 시퀀스',
+    `MODIFY_DATE` DATETIME     NULL COMMENT '최종 변경 일자',
+    `MODIFY_SEQ`  BIGINT       NULL COMMENT '변경자 시퀀스',
+    `DELETE_DATE` DATETIME     NULL COMMENT '최종 삭제 일자',
+    `DELETE_SEQ`  BIGINT       NULL COMMENT '삭제자 시퀀스',
+    PRIMARY KEY (`EMP_SEQ`, `EMP_ID`)
 ) COMMENT '사용자 계정 테이블'
 ;

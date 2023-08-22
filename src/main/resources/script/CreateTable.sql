@@ -1,3 +1,48 @@
+-- 1. SEQUENCES 테이블 생성
+DROP TABLE IF EXISTS SEQUENCES;
+CREATE TABLE IF NOT EXISTS SEQUENCES
+(
+    NAME    VARCHAR(32),
+    CURRVAL BIGINT UNSIGNED
+);
+
+-- 2. create_sequence 프로시저 삭제 및 생성
+DROP PROCEDURE IF EXISTS create_sequence;
+
+DELIMITER $$
+CREATE PROCEDURE `create_sequence`(IN the_name text)
+    MODIFIES SQL DATA
+    DETERMINISTIC
+BEGIN
+    DELETE FROM sequences WHERE name = the_name;
+    INSERT INTO sequences VALUES (the_name, 0);
+END;
+
+-- 3. nextval 프로시저 삭제 및 생성
+DROP PROCEDURE IF EXISTS nextval;
+
+DELIMITER $$
+CREATE FUNCTION `nextval`(the_name VARCHAR(32))
+    RETURNS BIGINT UNSIGNED
+    MODIFIES SQL DATA
+    DETERMINISTIC
+BEGIN
+    DECLARE ret BIGINT UNSIGNED;
+    UPDATE sequences SET currval = currval + 1 WHERE name = the_name;
+    SELECT currval INTO ret FROM sequences WHERE name = the_name LIMIT 1;
+    RETURN ret;
+END;
+
+-- 4. 키값에 해당하는 시퀀스 생성
+CALL create_sequence('sch');
+CALL create_sequence('cal');
+CALL create_sequence('emp');
+CALL create_sequence('dept');
+CALL create_sequence('comp');
+CALL create_sequence('position');
+
+-- -----------------------------------------------------------------
+
 -- 1. 일정 테이블 삭제 및 생성
 DROP TABLE IF EXISTS T_SC_SCH;
 CREATE TABLE IF NOT EXISTS `T_SC_SCH`
@@ -65,8 +110,7 @@ CREATE TABLE IF NOT EXISTS `T_SC_CAL`
     `DELETE_DATE` DATETIME    NULL COMMENT '최종 삭제 일자',
     `DELETE_SEQ`  BIGINT      NULL COMMENT '삭제자 시퀀스',
     PRIMARY KEY (`CAL_SEQ`)
-) COMMENT '일정 캘린더 테이블'
-;
+) COMMENT '일정 캘린더 테이블';
 
 -- 4. 일정 캘린더 구성원 테이블 삭제 및 생성
 DROP TABLE IF EXISTS T_SC_CAL_USER;
@@ -85,8 +129,7 @@ CREATE TABLE IF NOT EXISTS `T_SC_CAL_USER`
     `DELETE_DATE`        DATETIME    NULL COMMENT '최종 삭제 일자',
     `DELETE_SEQ`         BIGINT      NULL COMMENT '삭제자 시퀀스',
     PRIMARY KEY (`CAL_SEQ`, `CDE_SEQ`, `CDE_TYPE`, `CAL_PARTITION_TYPE`)
-) COMMENT '일정 캘린더 구성원 테이블'
-;
+) COMMENT '일정 캘린더 구성원 테이블';
 
 -- 5. 사원 테이블 삭제 및 생성
 DROP TABLE IF EXISTS T_EM_EMP;
@@ -107,8 +150,7 @@ CREATE TABLE IF NOT EXISTS `T_EM_EMP`
     `DELETE_DATE`      DATETIME    NULL COMMENT '최종 삭제 일자',
     `DELETE_SEQ`       BIGINT      NULL COMMENT '삭제자 시퀀스',
     PRIMARY KEY (`EMP_SEQ`)
-) COMMENT '사원 테이블'
-;
+) COMMENT '사원 테이블';
 
 -- 6. 회사 테이블 삭제 및 생성
 DROP TABLE IF EXISTS T_EM_COMP;
@@ -125,8 +167,7 @@ CREATE TABLE IF NOT EXISTS `T_EM_COMP`
     `DELETE_DATE`     DATETIME    NULL COMMENT '최종 삭제 일자',
     `DELETE_SEQ`      BIGINT      NULL COMMENT '삭제자 시퀀스',
     PRIMARY KEY (`COMP_SEQ`)
-) COMMENT '회사 테이블'
-;
+) COMMENT '회사 테이블';
 
 -- 7. 부서 테이블 삭제 및 생성
 DROP TABLE IF EXISTS T_EM_DEPT;
@@ -143,27 +184,24 @@ CREATE TABLE IF NOT EXISTS `T_EM_DEPT`
     `DELETE_DATE`     DATETIME    NULL COMMENT '최종 삭제 일자',
     `DELETE_SEQ`      BIGINT      NULL COMMENT '삭제자 시퀀스',
     PRIMARY KEY (`DEPT_SEQ`)
-) COMMENT '부서 테이블'
-;
+) COMMENT '부서 테이블';
 
 -- 8. 사용자 계정 테이블 삭제 및 생성
 DROP TABLE IF EXISTS T_EM_EMP_ACCOUNT;
 CREATE TABLE IF NOT EXISTS `T_EM_EMP_ACCOUNT`
 (
-    `EMP_ID`      VARCHAR(30) NOT NULL COMMENT '사용자 아이디',
-    `EMP_PW`      VARCHAR(30) NOT NULL COMMENT '사용자 패스워드',
-    `EMP_SEQ`     BIGINT      NOT NULL COMMENT '사원 시퀀스',
-    `USE_YND`     VARCHAR(3)  NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
-    `CREATE_DATE` DATETIME    NOT NULL DEFAULT SYSDATE() COMMENT '최초 등록 일자',
-    `CREATE_SEQ`  BIGINT      NOT NULL COMMENT '등록자 시퀀스',
-    `MODIFY_DATE` DATETIME    NULL COMMENT '최종 변경 일자',
-    `MODIFY_SEQ`  BIGINT      NULL COMMENT '변경자 시퀀스',
-    `DELETE_DATE` DATETIME    NULL COMMENT '최종 삭제 일자',
-    `DELETE_SEQ`  BIGINT      NULL COMMENT '삭제자 시퀀스',
-    PRIMARY KEY (`EMP_ID`),
-    INDEX `IDX_EMP_SEQ` (`EMP_SEQ`)
-) COMMENT '사용자 계정 테이블'
-;
+    `EMP_SEQ`     BIGINT       NOT NULL COMMENT '사원 시퀀스',
+    `EMP_ID`      VARCHAR(30)  NOT NULL COMMENT '사용자 아이디',
+    `EMP_PW`      VARCHAR(200) NOT NULL COMMENT '사용자 패스워드',
+    `USE_YND`     VARCHAR(3)   NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
+    `CREATE_DATE` DATETIME     NOT NULL DEFAULT SYSDATE() COMMENT '최초 등록 일자',
+    `CREATE_SEQ`  BIGINT       NOT NULL COMMENT '등록자 시퀀스',
+    `MODIFY_DATE` DATETIME     NULL COMMENT '최종 변경 일자',
+    `MODIFY_SEQ`  BIGINT       NULL COMMENT '변경자 시퀀스',
+    `DELETE_DATE` DATETIME     NULL COMMENT '최종 삭제 일자',
+    `DELETE_SEQ`  BIGINT       NULL COMMENT '삭제자 시퀀스',
+    PRIMARY KEY (`EMP_SEQ`, `EMP_ID`)
+) COMMENT '사용자 계정 테이블';
 
 -- 9. 사원 매핑 테이블 삭제 및 생성
 DROP TABLE IF EXISTS T_EM_EMP_MAPPING;
@@ -185,16 +223,15 @@ CREATE TABLE IF NOT EXISTS `T_EM_EMP_MAPPING`
     `DELETE_DATE`        DATETIME   NULL COMMENT '최종 삭제 일자',
     `DELETE_SEQ`         BIGINT     NULL COMMENT '삭제자 시퀀스',
     PRIMARY KEY (`EMP_SEQ`, `DEPT_SEQ`, `COMP_SEQ`)
-) COMMENT '사원 매핑 테이블 (회사/부서)'
-;
+) COMMENT '사원 매핑 테이블 (회사/부서)';
 
 -- 10. 직책/직위/직급 테이블 삭제 및 생성
 DROP TABLE IF EXISTS T_EM_POSITION;
 CREATE TABLE IF NOT EXISTS `T_EM_POSITION`
 (
-    `COMP_SEQ`           BIGINT      NOT NULL COMMENT '회사 시퀀스',
     `POSITION_CODE_SEQ`  BIGINT      NOT NULL COMMENT '직책/직위/직급 시퀀스',
     `POSITION_CODE_INFO` VARCHAR(30) NOT NULL COMMENT '직책/직위/직급 정보',
+    `COMP_SEQ`           BIGINT      NOT NULL COMMENT '회사 시퀀스',
     `USE_YND`            VARCHAR(3)  NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
     `CREATE_DATE`        DATETIME    NOT NULL DEFAULT SYSDATE() COMMENT '최초 등록 일자',
     `CREATE_SEQ`         BIGINT      NOT NULL COMMENT '등록자 시퀀스',
@@ -202,7 +239,7 @@ CREATE TABLE IF NOT EXISTS `T_EM_POSITION`
     `MODIFY_SEQ`         BIGINT      NULL COMMENT '변경자 시퀀스',
     `DELETE_DATE`        DATETIME    NULL COMMENT '최종 삭제 일자',
     `DELETE_SEQ`         BIGINT      NULL COMMENT '삭제자 시퀀스',
-    PRIMARY KEY (`COMP_SEQ`, `POSITION_CODE_SEQ`)
-) COMMENT '직책/직위/직급 테이블'
-;
+    PRIMARY KEY (`POSITION_CODE_SEQ`),
+    INDEX IDX_COMP_SEQ (`COMP_SEQ`)
+) COMMENT '직책/직위/직급 테이블';
 

@@ -10,6 +10,8 @@ public interface EmpService010 {
 
     int findCurrentEmpValue(EmpRqDto010 empRqDto010) throws Exception;
 
+    String encodePassWord(EmpRqDto010 empRqDto010) throws Exception;
+
     int createEmp(EmpRqDto010 empRqDto010) throws Exception;
 
     int createEmpAccount(EmpRqDto010 empRqDto010) throws Exception;

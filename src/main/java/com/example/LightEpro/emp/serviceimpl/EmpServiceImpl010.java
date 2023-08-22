@@ -6,6 +6,7 @@ import com.example.LightEpro.emp.mapper.EmpMapper010;
 import com.example.LightEpro.emp.service.EmpService010;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class EmpServiceImpl010 implements EmpService010 {
 
     private final EmpMapper010 empMapper010;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @Transactional(rollbackFor = {Exception.class})
     @Override
@@ -63,6 +66,10 @@ public class EmpServiceImpl010 implements EmpService010 {
         int currentEmpValue = findCurrentEmpValue(empRqDto010);
         empRqDto010.getEmp().setEmpSeq(currentEmpValue);
 
+        // 요청값으로 받은 비밀번호를 암호화 하여 재 할당을 진행한다.
+        String encodePassWord = encodePassWord(empRqDto010);
+        empRqDto010.getEmpAccount().setUserPw(encodePassWord);
+
         // method end log
         log.info("createSingleEmp Method End !!!");
     }
@@ -81,6 +88,21 @@ public class EmpServiceImpl010 implements EmpService010 {
 
         // return
         return currentEmpValue;
+    }
+
+    @Override
+    public String encodePassWord(EmpRqDto010 empRqDto010) throws Exception {
+        // method start log
+        log.info("findCurrentEmpValue Method Start !!!");
+        log.info("findCurrentEmpValue Method Request Data : " + empRqDto010);
+
+        String encodePassWord = bCryptPasswordEncoder.encode(empRqDto010.getEmpAccount().getUserPw());
+
+        // method end log
+        log.info("findCurrentEmpValue Method Return Data : " + encodePassWord);
+        log.info("findCurrentEmpValue Method End !!!");
+
+        return encodePassWord;
     }
 
     @Override

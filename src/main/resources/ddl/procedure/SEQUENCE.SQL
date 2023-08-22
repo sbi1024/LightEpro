@@ -40,6 +40,6 @@ CALL create_sequence('comp');
 -- 설명 : sch 이름의 currval 값의 다음값을 호출
 -- 부가 설명 : nextval 함수 앞에 , 디비 명이 있어야 함
 SELECT practice.nextval('sch')
-FROM DUAL ;
+FROM DUAL;
 
 
