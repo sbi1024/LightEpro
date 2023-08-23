@@ -17,11 +17,12 @@ spring:
     password: 1234
 
   # 스프링 최초 실행시 ,해당 스크립트가 자동 실행됨 (DB 변경시 빠르게 변경하여 테스트 하기 위한 설정)
-  # data-locations: classpath*:script/CreateTable.sql → insert sql 작성
   sql:
     init:
       schema-locations: classpath*:script/CreateTable.sql
+      data-locations: classpath*:script/InsertTable.sql
       mode: always
+      separator: ;;
 
 # mybatis 관련 설정
 mybatis:

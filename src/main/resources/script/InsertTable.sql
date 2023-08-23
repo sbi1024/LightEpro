@@ -1,1 +1,8 @@
--- TODO 차후 기본 테이블에 데이터 insert 하는 SQL 작성하여 , 테스트 편의성 상향 필요
+-- 1. 키값에 해당하는 시퀀스 생성
+CALL create_sequence('comp');;
+CALL create_sequence('dept');;
+CALL create_sequence('position');;
+CALL create_sequence('emp');;
+CALL create_sequence('cal');;
+CALL create_sequence('sch');;
+
