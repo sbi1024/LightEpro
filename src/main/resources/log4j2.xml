@@ -2,11 +2,11 @@
 <configuration>
     <appenders>
         <Console name="console" target="SYSTEM_OUT">
-            <PatternLayout pattern="[%style{%d{yyyy-MM-dd HH:mm:ss}}{cyan}] [%highlight{%p}] [%style{%L LINE}{bright,blue}] [%style{%c}{bright,yellow}] [%equals{%X{transactionId}}{}{basic-info}] : %style{%msg%n%throwable}{bright,magenta}" disableAnsi = "false"/>
+            <PatternLayout pattern="[%style{%d{yyyy-MM-dd HH:mm:ss}}{cyan}] [%highlight{%p}] [%style{%L LINE}{bright,blue}] [%style{%c}{bright,yellow}] [%equals{%X{transactionId}}{}{Init-Info}] : %style{%msg%n%throwable}{bright,magenta}" disableAnsi = "false"/>
         </Console>
 
         <RollingFile name="fileLightEpro" fileName="./logs/LightEpro.log" filePattern="./logs/LightEpro.log.%d{yyyy-MM-dd}">
-            <PatternLayout pattern="[%style{%d{yyyy-MM-dd HH:mm:ss}}{cyan}] [%highlight{%p}] [%style{%L LINE}{bright,blue}] [%style{%c}{bright,yellow}] [%equals{%X{transactionId}}{}{basic-info}] : %style{%msg%n%throwable}{bright,magenta}" />
+            <PatternLayout pattern="[%style{%d{yyyy-MM-dd HH:mm:ss}}{cyan}] [%highlight{%p}] [%style{%L LINE}{bright,blue}] [%style{%c}{bright,yellow}] [%equals{%X{transactionId}}{}{Init-Info}] : %style{%msg%n%throwable}{bright,magenta}" />
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" />
             </Policies>
