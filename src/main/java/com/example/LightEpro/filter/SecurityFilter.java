@@ -6,6 +6,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -24,13 +29,20 @@ public class SecurityFilter {
     // 2. 모든 요청에 대한 로깅 또는 검사
     // 3. 이미지/데이터 압축 및 문자열 인코딩
     // 4. Spring 과 분리되어야 하는 기능
-    @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // Spring Security 가 설정된 후 , POST API 정상 호출 불가 csrf 를 기본적으로 체크하기 때문 = csrf disable
-        http
-                .csrf().disable()
-                .cors().disable();
 
-        return http.build();
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
+                .cors(corsCustomizer -> corsCustomizer.configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                    config.setAllowedMethods(Collections.singletonList("*"));
+                    config.setAllowCredentials(true);
+                    config.setAllowedHeaders(Collections.singletonList("*"));
+                    config.setMaxAge(3600L); //1시간
+                    return config;
+                }))
+                .csrf().disable()
+                .build();
     }
 }
