@@ -30,6 +30,19 @@ BEGIN
 END;;
 
 -- -----------------------------------------------------------------
+-- 0. 로그 테이블 삭제 및 생성
+DROP TABLE IF EXISTS T_IN_LOG;;
+CREATE TABLE IF NOT EXISTS `T_IN_LOG`
+(
+    `LOG_SEQ`        BIGINT       NOT NULL COMMENT '로그 시퀀스',
+    `TRANSACTION_ID` VARCHAR(300) NOT NULL COMMENT '트랜잭션 아이디',
+    `API_PATH`       VARCHAR(50)  NOT NULL COMMENT 'API 주소 값',
+    `REQUEST_BODY`   TEXT         NULL COMMENT 'API 요청 값',
+    `RESPONSE_BODY`  TEXT         NULL COMMENT 'API 반환 값',
+    `CREATE_DATE`    DATETIME     NOT NULL DEFAULT SYSDATE() COMMENT '최초 등록 일자',
+    PRIMARY KEY (`LOG_SEQ`)
+) COMMENT '로그 테이블'
+;;
 
 -- 1. 일정 테이블 삭제 및 생성
 DROP TABLE IF EXISTS T_SC_SCH;;
@@ -230,4 +243,5 @@ CREATE TABLE IF NOT EXISTS `T_EM_POSITION`
     PRIMARY KEY (`POSITION_CODE_SEQ`),
     INDEX IDX_COMP_SEQ (`COMP_SEQ`)
 ) COMMENT '직책/직위/직급 테이블';;
+
 

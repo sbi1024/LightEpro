@@ -5,4 +5,5 @@ CALL create_sequence('position');;
 CALL create_sequence('emp');;
 CALL create_sequence('cal');;
 CALL create_sequence('sch');;
+CALL create_sequence('log');;
 

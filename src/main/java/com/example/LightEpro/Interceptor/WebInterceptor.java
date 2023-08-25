@@ -1,16 +1,25 @@
 package com.example.LightEpro.Interceptor;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jboss.logging.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.ContentCachingRequestWrapper;
+import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class WebInterceptor implements HandlerInterceptor {
+    private final ObjectMapper objectMapper;
+    private final ItMapper itMapper;
 
     // * 인터셉터(Interceptor)의 사용 사례
     // 1. 세부적인 보안 및 인증/인가 공통 작업
@@ -33,6 +42,34 @@ public class WebInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object object, Exception ex) throws Exception {
-        // 이 시점에서 history table 에 데이터 insert 하여 관리 진행
+        if (request.getClass().getName().contains("SecurityContextHolderAwareRequestWrapper")) {
+            return;
+        }
+
+        final ContentCachingRequestWrapper cachingRequest = (ContentCachingRequestWrapper) request;
+        final ContentCachingResponseWrapper cachingResponse = (ContentCachingResponseWrapper) response;
+
+        String requestBody = null;
+        if (cachingRequest.getContentType() != null && cachingRequest.getContentType().contains("application/json")) {
+            if (cachingRequest.getContentAsByteArray() != null && cachingRequest.getContentAsByteArray().length != 0) {
+                requestBody = objectMapper.writeValueAsString(objectMapper.readTree(cachingRequest.getContentAsByteArray()));
+            }
+        }
+
+        String responseBody = null;
+        if (cachingResponse.getContentType() != null && cachingResponse.getContentType().contains("application/json")) {
+            if (cachingResponse.getContentAsByteArray() != null && cachingResponse.getContentAsByteArray().length != 0) {
+                responseBody = objectMapper.writeValueAsString(objectMapper.readTree(cachingResponse.getContentAsByteArray()));
+            }
+        }
+
+        ItDto itDto = ItDto.builder()
+                .transactionId(String.valueOf(MDC.get("transactionId")))
+                .apiPath(request.getRequestURI())
+                .requestBody(requestBody)
+                .responseBody(responseBody)
+                .build();
+
+        int insertLogInfoCnt = itMapper.insertLogInfo(itDto);
     }
 }
