@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class SchRqDto000 {
     @NotNull
-    private @Valid Emp emp;
+    private @Valid User user;
     @NotNull
     private @Valid Sch sch;
     @NotNull
@@ -22,21 +22,21 @@ public class SchRqDto000 {
     private @Valid List<DisclosureScope> disclosureScopes;
 
     @Data
-    public static class Emp {
+    public static class User {
         @Positive
-        private int empSeq;
+        private int userSeq;
     }
 
     @Data
     public static class Sch {
         private int schmSeq;
         private int schSeq;
+
         @NotNull
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmm", timezone = "Asia/Seoul")
         private LocalDateTime startDate;
         private int startDateYear;
         private int startDateMonth;
-        private int startDateDay;
 
 
         @NotNull
@@ -44,13 +44,12 @@ public class SchRqDto000 {
         private LocalDateTime endDate;
         private int endDateYear;
         private int endDateMonth;
-        private int endDateDay;
+
         @NotBlank
         private String alldayYn;
         @NotBlank
         private String schTitle;
         private String schContent;
-        private int createSeq;
     }
 
     @Data
@@ -61,25 +60,21 @@ public class SchRqDto000 {
 
     @Data
     public static class Participant {
-        private int schmSeq;
-        private int schSeq;
+        @PositiveOrZero
+        private int calSeq;
         @Positive
         private int cdeSeq;
         @NotBlank
         private String cdeType;
-        private int calSeq;
-        private int createSeq;
     }
 
     @Data
     public static class DisclosureScope {
-        private int schmSeq;
-        private int schSeq;
+        @PositiveOrZero
+        private int calSeq;
         @Positive
         private int cdeSeq;
         @NotBlank
         private String cdeType;
-        private int calSeq;
-        private int createSeq;
     }
 }

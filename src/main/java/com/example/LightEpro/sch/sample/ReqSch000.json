@@ -1,6 +1,6 @@
 {
-  "emp": {
-    "empSeq": 1000
+  "user": {
+    "userSeq": 1000
   },
   "sch": {
     "startDate": "202308011530",

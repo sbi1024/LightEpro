@@ -8,7 +8,7 @@ CREATE TABLE `T_EM_EMP`
     `EMP_PHONE_NUMBER` VARCHAR(30) NULL COMMENT '사원 휴대폰 번호',
     `EMP_SEX`          VARCHAR(3)  NULL COMMENT '성별',
     `USE_YND`          VARCHAR(3)  NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
-    `CREATE_DATE`      DATETIME    NOT NULL DEFAULT SYSDATE() COMMENT '최초 등록 일자',
+    `CREATE_DATE`      DATETIME    NOT NULL DEFAULT NOW() COMMENT '최초 등록 일자',
     `CREATE_SEQ`       BIGINT      NOT NULL COMMENT '등록자 시퀀스',
     `MODIFY_DATE`      DATETIME    NULL COMMENT '최종 변경 일자',
     `MODIFY_SEQ`       BIGINT      NULL COMMENT '변경자 시퀀스',

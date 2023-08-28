@@ -14,6 +14,19 @@ public class SchConstValue {
     public static final String MCAL_TYPE = "M";
 
     /**
+     * 일정 구성원 타입  (개인) = E
+     */
+    public static final String CDE_E_TYPE = "E";
+    /**
+     * 일정 구성원 타입  (부서) = D
+     */
+    public static final String CDE_D_TYPE = "D";
+    /**
+     * 일정 구성원 타입  (회사) = C
+     */
+    public static final String CDE_C_TYPE = "C";
+
+    /**
      * 일정 구성원 타입  (참여자) = 10
      */
     public static final int PARTICIPANT_TYPE = 10;

@@ -2,6 +2,7 @@ package com.example.LightEpro.emp.controller;
 
 import com.example.LightEpro.emp.dto.emp010.EmpRqDto010;
 import com.example.LightEpro.emp.response.EmpResponse;
+import com.example.LightEpro.emp.service.EmpService009;
 import com.example.LightEpro.emp.service.EmpService010;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +20,10 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Slf4j
 public class EmpController010 {
+
     private final EmpService010 empService010;
 
-    // 사원 등록 API
+    // 직책/직위/직급 등록 API
     @RequestMapping(value = "/emp010", method = {RequestMethod.GET, RequestMethod.POST})
     public EmpResponse emp010(@RequestBody @Valid EmpRqDto010 empRqDto010) throws Exception {
         log.info("emp010 API Start !!!");
@@ -41,7 +43,7 @@ public class EmpController010 {
         empResponse.setResponseStatus("SUCCESS");
         empResponse.setResponseCode(200);
         empResponse.setResponseMsg("emp010 API SUCCESS");
-        empResponse.setResponseData(empService010.createSingleEmp(empRqDto010));
+        empResponse.setResponseData(empService010.createSinglePosition(empRqDto010));
 
         // stopWatch 종료
         stopWatch.stop();

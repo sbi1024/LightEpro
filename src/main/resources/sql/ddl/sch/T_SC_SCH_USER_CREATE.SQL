@@ -8,7 +8,7 @@ CREATE TABLE `T_SC_SCH_USER`
     `SCH_AUTORITY`       VARCHAR(10) NOT NULL COMMENT '일정 구성원의 수정 권한 , EX) M : 마스터 권한 , W : 수정 권한 , S : 조회 권한 ',
     `CAL_SEQ`            BIGINT      NOT NULL COMMENT '캘린더 시퀀스',
     `USE_YND`            VARCHAR(3)  NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
-    `CREATE_DATE`        DATETIME    NOT NULL DEFAULT SYSDATE() COMMENT '최초 등록 일자',
+    `CREATE_DATE`        DATETIME    NOT NULL DEFAULT NOW() COMMENT '최초 등록 일자',
     `CREATE_SEQ`         BIGINT      NOT NULL COMMENT '등록자 시퀀스',
     `MODIFY_DATE`        DATETIME    NULL COMMENT '최종 변경 일자',
     `MODIFY_SEQ`         BIGINT      NULL COMMENT '변경자 시퀀스',

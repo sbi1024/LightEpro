@@ -72,6 +72,7 @@ public class SchController000 {
         // 요청값으로 받은 시작일자 값과 , 종료일자 값을 추출한다.
         LocalDateTime startDate = sch.getStartDate();
         LocalDateTime endDate = sch.getEndDate();
+
         // 요청값으로 받은 캘린더 시퀀스 값을 추출한다.
         int calSeq = calendar.getCalSeq();
 
@@ -81,6 +82,9 @@ public class SchController000 {
             log.error("$$$ sch000 validApiRequest fail !!! (schRqDto000 : " + schRqDto000 + ") $$$");
             throw new ExceptionCustom.NotValidSchStartEndDateException();
         }
+
+        // TODO 참여자에 등록자가 포함되어 있는지 확인
+
         // 개인캘린더 등록시에 , 참여자 혹은 공개범위 데이터가 포함되는 경우 Exception 처리
         String calType = schMapper000.checkCalType(calSeq);
         if (calType.equals(SchConstValue.ECAL_TYPE) && (participants != null || disclosureScopes != null)) {

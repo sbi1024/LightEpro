@@ -1,0 +1,12 @@
+{
+  "user": {
+    "userSeq": 1
+  },
+  "comp": {
+    "compSeq" : "1"
+  } ,
+  "position": {
+    "positionCodeType" : "직책",
+    "positionCodeInfo" : "상무"
+  }
+}
