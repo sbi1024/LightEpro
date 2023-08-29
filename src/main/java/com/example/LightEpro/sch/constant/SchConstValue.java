@@ -5,6 +5,10 @@ package com.example.LightEpro.sch.constant;
  */
 public class SchConstValue {
     /**
+     * 빈 문자열 변수 = ""
+     */
+    public static final String EMPTY_VALUE = "";
+    /**
      * 캘린더 타입 개인캘린더 = E
      */
     public static final String ECAL_TYPE = "E";

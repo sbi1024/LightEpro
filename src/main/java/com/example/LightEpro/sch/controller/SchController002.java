@@ -48,7 +48,7 @@ public class SchController002 {
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch002 API SUCCESS");
-        schResponse.setResponseData(schService002.modifySingleSch(schRqDto002));
+        schResponse.setResponseData(schService002.modifyScheduleInfo(schRqDto002));
 
         // stopWatch 종료
         stopWatch.stop();
@@ -62,14 +62,13 @@ public class SchController002 {
 
     // sch002 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
     public void validApiRequest(SchRqDto002 schRqDto002) throws Exception {
-        SchRqDto002.Sch sch = schRqDto002.getSch();
-        SchRqDto002.Calendar calendar = schRqDto002.getCalendar();
-        List<SchRqDto002.Participant> participants = schRqDto002.getParticipants();
+        // schRqDto002 객체 데이터 추출
+        SchRqDto002.Schedule schedule = schRqDto002.getSchedule();
         List<SchRqDto002.DisclosureScope> disclosureScopes = schRqDto002.getDisclosureScopes();
 
         // 요청값으로 받은 시작일자 값과 , 종료일자 값을 추출한다.
-        LocalDateTime startDate = sch.getStartDate();
-        LocalDateTime endDate = sch.getEndDate();
+        LocalDateTime startDate = schedule.getStartDate();
+        LocalDateTime endDate = schedule.getEndDate();
 
         // 시작일자 값이 , 종료일자보다 큰 경우 Exception 처리
         if (startDate.isAfter(endDate)) {
@@ -77,16 +76,16 @@ public class SchController002 {
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
             throw new ExceptionCustom.NotValidSchStartEndDateException();
         }
-        // 개인캘린더 수정시에 , 참여자 혹은 공개범위 데이터가 포함되는 경우 Exception 처리
-        String calType = schMapper002.checkCalType(calendar.getCalSeq());
-        if (calType.equals(SchConstValue.ECAL_TYPE) && (participants != null || disclosureScopes != null)) {
+        // 개인캘린더 등록시에 , 공개범위 데이터가 포함되는 경우 Exception 처리
+        String selectCalendarTypeValue = schMapper002.selectCalendarType(schRqDto002);
+        if (selectCalendarTypeValue.equals(SchConstValue.ECAL_TYPE) && (disclosureScopes != null)){
             log.error("$$$ sch002 validApiRequest fail !!! (IncorrectIncludException) $$$");
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
             throw new ExceptionCustom.IncorrectIncludException();
         }
         // 일정 수정 진행 전 , 요청값으로 받은 일정 시퀀스값을 통해 일정이 존재하는지 판단 후 , 존재하지 않는다면 Exception 처리
-        int schCnt = schMapper002.checkSchExist(schRqDto002);
-        if (schCnt == 0) {
+        int selectScheduleCountValue = schMapper002.selectScheduleCount(schRqDto002);
+        if (selectScheduleCountValue == 0) {
             log.error("$$$ sch002 validApiRequest fail !!! (NotFoundSchException) $$$");
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
             throw new ExceptionCustom.NotFoundSchException();

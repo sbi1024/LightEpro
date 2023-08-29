@@ -4,17 +4,23 @@ import com.example.LightEpro.sch.dto.sch002.SchRqDto002;
 import com.example.LightEpro.sch.dto.sch002.SchRsDto002;
 
 public interface SchService002 {
-    SchRsDto002 modifySingleSch(SchRqDto002 schRqDto002)throws Exception;
-    int deleteSchUsers(SchRqDto002 schRqDto002) throws Exception;
-    int assignObject(SchRqDto002 schRqDto002) throws Exception;
-    int updateSingleSch(SchRqDto002 schRqDto002) throws Exception;
+    SchRsDto002 modifyScheduleInfo(SchRqDto002 schRqDto002) throws Exception;
 
-    int insertSchParticipants(SchRqDto002 schRqDto) throws Exception;
-    int insertSchDisclosureScopes(SchRqDto002 schRqDto) throws Exception;
+    void assignObject(SchRqDto002 schRqDto002) throws Exception;
 
-    int findCalSeq(int calSeq, int cdeSeq) throws Exception;
+    void confirmCalendarUsers(SchRqDto002 schRqDto002) throws Exception;
 
-    int insertEcalendar(int cdeSeq) throws Exception;
-    // 캘린더 시퀀스 번호 할당 메소드
-    int findCurrentCalValue() throws Exception;
+    int modifySchedule(SchRqDto002 schRqDto002) throws Exception;
+
+    int createParticipants(SchRqDto002 schRqDto002) throws Exception;
+
+    int modifyParticipants(SchRqDto002 schRqDto002) throws Exception;
+
+    int removeParticipants(SchRqDto002 schRqDto002) throws Exception;
+
+    int createDisclosureScopes(SchRqDto002 schRqDto002) throws Exception;
+
+    int modifyDisclosureScopes(SchRqDto002 schRqDto002) throws Exception;
+
+    int removeDisclosureScopes(SchRqDto002 schRqDto002) throws Exception;
 }

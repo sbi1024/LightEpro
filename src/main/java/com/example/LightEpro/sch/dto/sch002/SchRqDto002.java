@@ -14,90 +14,72 @@ import java.util.List;
 @Data
 public class SchRqDto002 {
     @NotNull
-    private @Valid Emp emp;
+    private @Valid User user; // 필수값
     @NotNull
-    private @Valid Sch sch;
+    private @Valid Schedule schedule; // 필수값
     @NotNull
-    private @Valid Calendar calendar;
+    private @Valid Calendar calendar; // 필수값
+    @NotNull
+    private @Valid List<Participant> participants; // 필수값
 
-    private @Valid List<Participant> participants;
-
-    private @Valid List<DisclosureScope> disclosureScopes;
+    private @Valid List<DisclosureScope> disclosureScopes; // 필수값이 아님
 
     @Data
-    public static class Emp {
+    public static class User {
         @Positive
-        private int empSeq;
+        private int userCompSeq; // 필수값
+        @Positive
+        private int userDeptSeq; // 필수값
+        @Positive
+        private int userSeq; // 필수값
     }
 
     @Data
-    public static class Sch {
+    public static class Schedule {
         @Positive
-        private int schmSeq;
+        private int schmSeq; // 필수값
         @Positive
-        private int schSeq;
-        @NotNull
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmm", timezone = "Asia/Seoul")
-        private LocalDateTime startDate;
-        private int startDateYear;
-        private int startDateMonth;
-        private int startDateDay;
-
+        private int schSeq; // 필수값
 
         @NotNull
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmm", timezone = "Asia/Seoul")
-        private LocalDateTime endDate;
-        private int endDateYear;
-        private int endDateMonth;
-        private int endDateDay;
+        private LocalDateTime startDate; // 필수값
+        private int startDateYear; // 필수값이 아님
+        private int startDateMonth; // 필수값이 아님
+
+        @NotNull
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmm", timezone = "Asia/Seoul")
+        private LocalDateTime endDate; // 필수값
+        private int endDateYear; // 필수값이 아님
+        private int endDateMonth; // 필수값이 아님
 
 
         @NotBlank
-        private String alldayYn;
+        private String alldayYn; // 필수값
         @NotBlank
-        private String schTitle;
-        private String schContent;
-        private LocalDateTime createDate;
-        private int createSeq;
-        private LocalDateTime modifyDate;
-        private int modifySeq;
+        private String schTitle; // 필수값
+        private String schContent; // 필수값이 아님
     }
 
     @Data
     public static class Calendar {
         @Positive
-        private int calSeq;
+        private int calSeq; // 필수값
     }
 
     @Data
     public static class Participant {
-        private int schmSeq;
-        private int schSeq;
         @Positive
-        private int cdeSeq;
+        private int cdeSeq; // 필수값
         @NotBlank
-        private String cdeType;
-        private int calSeq;
-        private String useYnd;
-        private LocalDateTime createDate;
-        private int createSeq;
-        private LocalDateTime modifyDate;
-        private int modifySeq;
+        private String cdeType; // 필수값
     }
 
     @Data
     public static class DisclosureScope {
-        private int schmSeq;
-        private int schSeq;
         @Positive
-        private int cdeSeq;
+        private int cdeSeq; // 필수값
         @NotBlank
-        private String cdeType;
-        private int calSeq;
-        private String useYnd;
-        private LocalDateTime createDate;
-        private int createSeq;
-        private LocalDateTime modifyDate;
-        private int modifySeq;
+        private String cdeType; // 필수값
     }
 }

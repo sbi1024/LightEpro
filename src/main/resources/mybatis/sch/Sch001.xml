@@ -8,8 +8,8 @@
         SELECT COUNT(1)
         FROM T_SC_SCH TSS
         WHERE 1 = 1
-          AND TSS.SCHM_SEQ = #{sch.schmSeq}
-          AND TSS.SCH_SEQ = #{sch.schSeq}
+          AND TSS.SCHM_SEQ = #{schedule.schmSeq}
+          AND TSS.SCH_SEQ = #{schedule.schSeq}
           AND TSS.USE_YND = 'Y'
     </select>
 
@@ -36,8 +36,8 @@
                IFNULL(TSS.MODIFY_SEQ, '')                 AS modifySeq
         FROM T_SC_SCH TSS
         WHERE 1 = 1
-          AND TSS.SCHM_SEQ = #{sch.schmSeq}
-          AND TSS.SCH_SEQ = #{sch.schSeq}
+          AND TSS.SCHM_SEQ = #{schedule.schmSeq}
+          AND TSS.SCH_SEQ = #{schedule.schSeq}
           AND TSS.USE_YND = 'Y'
     </select>
 
@@ -51,8 +51,8 @@
                IFNULL(tssu.SCH_AUTORITY, '')       AS schAutority
         FROM T_SC_SCH_USER TSSU
         WHERE 1 = 1
-          AND TSSU.SCHM_SEQ = #{sch.schmSeq}
-          AND TSSU.SCH_SEQ = #{sch.schSeq}
+          AND TSSU.SCHM_SEQ = #{schedule.schmSeq}
+          AND TSSU.SCH_SEQ = #{schedule.schSeq}
           AND TSSU.SCH_PARTITION_TYPE = '10'
           AND TSSU.USE_YND = 'Y'
     </select>
@@ -67,8 +67,8 @@
                IFNULL(TSSU.SCH_AUTORITY, '')       AS schAutority
         FROM T_SC_SCH_USER TSSU
         WHERE 1 = 1
-          AND TSSU.SCHM_SEQ = #{sch.schmSeq}
-          AND TSSU.SCH_SEQ = #{sch.schSeq}
+          AND TSSU.SCHM_SEQ = #{schedule.schmSeq}
+          AND TSSU.SCH_SEQ = #{schedule.schSeq}
           AND TSSU.SCH_PARTITION_TYPE = '20'
           AND TSSU.USE_YND = 'Y'
     </select>

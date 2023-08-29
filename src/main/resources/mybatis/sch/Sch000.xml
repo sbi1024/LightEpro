@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.LightEpro.sch.mapper.SchMapper000">
-    <select id="selectCalendarType" parameterType="int" resultType="string">
+    <select id="selectCalendarType" resultType="string">
         /* checkCalType */
         SELECT IFNULL(MAX(TSC.CAL_TYPE), '') AS calType
         FROM T_SC_CAL TSC
         WHERE 1 = 1
-          AND TSC.CAL_SEQ = #{calSeq}
+          AND TSC.CAL_SEQ = #{calendar.calSeq}
           AND TSC.USE_YND = 'Y'
     </select>
 
     <select id = "selectScheduleSequence" resultType="int">
         /* findCurrentSchValue */
-        SELECT practice.nextval('sch') FROM dual;
+        SELECT practice.nextval('schedule') FROM dual;
     </select>
 
     <insert id="insertSchedule" parameterType="com.example.LightEpro.sch.dto.sch000.SchRqDto000">
@@ -32,17 +32,17 @@
                               USE_YND,
                               CREATE_DATE,
                               CREATE_SEQ)
-        VALUES (#{sch.schmSeq},
-                #{sch.schSeq},
-                #{sch.startDate},
-                #{sch.startDateYear},
-                #{sch.startDateMonth},
-                #{sch.endDate},
-                #{sch.endDateYear},
-                #{sch.endDateMonth},
-                #{sch.alldayYn},
-                #{sch.schTitle},
-                #{sch.schContent},
+        VALUES (#{schedule.schmSeq},
+                #{schedule.schSeq},
+                #{schedule.startDate},
+                #{schedule.startDateYear},
+                #{schedule.startDateMonth},
+                #{schedule.endDate},
+                #{schedule.endDateYear},
+                #{schedule.endDateMonth},
+                #{schedule.alldayYn},
+                #{schedule.schTitle},
+                #{schedule.schContent},
                 'Y',
                 now(),
                 #{user.userSeq})
@@ -63,8 +63,8 @@
                                    CREATE_SEQ)
         VALUES <foreach collection="participants" item="participant" separator=",">
                     (
-                        #{sch.schmSeq},
-                        #{sch.schSeq},
+                        #{schedule.schmSeq},
+                        #{schedule.schSeq},
                         #{participant.cdeSeq},
                         #{participant.cdeType},
                         '10',
@@ -106,8 +106,8 @@
                                    CREATE_SEQ)
         VALUES <foreach collection="disclosureScopes" item="disclosureScope" separator=",">
                     (
-                        #{sch.schmSeq},
-                        #{sch.schSeq},
+                        #{schedule.schmSeq},
+                        #{schedule.schSeq},
                         #{disclosureScope.cdeSeq},
                         #{disclosureScope.cdeType},
                         '20',

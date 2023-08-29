@@ -62,19 +62,17 @@ public class SchController000 {
     }
 
     // sch000 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
+    // 0. TODO 개인캘린더 등록시에 , 참여자는 일정 등록자 와 같아야 함
+    // 1. TODO 참여자에 등록자가 포함되어 있는지 확인
+    // 2. TODO 해당 캘린더가 null 인 경우 확인
     public void validApiRequest(SchRqDto000 schRqDto000) throws Exception {
         // schRqDto000 객체 데이터 추출
         SchRqDto000.Schedule schedule = schRqDto000.getSchedule();
-        SchRqDto000.Calendar calendar = schRqDto000.getCalendar();
-        List<SchRqDto000.Participant> participants = schRqDto000.getParticipants();
         List<SchRqDto000.DisclosureScope> disclosureScopes = schRqDto000.getDisclosureScopes();
 
         // 요청값으로 받은 시작일자 값과 , 종료일자 값을 추출한다.
         LocalDateTime startDate = schedule.getStartDate();
         LocalDateTime endDate = schedule.getEndDate();
-
-        // 요청값으로 받은 캘린더 시퀀스 값을 추출한다.
-        int calSeq = calendar.getCalSeq();
 
         // 시작일자 값이 , 종료일자보다 큰 경우 Exception 처리
         if (startDate.isAfter(endDate)) {
@@ -83,12 +81,16 @@ public class SchController000 {
             throw new ExceptionCustom.NotValidSchStartEndDateException();
         }
 
-        // 1. TODO 참여자에 등록자가 포함되어 있는지 확인
-        // 2. TODO 해당 캘린더가 null 인 경우 확인
-
-        // 개인캘린더 등록시에 , 참여자 혹은 공개범위 데이터가 포함되는 경우 Exception 처리
-        String selectCalendarTypeValue = schMapper000.selectCalendarType(calSeq);
-        if (selectCalendarTypeValue.equals(SchConstValue.ECAL_TYPE) && (participants != null || disclosureScopes != null)) {
+        // 요청값으로 받은 캘린더시퀀스 값을통해 , 캘린더 타입을 조회한다.
+        String selectCalendarTypeValue = schMapper000.selectCalendarType(schRqDto000);
+        // 캘린더 타입의 값이 빈 값인 경우 Exception 처리
+        if(selectCalendarTypeValue.equals(SchConstValue.EMPTY_VALUE)){
+            log.error("$$$ sch000 validApiRequest fail !!! (                                 ) $$$");
+            log.error("$$$ sch000 validApiRequest fail !!! (schRqDto000 : " + schRqDto000 + ") $$$");
+            throw new Exception();
+        }
+        // 개인캘린더 등록시에 , 공개범위 데이터가 포함되는 경우 Exception 처리
+        if (selectCalendarTypeValue.equals(SchConstValue.ECAL_TYPE) && (disclosureScopes != null)) {
             log.error("$$$ sch000 validApiRequest fail !!! (IncorrectIncludException) $$$");
             log.error("$$$ sch000 validApiRequest fail !!! (schRqDto000 : " + schRqDto000 + ") $$$");
             throw new ExceptionCustom.IncorrectIncludException();
