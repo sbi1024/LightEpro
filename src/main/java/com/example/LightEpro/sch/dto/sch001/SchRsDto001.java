@@ -9,12 +9,12 @@ import java.util.List;
 @Data
 @Builder
 public class SchRsDto001 {
-    private Sch sch;
+    private Schedule schedule;
     private List<Participant> participants;
     private List<DisclosureScope> disclosureScopes;
 
     @Data
-    public static class Sch {
+    public static class Schedule {
         private String schmSeq;
         private String schSeq;
         private String schTitle;

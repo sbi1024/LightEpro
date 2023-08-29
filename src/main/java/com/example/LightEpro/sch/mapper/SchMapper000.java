@@ -10,11 +10,11 @@ import java.util.List;
 public interface SchMapper000 {
     String checkCalType(int calSeq) throws Exception;
 
-    int findCurrentSchValue() throws Exception;
+    int selectScheduleSequence() throws Exception;
 
-    int insertSingleSch(SchRqDto000 schRqDto000) throws Exception;
+    int insertSchedule(SchRqDto000 schRqDto000) throws Exception;
 
-    int insertSchParticipants(SchRqDto000 schRqDto000) throws Exception;
+    int insertParticipants(SchRqDto000 schRqDto000) throws Exception;
 
-    int insertSchDisclosureScopes(SchRqDto000 schRqDto000) throws Exception;
+    int insertDisclosureScopes(SchRqDto000 schRqDto000) throws Exception;
 }

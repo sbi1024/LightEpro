@@ -48,7 +48,7 @@ public class SchController000 {
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch000 API SUCCESS");
-        schResponse.setResponseData(schService000.createSingleSch(schRqDto000));
+        schResponse.setResponseData(schService000.createScheduleInfo(schRqDto000));
 
         // stopWatch 종료
         stopWatch.stop();
@@ -64,14 +64,14 @@ public class SchController000 {
     // sch000 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
     public void validApiRequest(SchRqDto000 schRqDto000) throws Exception {
         // schRqDto000 객체 데이터 추출
-        SchRqDto000.Sch sch = schRqDto000.getSch();
+        SchRqDto000.Schedule schedule = schRqDto000.getSchedule();
         SchRqDto000.Calendar calendar = schRqDto000.getCalendar();
         List<SchRqDto000.Participant> participants = schRqDto000.getParticipants();
         List<SchRqDto000.DisclosureScope> disclosureScopes = schRqDto000.getDisclosureScopes();
 
         // 요청값으로 받은 시작일자 값과 , 종료일자 값을 추출한다.
-        LocalDateTime startDate = sch.getStartDate();
-        LocalDateTime endDate = sch.getEndDate();
+        LocalDateTime startDate = schedule.getStartDate();
+        LocalDateTime endDate = schedule.getEndDate();
 
         // 요청값으로 받은 캘린더 시퀀스 값을 추출한다.
         int calSeq = calendar.getCalSeq();
@@ -83,7 +83,8 @@ public class SchController000 {
             throw new ExceptionCustom.NotValidSchStartEndDateException();
         }
 
-        // TODO 참여자에 등록자가 포함되어 있는지 확인
+        // 1. TODO 참여자에 등록자가 포함되어 있는지 확인
+        // 2. TODO 해당 캘린더가 null 인 경우 확인
 
         // 개인캘린더 등록시에 , 참여자 혹은 공개범위 데이터가 포함되는 경우 Exception 처리
         String calType = schMapper000.checkCalType(calSeq);

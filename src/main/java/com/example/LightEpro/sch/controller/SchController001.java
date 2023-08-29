@@ -18,7 +18,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController001 {
-
+    // service , mapper 선언
     private final SchService001 schService001;
     private final SchMapper001 schMapper001;
 
@@ -30,31 +30,35 @@ public class SchController001 {
 
         // API 실행시간 체크를 위한 stopWatch 객체 생성
         StopWatch stopWatch = new StopWatch();
+        // stopWatch 시작
         stopWatch.start();
 
+        // 유효성 검사 메소드 호출
         validApiRequest(schRqDto001);
         log.info("sch001 validApiRequest Success !!! ");
 
+        // SchResponse 객체 데이터 생성 및 할당
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch001 API SUCCESS");
-        schResponse.setResponseData(schService001.findSingleSch(schRqDto001));
+        schResponse.setResponseData(schService001.findScheduleInfo(schRqDto001));
 
-
+        // stopWatch 종료
         stopWatch.stop();
 
         log.info("sch001 API runTime : {}", stopWatch.getTotalTimeSeconds());
         log.info("sch001 RESPONSE DATA : " + schResponse);
         log.info("sch001 API END !!!");
 
+        // return
         return schResponse;
     }
 
     // sch001 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
     public void validApiRequest(SchRqDto001 schRqDto001) throws Exception {
         // 일정 조회 진행 전 , 요청값으로 받은 일정 시퀀스값을 통해 일정이 존재하는지 판단 후 , 존재하지 않는다면 Exception 처리
-        int schCnt = schMapper001.checkSchExist(schRqDto001);
+        int schCnt = schMapper001.selectScheduleCount(schRqDto001);
         if (schCnt == 0) {
             log.error("$$$ sch001 validApiRequest fail !!! (NotFoundSchException) $$$");
             log.error("$$$ sch001 validApiRequest fail !!! (schRqDto001 : " + schRqDto001 + ") $$$");

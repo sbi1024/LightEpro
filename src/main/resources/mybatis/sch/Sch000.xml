@@ -4,20 +4,20 @@
 <mapper namespace="com.example.LightEpro.sch.mapper.SchMapper000">
     <select id="checkCalType" parameterType="int" resultType="string">
         /* checkCalType */
-        SELECT IFNULL(TSC.CAL_TYPE, '') AS calType
+        SELECT IFNULL(MAX(TSC.CAL_TYPE), '') AS calType
         FROM T_SC_CAL TSC
         WHERE 1 = 1
           AND TSC.CAL_SEQ = #{calSeq}
           AND TSC.USE_YND = 'Y'
     </select>
 
-    <select id = "findCurrentSchValue" resultType="int">
+    <select id = "selectScheduleSequence" resultType="int">
         /* findCurrentSchValue */
         SELECT practice.nextval('sch') FROM dual;
     </select>
 
-    <insert id="insertSingleSch" parameterType="com.example.LightEpro.sch.dto.sch000.SchRqDto000">
-        /* insertSingleSch */
+    <insert id="insertSchedule" parameterType="com.example.LightEpro.sch.dto.sch000.SchRqDto000">
+        /* insertSchedule */
         INSERT INTO T_SC_SCH (SCHM_SEQ,
                               SCH_SEQ,
                               START_DATE,
@@ -49,8 +49,8 @@
     </insert>
 
 
-    <insert id="insertSchParticipants" parameterType="java.util.List">
-        /* insertSchParticipants */
+    <insert id="insertParticipants" parameterType="java.util.List">
+        /* insertParticipants */
         INSERT INTO T_SC_SCH_USER (SCHM_SEQ,
                                    SCH_SEQ,
                                    CDE_SEQ,
@@ -76,7 +76,14 @@
                                 'W'
                             </otherwise>
                         </choose>,
-                        #{participant.calSeq},
+                        <choose>
+                            <when test="participant.cdeSeq == user.userSeq">
+                                #{calendar.calSeq}
+                            </when>
+                            <otherwise>
+                                '0'
+                            </otherwise>
+                        </choose>,
                         'Y',
                         now(),
                         #{user.userSeq}
@@ -85,8 +92,8 @@
     </insert>
 
 
-    <insert id="insertSchDisclosureScopes" parameterType="java.util.List">
-        /* insertSchDisclosureScopes */
+    <insert id="insertDisclosureScopes" parameterType="java.util.List">
+        /* insertDisclosureScopes */
         INSERT INTO T_SC_SCH_USER (SCHM_SEQ,
                                    SCH_SEQ,
                                    CDE_SEQ,
@@ -105,7 +112,7 @@
                         #{disclosureScope.cdeType},
                         '20',
                         'S',
-                        #{disclosureScope.calSeq},
+                        '0',
                         'Y',
                         now(),
                         #{user.userSeq}

@@ -9,10 +9,11 @@ import java.util.List;
 
 @Mapper
 public interface SchMapper001 {
-    int checkSchExist(SchRqDto001 schRqDto001);
-    SchRsDto001.Sch findSchBySchmSeqAndSchSeq(SchRqDto001 schRqDto001) throws Exception;
+    int selectScheduleCount(SchRqDto001 schRqDto001) throws Exception;
 
-    List<SchRsDto001.Participant> findParticipantsBySchmSeqAndSchSeq(SchRqDto001 schRqDto001) throws Exception;
+    SchRsDto001.Schedule selectSchedule(SchRqDto001 schRqDto001) throws Exception;
 
-    List<SchRsDto001.DisclosureScope> findDisclosureScopesBySchmSeqAndSchSeq(SchRqDto001 schRqDto001) throws Exception;
+    List<SchRsDto001.Participant> selectParticipants(SchRqDto001 schRqDto001) throws Exception;
+
+    List<SchRsDto001.DisclosureScope> selectDisclosureScopes(SchRqDto001 schRqDto001) throws Exception;
 }

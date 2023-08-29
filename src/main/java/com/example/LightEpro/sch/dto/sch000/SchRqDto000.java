@@ -13,7 +13,7 @@ public class SchRqDto000 {
     @NotNull
     private @Valid User user;
     @NotNull
-    private @Valid Sch sch;
+    private @Valid Schedule schedule;
     @NotNull
     private @Valid Calendar calendar;
 
@@ -24,11 +24,15 @@ public class SchRqDto000 {
     @Data
     public static class User {
         @Positive
+        private int userCompSeq;
+        @Positive
+        private int userDeptSeq;
+        @Positive
         private int userSeq;
     }
 
     @Data
-    public static class Sch {
+    public static class Schedule {
         private int schmSeq;
         private int schSeq;
 
