@@ -11,12 +11,14 @@
         INSERT INTO T_EM_DEPT (DEPT_SEQ,
                                PARENT_DEPT_SEQ,
                                DEPT_NAME,
+                               COMP_SEQ,
                                USE_YND,
                                CREATE_DATE,
                                CREATE_SEQ)
         VALUES (#{dept.deptSeq},
                 #{dept.parentDeptSeq},
                 #{dept.deptName},
+                #{comp.compSeq},
                 'Y',
                 NOW(),
                 #{emp.empSeq})

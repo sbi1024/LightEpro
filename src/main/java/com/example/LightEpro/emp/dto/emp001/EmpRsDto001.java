@@ -14,6 +14,7 @@ public class EmpRsDto001 {
         private String deptSeq;
         private String parentDeptSeq;
         private String deptName;
+        private String compSeq;
         private String useYnd;
         private String createDate;
         private String createSeq;

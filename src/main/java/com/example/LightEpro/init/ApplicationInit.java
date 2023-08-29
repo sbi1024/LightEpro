@@ -80,7 +80,11 @@ public class ApplicationInit implements InitializingBean {
         dept.setDeptName("테스트 init 부서");
         dept.setParentDeptSeq(0);
 
+        EmpRqDto000.Comp comp = new EmpRqDto000.Comp();
+        comp.setCompSeq(1);
+
         empRqDto000.setEmp(emp);
+        empRqDto000.setComp(comp);
         empRqDto000.setDept(dept);
 
         EmpRsDto000 singleDept = empService000.createSingleDept(empRqDto000);

@@ -15,6 +15,8 @@ CREATE TABLE `T_EM_EMP_MAPPING`
     `MODIFY_SEQ`         BIGINT     NULL COMMENT '변경자 시퀀스',
     `DELETE_DATE`        DATETIME   NULL COMMENT '최종 삭제 일자',
     `DELETE_SEQ`         BIGINT     NULL COMMENT '삭제자 시퀀스',
-    PRIMARY KEY (`EMP_SEQ`, `DEPT_SEQ`, `COMP_SEQ`)
+    PRIMARY KEY (`EMP_SEQ`, `DEPT_SEQ`, `COMP_SEQ`),
+    INDEX IDX_DEPT_SEQ (`DEPT_SEQ`),
+    INDEX IDX_COMP_SEQ (`COMP_SEQ`)
 ) COMMENT '사원 매핑 테이블 (회사/부서)'
 ;

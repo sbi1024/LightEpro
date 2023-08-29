@@ -6,6 +6,7 @@
         SELECT IFNULL(TED.DEPT_SEQ, '')                   AS deptSeq,
                IFNULL(TED.PARENT_DEPT_SEQ, '')            AS parentDeptSeq,
                IFNULL(TED.DEPT_NAME, '')                  AS deptName,
+               IFNULL(TED.COMP_SEQ, '')                   AS compSeq,
                IFNULL(TED.USE_YND, '')                    AS useYnd,
                DATE_FORMAT(TED.CREATE_DATE, '%Y%m%d%H%i') AS createDate,
                IFNULL(TED.CREATE_SEQ, '')                 AS createSeq,

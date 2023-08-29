@@ -6,6 +6,7 @@
         UPDATE T_EM_DEPT TED
         SET TED.PARENT_DEPT_SEQ = #{dept.parentDeptSeq},
             TED.DEPT_NAME       = #{dept.deptName},
+            TED.COMP_SEQ        = #{comp.compSeq},
             TED.MODIFY_DATE     = NOW(),
             TED.MODIFY_SEQ      = #{emp.empSeq}
         WHERE 1 = 1
