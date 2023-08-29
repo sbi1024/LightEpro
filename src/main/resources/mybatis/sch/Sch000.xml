@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.LightEpro.sch.mapper.SchMapper000">
-    <select id="checkCalType" parameterType="int" resultType="string">
+    <select id="selectCalendarType" parameterType="int" resultType="string">
         /* checkCalType */
         SELECT IFNULL(MAX(TSC.CAL_TYPE), '') AS calType
         FROM T_SC_CAL TSC

@@ -87,8 +87,8 @@ public class SchController000 {
         // 2. TODO 해당 캘린더가 null 인 경우 확인
 
         // 개인캘린더 등록시에 , 참여자 혹은 공개범위 데이터가 포함되는 경우 Exception 처리
-        String calType = schMapper000.checkCalType(calSeq);
-        if (calType.equals(SchConstValue.ECAL_TYPE) && (participants != null || disclosureScopes != null)) {
+        String selectCalendarTypeValue = schMapper000.selectCalendarType(calSeq);
+        if (selectCalendarTypeValue.equals(SchConstValue.ECAL_TYPE) && (participants != null || disclosureScopes != null)) {
             log.error("$$$ sch000 validApiRequest fail !!! (IncorrectIncludException) $$$");
             log.error("$$$ sch000 validApiRequest fail !!! (schRqDto000 : " + schRqDto000 + ") $$$");
             throw new ExceptionCustom.IncorrectIncludException();

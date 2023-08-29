@@ -24,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController002 {
-
+    // service , mapper 선언
     private final SchService002 schService002;
     private final SchMapper002 schMapper002;
 
@@ -36,17 +36,21 @@ public class SchController002 {
 
         // API 실행시간 체크를 위한 stopWatch 객체 생성
         StopWatch stopWatch = new StopWatch();
+        // stopWatch 시작
         stopWatch.start();
 
+        // 유효성 검사 메소드 호출
         validApiRequest(schRqDto002);
         log.info("sch002 validApiRequest Success !!! ");
 
+        // SchResponse 객체 데이터 생성 및 할당
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch002 API SUCCESS");
         schResponse.setResponseData(schService002.modifySingleSch(schRqDto002));
 
+        // stopWatch 종료
         stopWatch.stop();
 
         log.info("sch002 API runTime : {}", stopWatch.getTotalTimeSeconds());
@@ -57,7 +61,6 @@ public class SchController002 {
     }
 
     // sch002 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
-    // TODO 일정 수정 진행시에 , 등록자 정보가 변경되는지 확인
     public void validApiRequest(SchRqDto002 schRqDto002) throws Exception {
         SchRqDto002.Sch sch = schRqDto002.getSch();
         SchRqDto002.Calendar calendar = schRqDto002.getCalendar();

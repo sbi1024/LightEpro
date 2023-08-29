@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface SchMapper000 {
-    String checkCalType(int calSeq) throws Exception;
+    String selectCalendarType(int calSeq) throws Exception;
 
     int selectScheduleSequence() throws Exception;
 

@@ -11,74 +11,72 @@ import java.util.List;
 @Data
 public class SchRqDto000 {
     @NotNull
-    private @Valid User user;
+    private @Valid User user; // 필수값
     @NotNull
-    private @Valid Schedule schedule;
+    private @Valid Schedule schedule; // 필수값
     @NotNull
-    private @Valid Calendar calendar;
+    private @Valid Calendar calendar; // 필수값
+    @NotNull
+    private @Valid List<Participant> participants; // 필수값
 
-    private @Valid List<Participant> participants;
-
-    private @Valid List<DisclosureScope> disclosureScopes;
+    private @Valid List<DisclosureScope> disclosureScopes; // 필수값이 아님
 
     @Data
     public static class User {
         @Positive
-        private int userCompSeq;
+        private int userCompSeq; // 필수값
         @Positive
-        private int userDeptSeq;
+        private int userDeptSeq; // 필수값
         @Positive
-        private int userSeq;
+        private int userSeq; // 필수값
     }
 
     @Data
     public static class Schedule {
-        private int schmSeq;
-        private int schSeq;
+        private int schmSeq; // 필수값이 아님
+        private int schSeq; // 필수값이 아님
 
         @NotNull
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmm", timezone = "Asia/Seoul")
-        private LocalDateTime startDate;
-        private int startDateYear;
-        private int startDateMonth;
+        private LocalDateTime startDate; // 필수값
+
+        private int startDateYear; // 필수값이 아님
+        private int startDateMonth; // 필수값이 아님
 
 
         @NotNull
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmm", timezone = "Asia/Seoul")
-        private LocalDateTime endDate;
-        private int endDateYear;
-        private int endDateMonth;
+        private LocalDateTime endDate; // 필수값
+
+        private int endDateYear; // 필수값이 아님
+        private int endDateMonth; // 필수값이 아님
 
         @NotBlank
-        private String alldayYn;
+        private String alldayYn; // 필수값
         @NotBlank
-        private String schTitle;
-        private String schContent;
+        private String schTitle; // 필수값
+        private String schContent; // 필수값이 아님
     }
 
     @Data
     public static class Calendar {
         @Positive
-        private int calSeq;
+        private int calSeq; // 필수값
     }
 
     @Data
     public static class Participant {
-        @PositiveOrZero
-        private int calSeq;
         @Positive
-        private int cdeSeq;
+        private int cdeSeq; // 필수값
         @NotBlank
-        private String cdeType;
+        private String cdeType; // 필수값
     }
 
     @Data
     public static class DisclosureScope {
-        @PositiveOrZero
-        private int calSeq;
         @Positive
-        private int cdeSeq;
+        private int cdeSeq; // 필수값
         @NotBlank
-        private String cdeType;
+        private String cdeType; // 필수값
     }
 }
