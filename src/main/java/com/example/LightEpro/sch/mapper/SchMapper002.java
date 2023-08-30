@@ -10,9 +10,20 @@ import java.util.List;
 public interface SchMapper002 {
     String selectCalendarType(SchRqDto002 schRqDto002) throws Exception;
     int selectScheduleCount(SchRqDto002 schRqDto002) throws Exception;
+
+
+
+    List<SchRqDto002.ScheduleUser> selectParticipants(SchRqDto002 schRqDto002) throws Exception;
+    List<SchRqDto002.ScheduleUser> selectDisclosureScopes(SchRqDto002 schRqDto002) throws Exception;
+
+
+
+
+
     int updateSchedule(SchRqDto002 schRqDto002) throws Exception;
 
     int insertParticipants(SchRqDto002 schRqDto002) throws Exception;
 
     int insertDisclosureScopes(SchRqDto002 schRqDto002) throws Exception;
+
 }

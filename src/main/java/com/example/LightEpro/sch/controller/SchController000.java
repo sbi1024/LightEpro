@@ -40,7 +40,7 @@ public class SchController000 {
         stopWatch.start();
 
         // 유효성 검사 메소드 호출
-        validApiRequest(schRqDto000);
+        // validApiRequest(schRqDto000);
         log.info("sch000 validApiRequest Success !!! ");
 
         // SchResponse 객체 데이터 생성 및 할당

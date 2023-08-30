@@ -13,7 +13,7 @@
 
     <select id = "selectScheduleSequence" resultType="int">
         /* findCurrentSchValue */
-        SELECT practice.nextval('schedule') FROM dual;
+        SELECT practice.nextval('sch') FROM dual;
     </select>
 
     <insert id="insertSchedule" parameterType="com.example.LightEpro.sch.dto.sch000.SchRqDto000">

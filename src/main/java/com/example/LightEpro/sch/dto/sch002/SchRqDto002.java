@@ -1,5 +1,6 @@
 package com.example.LightEpro.sch.dto.sch002;
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -7,7 +8,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,6 +23,16 @@ public class SchRqDto002 {
     private @Valid List<Participant> participants; // 필수값
 
     private @Valid List<DisclosureScope> disclosureScopes; // 필수값이 아님
+
+    private List<ScheduleUser> scheduleUsers; // 필수값이 아님
+
+    List<ScheduleUser> originMatchParticipants; //필수값이 아님
+    List<ScheduleUser> originNonMatchParticipants; //필수값이 아님
+    List<Participant> requestNonMatchParticipants; //필수값이 아님
+
+    List<ScheduleUser> originMatchDisclosureScopes; //필수값이 아님
+    List<ScheduleUser> originNonMatchDisclosureScopes; //필수값이 아님
+    List<DisclosureScope> requestNonMatchDisclosureScopes; //필수값이 아님
 
     @Data
     public static class User {
@@ -81,5 +91,13 @@ public class SchRqDto002 {
         private int cdeSeq; // 필수값
         @NotBlank
         private String cdeType; // 필수값
+    }
+
+    @Data
+    public static class ScheduleUser {
+        private int cdeSeq;
+        private String cdeType;
+        private String partitionType;
+        private String autority;
     }
 }

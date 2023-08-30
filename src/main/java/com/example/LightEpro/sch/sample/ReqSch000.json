@@ -1,8 +1,10 @@
 {
   "user": {
+    "userCompSeq" : "1",
+    "userDeptSeq" : "1",
     "userSeq": 1000
   },
-  "sch": {
+  "schedule": {
     "startDate": "202308011530",
     "endDate": "202308021630",
     "alldayYn": "Y",

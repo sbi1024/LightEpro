@@ -20,6 +20,35 @@
           AND TSS.SCH_SEQ = #{schedule.schSeq}
           AND TSS.USE_YND = 'Y'
     </select>
+
+
+    <select id="selectParticipants" resultType="com.example.LightEpro.sch.dto.sch002.SchRqDto002$ScheduleUser">
+        SELECT IFNULL(TSSU.CDE_SEQ, 0)            AS cdeSeq,
+               IFNULL(TSSU.CDE_TYPE, '')          AS cdeType,
+               IFNULL(TSSU.SCH_PARTITION_TYPE, 0) AS partitionType,
+               IFNULL(TSSU.SCH_AUTORITY, '')      AS autority
+        FROM T_SC_SCH_USER TSSU
+        WHERE 1 = 1
+          AND TSSU.SCHM_SEQ = #{schedule.schmSeq}
+          AND TSSU.SCH_SEQ = #{schedule.schSeq}
+          AND TSSU.USE_YND = 'Y'
+          AND TSSU.SCH_PARTITION_TYPE = '10'
+    </select>
+
+    <select id="selectDisclosureScopes" resultType="com.example.LightEpro.sch.dto.sch002.SchRqDto002$ScheduleUser">
+        SELECT IFNULL(TSSU.CDE_SEQ, 0)            AS cdeSeq,
+               IFNULL(TSSU.CDE_TYPE, '')          AS cdeType,
+               IFNULL(TSSU.SCH_PARTITION_TYPE, 0) AS partitionType,
+               IFNULL(TSSU.SCH_AUTORITY, '')      AS autority
+        FROM T_SC_SCH_USER TSSU
+        WHERE 1 = 1
+          AND TSSU.SCHM_SEQ = #{schedule.schmSeq}
+          AND TSSU.SCH_SEQ = #{schedule.schSeq}
+          AND TSSU.USE_YND = 'Y'
+          AND TSSU.SCH_PARTITION_TYPE = '20'
+    </select>
+
+
     
     <update id="updateSchedule" parameterType="com.example.LightEpro.sch.dto.sch002.SchRqDto002">
         /* updateSchedule */
@@ -34,7 +63,7 @@
             TSS.SCH_TITLE        = #{schedule.schTitle},
             TSS.SCH_CONTENT      = #{schedule.schContent},
             TSS.MODIFY_DATE      = NOW(),
-            TSS.MODIFY_SEQ       = #{schedule.modifySeq}
+            TSS.MODIFY_SEQ       = #{user.userSeq}
         WHERE 1 = 1
           AND TSS.SCHM_SEQ = #{schedule.schmSeq}
           AND TSS.SCH_SEQ = #{schedule.schSeq}

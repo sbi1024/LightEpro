@@ -21,9 +21,9 @@ public class SchRqDto007 {
 
 
     private List<CalendarUser> calUsers;
-    private List<SchRqDto007.CalendarUser> originMatchCalendarUsers;
-    private List<SchRqDto007.CalendarUser> originNonMatchCalendarUsers;
-    private List<SchRqDto007.Manager> newNonMatchCalendarUsers;
+    private List<CalendarUser> originMatchCalendarUsers;
+    private List<CalendarUser> originNonMatchCalendarUsers;
+    private List<Manager> newNonMatchCalendarUsers;
 
     @Data
     public static class Emp {
