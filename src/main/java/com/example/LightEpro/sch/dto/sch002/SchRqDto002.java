@@ -21,8 +21,7 @@ public class SchRqDto002 {
     private @Valid Calendar calendar; // 필수값
     @NotNull
     private @Valid List<Participant> participants; // 필수값
-    @NotNull
-    private @Valid List<DisclosureScope> disclosureScopes; // 필수값
+    private @Valid List<DisclosureScope> disclosureScopes; // 필수값이 아님
 
     private List<ScheduleUser> scheduleUsers; // 필수값이 아님
 
@@ -95,9 +94,9 @@ public class SchRqDto002 {
 
     @Data
     public static class ScheduleUser {
-        private int cdeSeq;
-        private String cdeType;
-        private String partitionType;
-        private String autority;
+        private int cdeSeq; // 필수값이 아님
+        private String cdeType; // 필수값이 아님
+        private String partitionType; // 필수값이 아님
+        private String autority; // 필수값이 아님
     }
 }

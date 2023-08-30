@@ -40,7 +40,7 @@ public class SchController000 {
         stopWatch.start();
 
         // 유효성 검사 메소드 호출
-        // validApiRequest(schRqDto000);
+        validApiRequest(schRqDto000);
         log.info("sch000 validApiRequest Success !!! ");
 
         // SchResponse 객체 데이터 생성 및 할당
@@ -62,9 +62,7 @@ public class SchController000 {
     }
 
     // sch000 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
-    // 0. TODO 개인캘린더 등록시에 , 참여자는 일정 등록자 와 같아야 함
-    // 1. TODO 참여자에 등록자가 포함되어 있는지 확인
-    // 2. TODO 해당 캘린더가 null 인 경우 확인
+    // TODO 개인캘린더 등록시에 , 참여자 사이즈 체크 = 1명인지 > 1명이 일정 등록자와 같은 인원인지 판단
     public void validApiRequest(SchRqDto000 schRqDto000) throws Exception {
         // schRqDto000 객체 데이터 추출
         SchRqDto000.Schedule schedule = schRqDto000.getSchedule();
@@ -84,13 +82,13 @@ public class SchController000 {
         // 요청값으로 받은 캘린더시퀀스 값을통해 , 캘린더 타입을 조회한다.
         String selectCalendarTypeValue = schMapper000.selectCalendarType(schRqDto000);
         // 캘린더 타입의 값이 빈 값인 경우 Exception 처리
-        if(selectCalendarTypeValue.equals(SchConstValue.EMPTY_VALUE)){
+        if (selectCalendarTypeValue.equals(SchConstValue.EMPTY_VALUE)) {
             log.error("$$$ sch000 validApiRequest fail !!! (                                 ) $$$");
             log.error("$$$ sch000 validApiRequest fail !!! (schRqDto000 : " + schRqDto000 + ") $$$");
             throw new Exception();
         }
-        // 개인캘린더 등록시에 , 공개범위 데이터가 포함되는 경우 Exception 처리
-        if (selectCalendarTypeValue.equals(SchConstValue.ECAL_TYPE) && (disclosureScopes != null)) {
+        // 개인캘린더 등록시에 , 공개범위 데이터가 포함되는 경우 Exception 처리 (null 이 아닌 , 빈값으로 들어와야 함)
+        if (selectCalendarTypeValue.equals(SchConstValue.ECAL_TYPE) && (disclosureScopes.size() > 0)) {
             log.error("$$$ sch000 validApiRequest fail !!! (IncorrectIncludException) $$$");
             log.error("$$$ sch000 validApiRequest fail !!! (schRqDto000 : " + schRqDto000 + ") $$$");
             throw new ExceptionCustom.IncorrectIncludException();

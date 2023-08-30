@@ -21,8 +21,6 @@ import java.util.stream.Collectors;
 public class SchServiceImpl002 implements SchService002 {
     private final SchMapper002 schMapper002;
 
-    // TODO insertParticipants 쿼리 재확인 필요
-
     @Transactional(rollbackFor = {Exception.class})
     @Override
     public SchRsDto002 modifyScheduleInfo(SchRqDto002 schRqDto002) throws Exception {

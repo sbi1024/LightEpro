@@ -11,8 +11,6 @@ public interface SchMapper002 {
     String selectCalendarType(SchRqDto002 schRqDto002) throws Exception;
     int selectScheduleCount(SchRqDto002 schRqDto002) throws Exception;
 
-
-
     List<SchRqDto002.ScheduleUser> selectParticipants(SchRqDto002 schRqDto002) throws Exception;
     List<SchRqDto002.ScheduleUser> selectDisclosureScopes(SchRqDto002 schRqDto002) throws Exception;
 
