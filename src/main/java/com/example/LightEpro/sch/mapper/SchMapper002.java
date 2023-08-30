@@ -16,14 +16,18 @@ public interface SchMapper002 {
     List<SchRqDto002.ScheduleUser> selectParticipants(SchRqDto002 schRqDto002) throws Exception;
     List<SchRqDto002.ScheduleUser> selectDisclosureScopes(SchRqDto002 schRqDto002) throws Exception;
 
-
-
-
-
     int updateSchedule(SchRqDto002 schRqDto002) throws Exception;
 
-    int insertParticipants(SchRqDto002 schRqDto002) throws Exception;
 
-    int insertDisclosureScopes(SchRqDto002 schRqDto002) throws Exception;
+    int insertRequestNonMatchParticipants(SchRqDto002 schRqDto002) throws Exception;
 
+    int updateOriginMatchParticipants(SchRqDto002 schRqDto002) throws Exception;
+
+    int updateOriginNonMatchParticipants(SchRqDto002 schRqDto002) throws Exception;
+
+    int insertRequestNonMatchDisclosureScopes(SchRqDto002 schRqDto002) throws Exception;
+
+    int updateOriginMatchDisclosureScopes(SchRqDto002 schRqDto002) throws Exception;
+
+    int updateOriginNonMatchDisclosureScopes(SchRqDto002 schRqDto002) throws Exception;
 }

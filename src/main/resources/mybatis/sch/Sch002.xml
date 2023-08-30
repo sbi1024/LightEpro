@@ -48,8 +48,6 @@
           AND TSSU.SCH_PARTITION_TYPE = '20'
     </select>
 
-
-    
     <update id="updateSchedule" parameterType="com.example.LightEpro.sch.dto.sch002.SchRqDto002">
         /* updateSchedule */
         UPDATE T_SC_SCH TSS
@@ -70,8 +68,8 @@
           AND TSS.USE_YND = 'Y'
     </update>
 
-    <insert id="insertParticipants" parameterType="com.example.LightEpro.sch.dto.sch002.SchRqDto002">
-        /* insertParticipants */
+    <insert id="insertRequestNonMatchParticipants" parameterType="com.example.LightEpro.sch.dto.sch002.SchRqDto002">
+        /* insertRequestNonMatchParticipants */
         INSERT INTO T_SC_SCH_USER (SCHM_SEQ,
                                     SCH_SEQ,
                                     CDE_SEQ,
@@ -82,15 +80,15 @@
                                     USE_YND,
                                     CREATE_DATE,
                                     CREATE_SEQ)
-        VALUES <foreach collection="participants" item="participant" separator=",">
+        VALUES <foreach collection="requestNonMatchParticipants" item="requestNonMatchParticipant" separator=",">
                 (
                     #{schedule.schmSeq},
                     #{schedule.schSeq},
-                    #{participant.cdeSeq},
-                    #{participant.cdeType},
+                    #{requestNonMatchParticipant.cdeSeq},
+                    #{requestNonMatchParticipant.cdeType},
                     '10',
                     <choose>
-                        <when test="participants.cdeSeq == user.userSeq">
+                        <when test="requestNonMatchParticipant.cdeSeq == user.userSeq">
                             'M'
                         </when>
                         <otherwise>
@@ -98,7 +96,7 @@
                         </otherwise>
                     </choose>,
                     <choose>
-                        <when test="participant.cdeSeq == user.userSeq">
+                        <when test="requestNonMatchParticipant.cdeSeq == user.userSeq">
                             #{calendar.calSeq}
                         </when>
                         <otherwise>
@@ -112,9 +110,18 @@
             </foreach>
     </insert>
 
+    <update id="updateOriginMatchParticipants">
 
-    <insert id="insertDisclosureScopes" parameterType="com.example.LightEpro.sch.dto.sch002.SchRqDto002">
-        /* insertDisclosureScopes */
+    </update>
+
+    <update id="updateOriginNonMatchParticipants">
+
+    </update>
+
+
+
+    <insert id="insertRequestNonMatchDisclosureScopes" parameterType="com.example.LightEpro.sch.dto.sch002.SchRqDto002">
+        /* insertRequestNonMatchDisclosureScopes */
         INSERT INTO T_SC_SCH_USER (SCHM_SEQ,
                                    SCH_SEQ,
                                    CDE_SEQ,
@@ -140,4 +147,13 @@
                 )
             </foreach>
     </insert>
+
+    <update id="updateOriginMatchDisclosureScopes">
+
+    </update>
+
+    <update id="updateOriginNonMatchDisclosureScopes">
+
+    </update>
+
 </mapper>

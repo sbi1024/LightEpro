@@ -7,8 +7,11 @@ import lombok.*;
 public class SchRsDto002 {
     private int schmSeq;
     private int schSeq;
-    private int deleteSchCnt;
-    private int updateSchCnt;
-    private int participantsInsertCnt;
-    private int disclosureScopesInsertCnt;
+    private int modifyScheduleCnt;
+    private int createParticipantsCnt;
+    private int modifyParticipantsCnt;
+    private int removeParticipantsCnt;
+    private int createDisclosureScopesCnt;
+    private int modifyDisclosureScopesCnt;
+    private int removeDisclosureScopesCnt;
 }

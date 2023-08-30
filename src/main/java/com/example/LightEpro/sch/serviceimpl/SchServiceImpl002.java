@@ -32,17 +32,35 @@ public class SchServiceImpl002 implements SchService002 {
 
         // 객체 데이터 재 주입 메소드 호출
         assignObject(schRqDto002);
-        // 단일 일정 수정 메소드 호출
-        modifySchedule(schRqDto002);
+
+        // 일정 수정 메소드 호출
+        int modifyScheduleCnt = modifySchedule(schRqDto002);
+
         // 일정 참여자 등록 메소드 호출
-        createParticipants(schRqDto002);
+        int createParticipantsCnt = createParticipants(schRqDto002);
+        // 일정 참여자 수정 메소드 호출
+        int modifyParticipantsCnt = modifyParticipants(schRqDto002);
+        // 일정 참여자 삭제 메소드 호출
+        int removeParticipantsCnt = removeParticipants(schRqDto002);
+
         // 일정 공개범위 등록 메소드 호출
-        createDisclosureScopes(schRqDto002);
+        int createDisclosureScopesCnt = createDisclosureScopes(schRqDto002);
+        // 일정 공개범위 수정 메소드 호출
+        int modifyDisclosureScopesCnt = modifyDisclosureScopes(schRqDto002);
+        // 일정 공개범위 삭제 메소드 호출
+        int removeDisclosureScopesCnt = removeDisclosureScopes(schRqDto002);
 
         // schRsDto002 객체 builder 패턴을 통해 객체 생성
         SchRsDto002 schRsDto002 = SchRsDto002.builder()
                 .schmSeq(schRqDto002.getSchedule().getSchmSeq())
                 .schSeq(schRqDto002.getSchedule().getSchSeq())
+                .modifyScheduleCnt(modifyScheduleCnt)
+                .createParticipantsCnt(createParticipantsCnt)
+                .modifyParticipantsCnt(modifyParticipantsCnt)
+                .removeParticipantsCnt(removeParticipantsCnt)
+                .createDisclosureScopesCnt(createDisclosureScopesCnt)
+                .modifyDisclosureScopesCnt(modifyDisclosureScopesCnt)
+                .removeDisclosureScopesCnt(removeDisclosureScopesCnt)
                 .build();
 
         // method end log
@@ -122,6 +140,7 @@ public class SchServiceImpl002 implements SchService002 {
         log.info("confirmScheduleUsers Method End !!!");
     }
 
+    // 수정 처리 (update)
     @Override
     public List<SchRqDto002.ScheduleUser> confirmOriginMatchParticipants(List<SchRqDto002.ScheduleUser> originParticipants,
                                                                          List<SchRqDto002.Participant> requestParticipants) throws Exception {
@@ -149,6 +168,7 @@ public class SchServiceImpl002 implements SchService002 {
         return originMatchParticipants;
     }
 
+    // 삭제 처리 (delete)
     @Override
     public List<SchRqDto002.ScheduleUser> confirmOriginNonMatchParticipants(List<SchRqDto002.ScheduleUser> originParticipants,
                                                                             List<SchRqDto002.Participant> requestParticipants) throws Exception {
@@ -176,6 +196,7 @@ public class SchServiceImpl002 implements SchService002 {
         return originNonMatchParticipants;
     }
 
+    // 등록 처리 (insert)
     @Override
     public List<SchRqDto002.Participant> confirmRequestNonMatchParticipants(List<SchRqDto002.ScheduleUser> originParticipants,
                                                                             List<SchRqDto002.Participant> requestParticipants) throws Exception {
@@ -203,6 +224,7 @@ public class SchServiceImpl002 implements SchService002 {
         return requestNonMatchParticipants;
     }
 
+    // 수정 처리 (update)
     @Override
     public List<SchRqDto002.ScheduleUser> confirmOriginMatchDisclosureScopes(List<SchRqDto002.ScheduleUser> originDisclosureScopes,
                                                                              List<SchRqDto002.DisclosureScope> requestDisclosureScopes) throws Exception {
@@ -230,6 +252,7 @@ public class SchServiceImpl002 implements SchService002 {
         return originMatchDisclosureScopes;
     }
 
+    // 삭제 처리 (delete)
     @Override
     public List<SchRqDto002.ScheduleUser> confirmOriginNonMatchDisclosureScopes(List<SchRqDto002.ScheduleUser> originDisclosureScopes,
                                                                                 List<SchRqDto002.DisclosureScope> requestDisclosureScopes) throws Exception {
@@ -257,6 +280,7 @@ public class SchServiceImpl002 implements SchService002 {
         return originNonMatchDisclosureScopes;
     }
 
+    // 등록 처리 (insert)
     @Override
     public List<SchRqDto002.DisclosureScope> confirmRequestNonMatchDisclosureScopes(List<SchRqDto002.ScheduleUser> originDisclosureScopes,
                                                                                     List<SchRqDto002.DisclosureScope> requestDisclosureScopes) throws Exception {
@@ -297,65 +321,141 @@ public class SchServiceImpl002 implements SchService002 {
         return updateScheduleCnt;
     }
 
-    // 일정 참여자 데이터 insert 메소드 (TABLE NAME : t_sc_sch_user / USER_TYPE : 10 (참여자))
+    // 단일 일정 참여자 등록 메소드
     @Override
     public int createParticipants(SchRqDto002 schRqDto002) throws Exception {
-        log.info("insertSchParticipants Method Start !!!");
-        log.info("insertSchParticipants Method Request Data : " + schRqDto002);
+        // method start log
+        log.info("createParticipants Method Start !!!");
+        log.info("createParticipants Method Request Data : " + schRqDto002);
 
-        // 참여자 변수 선언
-        List<SchRqDto002.Participant> participants = schRqDto002.getParticipants();
-        if (participants == null || participants.size() == 0) {
-            log.info("insertSchParticipants Method participants == null or participants.size() == 0");
+        // requestNonMatchParticipants 변수 추출 및 유효성 체크
+        List<SchRqDto002.Participant> requestNonMatchParticipants = schRqDto002.getRequestNonMatchParticipants();
+        if (requestNonMatchParticipants == null || requestNonMatchParticipants.size() == 0) {
+            log.info("createParticipants Method requestNonMatchParticipants == null or requestNonMatchParticipants.size() == 0");
             return 0;
         }
-        // 단일 일정에 포함된 참여자 등록
-        int insertRow = schMapper002.insertParticipants(schRqDto002);
 
-        log.info("insertSchParticipants Method Return Data : " + insertRow);
-        log.info("insertSchParticipants Method End !!!");
+        int insertParticipantsCnt = schMapper002.insertRequestNonMatchParticipants(schRqDto002);
+
+        // method end log
+        log.info("createParticipants Method Return Data : " + insertParticipantsCnt);
+        log.info("createParticipants Method End !!!");
+
         // return
-        return insertRow;
+        return insertParticipantsCnt;
     }
 
+    // 단일 일정 참여자 수정 메소드
     @Override
     public int modifyParticipants(SchRqDto002 schRqDto002) throws Exception {
-        return 0;
-    }
+        // method start log
+        log.info("modifyParticipants Method Start !!!");
+        log.info("modifyParticipants Method Request Data : " + schRqDto002);
 
-    @Override
-    public int removeParticipants(SchRqDto002 schRqDto002) throws Exception {
-        return 0;
-    }
-
-    // 일정 공개범위 데이터 insert 메소드 (TABLE NAME : t_sc_sch_user / USER_TYPE : 20 (참여자))
-    @Override
-    public int createDisclosureScopes(SchRqDto002 schRqDto002) throws Exception {
-        log.info("insertSchDisclosureScopes Method Start !!!");
-        log.info("insertSchDisclosureScopes Method Request Data : " + schRqDto002);
-
-        // 공개범위 변수 선언
-        List<SchRqDto002.DisclosureScope> disclosureScopes = schRqDto002.getDisclosureScopes();
-        if (disclosureScopes == null || disclosureScopes.size() == 0) {
-            log.info("insertSchDisclosureScopes Method disclosureScopes == null or disclosureScopes.size() == 0");
+        // originMatchParticipants 변수 추출 및 유효성 체크
+        List<SchRqDto002.ScheduleUser> originMatchParticipants = schRqDto002.getOriginMatchParticipants();
+        if (originMatchParticipants == null || originMatchParticipants.size() == 0) {
+            log.info("createParticipants Method originMatchParticipants == null or originMatchParticipants.size() == 0");
             return 0;
         }
-        // 단일 일정에 포함된 공개범위 등록
-        int insertRow = schMapper002.insertDisclosureScopes(schRqDto002);
 
-        log.info("insertSchDisclosureScopes Method Return Data : " + insertRow);
-        log.info("insertSchDisclosureScopes Method End !!!");
+        int updateParticipantsCnt = schMapper002.updateOriginMatchParticipants(schRqDto002);
+
+        // method end log
+        log.info("modifyParticipants Method Return Data : " + updateParticipantsCnt);
+        log.info("modifyParticipants Method End !!!");
+
         // return
-        return insertRow;
+        return updateParticipantsCnt;
+    }
+
+    // 단일 일정 참여자 삭제 메소드
+    @Override
+    public int removeParticipants(SchRqDto002 schRqDto002) throws Exception {
+        // method start log
+        log.info("removeParticipants Method Start !!!");
+        log.info("removeParticipants Method Request Data : " + schRqDto002);
+
+        // originNonMatchParticipants 변수 추출 및 유효성 체크
+        List<SchRqDto002.ScheduleUser> originNonMatchParticipants = schRqDto002.getOriginNonMatchParticipants();
+        if (originNonMatchParticipants == null || originNonMatchParticipants.size() == 0) {
+            log.info("removeParticipants Method originNonMatchParticipants == null or originNonMatchParticipants.size() == 0");
+            return 0;
+        }
+
+        int updateParticipantsCnt = schMapper002.updateOriginNonMatchParticipants(schRqDto002);
+
+        // method end log
+        log.info("removeParticipants Method Return Data : " + updateParticipantsCnt);
+        log.info("removeParticipants Method End !!!");
+
+        // return
+        return updateParticipantsCnt;
+    }
+
+    @Override
+    public int createDisclosureScopes(SchRqDto002 schRqDto002) throws Exception {
+        // method start log
+        log.info("createDisclosureScopes Method Start !!!");
+        log.info("createDisclosureScopes Method Request Data : " + schRqDto002);
+
+        List<SchRqDto002.DisclosureScope> requestNonMatchDisclosureScopes = schRqDto002.getRequestNonMatchDisclosureScopes();
+        if (requestNonMatchDisclosureScopes == null || requestNonMatchDisclosureScopes.size() == 0) {
+            log.info("createDisclosureScopes Method disclosureScopes == null or disclosureScopes.size() == 0");
+            return 0;
+        }
+
+        int insertDisclosureScopesCnt = schMapper002.insertRequestNonMatchDisclosureScopes(schRqDto002);
+
+        // method end log
+        log.info("createDisclosureScopes Method Return Data : " + insertDisclosureScopesCnt);
+        log.info("createDisclosureScopes Method End !!!");
+
+        // return
+        return insertDisclosureScopesCnt;
     }
 
     @Override
     public int modifyDisclosureScopes(SchRqDto002 schRqDto002) throws Exception {
-        return 0;
+        // method start log
+        log.info("modifyDisclosureScopes Method Start !!!");
+        log.info("modifyDisclosureScopes Method Request Data : " + schRqDto002);
+
+        List<SchRqDto002.ScheduleUser> originMatchDisclosureScopes = schRqDto002.getOriginMatchDisclosureScopes();
+        if (originMatchDisclosureScopes == null || originMatchDisclosureScopes.size() == 0) {
+            log.info("modifyDisclosureScopes Method originMatchDisclosureScopes == null or originMatchDisclosureScopes.size() == 0");
+            return 0;
+        }
+
+        int updateOriginMatchDisclosureScopes = schMapper002.updateOriginMatchDisclosureScopes(schRqDto002);
+
+        // method end log
+        log.info("modifyDisclosureScopes Method Return Data : " + updateOriginMatchDisclosureScopes);
+        log.info("modifyDisclosureScopes Method End !!!");
+
+        // return
+        return updateOriginMatchDisclosureScopes;
     }
 
     @Override
     public int removeDisclosureScopes(SchRqDto002 schRqDto002) throws Exception {
-        return 0;
+        // method start log
+        log.info("removeDisclosureScopes Method Start !!!");
+        log.info("removeDisclosureScopes Method Request Data : " + schRqDto002);
+
+        List<SchRqDto002.ScheduleUser> originNonMatchDisclosureScopes = schRqDto002.getOriginNonMatchDisclosureScopes();
+        if (originNonMatchDisclosureScopes == null || originNonMatchDisclosureScopes.size() == 0) {
+            log.info("removeDisclosureScopes Method originNonMatchDisclosureScopes == null or originNonMatchDisclosureScopes.size() == 0");
+            return 0;
+        }
+
+        int updateOriginNonMatchDisclosureScopesCnt = schMapper002.updateOriginNonMatchDisclosureScopes(schRqDto002);
+
+        // method end log
+        log.info("removeDisclosureScopes Method Return Data : " + updateOriginNonMatchDisclosureScopesCnt);
+        log.info("removeDisclosureScopes Method End !!!");
+
+        // return
+        return updateOriginNonMatchDisclosureScopesCnt;
     }
 }
