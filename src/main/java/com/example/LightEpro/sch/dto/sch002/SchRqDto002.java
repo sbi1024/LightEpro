@@ -21,8 +21,8 @@ public class SchRqDto002 {
     private @Valid Calendar calendar; // 필수값
     @NotNull
     private @Valid List<Participant> participants; // 필수값
-
-    private @Valid List<DisclosureScope> disclosureScopes; // 필수값이 아님
+    @NotNull
+    private @Valid List<DisclosureScope> disclosureScopes; // 필수값
 
     private List<ScheduleUser> scheduleUsers; // 필수값이 아님
 

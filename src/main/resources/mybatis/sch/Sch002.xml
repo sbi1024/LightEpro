@@ -111,11 +111,40 @@
     </insert>
 
     <update id="updateOriginMatchParticipants">
-
+        /* updateOriginMatchParticipants */
+        UPDATE T_SC_SCH_USER TSSU
+        SET TSSU.MODIFY_DATE = NOW(),
+            TSSU.MODIFY_SEQ = #{user.userSeq}
+        WHERE 1 = 1
+         AND (
+                 <foreach collection="originMatchParticipants" item="originMatchParticipant" open="(" separator="OR" close=")">
+                       TSSU.SCHM_SEQ = #{schedule.schmSeq}
+                       AND TSSU.SCH_SEQ = #{schedule.schSeq}
+                       AND TSSU.CDE_SEQ = #{originMatchParticipant.cdeSeq}
+                       AND TSSU.CDE_TYPE = #{originMatchParticipant.cdeType}
+                       AND TSSU.SCH_PARTITION_TYPE = 10
+                       AND TSSU.USE_YND = 'Y'
+                 </foreach>
+             )
     </update>
 
     <update id="updateOriginNonMatchParticipants">
-
+        /* updateOriginNonMatchParticipants */
+        UPDATE T_SC_SCH_USER TSSU
+        SET TSSU.USE_YND = 'N' ,
+            TSSU.MODIFY_DATE = NOW(),
+            TSSU.MODIFY_SEQ = #{user.userSeq}
+        WHERE 1 = 1
+         AND (
+                 <foreach collection="originNonMatchParticipants" item="originNonMatchParticipant" open="(" separator="OR" close=")">
+                       TSSU.SCHM_SEQ = #{schedule.schmSeq}
+                       AND TSSU.SCH_SEQ = #{schedule.schSeq}
+                       AND TSSU.CDE_SEQ = #{originNonMatchParticipant.cdeSeq}
+                       AND TSSU.CDE_TYPE = #{originNonMatchParticipant.cdeType}
+                       AND TSSU.SCH_PARTITION_TYPE = 10
+                       AND TSSU.USE_YND = 'Y'
+                 </foreach>
+             )
     </update>
 
 
@@ -132,12 +161,12 @@
                                    USE_YND,
                                    CREATE_DATE,
                                    CREATE_SEQ)
-        VALUES <foreach collection="disclosureScopes" item="disclosureScope" separator=",">
+        VALUES <foreach collection="requestNonMatchDisclosureScopes" item="requestNonMatchDisclosureScope" separator=",">
                 (
                     #{schedule.schmSeq},
                     #{schedule.schSeq},
-                    #{disclosureScope.cdeSeq},
-                    #{disclosureScope.cdeType},
+                    #{requestNonMatchDisclosureScope.cdeSeq},
+                    #{requestNonMatchDisclosureScope.cdeType},
                     '20',
                     'S',
                     '0',
@@ -149,11 +178,40 @@
     </insert>
 
     <update id="updateOriginMatchDisclosureScopes">
-
+        /* updateOriginMatchDisclosureScopes */
+        UPDATE T_SC_SCH_USER TSSU
+        SET TSSU.MODIFY_DATE = NOW(),
+            TSSU.MODIFY_SEQ = #{user.userSeq}
+        WHERE 1 = 1
+         AND (
+                 <foreach collection="originMatchDisclosureScopes" item="originMatchDisclosureScope" open="(" separator="OR" close=")">
+                       TSSU.SCHM_SEQ = #{schedule.schmSeq}
+                       AND TSSU.SCH_SEQ = #{schedule.schSeq}
+                       AND TSSU.CDE_SEQ = #{originMatchDisclosureScope.cdeSeq}
+                       AND TSSU.CDE_TYPE = #{originMatchDisclosureScope.cdeType}
+                       AND TSSU.SCH_PARTITION_TYPE = 20
+                       AND TSSU.USE_YND = 'Y'
+                 </foreach>
+             )
     </update>
 
     <update id="updateOriginNonMatchDisclosureScopes">
-
+        /* updateOriginNonMatchDisclosureScopes */
+        UPDATE T_SC_SCH_USER TSSU
+        SET TSSU.USE_YND = 'N' ,
+            TSSU.MODIFY_DATE = NOW(),
+            TSSU.MODIFY_SEQ = #{user.userSeq}
+        WHERE 1 = 1
+         AND (
+                 <foreach collection="originNonMatchDisclosureScopes" item="originNonMatchDisclosureScope" open="(" separator="OR" close=")">
+                       TSSU.SCHM_SEQ = #{schedule.schmSeq}
+                       AND TSSU.SCH_SEQ = #{schedule.schSeq}
+                       AND TSSU.CDE_SEQ = #{originNonMatchDisclosureScope.cdeSeq}
+                       AND TSSU.CDE_TYPE = #{originNonMatchDisclosureScope.cdeType}
+                       AND TSSU.SCH_PARTITION_TYPE = 20
+                       AND TSSU.USE_YND = 'Y'
+                 </foreach>
+             )
     </update>
 
 </mapper>
