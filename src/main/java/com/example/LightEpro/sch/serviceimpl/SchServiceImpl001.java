@@ -19,6 +19,7 @@ public class SchServiceImpl001 implements SchService001 {
     // schMapper001 선언
     private final SchMapper001 schMapper001;
 
+    // 단일 일정 정보 조회 메소드
     @Transactional(rollbackFor = {Exception.class})
     @Override
     public SchRsDto001 findScheduleInfo(SchRqDto001 schRqDto001) throws Exception {
@@ -48,6 +49,7 @@ public class SchServiceImpl001 implements SchService001 {
         return schRsDto001;
     }
 
+    // 일정 조회 메소드
     @Override
     public SchRsDto001.Schedule findSchedule(SchRqDto001 schRqDto001) throws Exception {
         // method start log
@@ -64,6 +66,7 @@ public class SchServiceImpl001 implements SchService001 {
         return schedule;
     }
 
+    // 일정 참여자 조회 메소드
     @Override
     public List<SchRsDto001.Participant> findParticipants(SchRqDto001 schRqDto001) throws Exception {
         // method start log
@@ -71,7 +74,6 @@ public class SchServiceImpl001 implements SchService001 {
         log.info("findParticipants Method Request Data : " + schRqDto001);
 
         // 단일 일정 참여자 조회
-        // TODO 캘린더 시퀀스 값 포함 예정
         List<SchRsDto001.Participant> participants = schMapper001.selectParticipants(schRqDto001);
 
         // method end log
@@ -82,6 +84,7 @@ public class SchServiceImpl001 implements SchService001 {
         return participants;
     }
 
+    // 일정 공개범위 조회 메소드
     @Override
     public List<SchRsDto001.DisclosureScope> findDisclosureScopes(SchRqDto001 schRqDto001) throws Exception {
         // method start log
@@ -89,7 +92,6 @@ public class SchServiceImpl001 implements SchService001 {
         log.info("findDisclosureScopes Method Request Data : " + schRqDto001);
 
         // 단일 일정 공개범위 조회
-        // TODO 캘린더 시퀀스 값 포함 예정
         List<SchRsDto001.DisclosureScope> disclosureScopes = schMapper001.selectDisclosureScopes(schRqDto001);
 
         // method start log

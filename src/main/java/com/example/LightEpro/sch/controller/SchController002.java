@@ -61,7 +61,6 @@ public class SchController002 {
     }
 
     // sch002 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
-    // TODO 일정 수정 진행시 참여자에 등록자가 포함되어 있는지 판단
     public void validApiRequest(SchRqDto002 schRqDto002) throws Exception {
         // schRqDto002 객체 데이터 추출
         SchRqDto002.Schedule schedule = schRqDto002.getSchedule();
@@ -77,22 +76,21 @@ public class SchController002 {
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
             throw new ExceptionCustom.NotValidSchStartEndDateException();
         }
-
         // 요청값으로 받은 캘린더시퀀스 값을통해 , 캘린더 타입을 조회한다.
         String selectCalendarTypeValue = schMapper002.selectCalendarType(schRqDto002);
         // 캘린더 타입의 값이 빈 값인 경우 Exception 처리
         if (selectCalendarTypeValue.equals(SchConstValue.EMPTY_VALUE)) {
-            log.error("$$$ sch000 validApiRequest fail !!! (                                 ) $$$");
+            log.error("$$$ sch000 validApiRequest fail !!! (NotFoundCalException) $$$");
             log.error("$$$ sch000 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
-            throw new Exception();
+            throw new ExceptionCustom.NotFoundCalException();
         }
         // 개인캘린더에 포함된 일정 수정시에 , 공개범위 데이터가 포함되는 경우 Exception 처리 (null 이 아닌 , 빈값으로 들어와야 함)
-        if (selectCalendarTypeValue.equals(SchConstValue.ECAL_TYPE) && (disclosureScopes.size() > 0)) {
+        if (selectCalendarTypeValue.equals(SchConstValue.ECAL_TYPE) &&
+                (disclosureScopes != null || disclosureScopes.size() > 0)) {
             log.error("$$$ sch002 validApiRequest fail !!! (IncorrectIncludException) $$$");
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
             throw new ExceptionCustom.IncorrectIncludException();
         }
-
         // 일정 수정 진행 전 , 요청값으로 받은 일정 시퀀스값을 통해 일정이 존재하는지 판단 후 , 존재하지 않는다면 Exception 처리
         int selectScheduleCountValue = schMapper002.selectScheduleCount(schRqDto002);
         if (selectScheduleCountValue == 0) {

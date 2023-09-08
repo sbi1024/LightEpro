@@ -23,7 +23,7 @@ public class SchServiceImpl000 implements SchService000 {
     // schMapper000 선언
     private final SchMapper000 schMapper000;
 
-    // 단일 일정 등록 메소드
+    // 단일 일정 정보 등록 메소드
     @Transactional(rollbackFor = {Exception.class})
     @Override
     public SchRsDto000 createScheduleInfo(SchRqDto000 schRqDto000) throws Exception {
@@ -104,7 +104,7 @@ public class SchServiceImpl000 implements SchService000 {
         return selectScheduleSequenceValue;
     }
 
-    // 일정 데이터 insert 메소드 (TABLE NAME : t_sc_sch)
+    // 일정 등록 메소드
     @Override
     public int createSchedule(SchRqDto000 schRqDto000) throws Exception {
         // method start log
@@ -122,7 +122,7 @@ public class SchServiceImpl000 implements SchService000 {
         return insertScheduleCnt;
     }
 
-    // 일정 참여자 데이터 insert 메소드 (TABLE NAME : t_sc_sch_user / USER_TYPE : 10 (참여자))
+    // 일정 참여자 등록 메소드
     @Override
     public int createParticipants(SchRqDto000 schRqDto000) throws Exception {
         // method start log
@@ -146,7 +146,7 @@ public class SchServiceImpl000 implements SchService000 {
         return insertParticipantsCnt;
     }
 
-    // 일정 공개범위 데이터 insert 메소드 (TABLE NAME : t_sc_sch_user / USER_TYPE : 20 (공개범위))
+    // 일정 공개범위 등록 메소드
     @Override
     public int createDisclosureScopes(SchRqDto000 schRqDto000) throws Exception {
         // method start log

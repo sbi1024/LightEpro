@@ -19,8 +19,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class SchServiceImpl002 implements SchService002 {
+    // schMapper002 선언
     private final SchMapper002 schMapper002;
 
+    // 단일 일정 정보 수정 메소드
     @Transactional(rollbackFor = {Exception.class})
     @Override
     public SchRsDto002 modifyScheduleInfo(SchRqDto002 schRqDto002) throws Exception {
@@ -70,7 +72,7 @@ public class SchServiceImpl002 implements SchService002 {
     }
 
 
-    // 일정 시퀀스 번호 주입 메소드
+    // schRqDto002 객체 데이터 재 주입 메소드
     @Override
     public void assignObject(SchRqDto002 schRqDto002) throws Exception {
         // method start log
@@ -98,6 +100,7 @@ public class SchServiceImpl002 implements SchService002 {
         log.info("assignObject Method End !!!");
     }
 
+    // 일정 구성원 (참여자/공개범위) 일치 비일치 검증 메소드
     @Override
     public void confirmScheduleUsers(SchRqDto002 schRqDto002) throws Exception {
         // method start log
@@ -118,7 +121,6 @@ public class SchServiceImpl002 implements SchService002 {
         List<SchRqDto002.ScheduleUser> originNonMatchParticipants = confirmOriginNonMatchParticipants(originParticipants, requestParticipants);
         // 비 일치하는 일정 참여자 추출 (요청값으로 받은 일정 참여자 <-> 기존 일정 참여자)
         List<SchRqDto002.Participant> requestNonMatchParticipants = confirmRequestNonMatchParticipants(originParticipants, requestParticipants);
-
         // 일치하는 일정 공개범위 추출 (기존 일정 공개범위 <-> 요청값으로 받은 일정 공개범위)
         List<SchRqDto002.ScheduleUser> originMatchDisclosureScopes = confirmOriginMatchDisclosureScopes(originDisclosureScopes, requestDisclosureScopes);
         // 비 일치하는 일정 공개범위 추출 (기존 일정 공개범위 <-> 요청값으로 받은 일정 공개범위)
@@ -138,7 +140,7 @@ public class SchServiceImpl002 implements SchService002 {
         log.info("confirmScheduleUsers Method End !!!");
     }
 
-    // 수정 처리 (update)
+    // 일치하는 일정 참여자 추출 (기존 일정 참여자 <-> 요청값으로 받은 일정 참여자)
     @Override
     public List<SchRqDto002.ScheduleUser> confirmOriginMatchParticipants(List<SchRqDto002.ScheduleUser> originParticipants,
                                                                          List<SchRqDto002.Participant> requestParticipants) throws Exception {
@@ -166,7 +168,7 @@ public class SchServiceImpl002 implements SchService002 {
         return originMatchParticipants;
     }
 
-    // 삭제 처리 (delete)
+    // 비 일치하는 일정 참여자 추출 (기존 일정 참여자 <-> 요청값으로 받은 일정 참여자)
     @Override
     public List<SchRqDto002.ScheduleUser> confirmOriginNonMatchParticipants(List<SchRqDto002.ScheduleUser> originParticipants,
                                                                             List<SchRqDto002.Participant> requestParticipants) throws Exception {
@@ -194,7 +196,7 @@ public class SchServiceImpl002 implements SchService002 {
         return originNonMatchParticipants;
     }
 
-    // 등록 처리 (insert)
+    // 비 일치하는 일정 참여자 추출 (요청값으로 받은 일정 참여자 <-> 기존 일정 참여자)
     @Override
     public List<SchRqDto002.Participant> confirmRequestNonMatchParticipants(List<SchRqDto002.ScheduleUser> originParticipants,
                                                                             List<SchRqDto002.Participant> requestParticipants) throws Exception {
@@ -222,7 +224,7 @@ public class SchServiceImpl002 implements SchService002 {
         return requestNonMatchParticipants;
     }
 
-    // 수정 처리 (update)
+    // 일치하는 일정 공개범위 추출 (기존 일정 공개범위 <-> 요청값으로 받은 일정 공개범위)
     @Override
     public List<SchRqDto002.ScheduleUser> confirmOriginMatchDisclosureScopes(List<SchRqDto002.ScheduleUser> originDisclosureScopes,
                                                                              List<SchRqDto002.DisclosureScope> requestDisclosureScopes) throws Exception {
@@ -250,7 +252,7 @@ public class SchServiceImpl002 implements SchService002 {
         return originMatchDisclosureScopes;
     }
 
-    // 삭제 처리 (delete)
+    // 비 일치하는 일정 공개범위 추출 (기존 일정 공개범위 <-> 요청값으로 받은 일정 공개범위)
     @Override
     public List<SchRqDto002.ScheduleUser> confirmOriginNonMatchDisclosureScopes(List<SchRqDto002.ScheduleUser> originDisclosureScopes,
                                                                                 List<SchRqDto002.DisclosureScope> requestDisclosureScopes) throws Exception {
@@ -278,7 +280,7 @@ public class SchServiceImpl002 implements SchService002 {
         return originNonMatchDisclosureScopes;
     }
 
-    // 등록 처리 (insert)
+    // 비 일치하는 일정 공개범위 추출 (요청값으로 받은 일정 공개범위 <-> 기존 일정 공개범위)
     @Override
     public List<SchRqDto002.DisclosureScope> confirmRequestNonMatchDisclosureScopes(List<SchRqDto002.ScheduleUser> originDisclosureScopes,
                                                                                     List<SchRqDto002.DisclosureScope> requestDisclosureScopes) throws Exception {
@@ -306,7 +308,7 @@ public class SchServiceImpl002 implements SchService002 {
         return requestNonMatchDisclosureScopes;
     }
 
-    // 단일 일정 수정 메소드
+    // 일정 수정 메소드
     @Override
     public int modifySchedule(SchRqDto002 schRqDto002) throws Exception {
         log.info("updateSingleSch Method Start !!!");
@@ -319,7 +321,7 @@ public class SchServiceImpl002 implements SchService002 {
         return updateScheduleCnt;
     }
 
-    // 단일 일정 참여자 등록 메소드
+    // 일정 참여자 등록 메소드
     @Override
     public int createParticipants(SchRqDto002 schRqDto002) throws Exception {
         // method start log
@@ -343,7 +345,7 @@ public class SchServiceImpl002 implements SchService002 {
         return insertParticipantsCnt;
     }
 
-    // 단일 일정 참여자 수정 메소드
+    // 일정 참여자 수정 메소드
     @Override
     public int modifyParticipants(SchRqDto002 schRqDto002) throws Exception {
         // method start log
@@ -367,7 +369,7 @@ public class SchServiceImpl002 implements SchService002 {
         return updateParticipantsCnt;
     }
 
-    // 단일 일정 참여자 삭제 메소드
+    // 일정 참여자 삭제 메소드
     @Override
     public int removeParticipants(SchRqDto002 schRqDto002) throws Exception {
         // method start log
@@ -391,6 +393,7 @@ public class SchServiceImpl002 implements SchService002 {
         return updateParticipantsCnt;
     }
 
+    // 일정 공개범위 등록 메소드
     @Override
     public int createDisclosureScopes(SchRqDto002 schRqDto002) throws Exception {
         // method start log
@@ -413,6 +416,7 @@ public class SchServiceImpl002 implements SchService002 {
         return insertDisclosureScopesCnt;
     }
 
+    // 일정 공개범위 수정 메소드
     @Override
     public int modifyDisclosureScopes(SchRqDto002 schRqDto002) throws Exception {
         // method start log
@@ -435,6 +439,7 @@ public class SchServiceImpl002 implements SchService002 {
         return updateOriginMatchDisclosureScopes;
     }
 
+    // 일정 공개범위 삭제 메소드
     @Override
     public int removeDisclosureScopes(SchRqDto002 schRqDto002) throws Exception {
         // method start log
