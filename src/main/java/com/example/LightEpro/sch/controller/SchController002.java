@@ -64,6 +64,7 @@ public class SchController002 {
     public void validApiRequest(SchRqDto002 schRqDto002) throws Exception {
         // schRqDto002 객체 데이터 추출
         SchRqDto002.Schedule schedule = schRqDto002.getSchedule();
+        List<SchRqDto002.Participant> participants = schRqDto002.getParticipants();
         List<SchRqDto002.DisclosureScope> disclosureScopes = schRqDto002.getDisclosureScopes();
 
         // 요청값으로 받은 시작일자 값과 , 종료일자 값을 추출한다.
@@ -86,7 +87,7 @@ public class SchController002 {
         }
         // 개인캘린더에 포함된 일정 수정시에 , 공개범위 데이터가 포함되는 경우 Exception 처리 (null 이 아닌 , 빈값으로 들어와야 함)
         if (selectCalendarTypeValue.equals(SchConstValue.ECAL_TYPE) &&
-                (disclosureScopes != null || disclosureScopes.size() > 0)) {
+                (disclosureScopes != null && disclosureScopes.size() > 0)) {
             log.error("$$$ sch002 validApiRequest fail !!! (IncorrectIncludException) $$$");
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
             throw new ExceptionCustom.IncorrectIncludException();
@@ -97,6 +98,16 @@ public class SchController002 {
             log.error("$$$ sch002 validApiRequest fail !!! (NotFoundSchException) $$$");
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
             throw new ExceptionCustom.NotFoundSchException();
+        }
+        // 요청값의 참여자 데이터 중 기존 일정의 등록자 값이 존재하지 않는 경우 Exception 처리
+        int selectOriginRegistrantValue = schMapper002.selectOriginRegistrant(schRqDto002);
+        boolean existRegistrant = participants.stream().anyMatch(participant ->
+                (participant.getCdeSeq() == selectOriginRegistrantValue)
+                        && participant.getCdeType().equals(SchConstValue.CDE_E_TYPE));
+        if (existRegistrant == false) {
+            log.error("$$$ sch002 validApiRequest fail !!! (NotFoundRegistrant) $$$");
+            log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
+            throw new ExceptionCustom.NotFoundRegistrant();
         }
     }
 }

@@ -23,14 +23,12 @@ public class SchRqDto002 {
     private @Valid List<Participant> participants; // 필수값
     private @Valid List<DisclosureScope> disclosureScopes; // 필수값이 아님
 
-    private List<ScheduleUser> scheduleUsers; // 필수값이 아님
-
-    List<ScheduleUser> originMatchParticipants; //필수값이 아님
-    List<ScheduleUser> originNonMatchParticipants; //필수값이 아님
+    List<Participant> originMatchParticipants; //필수값이 아님
+    List<Participant> originNonMatchParticipants; //필수값이 아님
     List<Participant> requestNonMatchParticipants; //필수값이 아님
 
-    List<ScheduleUser> originMatchDisclosureScopes; //필수값이 아님
-    List<ScheduleUser> originNonMatchDisclosureScopes; //필수값이 아님
+    List<DisclosureScope> originMatchDisclosureScopes; //필수값이 아님
+    List<DisclosureScope> originNonMatchDisclosureScopes; //필수값이 아님
     List<DisclosureScope> requestNonMatchDisclosureScopes; //필수값이 아님
 
     @Data
@@ -90,13 +88,5 @@ public class SchRqDto002 {
         private int cdeSeq; // 필수값
         @NotBlank
         private String cdeType; // 필수값
-    }
-
-    @Data
-    public static class ScheduleUser {
-        private int cdeSeq; // 필수값이 아님
-        private String cdeType; // 필수값이 아님
-        private String partitionType; // 필수값이 아님
-        private String autority; // 필수값이 아님
     }
 }

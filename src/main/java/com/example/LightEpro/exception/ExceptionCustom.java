@@ -29,4 +29,11 @@ public class ExceptionCustom {
      */
     public static class NotFoundCalException extends Exception {
     }
+
+    /**
+     * 참여자 요청값 중 등록자 값이 존재하지 않는 경우 경우 발생 Exception
+     */
+    public static class NotFoundRegistrant extends Exception{
+
+    }
 }

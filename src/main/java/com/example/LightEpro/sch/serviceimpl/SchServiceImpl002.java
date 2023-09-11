@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,6 +80,23 @@ public class SchServiceImpl002 implements SchService002 {
         log.info("assignObject Method Start !!!");
         log.info("assignObject Method Request Data : " + schRqDto002);
 
+        // 일정 객체에 일정 일자 값 할당 메소드 (startDate , endDate)
+        confirmScheduleDate(schRqDto002);
+        // 일정 참여자 및 공개범위 일치 비일치 추출
+        confirmScheduleUsers(schRqDto002);
+
+        // method end log
+        log.info("assignObject Method Result Data : " + schRqDto002);
+        log.info("assignObject Method End !!!");
+    }
+
+    // 일정 객체에 일정 일자 값 할당 메소드 (startDate , endDate)
+    @Override
+    public void confirmScheduleDate(SchRqDto002 schRqDto002) throws Exception {
+        // method start log
+        log.info("confirmScheduleDate Method Start !!!");
+        log.info("confirmScheduleDate Method Request Data : " + schRqDto002);
+
         // schedule 객체 생성
         SchRqDto002.Schedule schedule = schRqDto002.getSchedule();
 
@@ -92,12 +110,8 @@ public class SchServiceImpl002 implements SchService002 {
         schedule.setEndDateYear(endDate.getYear());
         schedule.setEndDateMonth(endDate.getMonthValue());
 
-        // 일정 참여자 및 공개범위 일치 비일치 추출
-        confirmScheduleUsers(schRqDto002);
-
         // method end log
-        log.info("assignObject Method Result Data : " + schRqDto002);
-        log.info("assignObject Method End !!!");
+        log.info("confirmScheduleDate Method End !!!");
     }
 
     // 일정 구성원 (참여자/공개범위) 일치 비일치 검증 메소드
@@ -107,31 +121,37 @@ public class SchServiceImpl002 implements SchService002 {
         log.info("confirmScheduleUsers Method Start !!!");
         log.info("confirmScheduleUsers Method Request Data : " + schRqDto002);
 
-        // 기존에 존재하는 일정 참여자 및 공개범위 데이터 추출
-        List<SchRqDto002.ScheduleUser> originParticipants = schMapper002.selectParticipants(schRqDto002);
-        List<SchRqDto002.ScheduleUser> originDisclosureScopes = schMapper002.selectDisclosureScopes(schRqDto002);
-
-        // 요청값으로 받은 참여자 및 공개범위 데이터 추출
+        // 기존에 존재하는 일정 참여자 데이터 / 요청값의 일정 참여자 데이터 추출
+        List<SchRqDto002.Participant> originParticipants = schMapper002.selectParticipants(schRqDto002);
         List<SchRqDto002.Participant> requestParticipants = schRqDto002.getParticipants();
-        List<SchRqDto002.DisclosureScope> requestDisclosureScopes = schRqDto002.getDisclosureScopes();
 
         // 일치하는 일정 참여자 추출 (기존 일정 참여자 <-> 요청값으로 받은 일정 참여자)
-        List<SchRqDto002.ScheduleUser> originMatchParticipants = confirmOriginMatchParticipants(originParticipants, requestParticipants);
+        List<SchRqDto002.Participant> originMatchParticipants = confirmOriginMatchParticipants(originParticipants, requestParticipants);
         // 비 일치하는 일정 참여자 추출 (기존 일정 참여자 <-> 요청값으로 받은 일정 참여자)
-        List<SchRqDto002.ScheduleUser> originNonMatchParticipants = confirmOriginNonMatchParticipants(originParticipants, requestParticipants);
+        List<SchRqDto002.Participant> originNonMatchParticipants = confirmOriginNonMatchParticipants(originParticipants, requestParticipants);
         // 비 일치하는 일정 참여자 추출 (요청값으로 받은 일정 참여자 <-> 기존 일정 참여자)
         List<SchRqDto002.Participant> requestNonMatchParticipants = confirmRequestNonMatchParticipants(originParticipants, requestParticipants);
-        // 일치하는 일정 공개범위 추출 (기존 일정 공개범위 <-> 요청값으로 받은 일정 공개범위)
-        List<SchRqDto002.ScheduleUser> originMatchDisclosureScopes = confirmOriginMatchDisclosureScopes(originDisclosureScopes, requestDisclosureScopes);
-        // 비 일치하는 일정 공개범위 추출 (기존 일정 공개범위 <-> 요청값으로 받은 일정 공개범위)
-        List<SchRqDto002.ScheduleUser> originNonMatchDisclosureScopes = confirmOriginNonMatchDisclosureScopes(originDisclosureScopes, requestDisclosureScopes);
-        // 비 일치하는 일정 공개범위 추출 (요청값으로 받은 일정 공개범위 <-> 기존 일정 공개범위)
-        List<SchRqDto002.DisclosureScope> requestNonMatchDisclosureScopes = confirmRequestNonMatchDisclosureScopes(originDisclosureScopes, requestDisclosureScopes);
 
-        // 일치 비일치 데이터 schRqDto002 객체에 재 할당
+        // 일치 비일치 참여자 데이터 schRqDto002 객체에 재 할당
         schRqDto002.setOriginMatchParticipants(originMatchParticipants);
         schRqDto002.setOriginNonMatchParticipants(originNonMatchParticipants);
         schRqDto002.setRequestNonMatchParticipants(requestNonMatchParticipants);
+
+
+        // 요청값으로 받은 참여자 및 공개범위 데이터 추출 (만약 null 값이라면, 빈 리스트 값으로 할당)
+        List<SchRqDto002.DisclosureScope> originDisclosureScopes = schMapper002.selectDisclosureScopes(schRqDto002) == null ?
+                new ArrayList<>() : schMapper002.selectDisclosureScopes(schRqDto002);
+        List<SchRqDto002.DisclosureScope> requestDisclosureScopes = schRqDto002.getDisclosureScopes() == null ?
+                new ArrayList<>() : schRqDto002.getDisclosureScopes();
+
+        // 일치하는 일정 공개범위 추출 (기존 일정 공개범위 <-> 요청값으로 받은 일정 공개범위)
+        List<SchRqDto002.DisclosureScope> originMatchDisclosureScopes = confirmOriginMatchDisclosureScopes(originDisclosureScopes, requestDisclosureScopes);
+        // 비 일치하는 일정 공개범위 추출 (기존 일정 공개범위 <-> 요청값으로 받은 일정 공개범위)
+        List<SchRqDto002.DisclosureScope> originNonMatchDisclosureScopes = confirmOriginNonMatchDisclosureScopes(originDisclosureScopes, requestDisclosureScopes);
+        // 비 일치하는 일정 공개범위 추출 (요청값으로 받은 일정 공개범위 <-> 기존 일정 공개범위)
+        List<SchRqDto002.DisclosureScope> requestNonMatchDisclosureScopes = confirmRequestNonMatchDisclosureScopes(originDisclosureScopes, requestDisclosureScopes);
+
+        // 일치 비일치 공개범위 데이터 schRqDto002 객체에 재 할당
         schRqDto002.setOriginMatchDisclosureScopes(originMatchDisclosureScopes);
         schRqDto002.setOriginNonMatchDisclosureScopes(originNonMatchDisclosureScopes);
         schRqDto002.setRequestNonMatchDisclosureScopes(requestNonMatchDisclosureScopes);
@@ -142,14 +162,14 @@ public class SchServiceImpl002 implements SchService002 {
 
     // 일치하는 일정 참여자 추출 (기존 일정 참여자 <-> 요청값으로 받은 일정 참여자)
     @Override
-    public List<SchRqDto002.ScheduleUser> confirmOriginMatchParticipants(List<SchRqDto002.ScheduleUser> originParticipants,
-                                                                         List<SchRqDto002.Participant> requestParticipants) throws Exception {
+    public List<SchRqDto002.Participant> confirmOriginMatchParticipants(List<SchRqDto002.Participant> originParticipants,
+                                                                        List<SchRqDto002.Participant> requestParticipants) throws Exception {
         // method start log
         log.info("confirmOriginMatchParticipants Method Start !!!");
         log.info("confirmOriginMatchParticipants Method originParticipants : " + originParticipants + " requestParticipants : " + requestParticipants);
 
         // stream 을 통해 일치하는 일정 참여자 추출 (기존 일정 참여자 <-> 요청값으로 받은 일정 참여자)
-        List<SchRqDto002.ScheduleUser> originMatchParticipants = originParticipants.stream()
+        List<SchRqDto002.Participant> originMatchParticipants = originParticipants.stream()
                 .filter(originParticipant ->
                         requestParticipants.stream().anyMatch(
                                 requestParticipant -> (
@@ -170,14 +190,14 @@ public class SchServiceImpl002 implements SchService002 {
 
     // 비 일치하는 일정 참여자 추출 (기존 일정 참여자 <-> 요청값으로 받은 일정 참여자)
     @Override
-    public List<SchRqDto002.ScheduleUser> confirmOriginNonMatchParticipants(List<SchRqDto002.ScheduleUser> originParticipants,
-                                                                            List<SchRqDto002.Participant> requestParticipants) throws Exception {
+    public List<SchRqDto002.Participant> confirmOriginNonMatchParticipants(List<SchRqDto002.Participant> originParticipants,
+                                                                           List<SchRqDto002.Participant> requestParticipants) throws Exception {
         // method start log
         log.info("confirmOriginNonMatchParticipants Method Start !!!");
         log.info("confirmOriginNonMatchParticipants Method originParticipants : " + originParticipants + " requestParticipants : " + requestParticipants);
 
         // stream 을 통해 비 일치하는 일정 참여자 추출 (기존 일정 참여자 <-> 요청값으로 받은 일정 참여자)
-        List<SchRqDto002.ScheduleUser> originNonMatchParticipants = originParticipants.stream()
+        List<SchRqDto002.Participant> originNonMatchParticipants = originParticipants.stream()
                 .filter(originParticipant ->
                         requestParticipants.stream().noneMatch(
                                 requestParticipant -> (
@@ -198,7 +218,7 @@ public class SchServiceImpl002 implements SchService002 {
 
     // 비 일치하는 일정 참여자 추출 (요청값으로 받은 일정 참여자 <-> 기존 일정 참여자)
     @Override
-    public List<SchRqDto002.Participant> confirmRequestNonMatchParticipants(List<SchRqDto002.ScheduleUser> originParticipants,
+    public List<SchRqDto002.Participant> confirmRequestNonMatchParticipants(List<SchRqDto002.Participant> originParticipants,
                                                                             List<SchRqDto002.Participant> requestParticipants) throws Exception {
         // method start log
         log.info("confirmRequestNonMatchParticipants Method Start !!!");
@@ -226,14 +246,14 @@ public class SchServiceImpl002 implements SchService002 {
 
     // 일치하는 일정 공개범위 추출 (기존 일정 공개범위 <-> 요청값으로 받은 일정 공개범위)
     @Override
-    public List<SchRqDto002.ScheduleUser> confirmOriginMatchDisclosureScopes(List<SchRqDto002.ScheduleUser> originDisclosureScopes,
-                                                                             List<SchRqDto002.DisclosureScope> requestDisclosureScopes) throws Exception {
+    public List<SchRqDto002.DisclosureScope> confirmOriginMatchDisclosureScopes(List<SchRqDto002.DisclosureScope> originDisclosureScopes,
+                                                                                List<SchRqDto002.DisclosureScope> requestDisclosureScopes) throws Exception {
         // method start log
         log.info("confirmOriginMatchDisclosureScopes Method Start !!!");
         log.info("confirmOriginMatchDisclosureScopes Method originDisclosureScopes : " + originDisclosureScopes + " requestDisclosureScopes : " + requestDisclosureScopes);
 
         // stream 을 통해 일치하는 일정 공개범위 추출 (기존 일정 공개범위 <-> 요청값으로 받은 일정 공개범위)
-        List<SchRqDto002.ScheduleUser> originMatchDisclosureScopes = originDisclosureScopes.stream()
+        List<SchRqDto002.DisclosureScope> originMatchDisclosureScopes = originDisclosureScopes.stream()
                 .filter(originDisclosureScope ->
                         requestDisclosureScopes.stream().anyMatch(
                                 requestDisclosureScope -> (
@@ -254,14 +274,14 @@ public class SchServiceImpl002 implements SchService002 {
 
     // 비 일치하는 일정 공개범위 추출 (기존 일정 공개범위 <-> 요청값으로 받은 일정 공개범위)
     @Override
-    public List<SchRqDto002.ScheduleUser> confirmOriginNonMatchDisclosureScopes(List<SchRqDto002.ScheduleUser> originDisclosureScopes,
-                                                                                List<SchRqDto002.DisclosureScope> requestDisclosureScopes) throws Exception {
+    public List<SchRqDto002.DisclosureScope> confirmOriginNonMatchDisclosureScopes(List<SchRqDto002.DisclosureScope> originDisclosureScopes,
+                                                                                   List<SchRqDto002.DisclosureScope> requestDisclosureScopes) throws Exception {
         // method start log
         log.info("confirmOriginNonMatchDisclosureScopes Method Start !!!");
         log.info("confirmOriginNonMatchDisclosureScopes Method originDisclosureScopes : " + originDisclosureScopes + " requestDisclosureScopes : " + requestDisclosureScopes);
 
         // stream 을 통해 비 일치하는 일정 공개범위 추출 (기존 일정 공개범위 <-> 요청값으로 받은 일정 공개범위)
-        List<SchRqDto002.ScheduleUser> originNonMatchDisclosureScopes = originDisclosureScopes.stream()
+        List<SchRqDto002.DisclosureScope> originNonMatchDisclosureScopes = originDisclosureScopes.stream()
                 .filter(originDisclosureScope ->
                         requestDisclosureScopes.stream().noneMatch(
                                 requestDisclosureScope -> (
@@ -282,7 +302,7 @@ public class SchServiceImpl002 implements SchService002 {
 
     // 비 일치하는 일정 공개범위 추출 (요청값으로 받은 일정 공개범위 <-> 기존 일정 공개범위)
     @Override
-    public List<SchRqDto002.DisclosureScope> confirmRequestNonMatchDisclosureScopes(List<SchRqDto002.ScheduleUser> originDisclosureScopes,
+    public List<SchRqDto002.DisclosureScope> confirmRequestNonMatchDisclosureScopes(List<SchRqDto002.DisclosureScope> originDisclosureScopes,
                                                                                     List<SchRqDto002.DisclosureScope> requestDisclosureScopes) throws Exception {
         // method start log
         log.info("confirmRequestNonMatchDisclosureScopes Method Start !!!");
@@ -311,13 +331,17 @@ public class SchServiceImpl002 implements SchService002 {
     // 일정 수정 메소드
     @Override
     public int modifySchedule(SchRqDto002 schRqDto002) throws Exception {
+        // method start log
         log.info("updateSingleSch Method Start !!!");
         log.info("updateSingleSch Method Request Data : " + schRqDto002);
 
         int updateScheduleCnt = schMapper002.updateSchedule(schRqDto002);
 
+        // method end log
         log.info("updateSingleSch Method Return Data : " + updateScheduleCnt);
         log.info("updateSingleSch Method End !!!");
+
+        // return
         return updateScheduleCnt;
     }
 
@@ -353,7 +377,7 @@ public class SchServiceImpl002 implements SchService002 {
         log.info("modifyParticipants Method Request Data : " + schRqDto002);
 
         // originMatchParticipants 변수 추출 및 유효성 체크
-        List<SchRqDto002.ScheduleUser> originMatchParticipants = schRqDto002.getOriginMatchParticipants();
+        List<SchRqDto002.Participant> originMatchParticipants = schRqDto002.getOriginMatchParticipants();
         if (originMatchParticipants == null || originMatchParticipants.size() == 0) {
             log.info("createParticipants Method originMatchParticipants == null or originMatchParticipants.size() == 0");
             return 0;
@@ -377,7 +401,7 @@ public class SchServiceImpl002 implements SchService002 {
         log.info("removeParticipants Method Request Data : " + schRqDto002);
 
         // originNonMatchParticipants 변수 추출 및 유효성 체크
-        List<SchRqDto002.ScheduleUser> originNonMatchParticipants = schRqDto002.getOriginNonMatchParticipants();
+        List<SchRqDto002.Participant> originNonMatchParticipants = schRqDto002.getOriginNonMatchParticipants();
         if (originNonMatchParticipants == null || originNonMatchParticipants.size() == 0) {
             log.info("removeParticipants Method originNonMatchParticipants == null or originNonMatchParticipants.size() == 0");
             return 0;
@@ -423,7 +447,7 @@ public class SchServiceImpl002 implements SchService002 {
         log.info("modifyDisclosureScopes Method Start !!!");
         log.info("modifyDisclosureScopes Method Request Data : " + schRqDto002);
 
-        List<SchRqDto002.ScheduleUser> originMatchDisclosureScopes = schRqDto002.getOriginMatchDisclosureScopes();
+        List<SchRqDto002.DisclosureScope> originMatchDisclosureScopes = schRqDto002.getOriginMatchDisclosureScopes();
         if (originMatchDisclosureScopes == null || originMatchDisclosureScopes.size() == 0) {
             log.info("modifyDisclosureScopes Method originMatchDisclosureScopes == null or originMatchDisclosureScopes.size() == 0");
             return 0;
@@ -446,7 +470,7 @@ public class SchServiceImpl002 implements SchService002 {
         log.info("removeDisclosureScopes Method Start !!!");
         log.info("removeDisclosureScopes Method Request Data : " + schRqDto002);
 
-        List<SchRqDto002.ScheduleUser> originNonMatchDisclosureScopes = schRqDto002.getOriginNonMatchDisclosureScopes();
+        List<SchRqDto002.DisclosureScope> originNonMatchDisclosureScopes = schRqDto002.getOriginNonMatchDisclosureScopes();
         if (originNonMatchDisclosureScopes == null || originNonMatchDisclosureScopes.size() == 0) {
             log.info("removeDisclosureScopes Method originNonMatchDisclosureScopes == null or originNonMatchDisclosureScopes.size() == 0");
             return 0;

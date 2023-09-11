@@ -2,10 +2,10 @@
   "emp": {
     "empSeq": 1000
   },
-  "calender": {
-    "calTitle": "서보인 개인 캘린더",
-    "calType": "E",
-    "calContent": "서보인 개인 캘린더 최초 등록",
+  "calendar": {
+    "calTitle": "서보인 공유 캘린더",
+    "calType": "M",
+    "calContent": "서보인 공유 캘린더 최초 등록",
     "calColor": null
   },
   "owner": {

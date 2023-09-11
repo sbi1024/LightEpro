@@ -3,7 +3,7 @@
 
 <mapper namespace="com.example.LightEpro.sch.mapper.SchMapper002">
     <select id="selectCalendarType" resultType="string">
-        /* checkCalType */
+        /* selectCalendarType */
         SELECT IFNULL(MAX(TSC.CAL_TYPE), '') AS calType
         FROM T_SC_CAL TSC
         WHERE 1 = 1
@@ -21,12 +21,26 @@
           AND TSS.USE_YND = 'Y'
     </select>
 
+    <select id="selectOriginRegistrant" resultType="int">
+        /* selectOriginRegistrant */
+        SELECT IFNULL(MAX(TSSU.CDE_SEQ), 0) AS cdeSeq
+        FROM T_SC_SCH TSS
+                 INNER JOIN T_SC_SCH_USER TSSU
+                            ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
+                                AND TSS.SCH_SEQ = TSSU.SCH_SEQ
+                                AND TSS.CREATE_SEQ = TSSU.CDE_SEQ
+                                AND TSSU.CDE_TYPE = 'E'
+                                AND TSS.USE_YND = 'Y'
+                                AND TSSU.USE_YND = 'Y'
+        WHERE 1 = 1
+          AND TSS.SCHM_SEQ = #{schedule.schmSeq}
+          AND TSS.SCH_SEQ = #{schedule.schSeq}
+    </select>
 
-    <select id="selectParticipants" resultType="com.example.LightEpro.sch.dto.sch002.SchRqDto002$ScheduleUser">
+    <select id="selectParticipants" resultType="com.example.LightEpro.sch.dto.sch002.SchRqDto002$Participant">
+        /* selectParticipants */
         SELECT IFNULL(TSSU.CDE_SEQ, 0)            AS cdeSeq,
-               IFNULL(TSSU.CDE_TYPE, '')          AS cdeType,
-               IFNULL(TSSU.SCH_PARTITION_TYPE, 0) AS partitionType,
-               IFNULL(TSSU.SCH_AUTORITY, '')      AS autority
+               IFNULL(TSSU.CDE_TYPE, '')          AS cdeType
         FROM T_SC_SCH_USER TSSU
         WHERE 1 = 1
           AND TSSU.SCHM_SEQ = #{schedule.schmSeq}
@@ -35,11 +49,10 @@
           AND TSSU.SCH_PARTITION_TYPE = '10'
     </select>
 
-    <select id="selectDisclosureScopes" resultType="com.example.LightEpro.sch.dto.sch002.SchRqDto002$ScheduleUser">
+    <select id="selectDisclosureScopes" resultType="com.example.LightEpro.sch.dto.sch002.SchRqDto002$DisclosureScope">
+        /* selectDisclosureScopes */
         SELECT IFNULL(TSSU.CDE_SEQ, 0)            AS cdeSeq,
-               IFNULL(TSSU.CDE_TYPE, '')          AS cdeType,
-               IFNULL(TSSU.SCH_PARTITION_TYPE, 0) AS partitionType,
-               IFNULL(TSSU.SCH_AUTORITY, '')      AS autority
+               IFNULL(TSSU.CDE_TYPE, '')          AS cdeType
         FROM T_SC_SCH_USER TSSU
         WHERE 1 = 1
           AND TSSU.SCHM_SEQ = #{schedule.schmSeq}
@@ -87,27 +100,19 @@
                     #{requestNonMatchParticipant.cdeSeq},
                     #{requestNonMatchParticipant.cdeType},
                     '10',
-                    <choose>
-                        <when test="requestNonMatchParticipant.cdeSeq == user.userSeq">
-                            'M'
-                        </when>
-                        <otherwise>
-                            'W'
-                        </otherwise>
-                    </choose>,
-                    <choose>
-                        <when test="requestNonMatchParticipant.cdeSeq == user.userSeq">
-                            #{calendar.calSeq}
-                        </when>
-                        <otherwise>
-                            '0'
-                        </otherwise>
-                    </choose>,
+                    'W',
+                    '0',
                     'Y',
-                    now(),
+                    NOW(),
                     #{user.userSeq}
                 )
             </foreach>
+        ON DUPLICATE KEY UPDATE
+        USE_YND = 'Y',
+        CREATE_DATE = NOW(),
+        CREATE_SEQ = #{user.userSeq},
+        MODIFY_DATE = NULL,
+        MODIFY_SEQ = NULL
     </insert>
 
     <update id="updateOriginMatchParticipants">
@@ -171,10 +176,16 @@
                     'S',
                     '0',
                     'Y',
-                    now(),
+                    NOW(),
                     #{user.userSeq}
                 )
-            </foreach>
+              </foreach>
+        ON DUPLICATE KEY UPDATE
+        USE_YND = 'Y',
+        CREATE_DATE = NOW(),
+        CREATE_SEQ = #{user.userSeq},
+        MODIFY_DATE = NULL,
+        MODIFY_SEQ = NULL
     </insert>
 
     <update id="updateOriginMatchDisclosureScopes">

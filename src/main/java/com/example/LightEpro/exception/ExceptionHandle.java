@@ -175,4 +175,27 @@ public class ExceptionHandle extends RuntimeException {
 
         return schResponse;
     }
+
+    /**
+     * 일정 수정 진행 시 , 요청값의 참여자 데이터 중 , 기존 일정의 등록자 정보가 미포함 되는 경우 발생 Exception
+     */
+    @ExceptionHandler(ExceptionCustom.NotFoundRegistrant.class)
+    public SchResponse NotFoundCalException(ExceptionCustom.NotFoundRegistrant e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_FOUNT_REGISTRANT_EXCEPTION;
+        errorCode.setExceptionData(e.getMessage());
+
+        SchResponse schResponse = new SchResponse();
+        schResponse.setResponseStatus(errorCode.getExceptionStatus());
+        schResponse.setResponseCode(errorCode.getExceptionCode());
+        schResponse.setResponseMsg(errorCode.getExceptionMsg());
+        schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ ExceptionCustom.NotFoundRegistrant !!! (Exception) $$$");
+        log.error("$$$ NotFoundRegistrant !!! (schResponse : " + schResponse + ") $$$");
+
+        e.printStackTrace();
+        e.getMessage();
+
+        return schResponse;
+    }
 }

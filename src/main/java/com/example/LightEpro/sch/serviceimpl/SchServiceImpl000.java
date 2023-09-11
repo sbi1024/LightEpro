@@ -64,27 +64,33 @@ public class SchServiceImpl000 implements SchService000 {
         log.info("assignObject Method Start !!!");
         log.info("assignObject Method Request Data : " + schRqDto000);
 
-        // 일정 시퀀스 값 채번
-        int findScheduleSequenceValue = findScheduleSequence();
-
-        // 일정 시퀀스 값 할당
-        SchRqDto000.Schedule schedule = schRqDto000.getSchedule();
-        schedule.setSchmSeq(findScheduleSequenceValue);
-        schedule.setSchSeq(findScheduleSequenceValue);
-
-        // startDate , endDate 값 추출
-        LocalDateTime startDate = schedule.getStartDate();
-        LocalDateTime endDate = schedule.getEndDate();
-
-        // year month 값 재 할당 (startDate , endDate)
-        schedule.setStartDateYear(startDate.getYear());
-        schedule.setStartDateMonth(startDate.getMonthValue());
-        schedule.setEndDateYear(endDate.getYear());
-        schedule.setEndDateMonth(endDate.getMonthValue());
+        // 일정 시퀀스 값 할당 메소드 호출
+        confirmScheduleSequence(schRqDto000);
+        // 일정 객체에 일정 일자 값 할당 메소드 (startDate , endDate)
+        confirmScheduleDate(schRqDto000);
 
         // method end log
         log.info("assignObject Method Result Data : " + schRqDto000);
         log.info("assignObject Method End !!!");
+    }
+
+    // 일정 객체에 일정 시퀀스 값 할당 메소드
+    @Override
+    public void confirmScheduleSequence(SchRqDto000 schRqDto000) throws Exception {
+        // method start log
+        log.info("confirmScheduleSequence Method Start !!!");
+        log.info("confirmScheduleSequence Method Request Data : " + schRqDto000);
+
+        // 일정 객체 생성
+        SchRqDto000.Schedule schedule = schRqDto000.getSchedule();
+        // 일정 시퀀스 값 채번
+        int findScheduleSequenceValue = findScheduleSequence();
+        // schedule 객체에 일정 시퀀스 할당
+        schedule.setSchmSeq(findScheduleSequenceValue);
+        schedule.setSchSeq(findScheduleSequenceValue);
+
+        // method end log
+        log.info("confirmScheduleSequence Method End !!!");
     }
 
     // 일정 시퀀스 번호 채번 메소드
@@ -103,6 +109,31 @@ public class SchServiceImpl000 implements SchService000 {
         // return
         return selectScheduleSequenceValue;
     }
+
+    // 일정 객체에 일정 일자 값 할당 메소드 (startDate , endDate)
+    @Override
+    public void confirmScheduleDate(SchRqDto000 schRqDto000) throws Exception {
+        // method start log
+        log.info("confirmScheduleDate Method Start !!!");
+        log.info("confirmScheduleDate Method Request Data : " + schRqDto000);
+
+        // 일정 객체 생성
+        SchRqDto000.Schedule schedule = schRqDto000.getSchedule();
+
+        // startDate , endDate 값 추출
+        LocalDateTime startDate = schedule.getStartDate();
+        LocalDateTime endDate = schedule.getEndDate();
+
+        // year month 값 재 할당 (startDate , endDate)
+        schedule.setStartDateYear(startDate.getYear());
+        schedule.setStartDateMonth(startDate.getMonthValue());
+        schedule.setEndDateYear(endDate.getYear());
+        schedule.setEndDateMonth(endDate.getMonthValue());
+
+        // method end log
+        log.info("confirmScheduleDate Method End !!!");
+    }
+
 
     // 일정 등록 메소드
     @Override
