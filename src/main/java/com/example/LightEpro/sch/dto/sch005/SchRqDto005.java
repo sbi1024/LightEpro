@@ -12,17 +12,21 @@ import java.util.List;
 @Data
 public class SchRqDto005 {
     @NotNull
-    private @Valid SchRqDto005.Emp emp;
+    private @Valid User user; // 필수값
     @NotNull
-    private @Valid SchRqDto005.Calendar calendar;
+    private @Valid Calendar calendar; // 필수값
     @NotNull
-    private @Valid SchRqDto005.Owner owner;
-    private @Valid List<Manager> managers;
+    private @Valid Owner owner; // 필수값 
+    private @Valid List<Manager> managers; // 필수값이 아님
 
     @Data
-    public static class Emp {
+    public static class User {
         @Positive
-        private int empSeq;
+        private int userCompSeq; // 필수값
+        @Positive
+        private int userDeptSeq; // 필수값
+        @Positive
+        private int userSeq; // 필수값
     }
 
     @Data

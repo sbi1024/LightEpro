@@ -22,6 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController005 {
+    // service 선언
     private final SchService005 schService005;
 
     // 캘린더 등록 API
@@ -32,34 +33,41 @@ public class SchController005 {
 
         // API 실행시간 체크를 위한 stopWatch 객체 생성
         StopWatch stopWatch = new StopWatch();
+        // stopWatch 시작
         stopWatch.start();
 
+        // 유효성 검사 메소드 호출
         validApiRequest(schRqDto005);
         log.info("sch005 validApiRequest Success !!! ");
 
+        // SchResponse 객체 데이터 생성 및 할당
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch005 API SUCCESS");
         schResponse.setResponseData(schService005.createSingleCal(schRqDto005));
 
+        // stopWatch 종료
         stopWatch.stop();
 
         log.info("sch005 API runTime : {}", stopWatch.getTotalTimeSeconds());
         log.info("sch005 RESPONSE DATA : " + schResponse);
         log.info("sch005 API END !!!");
 
+        // return
         return schResponse;
     }
 
     // sch005 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
     public void validApiRequest(SchRqDto005 schRqDto005) throws Exception {
-        SchRqDto005.Emp emp = schRqDto005.getEmp();
+        // schRqDto005 객체 데이터 추출
+        SchRqDto005.User user = schRqDto005.getUser();
         SchRqDto005.Calendar calender = schRqDto005.getCalendar();
         SchRqDto005.Owner owner = schRqDto005.getOwner();
         List<SchRqDto005.Manager> managers = schRqDto005.getManagers();
+
         // 사원 시퀀스 추출
-        int empSeq = emp.getEmpSeq();
+        int userSeq = user.getUserSeq();
         // 캘린더 타입 추출
         String calType = calender.getCalType();
         // 소유자 시퀀스 추출
@@ -73,7 +81,7 @@ public class SchController005 {
         }
 
         // 2. 캘린더 등록시에 , 캘린더의 소유자 cdeSeq 값은 요청자의 empSeq 값과 일치해야 한다.
-        if (empSeq != ownerCdeSeq) {
+        if (userSeq != ownerCdeSeq) {
             log.error("$$$ sch005 validApiRequest fail !!! (IncorrectIncludException) $$$");
             log.error("$$$ sch005 validApiRequest fail !!! (schRqDto005 : " + schRqDto005 + ") $$$");
             throw new ExceptionCustom.IncorrectIncludException();
