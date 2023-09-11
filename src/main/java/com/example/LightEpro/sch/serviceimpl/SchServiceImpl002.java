@@ -335,6 +335,7 @@ public class SchServiceImpl002 implements SchService002 {
         log.info("updateSingleSch Method Start !!!");
         log.info("updateSingleSch Method Request Data : " + schRqDto002);
 
+        // 일정 수정 Mapper 호출
         int updateScheduleCnt = schMapper002.updateSchedule(schRqDto002);
 
         // method end log
@@ -352,13 +353,14 @@ public class SchServiceImpl002 implements SchService002 {
         log.info("createParticipants Method Start !!!");
         log.info("createParticipants Method Request Data : " + schRqDto002);
 
-        // requestNonMatchParticipants 변수 추출 및 유효성 체크
+        // requestNonMatchParticipants null 및 size 검증
         List<SchRqDto002.Participant> requestNonMatchParticipants = schRqDto002.getRequestNonMatchParticipants();
         if (requestNonMatchParticipants == null || requestNonMatchParticipants.size() == 0) {
             log.info("createParticipants Method requestNonMatchParticipants == null or requestNonMatchParticipants.size() == 0");
             return 0;
         }
 
+        // 일정 참여자 등록 Mapper 호출
         int insertParticipantsCnt = schMapper002.insertRequestNonMatchParticipants(schRqDto002);
 
         // method end log
@@ -376,13 +378,14 @@ public class SchServiceImpl002 implements SchService002 {
         log.info("modifyParticipants Method Start !!!");
         log.info("modifyParticipants Method Request Data : " + schRqDto002);
 
-        // originMatchParticipants 변수 추출 및 유효성 체크
+        // originMatchParticipants null 및 size 검증
         List<SchRqDto002.Participant> originMatchParticipants = schRqDto002.getOriginMatchParticipants();
         if (originMatchParticipants == null || originMatchParticipants.size() == 0) {
             log.info("createParticipants Method originMatchParticipants == null or originMatchParticipants.size() == 0");
             return 0;
         }
 
+        // 일정 참여자 수정 Mapper 호출
         int updateParticipantsCnt = schMapper002.updateOriginMatchParticipants(schRqDto002);
 
         // method end log
@@ -400,13 +403,14 @@ public class SchServiceImpl002 implements SchService002 {
         log.info("removeParticipants Method Start !!!");
         log.info("removeParticipants Method Request Data : " + schRqDto002);
 
-        // originNonMatchParticipants 변수 추출 및 유효성 체크
+        // originNonMatchParticipants null 및 size 검증
         List<SchRqDto002.Participant> originNonMatchParticipants = schRqDto002.getOriginNonMatchParticipants();
         if (originNonMatchParticipants == null || originNonMatchParticipants.size() == 0) {
             log.info("removeParticipants Method originNonMatchParticipants == null or originNonMatchParticipants.size() == 0");
             return 0;
         }
 
+        // 일정 참여자 삭제 Mapper 호출
         int updateParticipantsCnt = schMapper002.updateOriginNonMatchParticipants(schRqDto002);
 
         // method end log
@@ -424,12 +428,14 @@ public class SchServiceImpl002 implements SchService002 {
         log.info("createDisclosureScopes Method Start !!!");
         log.info("createDisclosureScopes Method Request Data : " + schRqDto002);
 
+        // requestNonMatchDisclosureScopes null 및 size 검증
         List<SchRqDto002.DisclosureScope> requestNonMatchDisclosureScopes = schRqDto002.getRequestNonMatchDisclosureScopes();
         if (requestNonMatchDisclosureScopes == null || requestNonMatchDisclosureScopes.size() == 0) {
             log.info("createDisclosureScopes Method disclosureScopes == null or disclosureScopes.size() == 0");
             return 0;
         }
 
+        // 일정 공개범위 등록 Mapper 호출
         int insertDisclosureScopesCnt = schMapper002.insertRequestNonMatchDisclosureScopes(schRqDto002);
 
         // method end log
@@ -447,12 +453,14 @@ public class SchServiceImpl002 implements SchService002 {
         log.info("modifyDisclosureScopes Method Start !!!");
         log.info("modifyDisclosureScopes Method Request Data : " + schRqDto002);
 
+        // originMatchDisclosureScopes null 및 size 검증
         List<SchRqDto002.DisclosureScope> originMatchDisclosureScopes = schRqDto002.getOriginMatchDisclosureScopes();
         if (originMatchDisclosureScopes == null || originMatchDisclosureScopes.size() == 0) {
             log.info("modifyDisclosureScopes Method originMatchDisclosureScopes == null or originMatchDisclosureScopes.size() == 0");
             return 0;
         }
 
+        // 일정 공개범위 수정 Mapper 호출
         int updateOriginMatchDisclosureScopes = schMapper002.updateOriginMatchDisclosureScopes(schRqDto002);
 
         // method end log
@@ -470,12 +478,14 @@ public class SchServiceImpl002 implements SchService002 {
         log.info("removeDisclosureScopes Method Start !!!");
         log.info("removeDisclosureScopes Method Request Data : " + schRqDto002);
 
+        // originNonMatchDisclosureScopes null 및 size 검증
         List<SchRqDto002.DisclosureScope> originNonMatchDisclosureScopes = schRqDto002.getOriginNonMatchDisclosureScopes();
         if (originNonMatchDisclosureScopes == null || originNonMatchDisclosureScopes.size() == 0) {
             log.info("removeDisclosureScopes Method originNonMatchDisclosureScopes == null or originNonMatchDisclosureScopes.size() == 0");
             return 0;
         }
 
+        // 일정 공개범위 삭제 Mapper 호출
         int updateOriginNonMatchDisclosureScopesCnt = schMapper002.updateOriginNonMatchDisclosureScopes(schRqDto002);
 
         // method end log

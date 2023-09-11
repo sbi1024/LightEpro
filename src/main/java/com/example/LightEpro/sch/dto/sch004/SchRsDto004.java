@@ -9,10 +9,10 @@ import java.util.List;
 @Data
 @Builder
 public class SchRsDto004 {
-    private List<SchInfo> schInfos;
-    private int schInfoCnt;
+    private List<Schedule> scheduleList;
+    private int scheduleListCnt;
     @Data
-    public static class SchInfo {
+    public static class Schedule {
         private String schmSeq;
         private String schSeq;
         private String schTitle;

@@ -142,7 +142,7 @@ public class SchServiceImpl000 implements SchService000 {
         log.info("createSchedule Method Start !!!");
         log.info("createSchedule Method Request Data : " + schRqDto000);
 
-        // 단일 일정 등록
+        // 일정 등록 Mapper 호출
         int insertScheduleCnt = schMapper000.insertSchedule(schRqDto000);
 
         // method end log
@@ -160,13 +160,14 @@ public class SchServiceImpl000 implements SchService000 {
         log.info("insertSchParticipants Method Start !!!");
         log.info("insertSchParticipants Method Request Data : " + schRqDto000);
 
-        // 참여자 변수 선언
+        // participants null 및 size 검증
         List<SchRqDto000.Participant> participants = schRqDto000.getParticipants();
         if (participants == null || participants.size() == 0) {
             log.info("insertSchParticipants Method participants Data : null or size = 0");
             return 0;
         }
-        // 단일 일정에 포함된 참여자 등록
+
+        // 일정 참여자 등록 Mapper 호출
         int insertParticipantsCnt = schMapper000.insertParticipants(schRqDto000);
 
         // method end log
@@ -184,14 +185,14 @@ public class SchServiceImpl000 implements SchService000 {
         log.info("insertSchDisclosureScopes Method Start !!!");
         log.info("insertSchDisclosureScopes Method Request Data : " + schRqDto000);
 
-        // 공개범위 변수 선언
+        // disclosureScopes null 및 size 검증
         List<SchRqDto000.DisclosureScope> disclosureScopes = schRqDto000.getDisclosureScopes();
         if (disclosureScopes == null || disclosureScopes.size() == 0) {
             log.info("insertSchDisclosureScopes Method disclosureScopes Data : null or size = 0");
             return 0;
         }
 
-        // 단일 일정에 포함된 공개범위 등록
+        // 일정 공개범위 등록 Mapper 호출
         int insertDisclosureScopesCnt = schMapper000.insertDisclosureScopes(schRqDto000);
 
         // method end log

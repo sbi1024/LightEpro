@@ -56,13 +56,14 @@ public class SchServiceImpl001 implements SchService001 {
         log.info("findSchedule Method Start !!!");
         log.info("findSchedule Method Request Data : " + schRqDto001);
 
-        // 단일 일정 조회
+        // 일정 조회 Mapper 호출
         SchRsDto001.Schedule schedule = schMapper001.selectSchedule(schRqDto001);
 
         // method end log
-        log.info("findSchedule Method Return Data : " + schRqDto001);
+        log.info("findSchedule Method Return Data : " + schedule);
         log.info("findSchedule Method End !!!");
 
+        // return
         return schedule;
     }
 
@@ -73,11 +74,11 @@ public class SchServiceImpl001 implements SchService001 {
         log.info("findParticipants Method Start !!!");
         log.info("findParticipants Method Request Data : " + schRqDto001);
 
-        // 단일 일정 참여자 조회
+        // 일정 참여자 조회 Mapper 호출
         List<SchRsDto001.Participant> participants = schMapper001.selectParticipants(schRqDto001);
 
         // method end log
-        log.info("findParticipants Method Return Data : " + schRqDto001);
+        log.info("findParticipants Method Return Data : " + participants);
         log.info("findParticipants Method End !!!");
 
         // return
@@ -91,12 +92,12 @@ public class SchServiceImpl001 implements SchService001 {
         log.info("findDisclosureScopes Method Start !!!");
         log.info("findDisclosureScopes Method Request Data : " + schRqDto001);
 
-        // 단일 일정 공개범위 조회
+        // 일정 공개범위 조회 Mapper 호출
         List<SchRsDto001.DisclosureScope> disclosureScopes = schMapper001.selectDisclosureScopes(schRqDto001);
 
-        // method start log
-        log.info("findDisclosureScopes Method Start !!!");
-        log.info("findDisclosureScopes Method Request Data : " + schRqDto001);
+        // method end log
+        log.info("findParticipants Method Return Data : " + disclosureScopes);
+        log.info("findParticipants Method End !!!");
 
         // return
         return disclosureScopes;

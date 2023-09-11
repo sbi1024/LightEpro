@@ -9,21 +9,25 @@ import javax.validation.constraints.Positive;
 @Data
 public class SchRqDto003 {
     @NotNull
-    private @Valid Emp emp;
+    private @Valid User user; // 필수값
     @NotNull
-    private @Valid Sch sch;
+    private @Valid Schedule schedule; // 필수값
 
     @Data
-    public static class Emp {
+    public static class User {
         @Positive
-        private int empSeq;
+        private int userCompSeq; // 필수값
+        @Positive
+        private int userDeptSeq; // 필수값
+        @Positive
+        private int userSeq; // 필수값
     }
 
     @Data
-    public static class Sch {
+    public static class Schedule {
         @Positive
-        private int schmSeq;
+        private int schmSeq; // 필수값
         @Positive
-        private int schSeq;
+        private int schSeq; // 필수값
     }
 }

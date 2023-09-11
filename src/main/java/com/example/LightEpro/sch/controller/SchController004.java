@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController004 {
-
+    // service 선언
     private final SchService004 schService004;
 
     // 월 기준 일정 목록 조회 API
@@ -34,21 +34,25 @@ public class SchController004 {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
+        // 유효성 검사 메소드 호출
         validApiRequest(schRqDto004);
         log.info("sch004 validApiRequest Success !!! ");
 
+        // SchResponse 객체 데이터 생성 및 할당
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch004 API SUCCESS");
-        schResponse.setResponseData(schService004.findSchList(schRqDto004));
+        schResponse.setResponseData(schService004.findScheduleListInfo(schRqDto004));
 
+        // stopWatch 종료
         stopWatch.stop();
 
         log.info("sch004 API runTime : {}", stopWatch.getTotalTimeSeconds());
         log.info("sch004 RESPONSE DATA : " + schResponse);
         log.info("sch004 API END !!!");
 
+        // return
         return schResponse;
     }
 

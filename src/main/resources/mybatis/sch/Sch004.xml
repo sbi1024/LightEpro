@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.LightEpro.sch.mapper.SchMapper004">
-    <select id="selectSchList" resultType="com.example.LightEpro.sch.dto.sch004.SchRsDto004$SchInfo">
-        /* selectSchList */
+    <select id="selectScheduleList" resultType="com.example.LightEpro.sch.dto.sch004.SchRsDto004$Schedule">
+        /* selectScheduleList */
         SELECT IFNULL(TSS.SCHM_SEQ,'')                                        AS schmSeq,
                IFNULL(TSS.SCH_SEQ,'')                                         AS schSeq,
                IFNULL(TSS.SCH_TITLE,'')                                       AS schTitle,
@@ -40,14 +40,14 @@
                                    SELECT TSS.SCHM_SEQ, TSS.SCH_SEQ
                                    FROM T_SC_SCH TSS
                                    WHERE 1 = 1
-                                    AND (TSS.START_DATE_YEAR = #{sch.year} AND TSS.START_DATE_MONTH = #{sch.month})
+                                    AND (TSS.START_DATE_YEAR = #{schedule.year} AND TSS.START_DATE_MONTH = #{schedule.month})
 
                                    UNION ALL
 
                                    SELECT TSS.SCHM_SEQ, TSS.SCH_SEQ
                                    FROM T_SC_SCH TSS
                                    WHERE 1 = 1
-                                    AND (TSS.END_DATE_YEAR = #{sch.year} AND TSS.END_DATE_MONTH = #{sch.month})
+                                    AND (TSS.END_DATE_YEAR = #{schedule.year} AND TSS.END_DATE_MONTH = #{schedule.month})
 
                                    UNION ALL
 
@@ -56,8 +56,8 @@
                                     WHERE 1 = 1
                                     AND (
                                          <![CDATA[
-                                             (TSS.START_DATE_YEAR <= #{sch.year} AND TSS.START_DATE_MONTH < #{sch.month}) AND
-                                             (TSS.END_DATE_YEAR >= #{sch.year} AND TSS.END_DATE_MONTH > #{sch.month})
+                                             (TSS.START_DATE_YEAR <= #{schedule.year} AND TSS.START_DATE_MONTH < #{schedule.month}) AND
+                                             (TSS.END_DATE_YEAR >= #{schedule.year} AND TSS.END_DATE_MONTH > #{schedule.month})
                                          ]]>
                                         )
                                     ) AS DATE_TSS
@@ -69,7 +69,7 @@
                  INNER JOIN T_SC_SCH_USER TSSU
                             ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
                                 AND TSS.SCH_SEQ = TSSU.SCH_SEQ
-                                AND TSSU.CDE_SEQ = #{emp.empSeq}
+                                AND TSSU.CDE_SEQ = #{user.userSeq}
                                 AND TSSU.CDE_TYPE = 'E'
                                 AND TSS.USE_YND = 'Y'
                                 AND TSSU.USE_YND = 'Y'
@@ -86,8 +86,8 @@
 
     </select>
 
-    <select id="selectSchListCnt" resultType = "int">
-        /* selectSchListCnt */
+    <select id="selectScheduleListCnt" resultType = "int">
+        /* selectScheduleListCnt */
         SELECT COUNT(1)
 
         FROM T_SC_SCH TSS
@@ -97,14 +97,14 @@
                                    SELECT TSS.SCHM_SEQ, TSS.SCH_SEQ
                                    FROM T_SC_SCH TSS
                                    WHERE 1 = 1
-                                    AND (TSS.START_DATE_YEAR = #{sch.year} AND TSS.START_DATE_MONTH = #{sch.month})
+                                    AND (TSS.START_DATE_YEAR = #{schedule.year} AND TSS.START_DATE_MONTH = #{schedule.month})
 
                                    UNION ALL
 
                                    SELECT TSS.SCHM_SEQ, TSS.SCH_SEQ
                                    FROM T_SC_SCH TSS
                                    WHERE 1 = 1
-                                    AND (TSS.END_DATE_YEAR = #{sch.year} AND TSS.END_DATE_MONTH = #{sch.month})
+                                    AND (TSS.END_DATE_YEAR = #{schedule.year} AND TSS.END_DATE_MONTH = #{schedule.month})
 
                                    UNION ALL
 
@@ -113,8 +113,8 @@
                                     WHERE 1 = 1
                                     AND (
                                          <![CDATA[
-                                             (TSS.START_DATE_YEAR <= #{sch.year} AND TSS.START_DATE_MONTH < #{sch.month}) AND
-                                             (TSS.END_DATE_YEAR >= #{sch.year} AND TSS.END_DATE_MONTH > #{sch.month})
+                                             (TSS.START_DATE_YEAR <= #{schedule.year} AND TSS.START_DATE_MONTH < #{schedule.month}) AND
+                                             (TSS.END_DATE_YEAR >= #{schedule.year} AND TSS.END_DATE_MONTH > #{schedule.month})
                                          ]]>
                                         )
                                     ) AS DATE_TSS
@@ -126,7 +126,7 @@
                  INNER JOIN T_SC_SCH_USER TSSU
                             ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
                                 AND TSS.SCH_SEQ = TSSU.SCH_SEQ
-                                AND TSSU.CDE_SEQ = #{emp.empSeq}
+                                AND TSSU.CDE_SEQ = #{user.userSeq}
                                 AND TSSU.CDE_TYPE = 'E'
                                 AND TSS.USE_YND = 'Y'
                                 AND TSSU.USE_YND = 'Y'

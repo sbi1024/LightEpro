@@ -13,53 +13,71 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Slf4j
 public class SchServiceImpl003 implements SchService003 {
+    // schMapper003 선언
     private final SchMapper003 schMapper003;
+
+    // 단일 일정 정보 삭제 메소드
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public SchRsDto003 removeSingleSch(SchRqDto003 schRqDto003) throws Exception{
-        log.info("removeSingleSch Method Start !!!");
-        log.info("removeSingleSch Method Request Data : " + schRqDto003);
+    public SchRsDto003 removeScheduleInfo(SchRqDto003 schRqDto003) throws Exception {
+        // method start log
+        log.info("removeScheduleInfo Method Start !!!");
+        log.info("removeScheduleInfo Method Request Data : " + schRqDto003);
 
-        int curSeq = schRqDto003.getSch().getSchmSeq();
-        int updateSchDelStCnt = updateSchDelStatus(schRqDto003);
-        int updateSchUserDelStCnt = updateSchUsersDelStatus(schRqDto003);
+        // 일정 삭제 메소드 호출
+        int removeScheduleCnt = removeSchedule(schRqDto003);
+        // 일정 구성원 삭제 메소드 호출
+        int removeScheduleUsersCnt = removeScheduleUsers(schRqDto003);
 
+        // schRsDto003 객체 builder 패턴을 통해 객체 생성
         SchRsDto003 schRsDto003 = SchRsDto003.builder()
-                .schmSeq(curSeq)
-                .schSeq(curSeq)
-                .updateSchDelStCnt(updateSchDelStCnt)
-                .updateSchUserDelStCnt(updateSchUserDelStCnt)
+                .schmSeq(schRqDto003.getSchedule().getSchmSeq())
+                .schSeq(schRqDto003.getSchedule().getSchSeq())
+                .removeScheduleCnt(removeScheduleCnt)
+                .removeScheduleUsersCnt(removeScheduleUsersCnt)
                 .build();
 
-        log.info("removeSingleSch Method Return Data : " + schRsDto003);
-        log.info("removeSingleSch Method End !!!");
+        // method end log
+        log.info("removeScheduleInfo Method Return Data : " + schRsDto003);
+        log.info("removeScheduleInfo Method End !!!");
+
         // return
         return schRsDto003;
     }
 
+    // 일정 삭제 메소드
     @Override
-    public int updateSchDelStatus(SchRqDto003 schRqDto003) throws Exception {
-        log.info("updateSchDelStatus Method Start !!!");
-        log.info("updateSchDelStatus Method Request Data : " + schRqDto003);
+    public int removeSchedule(SchRqDto003 schRqDto003) throws Exception {
+        // method start log
+        log.info("removeSchedule Method Start !!!");
+        log.info("removeSchedule Method Request Data : " + schRqDto003);
 
-        int updateSchDelStCnt = schMapper003.updateSchDelStatus(schRqDto003);
+        // 일정 삭제 Mapper 호출
+        int updateScheduleCnt = schMapper003.updateSchedule(schRqDto003);
 
-        log.info("updateSchDelStatus Method Return Data : " + updateSchDelStCnt);
-        log.info("updateSchDelStatus Method End !!!");
+        // method end log
+        log.info("removeSchedule Method Return Data : " + updateScheduleCnt);
+        log.info("removeSchedule Method End !!!");
+
         // return
-        return updateSchDelStCnt;
+        return updateScheduleCnt;
     }
 
+    // 일정 구성원 삭제 메소드
     @Override
-    public int updateSchUsersDelStatus(SchRqDto003 schRqDto003) throws Exception {
-        log.info("updateSchUsersDelStatus Method Start !!!");
-        log.info("updateSchUsersDelStatus Method Request Data : " + schRqDto003);
+    public int removeScheduleUsers(SchRqDto003 schRqDto003) throws Exception {
+        // method start log
+        log.info("removeScheduleUsers Method Start !!!");
+        log.info("removeScheduleUsers Method Request Data : " + schRqDto003);
 
-        int updateSchUserDelStCnt = schMapper003.updateSchUsersDelStatus(schRqDto003);
+        // 일정 구성원 삭제 Mapper 호출
+        int updateScheduleUsersCnt = schMapper003.updateScheduleUsers(schRqDto003);
 
-        log.info("updateSchUsersDelStatus Method Return Data : " + updateSchUserDelStCnt);
-        log.info("updateSchUsersDelStatus Method End !!!");
+        // method end log
+        log.info("removeScheduleUsers Method Return Data : " + updateScheduleUsersCnt);
+        log.info("removeScheduleUsers Method End !!!");
+
         // return
-        return updateSchUserDelStCnt;
+        return updateScheduleUsersCnt;
     }
 }
