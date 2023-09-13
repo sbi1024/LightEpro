@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.LightEpro.sch.mapper.SchMapper005">
-    <select id="findCurrentCalValue" resultType="int">
-        /* findCurrentCalValue */
+    <select id="selectCalendarSequence" resultType="int">
+        /* selectCalendarSequence */
         SELECT practice.nextval('cal')
         FROM dual;
     </select>
 
-    <insert id="insertSingleCalendar" parameterType="com.example.LightEpro.sch.dto.sch005.SchRqDto005">
-        /* insertSingleCalendar */
+    <insert id="insertCalendar" parameterType="com.example.LightEpro.sch.dto.sch005.SchRqDto005">
+        /* insertCalendar */
         INSERT INTO T_SC_CAL (CAL_SEQ,
                               CAL_TITLE,
                               CAL_CONTENT,
@@ -31,11 +31,11 @@
                 #{calendar.calType},
                 'Y',
                 NOW(),
-                #{calendar.createSeq});
+                #{user.userSeq});
     </insert>
 
-    <insert id="insertCalOwner" parameterType="com.example.LightEpro.sch.dto.sch005.SchRqDto005">
-        /* insertCalOwner */
+    <insert id="insertCalendarOwner" parameterType="com.example.LightEpro.sch.dto.sch005.SchRqDto005">
+        /* insertCalendarOwner */
         INSERT INTO T_SC_CAL_USER (CAL_SEQ,
                                    CDE_SEQ,
                                    CDE_TYPE,
@@ -44,18 +44,18 @@
                                    USE_YND,
                                    CREATE_DATE,
                                    CREATE_SEQ)
-        VALUES (#{owner.calSeq},
+        VALUES (#{calendar.calSeq},
                 #{owner.cdeSeq},
                 #{owner.cdeType},
                 100,
                 'M',
                 'Y',
                 NOW(),
-                #{owner.createSeq})
+                #{user.userSeq})
     </insert>
 
-    <insert id="insertCalManager" parameterType="list">
-        /* insertCalManager */
+    <insert id="insertCalendarManagers" parameterType="list">
+        /* insertCalendarManagers */
         INSERT INTO T_SC_CAL_USER (CAL_SEQ,
                                    CDE_SEQ,
                                    CDE_TYPE,
@@ -64,16 +64,16 @@
                                    USE_YND,
                                    CREATE_DATE,
                                    CREATE_SEQ)
-        VALUES <foreach collection="list" item="manager" separator=",">
+        VALUES <foreach collection="managers" item="manager" separator=",">
                     (
-                        #{manager.calSeq},
+                        #{calendar.calSeq},
                         #{manager.cdeSeq},
                         #{manager.cdeType},
                         200,
                         'W',
                         'Y',
                         NOW(),
-                        #{manager.createSeq}
+                        #{user.userSeq}
                     )
                 </foreach>
     </insert>

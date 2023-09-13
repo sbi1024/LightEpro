@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.LightEpro.sch.mapper.SchMapper007">
+
+    <select id="selectCalendarType" resultType="string">
+        /* selectCalendarType */
+        SELECT IFNULL(MAX(TSC.CAL_TYPE), '') AS calType
+        FROM T_SC_CAL TSC
+        WHERE 1 = 1
+          AND TSC.CAL_SEQ = #{calendar.calSeq}
+          AND TSC.USE_YND = 'Y'
+    </select>
+
+
+
     <select id="findCalUsersInfoByCalSeq" resultType="com.example.LightEpro.sch.dto.sch007.SchRqDto007$CalendarUser">
         /* findCalUsersInfoByCalSeq */
         SELECT IFNULL(TSCU.CAL_SEQ, '')                    AS calSeq,

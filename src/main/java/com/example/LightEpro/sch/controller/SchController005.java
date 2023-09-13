@@ -45,7 +45,7 @@ public class SchController005 {
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch005 API SUCCESS");
-        schResponse.setResponseData(schService005.createSingleCal(schRqDto005));
+        schResponse.setResponseData(schService005.createCalendarInfo(schRqDto005));
 
         // stopWatch 종료
         stopWatch.stop();
@@ -66,22 +66,15 @@ public class SchController005 {
         SchRqDto005.Owner owner = schRqDto005.getOwner();
         List<SchRqDto005.Manager> managers = schRqDto005.getManagers();
 
-        // 사원 시퀀스 추출
-        int userSeq = user.getUserSeq();
-        // 캘린더 타입 추출
-        String calType = calender.getCalType();
-        // 소유자 시퀀스 추출
-        int ownerCdeSeq = owner.getCdeSeq();
-
-        // 1. 개인캘린더 등록시에 , 관리자 요청값이 포함되어 들어오는 경우 Exception
-        if (calType.equals(SchConstValue.ECAL_TYPE) && managers != null) {
+        // 캘린더 등록시에 , 캘린더의 소유자 cdeSeq 값이 요청자의 userSeq 일치하지 않거나 , 소유자의 타입이 E가 아닌 경우 Exception 처리
+        if ((user.getUserSeq() != owner.getCdeSeq())
+                || !owner.getCdeType().equals(SchConstValue.CDE_E_TYPE)) {
             log.error("$$$ sch005 validApiRequest fail !!! (IncorrectIncludException) $$$");
             log.error("$$$ sch005 validApiRequest fail !!! (schRqDto005 : " + schRqDto005 + ") $$$");
             throw new ExceptionCustom.IncorrectIncludException();
         }
-
-        // 2. 캘린더 등록시에 , 캘린더의 소유자 cdeSeq 값은 요청자의 empSeq 값과 일치해야 한다.
-        if (userSeq != ownerCdeSeq) {
+        // 개인캘린더 등록시에 , 관리자 요청값이 포함되어 들어오는 경우 Exception 처리
+        if (calender.getCalType().equals(SchConstValue.ECAL_TYPE) && (managers != null)) {
             log.error("$$$ sch005 validApiRequest fail !!! (IncorrectIncludException) $$$");
             log.error("$$$ sch005 validApiRequest fail !!! (schRqDto005 : " + schRqDto005 + ") $$$");
             throw new ExceptionCustom.IncorrectIncludException();

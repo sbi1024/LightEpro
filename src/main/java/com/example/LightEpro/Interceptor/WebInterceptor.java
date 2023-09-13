@@ -13,6 +13,7 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 @Component
 @Slf4j
@@ -60,6 +61,7 @@ public class WebInterceptor implements HandlerInterceptor {
         if (cachingResponse.getContentType() != null && cachingResponse.getContentType().contains("application/json")) {
             if (cachingResponse.getContentAsByteArray() != null && cachingResponse.getContentAsByteArray().length != 0) {
                 responseBody = objectMapper.writeValueAsString(objectMapper.readTree(cachingResponse.getContentAsByteArray()));
+
             }
         }
 

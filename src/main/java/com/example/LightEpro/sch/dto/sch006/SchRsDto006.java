@@ -8,8 +8,9 @@ import java.util.List;
 @Data
 @Builder
 public class SchRsDto006 {
-    private Calendar cal;
-    private List<CalendarUser> calUsers;
+    private Calendar calendar;
+    private Owner owner;
+    private List<Manager> managers;
 
     @Data
     public static class Calendar {
@@ -26,7 +27,21 @@ public class SchRsDto006 {
     }
 
     @Data
-    public static class CalendarUser {
+    public static class Owner {
+        private String calSeq;
+        private String cdeSeq;
+        private String cdeType;
+        private String calPartitionType;
+        private String calAutority;
+        private String useYnd;
+        private String createDate;
+        private String createSeq;
+        private String modifyDate;
+        private String modifySeq;
+    }
+
+    @Data
+    public static class Manager {
         private String calSeq;
         private String cdeSeq;
         private String cdeType;

@@ -78,17 +78,16 @@ public class SchController002 {
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
             throw new ExceptionCustom.NotValidSchStartEndDateException();
         }
-        // 요청값으로 받은 캘린더시퀀스 값을통해 , 캘린더 타입을 조회한다.
+        // 요청값으로 받은 캘린더 시퀀스 값을통해 , 캘린더 타입을 조회한다.
         String selectCalendarTypeValue = schMapper002.selectCalendarType(schRqDto002);
         // 캘린더 타입의 값이 빈 값인 경우 Exception 처리
         if (selectCalendarTypeValue.equals(SchConstValue.EMPTY_VALUE)) {
-            log.error("$$$ sch000 validApiRequest fail !!! (NotFoundCalException) $$$");
-            log.error("$$$ sch000 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
+            log.error("$$$ sch002 validApiRequest fail !!! (NotFoundCalException) $$$");
+            log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
             throw new ExceptionCustom.NotFoundCalException();
         }
-        // 개인캘린더에 포함된 일정 수정시에 , 공개범위 데이터가 포함되는 경우 Exception 처리 (null 이 아닌 , 빈값으로 들어와야 함)
-        if (selectCalendarTypeValue.equals(SchConstValue.ECAL_TYPE) &&
-                (disclosureScopes != null && disclosureScopes.size() > 0)) {
+        // 개인캘린더에 포함된 일정 수정시에 , 공개범위 데이터가 포함되는 경우 Exception 처리
+        if (selectCalendarTypeValue.equals(SchConstValue.ECAL_TYPE) && (disclosureScopes != null)) {
             log.error("$$$ sch002 validApiRequest fail !!! (IncorrectIncludException) $$$");
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
             throw new ExceptionCustom.IncorrectIncludException();

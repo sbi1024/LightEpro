@@ -1,6 +1,8 @@
 {
-  "emp": {
-    "empSeq": "1000"
+  "user": {
+    "userCompSeq": "1",
+    "userDeptSeq": "1",
+    "userSeq": 1000
   },
   "sch": {
     "schmSeq": "115",

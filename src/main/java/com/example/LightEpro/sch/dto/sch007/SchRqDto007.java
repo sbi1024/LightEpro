@@ -12,60 +12,55 @@ import java.util.List;
 @Data
 public class SchRqDto007 {
     @NotNull
-    private @Valid Emp emp;
+    private @Valid User user; // 필수값
     @NotNull
-    private @Valid Calendar calendar;
+    private @Valid Calendar calendar; // 필수값
     @NotNull
-    private @Valid Owner owner;
-    private @Valid List<Manager> managers;
+    private @Valid Owner owner; // 필수값
+    private @Valid List<Manager> managers; // 필수값이 아님
 
 
-    private List<CalendarUser> calUsers;
-    private List<CalendarUser> originMatchCalendarUsers;
-    private List<CalendarUser> originNonMatchCalendarUsers;
-    private List<Manager> newNonMatchCalendarUsers;
+    private List<CalendarUser> calUsers; // 필수값이 아님
+    private List<CalendarUser> originMatchCalendarUsers; // 필수값이 아님
+    private List<CalendarUser> originNonMatchCalendarUsers; // 필수값이 아님
+    private List<Manager> newNonMatchCalendarUsers; // 필수값이 아님
 
     @Data
-    public static class Emp {
+    public static class User {
         @Positive
-        private int empSeq;
+        private int userCompSeq; // 필수값
+        @Positive
+        private int userDeptSeq; // 필수값
+        @Positive
+        private int userSeq; // 필수값
     }
 
     @Data
     public static class Calendar {
         @Positive
-        private int calSeq;
+        private int calSeq; // 필수값
         @NotBlank
-        private String calTitle;
+        private String calTitle; // 필수값
         @NotBlank
-        private String calType;
-        private String calContent;
-        private String calColor;
-        private int createSeq;
-        private LocalDateTime createDate;
-        private int modifySeq;
+        private String calType; // 필수값
+        private String calContent; // 필수값이 아님
+        private String calColor; // 필수값이 아님
     }
 
     @Data
     public static class Owner {
-        private int calSeq;
         @Positive
-        private int cdeSeq;
+        private int cdeSeq; // 필수값
         @NotBlank
-        private String cdeType;
-        private int createSeq;
-        private LocalDateTime createDate;
-        private int modifySeq;
+        private String cdeType; // 필수값
     }
 
     @Data
     public static class Manager {
-        private int calSeq;
-        private int cdeSeq;
-        private String cdeType;
-        private int createSeq;
-        private LocalDateTime createDate;
-        private int modifySeq;
+        @Positive
+        private int cdeSeq; // 필수값
+        @NotBlank
+        private String cdeType; // 필수값
     }
 
     @Data

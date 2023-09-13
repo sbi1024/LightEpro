@@ -7,6 +7,10 @@ import java.util.List;
 
 @Mapper
 public interface SchMapper007 {
+
+    String selectCalendarType(SchRqDto007 schRqDto007) throws Exception;
+
+
     List<SchRqDto007.CalendarUser> findCalUsersInfoByCalSeq(SchRqDto007 schRqDto007) throws Exception;
 
     int updateCalDetailInfo(SchRqDto007 schRqDto007) throws Exception;

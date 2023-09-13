@@ -33,30 +33,27 @@ public class SchRqDto005 {
     public static class Calendar {
         private int calSeq;
         @NotBlank
-        private String calTitle;
+        private String calTitle; // 필수값
         @NotBlank
-        private String calType;
-        private String calContent;
-        private String calColor;
-        private int createSeq;
+        private String calType; // 필수값
+        private String calContent; // 필수값이 아님
+        private String calColor; // 필수값이 아님
     }
 
     @Data
     public static class Owner {
-        private int calSeq;
         @Positive
-        private int cdeSeq;
+        private int cdeSeq; // 필수값
         @NotBlank
-        private String cdeType;
-        private int createSeq;
+        private String cdeType; // 필수값
     }
 
     @Data
     public static class Manager {
-        private int calSeq;
-        private int cdeSeq;
-        private String cdeType;
-        private int createSeq;
+        @Positive
+        private int cdeSeq; // 필수값
+        @NotBlank
+        private String cdeType; // 필수값
     }
 
 }

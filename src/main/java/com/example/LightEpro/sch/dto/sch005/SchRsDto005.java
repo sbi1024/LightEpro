@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class SchRsDto005 {
     private int calSeq;
-    private int insertCalRow;
-    private int insertCalOwnerRow;
-    private int insertCalManagerRow;
+    private int createCalendarCnt;
+    private int createOwnerCnt;
+    private int createManagersCnt;
 }
