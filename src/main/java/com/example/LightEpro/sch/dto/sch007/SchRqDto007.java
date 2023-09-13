@@ -6,7 +6,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -19,11 +18,9 @@ public class SchRqDto007 {
     private @Valid Owner owner; // 필수값
     private @Valid List<Manager> managers; // 필수값이 아님
 
-
-    private List<CalendarUser> calUsers; // 필수값이 아님
-    private List<CalendarUser> originMatchCalendarUsers; // 필수값이 아님
-    private List<CalendarUser> originNonMatchCalendarUsers; // 필수값이 아님
-    private List<Manager> newNonMatchCalendarUsers; // 필수값이 아님
+    private List<Manager> requestNonMatchManagers; // 필수값이 아님
+    private List<Manager> originMatchManagers; // 필수값이 아님
+    private List<Manager> originNonMatchManagers; // 필수값이 아님
 
     @Data
     public static class User {
@@ -61,19 +58,5 @@ public class SchRqDto007 {
         private int cdeSeq; // 필수값
         @NotBlank
         private String cdeType; // 필수값
-    }
-
-    @Data
-    public static class CalendarUser {
-        private String calSeq;
-        private String cdeSeq;
-        private String cdeType;
-        private String calPartitionType;
-        private String calAutority;
-        private String useYnd;
-        private String createDate;
-        private String createSeq;
-        private String modifyDate;
-        private String modifySeq;
     }
 }

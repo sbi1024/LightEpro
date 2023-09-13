@@ -46,7 +46,7 @@ public class SchController007 {
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch007 API SUCCESS");
-        schResponse.setResponseData(schService007.modifySingleCal(schRqDto007));
+        schResponse.setResponseData(schService007.modifyCalendarInfo(schRqDto007));
 
         // stopWatch 종료
         stopWatch.stop();
@@ -69,6 +69,7 @@ public class SchController007 {
             log.error("$$$ sch007 validApiRequest fail !!! (schRqDto002 : " + schRqDto007 + ") $$$");
             throw new ExceptionCustom.NotFoundCalException();
         }
+        // TODO 요청값의 소유자 데이터 중 기존 캘린더 소유자 값이 존재하지 않는 경우 Exception 처리
     }
 }
 

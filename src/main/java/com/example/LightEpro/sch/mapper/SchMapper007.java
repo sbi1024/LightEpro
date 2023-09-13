@@ -10,18 +10,17 @@ public interface SchMapper007 {
 
     String selectCalendarType(SchRqDto007 schRqDto007) throws Exception;
 
+    List<SchRqDto007.Manager> selectManagers(SchRqDto007 schRqDto007) throws Exception;
 
-    List<SchRqDto007.CalendarUser> findCalUsersInfoByCalSeq(SchRqDto007 schRqDto007) throws Exception;
+    int updateCalendar(SchRqDto007 schRqDto007) throws Exception;
 
-    int updateCalDetailInfo(SchRqDto007 schRqDto007) throws Exception;
+    int updateOwner(SchRqDto007 schRqDto007) throws Exception;
 
-    int updateCalOwner(SchRqDto007 schRqDto007);
-
-    int updateNonMatchManagers(SchRqDto007 schRqDto007) throws Exception;
+    int insertRequestNonMatchManagers(SchRqDto007 schRqDto007) throws Exception;
 
     int updateOriginMatchManagers(SchRqDto007 schRqDto007) throws Exception;
 
-    int insertNewNonMatchManagers(SchRqDto007 schRqDto007) throws Exception;
+    int updateNonMatchManagers(SchRqDto007 schRqDto007) throws Exception;
 
 
 }

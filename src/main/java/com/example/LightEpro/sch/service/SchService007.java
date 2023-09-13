@@ -8,23 +8,31 @@ import com.example.LightEpro.sch.dto.sch007.SchRsDto007;
 import java.util.List;
 
 public interface SchService007 {
-    SchRsDto007 modifySingleCal(SchRqDto007 schRqDto007) throws Exception;
+    SchRsDto007 modifyCalendarInfo(SchRqDto007 schRqDto007) throws Exception;
 
-    void checkCalUsers(SchRqDto007 schRqDto007) throws Exception;
+    void assignObject(SchRqDto007 schRqDto007) throws Exception;
 
-    List<SchRqDto007.CalendarUser> checkOriginMatchCalUsers(List<SchRqDto007.CalendarUser> calendarUsers, List<SchRqDto007.Manager> managers) throws Exception;
+    void confirmCalendarUsers(SchRqDto007 schRqDto007) throws Exception;
 
-    List<SchRqDto007.CalendarUser> checkOriginNonMatchCalUsers(List<SchRqDto007.CalendarUser> calendarUsers, List<SchRqDto007.Manager> managers) throws Exception;
+    List<SchRqDto007.Manager> confirmRequestNonMatchManagers(List<SchRqDto007.Manager> calendarUsers,
+                                                             List<SchRqDto007.Manager> managers) throws Exception;
 
-    List<SchRqDto007.Manager> checkNewNonMatchCalUsers(List<SchRqDto007.CalendarUser> calendarUsers, List<SchRqDto007.Manager> managers) throws Exception;
+    List<SchRqDto007.Manager> confirmOriginMatchManagers(List<SchRqDto007.Manager> calendarUsers,
+                                                         List<SchRqDto007.Manager> managers) throws Exception;
 
-    int modifyCalDetailInfo(SchRqDto007 schRqDto007) throws Exception;
+    List<SchRqDto007.Manager> confirmOriginNonMatchManagers(List<SchRqDto007.Manager> calendarUsers,
+                                                            List<SchRqDto007.Manager> managers) throws Exception;
 
-    int modifyCalOwner(SchRqDto007 schRqDto007) throws Exception;
 
-    int removeCalManagers(SchRqDto007 schRqDto007) throws Exception;
+    int modifyCalendar(SchRqDto007 schRqDto007) throws Exception;
 
-    int modifyCalManagers(SchRqDto007 schRqDto007) throws Exception;
+    int modifyOwner(SchRqDto007 schRqDto007) throws Exception;
 
-    int createCalManagers(SchRqDto007 schRqDto007) throws Exception;
+    int createManagers(SchRqDto007 schRqDto007) throws Exception;
+
+    int modifyManagers(SchRqDto007 schRqDto007) throws Exception;
+
+    int removeManagers(SchRqDto007 schRqDto007) throws Exception;
+
+
 }

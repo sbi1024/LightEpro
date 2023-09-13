@@ -11,94 +11,46 @@
           AND TSC.USE_YND = 'Y'
     </select>
 
-
-
-    <select id="findCalUsersInfoByCalSeq" resultType="com.example.LightEpro.sch.dto.sch007.SchRqDto007$CalendarUser">
-        /* findCalUsersInfoByCalSeq */
-        SELECT IFNULL(TSCU.CAL_SEQ, '')                    AS calSeq,
-               IFNULL(TSCU.CDE_SEQ, '')                    AS cdeSeq,
-               IFNULL(TSCU.CDE_TYPE, '')                   AS cdeType,
-               IFNULL(TSCU.CAL_PARTITION_TYPE, '')         AS calPartitionType,
-               IFNULL(TSCU.CAL_AUTORITY, '')               AS calAutority,
-               IFNULL(TSCU.USE_YND, '')                    AS useYnd,
-               DATE_FORMAT(TSCU.CREATE_DATE, '%Y%m%d%H%i') AS createDate,
-               IFNULL(TSCU.CREATE_SEQ, '')                 AS createSeq,
-               CASE
-                   WHEN TSCU.MODIFY_DATE IS NOT NULL
-                       THEN DATE_FORMAT(TSCU.MODIFY_DATE, '%Y%m%d%H%i')
-                   ELSE
-                       ''
-                   END                                     AS modifyDate,
-               IFNULL(TSCU.MODIFY_SEQ, '')                 AS modifySeq
+    <select id="selectManagers" resultType="com.example.LightEpro.sch.dto.sch007.SchRqDto007$Manager">
+        /* selectManagers */
+        SELECT IFNULL(TSCU.CDE_SEQ, '')                    AS cdeSeq,
+               IFNULL(TSCU.CDE_TYPE, '')                   AS cdeType
         FROM T_SC_CAL_USER TSCU
         WHERE 1 = 1
           AND TSCU.CAL_SEQ = #{calendar.calSeq}
           AND TSCU.USE_YND = 'Y'
-          AND TSCU.CAL_PARTITION_TYPE != '100'
-          AND TSCU.CAL_AUTORITY != 'M'
+          AND TSCU.CAL_PARTITION_TYPE = 200
+          AND TSCU.CAL_AUTORITY = 'W'
     </select>
 
-    <update id="updateCalDetailInfo" parameterType="com.example.LightEpro.sch.dto.sch007.SchRqDto007">
-        /* updateCalDetailInfo */
+    <update id="updateCalendar" parameterType="com.example.LightEpro.sch.dto.sch007.SchRqDto007">
+        /* updateCalendar */
         UPDATE T_SC_CAL TSC
         SET TSC.CAL_TITLE   = #{calendar.calTitle},
             TSC.CAL_TYPE    = #{calendar.calType},
             TSC.CAL_CONTENT = #{calendar.calContent},
             TSC.CAL_COLOR   = #{calendar.calColor},
             TSC.MODIFY_DATE = NOW(),
-            TSC.MODIFY_SEQ  = #{emp.empSeq}
+            TSC.MODIFY_SEQ  = #{user.userSeq}
         WHERE 1 = 1
           AND TSC.CAL_SEQ = #{calendar.calSeq}
           AND TSC.USE_YND = 'Y'
     </update>
 
-    <update id="updateCalOwner">
+    <update id="updateOwner">
         /* updateCalOwner */
         UPDATE T_SC_CAL_USER TSCU
         SET TSCU.MODIFY_DATE = NOW(),
-            TSCU.MODIFY_SEQ  = #{emp.empSeq}
+            TSCU.MODIFY_SEQ  = #{user.userSeq}
         WHERE 1 = 1
           AND TSCU.CAL_SEQ = #{calendar.calSeq}
-          AND TSCU.CAL_PARTITION_TYPE = '100'
+          AND TSCU.CAL_PARTITION_TYPE = 100
           AND TSCU.CAL_AUTORITY = 'M'
           AND TSCU.USE_YND = 'Y'
     </update>
 
-    <update id="updateNonMatchManagers" parameterType="com.example.LightEpro.sch.dto.sch007.SchRqDto007">
-        /* updateNonMatchManagers */
-        UPDATE T_SC_CAL_USER TSCU
-        SET TSCU.USE_YND = 'N' ,
-            TSCU.MODIFY_DATE = NOW(),
-            TSCU.MODIFY_SEQ = #{emp.empSeq}
-        WHERE 1 = 1
-         AND (
-                 <foreach collection="originNonMatchCalendarUsers" item="calendarUser" open="(" separator="OR" close=")">
-                       TSCU.CAL_SEQ = #{calendarUser.calSeq}
-                       AND TSCU.CDE_SEQ = #{calendarUser.cdeSeq}
-                       AND TSCU.CDE_TYPE = #{calendarUser.cdeType}
-                       AND TSCU.CAL_PARTITION_TYPE = #{calendarUser.calPartitionType}
-                 </foreach>
-             )
-    </update>
-
-    <update id="updateOriginMatchManagers" parameterType="com.example.LightEpro.sch.dto.sch007.SchRqDto007">
-        /* updateOriginMatchManagers */
-        UPDATE T_SC_CAL_USER TSCU
-        SET TSCU.MODIFY_DATE = NOW(),
-            TSCU.MODIFY_SEQ = #{emp.empSeq}
-        WHERE 1 = 1
-         AND (
-                 <foreach collection="originMatchCalendarUsers" item="calendarUser" open="(" separator="OR" close=")">
-                       TSCU.CAL_SEQ = #{calendarUser.calSeq}
-                       AND TSCU.CDE_SEQ = #{calendarUser.cdeSeq}
-                       AND TSCU.CDE_TYPE = #{calendarUser.cdeType}
-                       AND TSCU.CAL_PARTITION_TYPE = #{calendarUser.calPartitionType}
-                 </foreach>
-             )
-    </update>
-
-    <insert id="insertNewNonMatchManagers" parameterType="com.example.LightEpro.sch.dto.sch007.SchRqDto007">
-        /* insertNewNonMatchManagers */
+    <insert id="insertRequestNonMatchManagers" parameterType="com.example.LightEpro.sch.dto.sch007.SchRqDto007">
+        /* insertRequestNonMatchManagers */
         INSERT INTO T_SC_CAL_USER (CAL_SEQ,
                                    CDE_SEQ,
                                    CDE_TYPE,
@@ -107,17 +59,56 @@
                                    USE_YND,
                                    CREATE_DATE,
                                    CREATE_SEQ)
-        VALUES <foreach collection="newNonMatchCalendarUsers" item="manager" separator=",">
+        VALUES <foreach collection="requestNonMatchManagers" item="requestNonMatchManager" separator=",">
                     (
                         #{calendar.calSeq},
-                        #{manager.cdeSeq},
-                        #{manager.cdeType},
+                        #{requestNonMatchManager.cdeSeq},
+                        #{requestNonMatchManager.cdeType},
                         200,
                         'W',
                         'Y',
                         NOW(),
-                        #{emp.empSeq}
+                        #{user.userSeq}
                     )
-                </foreach>
+               </foreach>
+               ON DUPLICATE KEY UPDATE
+               USE_YND = 'Y',
+               CREATE_DATE = NOW(),
+               CREATE_SEQ = #{user.userSeq},
+               MODIFY_DATE = NULL,
+               MODIFY_SEQ = NULL
     </insert>
+
+    <update id="updateOriginMatchManagers" parameterType="com.example.LightEpro.sch.dto.sch007.SchRqDto007">
+        /* updateOriginMatchManagers */
+        UPDATE T_SC_CAL_USER TSCU
+        SET TSCU.MODIFY_DATE = NOW(),
+        TSCU.MODIFY_SEQ = #{user.userSeq}
+        WHERE 1 = 1
+            AND (
+                    <foreach collection="originMatchManagers" item="originMatchManager" open="(" separator="OR" close=")">
+                        TSCU.CAL_SEQ = #{calendar.calSeq}
+                        AND TSCU.CDE_SEQ = #{originMatchManager.cdeSeq}
+                        AND TSCU.CDE_TYPE = #{originMatchManager.cdeType}
+                        AND TSCU.CAL_PARTITION_TYPE = 200
+                    </foreach>
+                )
+    </update>
+
+    <update id="updateNonMatchManagers" parameterType="com.example.LightEpro.sch.dto.sch007.SchRqDto007">
+        /* updateNonMatchManagers */
+        UPDATE T_SC_CAL_USER TSCU
+        SET TSCU.USE_YND = 'N' ,
+            TSCU.MODIFY_DATE = NOW(),
+            TSCU.MODIFY_SEQ = #{user.userSeq}
+        WHERE 1 = 1
+         AND (
+                 <foreach collection="originNonMatchManagers" item="originNonMatchManager" open="(" separator="OR" close=")">
+                       TSCU.CAL_SEQ = #{calendar.calSeq}
+                       AND TSCU.CDE_SEQ = #{originNonMatchManager.cdeSeq}
+                       AND TSCU.CDE_TYPE = #{originNonMatchManager.cdeType}
+                       AND TSCU.CAL_PARTITION_TYPE = 200
+                 </foreach>
+             )
+    </update>
 </mapper>
