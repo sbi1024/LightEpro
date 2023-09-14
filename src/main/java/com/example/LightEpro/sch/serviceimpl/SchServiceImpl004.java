@@ -30,7 +30,7 @@ public class SchServiceImpl004 implements SchService004 {
         // 일정 목록 조회 메소드 호출
         List<SchRsDto004.Schedule> scheduleList = findScheduleList(schRqDto004);
         // 일정 목록 카운팅 메소드 호출
-        int scheduleListCnt = findScheduleListCnt(schRqDto004);
+        int scheduleListCnt = scheduleList == null ? 0 : scheduleList.size();
 
         // schRsDto004 객체 builder 패턴을 통해 객체 생성
         SchRsDto004 schRsDto004 = SchRsDto004.builder()
@@ -62,23 +62,5 @@ public class SchServiceImpl004 implements SchService004 {
 
         // return
         return scheduleList;
-    }
-
-    // 일정 목록 카운팅
-    @Override
-    public int findScheduleListCnt(SchRqDto004 schRqDto004) throws Exception {
-        // method start log
-        log.info("findScheduleListCnt Method Start !!!");
-        log.info("findScheduleListCnt Method Request Data : " + schRqDto004);
-
-        // 일정 목록 카운팅 Mapper 호출
-        int scheduleListCnt = schMapper004.selectScheduleListCnt(schRqDto004);
-
-        // method end log
-        log.info("findScheduleListCnt Method Return Data : " + scheduleListCnt);
-        log.info("findScheduleListCnt Method End !!!");
-
-        // return
-        return scheduleListCnt;
     }
 }

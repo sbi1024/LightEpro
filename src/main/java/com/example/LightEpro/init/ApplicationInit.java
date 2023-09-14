@@ -119,7 +119,7 @@ public class ApplicationInit implements InitializingBean {
             dept.setParentDeptSeq(i - 1);
 
             // comp 객체 데이터 할당
-            comp.setCompSeq(i);
+            comp.setCompSeq(1);
 
             // schRqDto015 객체 데이터 할당
             empRqDto000.setUser(user);
@@ -257,7 +257,11 @@ public class ApplicationInit implements InitializingBean {
 
                 // manager 객체 데이터 할당
                 manager.setCdeSeq(i + 1);
-                manager.setCdeType("D");
+                if (i % 3 == 0) {
+                    manager.setCdeType("C");
+                } else {
+                    manager.setCdeType("D");
+                }
                 managers.add(manager);
             } else {
                 // calendar 객체 데이터 할당

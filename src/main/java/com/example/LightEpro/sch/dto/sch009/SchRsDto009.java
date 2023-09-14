@@ -14,9 +14,9 @@ public class SchRsDto009 {
     @Data
     public static class Calendar {
         private int calSeq;
+        private String calType;
         private String calTitle;
         private String calContent;
         private String calColor;
-        private String calType;
     }
 }

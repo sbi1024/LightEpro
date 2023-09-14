@@ -1,11 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.LightEpro.sch.mapper.SchMapper009">
-    <select id="selectCalendarList">
+    <select id="selectCalendarList" resultType="com.example.LightEpro.sch.dto.sch009.SchRsDto009$Calendar">
         /* selectCalendarList */
-    </select>
+        SELECT IFNULL(TSC.CAL_SEQ, '')     AS calSeq,
+               IFNULL(TSC.CAL_TYPE, '')    AS calType,
+               IFNULL(TSC.CAL_TITLE, '')   AS calTitle,
+               IFNULL(TSC.CAL_CONTENT, '') AS calContent,
+               IFNULL(TSC.CAL_COLOR, '')   AS calColor
+        FROM T_SC_CAL TSC
+                 INNER JOIN T_SC_CAL_USER TSCU
+                            ON TSC.CAL_SEQ = TSCU.CAL_SEQ
+                                AND TSC.USE_YND = 'Y'
+                                AND TSCU.USE_YND = 'Y'
+        WHERE 1 = 1
 
-    <select id="selectCalendarListCnt">
-        /* selectCalendarListCnt */
+          AND (EXISTS(WITH RECURSIVE CTE AS (SELECT TEC.COMP_SEQ,
+                                                    TEC.PARENT_COMP_SEQ
+                                             FROM T_EM_COMP TEC
+                                             WHERE 1 = 1
+                                               AND TEC.COMP_SEQ = #{user.userCompSeq}
+
+                                             UNION ALL
+
+                                             SELECT TEC.COMP_SEQ,
+                                                    TEC.PARENT_COMP_SEQ
+                                             FROM T_EM_COMP TEC
+                                                      INNER JOIN CTE CTE
+                                                                 ON TEC.COMP_SEQ = CTE.PARENT_COMP_SEQ)
+                      SELECT CTE.COMP_SEQ        AS compSeq,
+                             CTE.PARENT_COMP_SEQ AS parentCompSeq
+                      FROM CTE
+                      WHERE 1 = 1
+                        AND TSCU.CDE_TYPE = 'C'
+                        AND TSCU.CDE_SEQ = CTE.COMP_SEQ)
+
+            OR EXISTS(WITH RECURSIVE CTE AS (SELECT TED.DEPT_SEQ,
+                                                    TED.PARENT_DEPT_SEQ
+                                             FROM T_EM_DEPT TED
+                                             WHERE 1 = 1
+                                               AND TED.DEPT_SEQ = #{user.userDeptSeq}
+                                               AND TED.COMP_SEQ = #{user.userCompSeq}
+
+                                             UNION ALL
+
+                                             SELECT TED.DEPT_SEQ,
+                                                    TED.PARENT_DEPT_SEQ
+                                             FROM T_EM_DEPT TED
+                                                      INNER JOIN CTE CTE
+                                                                 ON TED.DEPT_SEQ = CTE.PARENT_DEPT_SEQ)
+                      SELECT CTE.DEPT_SEQ AS deptSeq
+                      FROM CTE
+                      WHERE 1 = 1
+                        AND TSCU.CDE_TYPE = 'D'
+                        AND TSCU.CDE_SEQ = CTE.DEPT_SEQ)
+
+            OR (TSCU.CDE_TYPE = 'E' AND TSCU.CDE_SEQ = #{user.userSeq}))
     </select>
 </mapper>

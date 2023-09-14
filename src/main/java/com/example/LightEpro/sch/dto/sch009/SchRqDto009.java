@@ -9,7 +9,7 @@ import javax.validation.constraints.Positive;
 @Data
 public class SchRqDto009 {
     @NotNull
-    private @Valid User user;
+    private @Valid User user; // 필수값
 
     @Data
     public static class User {

@@ -25,13 +25,11 @@ public class SchRsDto004 {
         private String modifySeq;
         private String modifyDate;
 
-        private String cdeSeq;
-        private String cdeType;
         private String calSeq;
-        private String schPartitionType;
-        private String schAutority;
 
         private String calTitle;
         private String calType;
+        private String calContent;
+        private String calColor;
     }
 }

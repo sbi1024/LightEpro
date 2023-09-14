@@ -21,16 +21,12 @@
                        ''
                END                                                            AS modifyDate,
 
-               IFNULL(TSSU.CDE_SEQ,'')                                        AS cdeSeq,
-               IFNULL(TSSU.CDE_TYPE,'')                                       AS cdeType,
                IFNULL(TSSU.CAL_SEQ,'')                                        AS calSeq,
-               IFNULL(TSSU.SCH_PARTITION_TYPE,'')                             AS schPartitionType,
-               IFNULL(TSSU.SCH_AUTORITY,'')                                   AS schAutority,
 
                IFNULL(TSC.CAL_TITLE,'')                                       AS calTitle,
                IFNULL(TSC.CAL_TYPE,'')                                        AS calType,
                IFNULL(TSC.CAL_CONTENT,'')                                     AS calContent,
-               IFNULL(TSC.CAL_COLOR,'')                                       AS calColor
+               IFNULL(TSC.CAL_COLOR,'#748FFC')                                AS calColor
 
 
         FROM T_SC_SCH TSS
@@ -69,8 +65,6 @@
                  INNER JOIN T_SC_SCH_USER TSSU
                             ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
                                 AND TSS.SCH_SEQ = TSSU.SCH_SEQ
-                                AND TSSU.CDE_SEQ = #{user.userSeq}
-                                AND TSSU.CDE_TYPE = 'E'
                                 AND TSS.USE_YND = 'Y'
                                 AND TSSU.USE_YND = 'Y'
 
@@ -83,63 +77,5 @@
             AND TSSU.CAL_SEQ IN <foreach collection="calendar.calSeqs" item="calendar.calSeqs" open="(" separator="," close=")">
                                     #{calendar.calSeqs}
                                 </foreach>
-
-    </select>
-
-    <select id="selectScheduleListCnt" resultType = "int">
-        /* selectScheduleListCnt */
-        SELECT COUNT(1)
-
-        FROM T_SC_SCH TSS
-
-                 INNER JOIN (SELECT DATE_TSS.SCHM_SEQ, DATE_TSS.SCH_SEQ
-                             FROM (
-                                   SELECT TSS.SCHM_SEQ, TSS.SCH_SEQ
-                                   FROM T_SC_SCH TSS
-                                   WHERE 1 = 1
-                                    AND (TSS.START_DATE_YEAR = #{schedule.year} AND TSS.START_DATE_MONTH = #{schedule.month})
-
-                                   UNION ALL
-
-                                   SELECT TSS.SCHM_SEQ, TSS.SCH_SEQ
-                                   FROM T_SC_SCH TSS
-                                   WHERE 1 = 1
-                                    AND (TSS.END_DATE_YEAR = #{schedule.year} AND TSS.END_DATE_MONTH = #{schedule.month})
-
-                                   UNION ALL
-
-                                   SELECT TSS.SCHM_SEQ, TSS.SCH_SEQ
-                                   FROM T_SC_SCH TSS
-                                    WHERE 1 = 1
-                                    AND (
-                                         <![CDATA[
-                                             (TSS.START_DATE_YEAR <= #{schedule.year} AND TSS.START_DATE_MONTH < #{schedule.month}) AND
-                                             (TSS.END_DATE_YEAR >= #{schedule.year} AND TSS.END_DATE_MONTH > #{schedule.month})
-                                         ]]>
-                                        )
-                                    ) AS DATE_TSS
-                                    GROUP BY DATE_TSS.SCHM_SEQ, DATE_TSS.SCH_SEQ
-                             ) AS UNION_DATE_SCH
-                            ON TSS.SCHM_SEQ = UNION_DATE_SCH.SCHM_SEQ
-                                AND TSS.SCH_SEQ = UNION_DATE_SCH.SCH_SEQ
-
-                 INNER JOIN T_SC_SCH_USER TSSU
-                            ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
-                                AND TSS.SCH_SEQ = TSSU.SCH_SEQ
-                                AND TSSU.CDE_SEQ = #{user.userSeq}
-                                AND TSSU.CDE_TYPE = 'E'
-                                AND TSS.USE_YND = 'Y'
-                                AND TSSU.USE_YND = 'Y'
-
-                 INNER JOIN T_SC_CAL TSC
-                            ON TSSU.CAL_SEQ = TSC.CAL_SEQ
-                                AND TSC.USE_YND = 'Y'
-
-        WHERE 1 = 1
-
-            AND TSSU.CAL_SEQ IN <foreach collection="calendar.calSeqs" item="calendar.calSeqs" open="(" separator="," close=")">
-                                    #{calendar.calSeqs}
-                                </foreach>
-
     </select>
 </mapper>

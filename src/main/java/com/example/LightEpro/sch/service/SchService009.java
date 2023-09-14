@@ -10,6 +10,4 @@ public interface SchService009 {
     SchRsDto009 findMyCalendarListInfo(SchRqDto009 schRqDto009) throws Exception;
 
     List<SchRsDto009.Calendar> findMyCalendarList(SchRqDto009 schRqDto009) throws Exception;
-
-    int findMyCalendarListCnt(SchRqDto009 schRqDto009) throws Exception;
 }
