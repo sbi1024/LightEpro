@@ -11,4 +11,8 @@ public interface SchMapper008 {
     int updateCalendar(SchRqDto008 schRqDto008) throws Exception;
 
     int updateCalendarUsers(SchRqDto008 schRqDto008) throws Exception;
+
+    int updateSchedule(SchRqDto008 schRqDto008) throws Exception;
+
+    int updateScheduleUsers(SchRqDto008 schRqDto008) throws Exception;
 }

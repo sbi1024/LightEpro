@@ -41,7 +41,14 @@
         SET TSC.CAL_TITLE   = #{calendar.calTitle},
             TSC.CAL_TYPE    = #{calendar.calType},
             TSC.CAL_CONTENT = #{calendar.calContent},
-            TSC.CAL_COLOR   = #{calendar.calColor},
+            TSC.CAL_COLOR = <choose>
+                                <when test="calendar.calColor == null or calendar.calColor == ''">
+                                    '#748FFC'
+                                </when>
+                                <otherwise>
+                                    #{calendar.calColor}
+                                </otherwise>
+                            </choose>,
             TSC.MODIFY_DATE = NOW(),
             TSC.MODIFY_SEQ  = #{user.userSeq}
         WHERE 1 = 1

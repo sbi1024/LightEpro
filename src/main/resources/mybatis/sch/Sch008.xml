@@ -32,4 +32,44 @@
           AND TSCU.CAL_SEQ = #{calendar.calSeq}
           AND TSCU.USE_YND = 'Y'
     </update>
+
+    <update id="updateSchedule">
+        /* updateSchedule */
+        UPDATE T_SC_SCH TSS
+            INNER JOIN (SELECT TSSU.SCHM_SEQ,
+                               TSSU.SCH_SEQ
+                        FROM T_SC_SCH_USER TSSU
+                        WHERE 1 = 1
+                          AND TSSU.CAL_SEQ = #{calendar.calSeq}
+                          AND TSSU.SCH_PARTITION_TYPE = 10
+                          AND TSSU.SCH_AUTORITY = 'M'
+                          AND TSSU.USE_YND = 'Y') AS ADMIN_USER
+            ON TSS.SCHM_SEQ = ADMIN_USER.SCHM_SEQ
+                AND TSS.SCH_SEQ = ADMIN_USER.SCH_SEQ
+        SET TSS.USE_YND     = 'N',
+            TSS.DELETE_DATE = NOW(),
+            TSS.DELETE_SEQ  = #{user.userSeq}
+        WHERE 1 = 1
+          AND TSS.USE_YND = 'Y'
+    </update>
+
+    <update id="updateScheduleUsers">
+        /* updateScheduleUsers */
+        UPDATE T_SC_SCH_USER TSSU
+            INNER JOIN (SELECT TSSU.SCHM_SEQ,
+                               TSSU.SCH_SEQ
+                        FROM T_SC_SCH_USER TSSU
+                        WHERE 1 = 1
+                          AND TSSU.CAL_SEQ = #{calendar.calSeq}
+                          AND TSSU.SCH_PARTITION_TYPE = 10
+                          AND TSSU.SCH_AUTORITY = 'M'
+                          AND TSSU.USE_YND = 'Y') AS ADMIN_USER
+            ON TSSU.SCHM_SEQ = ADMIN_USER.SCHM_SEQ
+                AND TSSU.SCH_SEQ = ADMIN_USER.SCH_SEQ
+        SET TSSU.USE_YND     = 'N',
+            TSSU.DELETE_DATE = NOW(),
+            TSSU.DELETE_SEQ  = #{user.userSeq}
+        WHERE 1 = 1
+          AND TSSU.USE_YND = 'Y'
+    </update>
 </mapper>

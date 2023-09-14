@@ -61,8 +61,8 @@ public class SchServiceImpl008 implements SchService008 {
         int updateCalendarCnt = schMapper008.updateCalendar(schRqDto008);
 
         // method end log
-        log.info("removeCalendar Method Start !!!");
-        log.info("removeCalendar Method Request Data : " + updateCalendarCnt);
+        log.info("removeSingleCal Method Return Data : " + updateCalendarCnt);
+        log.info("removeSingleCal Method End !!!");
 
         // return
         return updateCalendarCnt;
@@ -79,8 +79,8 @@ public class SchServiceImpl008 implements SchService008 {
         int updateCalendarUsersCnt = schMapper008.updateCalendarUsers(schRqDto008);
 
         // method end log
-        log.info("removeCalUsers Method Start !!!");
-        log.info("removeCalUsers Method Request Data : " + updateCalendarUsersCnt);
+        log.info("removeSingleCal Method Return Data : " + updateCalendarUsersCnt);
+        log.info("removeSingleCal Method End !!!");
 
         // return
         return updateCalendarUsersCnt;
@@ -89,12 +89,34 @@ public class SchServiceImpl008 implements SchService008 {
     // 일정 삭제 메소드
     @Override
     public int removeSchedules(SchRqDto008 schRqDto008) throws Exception {
-        return 0;
+        // method start log
+        log.info("removeSchedules Method Start !!!");
+        log.info("removeSchedules Method Request Data : " + schRqDto008);
+
+        // 일정 삭제 Mapper 호출
+        int updateScheduleCnt = schMapper008.updateSchedule(schRqDto008);
+
+        // method end log
+        log.info("removeSingleCal Method Return Data : " + updateScheduleCnt);
+        log.info("removeSingleCal Method End !!!");
+
+        return updateScheduleCnt;
     }
 
     // 일정 구성원 삭제 메소드
     @Override
     public int removeScheduleUsers(SchRqDto008 schRqDto008) throws Exception {
-        return 0;
+        // method start log
+        log.info("removeScheduleUsers Method Start !!!");
+        log.info("removeScheduleUsers Method Request Data : " + schRqDto008);
+
+        // 일정 구성원 삭제 Mapper 호출
+        int updateScheduleUsersCnt = schMapper008.updateScheduleUsers(schRqDto008);
+
+        // method end log
+        log.info("removeScheduleUsers Method Return Data : " + updateScheduleUsersCnt);
+        log.info("removeScheduleUsers Method End !!!");
+
+        return updateScheduleUsersCnt;
     }
 }

@@ -23,7 +23,12 @@ public class EmpRqDto015 {
 
     @Data
     public static class User {
-        private int userSeq;
+        @Positive
+        private int userCompSeq; // 필수값
+        @Positive
+        private int userDeptSeq; // 필수값
+        @Positive
+        private int userSeq; // 필수값
     }
 
     @Data

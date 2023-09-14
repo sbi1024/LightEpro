@@ -21,6 +21,6 @@
                 #{comp.compSeq},
                 'Y',
                 NOW(),
-                #{emp.empSeq})
+                #{user.userSeq})
     </insert>
 </mapper>

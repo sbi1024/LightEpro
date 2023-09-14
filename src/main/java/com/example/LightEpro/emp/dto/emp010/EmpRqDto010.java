@@ -20,7 +20,11 @@ public class EmpRqDto010 {
     @Data
     public static class User {
         @Positive
-        private int userSeq;
+        private int userCompSeq; // 필수값
+        @Positive
+        private int userDeptSeq; // 필수값
+        @Positive
+        private int userSeq; // 필수값
     }
 
     @Data
@@ -32,8 +36,8 @@ public class EmpRqDto010 {
     @Data
     public static class Position {
         private int positionCodeSeq;
-        @NotBlank
-        private String positionCodeType;
+        @Positive
+        private int positionCodeType;
         @NotBlank
         private String positionCodeInfo;
     }
