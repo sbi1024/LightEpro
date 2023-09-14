@@ -105,9 +105,9 @@ public class SchController002 {
                 (participant.getCdeSeq() == selectOriginRegistrantValue)
                         && participant.getCdeType().equals(SchConstValue.CDE_E_TYPE));
         if (existRegistrant == false) {
-            log.error("$$$ sch002 validApiRequest fail !!! (NotFoundRegistrant) $$$");
+            log.error("$$$ sch002 validApiRequest fail !!! (NotFoundRegistrantException) $$$");
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
-            throw new ExceptionCustom.NotFoundRegistrant();
+            throw new ExceptionCustom.NotFoundRegistrantException();
         }
     }
 }

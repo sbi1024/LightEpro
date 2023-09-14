@@ -109,6 +109,7 @@ public class ExceptionHandle extends RuntimeException {
     }
 
     /**
+     * TODO 변경 예정 > Exception을 직관적으로 세분화 할 필요성 있음
      * 개인 캘린더에 일정등록시 , 참여자 혹은 공개범위 데이터가 포함된 요청값이 들어오는 경우 발생 Exception
      */
     @ExceptionHandler(ExceptionCustom.IncorrectIncludException.class)
@@ -153,6 +154,7 @@ public class ExceptionHandle extends RuntimeException {
 
         return schResponse;
     }
+
     /**
      * 캘린더 조회시 , 디비상 없는 캘린더인 경우 발생 Exception
      */
@@ -179,8 +181,8 @@ public class ExceptionHandle extends RuntimeException {
     /**
      * 일정 수정 진행 시 , 요청값의 참여자 데이터 중 , 기존 일정의 등록자 정보가 미포함 되는 경우 발생 Exception
      */
-    @ExceptionHandler(ExceptionCustom.NotFoundRegistrant.class)
-    public SchResponse NotFoundCalException(ExceptionCustom.NotFoundRegistrant e) {
+    @ExceptionHandler(ExceptionCustom.NotFoundRegistrantException.class)
+    public SchResponse NotFoundRegistrantException(ExceptionCustom.NotFoundRegistrantException e) {
         ExceptionCode errorCode = ExceptionCode.NOT_FOUNT_REGISTRANT_EXCEPTION;
         errorCode.setExceptionData(e.getMessage());
 
@@ -198,4 +200,28 @@ public class ExceptionHandle extends RuntimeException {
 
         return schResponse;
     }
+
+    /**
+     * 캘린더 수정 진행 시 , 요청값의 소유자 데이터에 , 기존 캘린더 소유자 정보가 미포함 되는 경우 발생 Exception
+     */
+    @ExceptionHandler(ExceptionCustom.NotFoundOwnerException.class)
+    public SchResponse NotFoundOwnerException(ExceptionCustom.NotFoundOwnerException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_FOUNT_OWNER_EXCEPTION;
+        errorCode.setExceptionData(e.getMessage());
+
+        SchResponse schResponse = new SchResponse();
+        schResponse.setResponseStatus(errorCode.getExceptionStatus());
+        schResponse.setResponseCode(errorCode.getExceptionCode());
+        schResponse.setResponseMsg(errorCode.getExceptionMsg());
+        schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ ExceptionCustom.NotFoundOwnerException !!! (Exception) $$$");
+        log.error("$$$ NotFoundOwnerException !!! (schResponse : " + schResponse + ") $$$");
+
+        e.printStackTrace();
+        e.getMessage();
+
+        return schResponse;
+    }
+
 }

@@ -1,6 +1,9 @@
 package com.example.LightEpro.sch.controller;
 
+import com.example.LightEpro.exception.ExceptionCustom;
+import com.example.LightEpro.sch.constant.SchConstValue;
 import com.example.LightEpro.sch.dto.sch008.SchRqDto008;
+import com.example.LightEpro.sch.mapper.SchMapper008;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService008;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +22,9 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController008 {
+    // service 선언
     private final SchService008 schService008;
+    private final SchMapper008 schMapper008;
 
     // 단일 캘린더 삭제 API
     @RequestMapping(value = "/sch008", method = {RequestMethod.GET, RequestMethod.POST})
@@ -29,28 +34,40 @@ public class SchController008 {
 
         // API 실행시간 체크를 위한 stopWatch 객체 생성
         StopWatch stopWatch = new StopWatch();
+        // stopWatch 시작
         stopWatch.start();
 
+        // 유효성 검사 메소드 호출
         validApiRequest(schRqDto008);
         log.info("sch008 validApiRequest Success !!! ");
 
+        // SchResponse 객체 데이터 생성 및 할당
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch008 API SUCCESS");
-        schResponse.setResponseData(schService008.removeSingleCal(schRqDto008));
+        schResponse.setResponseData(schService008.removeCalendarInfo(schRqDto008));
 
+        // stopWatch 종료
         stopWatch.stop();
 
         log.info("sch008 API runTime : {}", stopWatch.getTotalTimeSeconds());
         log.info("sch008 RESPONSE DATA : " + schResponse);
         log.info("sch008 API END !!!");
 
+        // return
         return schResponse;
     }
 
     // sch008 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
     public void validApiRequest(SchRqDto008 schRqDto008) throws Exception {
-        // TODO
+        // 요청값으로 방은 캘린더 시퀀스 값을 통해 , 캘린더 타입을 조회한다.
+        String selectCalendarTypeValue = schMapper008.selectCalendarType(schRqDto008);
+        // 캘린더 타입의 값이 빈 값이 경우 Exception 처리
+        if (selectCalendarTypeValue.equals(SchConstValue.EMPTY_VALUE)) {
+            log.error("$$$ sch008 validApiRequest fail !!! (NotFoundCalException) $$$");
+            log.error("$$$ sch008 validApiRequest fail !!! (schRqDto007 : " + schRqDto008 + ") $$$");
+            throw new ExceptionCustom.NotFoundCalException();
+        }
     }
 }

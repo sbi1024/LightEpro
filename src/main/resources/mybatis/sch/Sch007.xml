@@ -11,6 +11,18 @@
           AND TSC.USE_YND = 'Y'
     </select>
 
+    <select id="selectOriginOwner" resultType="int">
+        /* selectOriginOwner */
+        SELECT IFNULL(MAX(TSCU.CDE_SEQ), '') AS cdeSeq
+        FROM T_SC_CAL_USER TSCU
+        WHERE 1 = 1
+          AND TSCU.CAL_SEQ = #{calendar.calSeq}
+          AND TSCU.CDE_TYPE = 'E'
+          AND TSCU.CAL_PARTITION_TYPE = 100
+          AND TSCU.CAL_AUTORITY = 'M'
+          AND TSCU.USE_YND = 'Y'
+    </select>
+
     <select id="selectManagers" resultType="com.example.LightEpro.sch.dto.sch007.SchRqDto007$Manager">
         /* selectManagers */
         SELECT IFNULL(TSCU.CDE_SEQ, '')                    AS cdeSeq,

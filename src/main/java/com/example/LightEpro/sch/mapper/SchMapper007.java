@@ -10,6 +10,8 @@ public interface SchMapper007 {
 
     String selectCalendarType(SchRqDto007 schRqDto007) throws Exception;
 
+    int selectOriginOwner(SchRqDto007 schRqDto007) throws Exception;
+
     List<SchRqDto007.Manager> selectManagers(SchRqDto007 schRqDto007) throws Exception;
 
     int updateCalendar(SchRqDto007 schRqDto007) throws Exception;

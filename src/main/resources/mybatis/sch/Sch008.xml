@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.LightEpro.sch.mapper.SchMapper008">
-    <update id="updateCalDetailInfo">
+
+    <select id="selectCalendarType" resultType="string">
+        /* selectCalendarType */
+        SELECT IFNULL(MAX(TSC.CAL_TYPE), '') AS calType
+        FROM T_SC_CAL TSC
+        WHERE 1 = 1
+          AND TSC.CAL_SEQ = #{calendar.calSeq}
+          AND TSC.USE_YND = 'Y'
+    </select>
+
+    <update id="updateCalendar">
+        /* updateCalendar */
         UPDATE T_SC_CAL TSC
         SET TSC.USE_YND     = 'N',
             TSC.MODIFY_DATE = NOW(),
@@ -11,7 +22,8 @@
           AND TSC.USE_YND = 'Y'
     </update>
 
-    <update id="updateCalUsers">
+    <update id="updateCalendarUsers">
+        /* updateCalendarUsers */
         UPDATE T_SC_CAL_USER TSCU
         SET TSCU.USE_YND = 'N',
             TSCU.MODIFY_DATE = NOW(),

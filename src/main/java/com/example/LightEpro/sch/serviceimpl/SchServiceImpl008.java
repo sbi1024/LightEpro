@@ -13,27 +13,33 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Slf4j
 public class SchServiceImpl008 implements SchService008 {
+    // schMapper008 선언
     private final SchMapper008 schMapper008;
 
+    // 단일 캘린더 정보 삭제 메소드
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public SchRsDto008 removeSingleCal(SchRqDto008 schRqDto008) throws Exception {
+    public SchRsDto008 removeCalendarInfo(SchRqDto008 schRqDto008) throws Exception {
         // method start log
         log.info("removeSingleCal Method Start !!!");
         log.info("removeSingleCal Method Request Data : " + schRqDto008);
 
-        // 캘린더 시퀀스 추출
-        int calSeq = schRqDto008.getCalendar().getCalSeq();
-        // 캘린더 정보를 삭제한다
-        int removeCalDetailInfoCnt = removeCalDetailInfo(schRqDto008);
-        // 캘린더 구성원을 삭제한다
-        int removeCalUsersCnt = removeCalUsers(schRqDto008);
+        // 캘린더 삭제 메소드 호출
+        int removeCalendarCnt = removeCalendar(schRqDto008);
+        // 캘린더 구성원 삭제 메소드 호출
+        int removeCalendarUsersCnt = removeCalendarUsers(schRqDto008);
+        // 캘린더에 포함된 일정 삭제 메소드 호출
+        int removeSchedulesCnt = removeSchedules(schRqDto008);
+        // 캘린더에 포함된 일정 구성원 삭제 메소드 호출
+        int removeScheduleUsersCnt = removeScheduleUsers(schRqDto008);
 
         // schRsDto008 객체 builder 패턴을 통해 객체 생성
         SchRsDto008 schRsDto008 = SchRsDto008.builder()
-                .calSeq(calSeq)
-                .removeCalDetailInfoCnt(removeCalDetailInfoCnt)
-                .removeCalUsersCnt(removeCalUsersCnt)
+                .calSeq(schRqDto008.getCalendar().getCalSeq())
+                .removeCalendarCnt(removeCalendarCnt)
+                .removeCalendarUsersCnt(removeCalendarUsersCnt)
+                .removeSchedulesCnt(removeSchedulesCnt)
+                .removeScheduleUsersCnt(removeScheduleUsersCnt)
                 .build();
 
         // method end log
@@ -44,35 +50,51 @@ public class SchServiceImpl008 implements SchService008 {
         return schRsDto008;
     }
 
+    // 캘린더 삭제 메소드
     @Override
-    public int removeCalDetailInfo(SchRqDto008 schRqDto008) throws Exception {
+    public int removeCalendar(SchRqDto008 schRqDto008) throws Exception {
         // method start log
-        log.info("removeCalDetailInfo Method Start !!!");
-        log.info("removeCalDetailInfo Method Request Data : " + schRqDto008);
+        log.info("removeCalendar Method Start !!!");
+        log.info("removeCalendar Method Request Data : " + schRqDto008);
 
-        int updateCalDetailInfoCnt = schMapper008.updateCalDetailInfo(schRqDto008);
+        // 캘린더 삭제 Mapper 호출
+        int updateCalendarCnt = schMapper008.updateCalendar(schRqDto008);
 
         // method end log
-        log.info("removeCalDetailInfo Method Start !!!");
-        log.info("removeCalDetailInfo Method Request Data : " + updateCalDetailInfoCnt);
+        log.info("removeCalendar Method Start !!!");
+        log.info("removeCalendar Method Request Data : " + updateCalendarCnt);
 
         // return
-        return updateCalDetailInfoCnt;
+        return updateCalendarCnt;
     }
 
+    // 캘린더 구성원 삭제 메소드
     @Override
-    public int removeCalUsers(SchRqDto008 schRqDto008) throws Exception {
+    public int removeCalendarUsers(SchRqDto008 schRqDto008) throws Exception {
         // method start log
         log.info("removeCalUsers Method Start !!!");
         log.info("removeCalUsers Method Request Data : " + schRqDto008);
 
-        int updateCalUsersCnt = schMapper008.updateCalUsers(schRqDto008);
+        // 캘린더 구성원 삭제 Mapper 호출
+        int updateCalendarUsersCnt = schMapper008.updateCalendarUsers(schRqDto008);
 
         // method end log
         log.info("removeCalUsers Method Start !!!");
-        log.info("removeCalUsers Method Request Data : " + updateCalUsersCnt);
+        log.info("removeCalUsers Method Request Data : " + updateCalendarUsersCnt);
 
         // return
-        return updateCalUsersCnt;
+        return updateCalendarUsersCnt;
+    }
+
+    // 일정 삭제 메소드
+    @Override
+    public int removeSchedules(SchRqDto008 schRqDto008) throws Exception {
+        return 0;
+    }
+
+    // 일정 구성원 삭제 메소드
+    @Override
+    public int removeScheduleUsers(SchRqDto008 schRqDto008) throws Exception {
+        return 0;
     }
 }

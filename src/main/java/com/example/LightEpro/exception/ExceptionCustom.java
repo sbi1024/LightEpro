@@ -24,6 +24,7 @@ public class ExceptionCustom {
      */
     public static class NotValidCalSeqsException extends Exception {
     }
+
     /**
      * 디비상에 존재하지 않는 캘린더를 찾는 경우 발생 Exception
      */
@@ -33,7 +34,18 @@ public class ExceptionCustom {
     /**
      * 참여자 요청값 중 등록자 값이 존재하지 않는 경우 경우 발생 Exception
      */
-    public static class NotFoundRegistrant extends Exception{
+    public static class NotFoundRegistrantException extends Exception {
 
     }
+
+    /**
+     * 캘린더 구성원 요청값 중 소유자 값이 존재하지 않는 경우 경우 발생 Exception
+     */
+    public static class NotFoundOwnerException extends Exception {
+
+    }
+
+    // TODO 1. 개인캘린더에 > 관리자가 포함되는 경우 Exception
+    // TODO 2. 개인캘린더에 등록될 일정에 > 일정 공개범위가 포함되는 경우 Exception
+    // 위 두가지 Exception 구성 필요 및 IncorrectIncludException 세분화 필요
 }
