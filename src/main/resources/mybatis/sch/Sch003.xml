@@ -16,8 +16,8 @@
         /* updateSchedule */
         UPDATE T_SC_SCH TSS
         SET TSS.USE_YND     = 'N',
-            TSS.DELETE_DATE = NOW(),
-            TSS.DELETE_SEQ  = #{user.userSeq}
+            TSS.MODIFY_DATE = NOW(),
+            TSS.MODIFY_SEQ  = #{user.userSeq}
         WHERE 1 = 1
           AND TSS.SCHM_SEQ = #{schedule.schmSeq}
           AND TSS.SCH_SEQ = #{schedule.schSeq}
@@ -28,8 +28,8 @@
         /* updateScheduleUsers */
         UPDATE T_SC_SCH_USER TSSU
         SET TSSU.USE_YND     = 'N',
-            TSSU.DELETE_DATE = NOW(),
-            TSSU.DELETE_SEQ  = #{user.userSeq}
+            TSSU.MODIFY_DATE = NOW(),
+            TSSU.MODIFY_SEQ  = #{user.userSeq}
         WHERE 1 = 1
           AND TSSU.SCHM_SEQ = #{schedule.schmSeq}
           AND TSSU.SCH_SEQ = #{schedule.schSeq}

@@ -1,11 +1,11 @@
 {
   "user": {
-    "userCompSeq": "1",
-    "userDeptSeq": "1",
-    "userSeq": 1000
+    "userCompSeq": 1,
+    "userDeptSeq": 1,
+    "userSeq": 1
   },
-  "sch": {
-    "schmSeq": "115",
-    "schSeq": "115"
+  "schedule": {
+    "schmSeq": "1",
+    "schSeq": "1"
   }
 }

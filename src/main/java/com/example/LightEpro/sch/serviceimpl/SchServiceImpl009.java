@@ -9,18 +9,71 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class SchServiceImpl009 implements SchService009 {
 
+    // schMapper009 선언
     private final SchMapper009 schMapper009;
 
+    // 나의 캘린더 목록 조회 메소드
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public SchRsDto009 findMyCalList(SchRqDto009 schRqDto009) throws Exception {
-        // TODO EMP 모듈 쪽 정보가 처리가 되어야 작업 진행 가능할 것으로 확인됨
-        // 쿼리상에 회사 , 부서 , 사원정보를 통한 통합 조회가 필요하기 때문
+    public SchRsDto009 findMyCalendarListInfo(SchRqDto009 schRqDto009) throws Exception {
+        // method start log
+        log.info("findMyCalendarListInfo Method Start !!!");
+        log.info("findMyCalendarListInfo Method Request Data : " + schRqDto009);
+
+        // 나의 캘린더 목록 조회 메소드 호출
+        List<SchRsDto009.Calendar> calendarList = findMyCalendarList(schRqDto009);
+        // 나의 캘린더 목록 카운팅 메소드 호출
+        int calendarListCnt = findMyCalendarListCnt(schRqDto009);
+
+        // schRsDto009 객체 builder 패턴을 통해 객체 생성
+        SchRsDto009 schRsDto009 = SchRsDto009.builder()
+                .calendarList(calendarList)
+                .calendarListCnt(calendarListCnt)
+                .build();
+
+        // method end log
+        log.info("findMyCalendarListInfo Method Return Data : " + schRsDto009);
+        log.info("findMyCalendarListInfo Method End !!!");
+
+        // return
+        return schRsDto009;
+    }
+
+    @Override
+    public List<SchRsDto009.Calendar> findMyCalendarList(SchRqDto009 schRqDto009) throws Exception {
+        // method start log
+        log.info("findMyCalendarList Method Start !!!");
+        log.info("findMyCalendarList Method Request Data : " + schRqDto009);
+
+        // 캘린더 목록 조회 Mapper 호출
+        List<SchRsDto009.Calendar> calendarList = schMapper009.selectCalendarList(schRqDto009);
+
+        // method end log
+        log.info("findMyCalendarListInfo Method Return Data : " + calendarList);
+        log.info("findMyCalendarListInfo Method End !!!");
         return null;
+    }
+
+    @Override
+    public int findMyCalendarListCnt(SchRqDto009 schRqDto009) throws Exception {
+        // method start log
+        log.info("findMyCalendarListCnt Method Start !!!");
+        log.info("findMyCalendarListCnt Method Request Data : " + schRqDto009);
+
+        // 캘린더 목록 카운팅 Mapper 호출
+        int calendarListCnt = schMapper009.selectCalendarListCnt(schRqDto009);
+
+        // method end log
+        log.info("findMyCalendarListCnt Method Return Data : " + calendarListCnt);
+        log.info("findMyCalendarListCnt Method End !!!");
+        return 0;
     }
 }

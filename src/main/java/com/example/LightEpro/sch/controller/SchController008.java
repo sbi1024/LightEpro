@@ -22,7 +22,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController008 {
-    // service 선언
+    // service , mapper 선언
     private final SchService008 schService008;
     private final SchMapper008 schMapper008;
 

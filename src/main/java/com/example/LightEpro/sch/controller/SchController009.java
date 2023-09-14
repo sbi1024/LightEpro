@@ -21,6 +21,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController009 {
+    // service 선언
     private final SchService009 schService009;
 
     // 나의 캘린더 목록 조회 API
@@ -31,23 +32,28 @@ public class SchController009 {
 
         // API 실행시간 체크를 위한 stopWatch 객체 생성
         StopWatch stopWatch = new StopWatch();
+        // stopWatch 시작
         stopWatch.start();
 
+        // 유효성 검사 메소드 호출
         validApiRequest(schRqDto009);
         log.info("sch009 validApiRequest Success !!! ");
 
+        // SchResponse 객체 데이터 생성 및 할당
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch009 API SUCCESS");
-        schResponse.setResponseData(schService009.findMyCalList(schRqDto009));
+        schResponse.setResponseData(schService009.findMyCalendarListInfo(schRqDto009));
 
+        // stopWatch 종료
         stopWatch.stop();
 
         log.info("sch009 API runTime : {}", stopWatch.getTotalTimeSeconds());
         log.info("sch009 RESPONSE DATA : " + schResponse);
         log.info("sch009 API END !!!");
 
+        // return
         return schResponse;
     }
 

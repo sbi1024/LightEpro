@@ -232,7 +232,7 @@ public class ApplicationInit implements InitializingBean {
         // method start log
         log.info("createCalendarTempData Method Start !!!");
 
-        for (int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= 5; i++) {
             // schRqDto005 객체 생성
             SchRqDto005 schRqDto005 = new SchRqDto005();
             SchRqDto005.User user = new SchRqDto005.User();
@@ -244,7 +244,7 @@ public class ApplicationInit implements InitializingBean {
             // user 객체 데이터 할당
             user.setUserCompSeq(1);
             user.setUserDeptSeq(1);
-            user.setUserSeq(1);
+            user.setUserSeq(i);
 
             if (i % 2 != 0) {
                 // calendar 객체 데이터 할당

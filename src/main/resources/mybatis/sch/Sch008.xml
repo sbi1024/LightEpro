@@ -16,7 +16,7 @@
         UPDATE T_SC_CAL TSC
         SET TSC.USE_YND     = 'N',
             TSC.MODIFY_DATE = NOW(),
-            TSC.MODIFY_SEQ  = #{emp.empSeq}
+            TSC.MODIFY_SEQ  = #{user.userSeq}
         WHERE 1 = 1
           AND TSC.CAL_SEQ = #{calendar.calSeq}
           AND TSC.USE_YND = 'Y'
@@ -27,7 +27,7 @@
         UPDATE T_SC_CAL_USER TSCU
         SET TSCU.USE_YND = 'N',
             TSCU.MODIFY_DATE = NOW(),
-            TSCU.MODIFY_SEQ  = #{emp.empSeq}
+            TSCU.MODIFY_SEQ  = #{user.userSeq}
         WHERE 1 = 1
           AND TSCU.CAL_SEQ = #{calendar.calSeq}
           AND TSCU.USE_YND = 'Y'
@@ -47,8 +47,8 @@
             ON TSS.SCHM_SEQ = ADMIN_USER.SCHM_SEQ
                 AND TSS.SCH_SEQ = ADMIN_USER.SCH_SEQ
         SET TSS.USE_YND     = 'N',
-            TSS.DELETE_DATE = NOW(),
-            TSS.DELETE_SEQ  = #{user.userSeq}
+            TSS.MODIFY_DATE = NOW(),
+            TSS.MODIFY_SEQ  = #{user.userSeq}
         WHERE 1 = 1
           AND TSS.USE_YND = 'Y'
     </update>
@@ -67,8 +67,8 @@
             ON TSSU.SCHM_SEQ = ADMIN_USER.SCHM_SEQ
                 AND TSSU.SCH_SEQ = ADMIN_USER.SCH_SEQ
         SET TSSU.USE_YND     = 'N',
-            TSSU.DELETE_DATE = NOW(),
-            TSSU.DELETE_SEQ  = #{user.userSeq}
+            TSSU.MODIFY_DATE = NOW(),
+            TSSU.MODIFY_SEQ  = #{user.userSeq}
         WHERE 1 = 1
           AND TSSU.USE_YND = 'Y'
     </update>
