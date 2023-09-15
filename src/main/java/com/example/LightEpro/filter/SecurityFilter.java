@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -33,6 +34,7 @@ public class SecurityFilter {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
+
                 .cors(corsCustomizer -> corsCustomizer.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
@@ -41,8 +43,29 @@ public class SecurityFilter {
                     config.setAllowedHeaders(Collections.singletonList("*"));
                     config.setMaxAge(3600L); //1시간
                     return config;
-                }))
-                .csrf().disable()
+                })) // cors 커스텀 설정
+
+                .csrf().disable() // csrf 미사용 설정
+
+//                .authorizeHttpRequests((authorizeRequests) -> {
+//                    authorizeRequests.requestMatchers("/user/**").authenticated();
+//                    authorizeRequests.requestMatchers("/manager/**").hasAnyRole("ADMIN", "MANAGER");
+//                    authorizeRequests.requestMatchers("/admin/**").hasRole("ADMIN");
+//                    authorizeRequests.anyRequest().permitAll();
+//                })
+
+                .formLogin((formLogin) -> formLogin // 로그인은 form 방식으로만 설정
+                        .loginPage("/login") // 로그인 페이지 설정
+                        .usernameParameter("empId") // 로그인시 아이디 키값 설정
+                        .passwordParameter("empPw") // 로그인시 패스워드 키값 설정
+                        .defaultSuccessUrl("/home") // 로그인 성공시 이동 페이지 설정
+                )
+
+                .logout((logout) -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessUrl("/login") // 로그아웃 성공시 이동 페이지 설정
+                        .invalidateHttpSession(true)) // 로그아웃시 세션 삭제
+
                 .build();
     }
 }

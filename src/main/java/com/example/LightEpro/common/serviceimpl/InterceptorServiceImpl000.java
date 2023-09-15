@@ -55,13 +55,13 @@ public class InterceptorServiceImpl000 implements InterceptorService000 {
     @Override
     public void createLog(InterceptorDto000 interceptorDto000) throws Exception {
         // method start log
-        log.info("createLogInfo Method Start !!!");
-        log.info("createLogInfo Method Request Data : " + interceptorDto000);
+        log.info("createLog Method Start !!!");
+        log.info("createLog Method Request Data : " + interceptorDto000);
 
         // 로그 등록 Mapper 호출
         interceptorMapper000.insertLog(interceptorDto000);
 
         // method end log
-        log.info("createLogInfo Method End !!!");
+        log.info("createLog Method End !!!");
     }
 }
