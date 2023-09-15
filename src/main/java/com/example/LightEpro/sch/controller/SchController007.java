@@ -85,13 +85,13 @@ public class SchController007 {
         // 캘린더 수정시에 , 캘린더의 소유자 cdeSeq 값이 기존 캘린더 소유자의의 cdeSeq 일치하지 않거나 소유자의 타입이 E가 아닌 경우 Exception 처리
         int selectOriginOwnerValue = schMapper007.selectOriginOwner(schRqDto007);
         if ((selectOriginOwnerValue != owner.getCdeSeq()) ||
-                (!SchConstValue.CDE_E_TYPE.equals(owner.getCdeType()))) {
+                (!SchConstValue.CDE_I_TYPE.equals(owner.getCdeType()))) {
             log.error("$$$ sch007 validApiRequest fail !!! (NotFoundOwnerException) $$$");
             log.error("$$$ sch007 validApiRequest fail !!! (schRqDto007 : " + schRqDto007 + ") $$$");
             throw new ExceptionCustom.NotFoundOwnerException();
         }
         // 개인 캘린더 타입에서의 캘린더 수정 진행시 , 관리자 데이터가 포함되는 경우 Exception 처리
-        if (calendar.getCalType().equals(SchConstValue.ECAL_TYPE) && (managers != null)) {
+        if (calendar.getCalType().equals(SchConstValue.CAL_I_TYPE) && (managers != null)) {
             log.error("$$$ sch007 validApiRequest fail !!! (NotBeIncludedManagerException) $$$");
             log.error("$$$ sch007 validApiRequest fail !!! (schRqDto007 : " + schRqDto007 + ") $$$");
             throw new ExceptionCustom.NotBeIncludedManagerException();

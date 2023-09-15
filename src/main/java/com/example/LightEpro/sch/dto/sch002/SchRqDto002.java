@@ -62,7 +62,7 @@ public class SchRqDto002 {
 
 
         @NotBlank
-        private String alldayYn; // 필수값
+        private String allDayYn; // 필수값
         @NotBlank
         private String schTitle; // 필수값
         private String schContent; // 필수값이 아님

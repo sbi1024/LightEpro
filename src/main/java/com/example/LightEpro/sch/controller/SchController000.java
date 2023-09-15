@@ -89,7 +89,7 @@ public class SchController000 {
             throw new ExceptionCustom.NotFoundCalException();
         }
         // 개인캘린더 등록시에 , 공개범위 데이터가 포함되는 경우 Exception 처리 (disclosureScopes 값이 존재해선 안됨)
-        if (selectCalendarTypeValue.equals(SchConstValue.ECAL_TYPE) && (disclosureScopes != null)) {
+        if (selectCalendarTypeValue.equals(SchConstValue.CAL_I_TYPE) && (disclosureScopes != null)) {
             log.error("$$$ sch000 validApiRequest fail !!! (NotBeIncludedDisclosureException) $$$");
             log.error("$$$ sch000 validApiRequest fail !!! (schRqDto000 : " + schRqDto000 + ") $$$");
             throw new ExceptionCustom.NotBeIncludedDisclosureException();

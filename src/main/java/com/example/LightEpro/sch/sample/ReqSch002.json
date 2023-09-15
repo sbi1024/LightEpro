@@ -5,31 +5,31 @@
     "userSeq": 1
   },
   "schedule": {
-    "schmSeq": "115",
-    "schSeq": "115",
+    "schmSeq": "1",
+    "schSeq": "1",
     "startDate": "202306251510",
     "endDate": "202306251510",
-    "alldayYn": "N",
+    "allDayYn": "N",
     "schTitle": "수정 테스트",
     "schContent": "수정 테스트"
   },
   "calendar": {
-    "calSeq": "8"
+    "calSeq": "1"
   },
   "participants": [
     {
-      "cdeSeq": "1000",
-      "cdeType": "E"
+      "cdeSeq": "1",
+      "cdeType": "I"
     },
     {
-      "cdeSeq": "2000",
-      "cdeType": "E"
+      "cdeSeq": "2",
+      "cdeType": "I"
     }
   ],
   "disclosureScopes": [
     {
-      "cdeSeq": "3000",
-      "cdeType": "E"
+      "cdeSeq": "3",
+      "cdeType": "I"
     }
   ]
 }

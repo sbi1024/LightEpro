@@ -11,10 +11,12 @@ public interface SchService002 {
 
     void assignObject(SchRqDto002 schRqDto002) throws Exception;
 
+    void confirmScheduleAllDay(SchRqDto002 schRqDto002) throws Exception;
+
     void confirmScheduleDate(SchRqDto002 schRqDto002) throws Exception;
 
-    void confirmScheduleUsers(SchRqDto002 schRqDto002) throws Exception;
 
+    void confirmScheduleUsers(SchRqDto002 schRqDto002) throws Exception;
 
 
     List<SchRqDto002.Participant> confirmRequestNonMatchParticipants(List<SchRqDto002.Participant> originParticipants,

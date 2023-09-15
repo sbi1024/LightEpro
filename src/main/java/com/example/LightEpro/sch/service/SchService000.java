@@ -12,6 +12,8 @@ public interface SchService000 {
 
     int findScheduleSequence() throws Exception;
 
+    void confirmScheduleAllDay(SchRqDto000 schRqDto000) throws Exception;
+
     void confirmScheduleDate(SchRqDto000 schRqDto000) throws Exception;
 
     int createSchedule(SchRqDto000 schRqDto000) throws Exception;

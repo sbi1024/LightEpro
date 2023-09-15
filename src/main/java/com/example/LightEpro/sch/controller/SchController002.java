@@ -90,7 +90,7 @@ public class SchController002 {
             throw new ExceptionCustom.NotFoundCalException();
         }
         // 개인캘린더에 포함된 일정 수정시에 , 공개범위 데이터가 포함되는 경우 Exception 처리
-        if (selectCalendarTypeValue.equals(SchConstValue.ECAL_TYPE) && (disclosureScopes != null)) {
+        if (selectCalendarTypeValue.equals(SchConstValue.CAL_I_TYPE) && (disclosureScopes != null)) {
             log.error("$$$ sch002 validApiRequest fail !!! (NotBeIncludedDisclosureException) $$$");
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
             throw new ExceptionCustom.NotBeIncludedDisclosureException();
@@ -106,7 +106,7 @@ public class SchController002 {
         int selectOriginRegistrantValue = schMapper002.selectOriginRegistrant(schRqDto002);
         boolean existRegistrant = participants.stream().anyMatch(participant ->
                 (participant.getCdeSeq() == selectOriginRegistrantValue)
-                        && participant.getCdeType().equals(SchConstValue.CDE_E_TYPE));
+                        && participant.getCdeType().equals(SchConstValue.CDE_I_TYPE));
         if (existRegistrant == false) {
             log.error("$$$ sch002 validApiRequest fail !!! (NotFoundRegistrantException) $$$");
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");

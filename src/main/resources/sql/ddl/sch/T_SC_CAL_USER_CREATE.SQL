@@ -2,9 +2,9 @@ CREATE TABLE `T_SC_CAL_USER`
 (
     `CAL_SEQ`            BIGINT      NOT NULL COMMENT '캘린더 시퀀스',
     `CDE_SEQ`            BIGINT      NOT NULL COMMENT '회사/부서/개인 시퀀스',
-    `CDE_TYPE`           VARCHAR(10) NOT NULL COMMENT '회사: C / 부서: D / 개인 타입: E',
+    `CDE_TYPE`           VARCHAR(10) NOT NULL COMMENT '회사: C / 부서: D / 개인 타입: I',
     `CAL_PARTITION_TYPE` BIGINT      NOT NULL COMMENT '일정 구성원의 타입 , EX) 소유자 : 100 / 관리자: 200',
-    `CAL_AUTORITY`       VARCHAR(10) NOT NULL COMMENT '캘린더 구성원의 권한 , EX) M : 마스터 권한 , W : 수정 권한 , S : 조회 권한 ',
+    `CAL_AUTHORITY`      VARCHAR(10) NOT NULL COMMENT '캘린더 구성원의 권한 , EX) M : 마스터 권한 , W : 수정 권한 ',
     `USE_YND`            VARCHAR(3)  NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
     `CREATE_DATE`        DATETIME    NOT NULL DEFAULT NOW() COMMENT '최초 등록 일자',
     `CREATE_SEQ`         BIGINT      NOT NULL COMMENT '등록자 시퀀스',

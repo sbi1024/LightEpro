@@ -21,7 +21,7 @@ public class SchRsDto001 {
         private String schContent;
         private String startDate;
         private String endDate;
-        private String alldayYn;
+        private String allDayYn;
         private String createDate;
         private String createSeq;
         private String modifyDate;
@@ -33,7 +33,7 @@ public class SchRsDto001 {
         private String cdeSeq;
         private String cdeType;
         private String schPartitionType;
-        private String schAutority;
+        private String schAuthority;
         private String calSeq;
     }
 
@@ -42,7 +42,7 @@ public class SchRsDto001 {
         private String cdeSeq;
         private String cdeType;
         private String schPartitionType;
-        private String schAutority;
+        private String schAuthority;
         private String calSeq;
     }
 }

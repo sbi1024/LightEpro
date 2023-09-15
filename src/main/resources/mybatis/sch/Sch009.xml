@@ -82,6 +82,6 @@
                         AND TSCU.CDE_TYPE = 'D'
                         AND TSCU.CDE_SEQ = CTE.DEPT_SEQ)
 
-            OR (TSCU.CDE_TYPE = 'E' AND TSCU.CDE_SEQ = #{user.userSeq}))
+            OR (TSCU.CDE_TYPE = 'I' AND TSCU.CDE_SEQ = #{user.userSeq}))
     </select>
 </mapper>

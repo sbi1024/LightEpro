@@ -66,6 +66,8 @@ public class SchServiceImpl000 implements SchService000 {
 
         // 일정 시퀀스 값 할당 메소드 호출
         confirmScheduleSequence(schRqDto000);
+        // 일정 종일 여부 값에 따른 , 일자값 할당 메소드
+        confirmScheduleAllDay(schRqDto000);
         // 일정 객체에 일정 일자 값 할당 메소드 (startDate , endDate)
         confirmScheduleDate(schRqDto000);
 
@@ -108,6 +110,35 @@ public class SchServiceImpl000 implements SchService000 {
 
         // return
         return selectScheduleSequenceValue;
+    }
+
+    // 일정 종일 여부 값에 따른 , 일자값 할당 메소드
+    @Override
+    public void confirmScheduleAllDay(SchRqDto000 schRqDto000) throws Exception {
+        // method start log
+        log.info("confirmScheduleAllDay Method Start !!!");
+        log.info("confirmScheduleAllDay Method Request Data : " + schRqDto000);
+
+        // 일정 객체 생성
+        SchRqDto000.Schedule schedule = schRqDto000.getSchedule();
+        // allDayYn 값 추출
+        String allDayYn = schedule.getAllDayYn();
+        // allDayYn = N 인 경우 → 메소드 종료
+        if (allDayYn.equalsIgnoreCase(SchConstValue.STATUS_N)) {
+            log.info("confirmScheduleAllDay Method allDayYn Data : N");
+            return;
+        }
+        // 시작일자와 종료일자 값 추출
+        LocalDateTime startDate = schedule.getStartDate();
+        LocalDateTime endDate = schedule.getEndDate();
+
+        // 시작 일자는 일자의 시분초 값을 00 : 00 : 00 값으로 할당
+        schedule.setStartDate(startDate.withHour(0).withMinute(0).withSecond(0));
+        // 종료 일자는 일자의 시분초 값을 23 : 59 : 59 값으로 할당
+        schedule.setEndDate(endDate.withHour(23).withMinute(59).withSecond(59));
+
+        // method end log
+        log.info("confirmScheduleAllDay Method End !!!");
     }
 
     // 일정 객체에 일정 일자 값 할당 메소드 (startDate , endDate)

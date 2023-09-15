@@ -55,7 +55,7 @@
                             ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
                                 AND TSS.SCH_SEQ = TSSU.SCH_SEQ
                                 AND TSS.CREATE_SEQ = TSSU.CDE_SEQ
-                                AND TSSU.CDE_TYPE = 'E'
+                                AND TSSU.CDE_TYPE = 'I'
                                 AND TSS.USE_YND = 'Y'
                                 AND TSSU.USE_YND = 'Y'
         WHERE 1 = 1
@@ -96,7 +96,7 @@
             TSS.END_DATE         = #{schedule.endDate},
             TSS.END_DATE_YEAR    = #{schedule.endDateYear},
             TSS.END_DATE_MONTH   = #{schedule.endDateMonth},
-            TSS.ALL_DAY_YN       = #{schedule.alldayYn},
+            TSS.ALL_DAY_YN       = #{schedule.allDayYn},
             TSS.SCH_TITLE        = #{schedule.schTitle},
             TSS.SCH_CONTENT      = #{schedule.schContent},
             TSS.MODIFY_DATE      = NOW(),
@@ -114,7 +114,7 @@
                                     CDE_SEQ,
                                     CDE_TYPE,
                                     SCH_PARTITION_TYPE,
-                                    SCH_AUTORITY,
+                                    SCH_AUTHORITY,
                                     CAL_SEQ,
                                     USE_YND,
                                     CREATE_DATE,
@@ -179,7 +179,7 @@
                                    CDE_SEQ,
                                    CDE_TYPE,
                                    SCH_PARTITION_TYPE,
-                                   SCH_AUTORITY,
+                                   SCH_AUTHORITY,
                                    CAL_SEQ,
                                    USE_YND,
                                    CREATE_DATE,
@@ -191,7 +191,7 @@
                     #{requestNonMatchDisclosureScope.cdeSeq},
                     #{requestNonMatchDisclosureScope.cdeType},
                     '20',
-                    'S',
+                    'R',
                     '0',
                     'Y',
                     NOW(),

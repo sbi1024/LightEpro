@@ -32,7 +32,7 @@ public class SchRsDto006 {
         private String cdeSeq;
         private String cdeType;
         private String calPartitionType;
-        private String calAutority;
+        private String calAuthority;
         private String useYnd;
         private String createDate;
         private String createSeq;
@@ -46,7 +46,7 @@ public class SchRsDto006 {
         private String cdeSeq;
         private String cdeType;
         private String calPartitionType;
-        private String calAutority;
+        private String calAuthority;
         private String useYnd;
         private String createDate;
         private String createSeq;

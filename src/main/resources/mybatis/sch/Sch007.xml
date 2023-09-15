@@ -42,9 +42,9 @@
         FROM T_SC_CAL_USER TSCU
         WHERE 1 = 1
           AND TSCU.CAL_SEQ = #{calendar.calSeq}
-          AND TSCU.CDE_TYPE = 'E'
+          AND TSCU.CDE_TYPE = 'I'
           AND TSCU.CAL_PARTITION_TYPE = 100
-          AND TSCU.CAL_AUTORITY = 'M'
+          AND TSCU.CAL_AUTHORITY = 'M'
           AND TSCU.USE_YND = 'Y'
     </select>
 
@@ -57,7 +57,7 @@
           AND TSCU.CAL_SEQ = #{calendar.calSeq}
           AND TSCU.USE_YND = 'Y'
           AND TSCU.CAL_PARTITION_TYPE = 200
-          AND TSCU.CAL_AUTORITY = 'W'
+          AND TSCU.CAL_AUTHORITY = 'W'
     </select>
 
     <update id="updateCalendar" parameterType="com.example.LightEpro.sch.dto.sch007.SchRqDto007">
@@ -89,7 +89,7 @@
         WHERE 1 = 1
           AND TSCU.CAL_SEQ = #{calendar.calSeq}
           AND TSCU.CAL_PARTITION_TYPE = 100
-          AND TSCU.CAL_AUTORITY = 'M'
+          AND TSCU.CAL_AUTHORITY = 'M'
           AND TSCU.USE_YND = 'Y'
     </update>
 
@@ -99,7 +99,7 @@
                                    CDE_SEQ,
                                    CDE_TYPE,
                                    CAL_PARTITION_TYPE,
-                                   CAL_AUTORITY,
+                                   CAL_AUTHORITY,
                                    USE_YND,
                                    CREATE_DATE,
                                    CREATE_SEQ)

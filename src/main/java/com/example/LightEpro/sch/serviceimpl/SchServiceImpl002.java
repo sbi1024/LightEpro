@@ -1,5 +1,6 @@
 package com.example.LightEpro.sch.serviceimpl;
 
+import com.example.LightEpro.sch.constant.SchConstValue;
 import com.example.LightEpro.sch.dto.sch000.SchRqDto000;
 import com.example.LightEpro.sch.dto.sch002.SchRqDto002;
 import com.example.LightEpro.sch.dto.sch002.SchRsDto002;
@@ -82,12 +83,43 @@ public class SchServiceImpl002 implements SchService002 {
 
         // 일정 객체에 일정 일자 값 할당 메소드 (startDate , endDate)
         confirmScheduleDate(schRqDto002);
+        // 일정 종일 여부 값에 따른 , 일자값 할당 메소드
+        confirmScheduleAllDay(schRqDto002);
         // 일정 참여자 및 공개범위 일치 비일치 추출
         confirmScheduleUsers(schRqDto002);
 
         // method end log
         log.info("assignObject Method Result Data : " + schRqDto002);
         log.info("assignObject Method End !!!");
+    }
+
+    // 일정 종일 여부 값에 따른 , 일자값 할당 메소드
+    @Override
+    public void confirmScheduleAllDay(SchRqDto002 schRqDto002) throws Exception {
+        // method start log
+        log.info("confirmScheduleAllDay Method Start !!!");
+        log.info("confirmScheduleAllDay Method Request Data : " + schRqDto002);
+
+        // 일정 객체 생성
+        SchRqDto002.Schedule schedule = schRqDto002.getSchedule();
+        // allDayYn 값 추출
+        String allDayYn = schedule.getAllDayYn();
+        // allDayYn = N 인 경우 → 메소드 종료
+        if (allDayYn.equalsIgnoreCase(SchConstValue.STATUS_N)) {
+            log.info("confirmScheduleAllDay Method allDayYn Data : N");
+            return;
+        }
+        // 시작일자와 종료일자 값 추출
+        LocalDateTime startDate = schedule.getStartDate();
+        LocalDateTime endDate = schedule.getEndDate();
+
+        // 시작 일자는 일자의 시분초 값을 00 : 00 : 00 값으로 할당
+        schedule.setStartDate(startDate.withHour(0).withMinute(0).withSecond(0));
+        // 종료 일자는 일자의 시분초 값을 23 : 59 : 59 값으로 할당
+        schedule.setEndDate(endDate.withHour(23).withMinute(59).withSecond(59));
+
+        // method end log
+        log.info("confirmScheduleAllDay Method End !!!");
     }
 
     // 일정 객체에 일정 일자 값 할당 메소드 (startDate , endDate)

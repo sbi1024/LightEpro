@@ -6,18 +6,18 @@
   },
   "calendar": {
     "calTitle": "서보인 공유 캘린더",
-    "calType": "M",
+    "calType": "S",
     "calContent": "서보인 공유 캘린더 최초 등록",
     "calColor": null
   },
   "owner": {
-    "cdeSeq": 1000,
-    "cdeType": "E"
+    "cdeSeq": 1,
+    "cdeType": "I"
   },
   "managers": [
     {
-      "cdeSeq": 2000,
-      "cdeType": "E"
+      "cdeSeq": 2,
+      "cdeType": "I"
     }
   ]
 }

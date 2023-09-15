@@ -67,7 +67,7 @@
                         WHERE 1 = 1
                           AND TSSU.CAL_SEQ = #{calendar.calSeq}
                           AND TSSU.SCH_PARTITION_TYPE = 10
-                          AND TSSU.SCH_AUTORITY = 'M'
+                          AND TSSU.SCH_AUTHORITY = 'M'
                           AND TSSU.USE_YND = 'Y') AS ADMIN_USER
             ON TSS.SCHM_SEQ = ADMIN_USER.SCHM_SEQ
                 AND TSS.SCH_SEQ = ADMIN_USER.SCH_SEQ
@@ -87,7 +87,7 @@
                         WHERE 1 = 1
                           AND TSSU.CAL_SEQ = #{calendar.calSeq}
                           AND TSSU.SCH_PARTITION_TYPE = 10
-                          AND TSSU.SCH_AUTORITY = 'M'
+                          AND TSSU.SCH_AUTHORITY = 'M'
                           AND TSSU.USE_YND = 'Y') AS ADMIN_USER
             ON TSSU.SCHM_SEQ = ADMIN_USER.SCHM_SEQ
                 AND TSSU.SCH_SEQ = ADMIN_USER.SCH_SEQ

@@ -9,18 +9,18 @@ public class SchConstValue {
      */
     public static final String EMPTY_VALUE = "";
     /**
-     * 캘린더 타입 개인캘린더 = E
+     * 캘린더 타입 개인 캘린더 = I
      */
-    public static final String ECAL_TYPE = "E";
+    public static final String CAL_I_TYPE = "I";
     /**
-     * 캘린더 타입 개인캘린더 = M
+     * 캘린더 타입 공유 캘린더 = S
      */
-    public static final String MCAL_TYPE = "M";
+    public static final String CAL_S_TYPE = "S";
 
     /**
-     * 일정 구성원 타입  (개인) = E
+     * 일정 구성원 타입  (개인) = I
      */
-    public static final String CDE_E_TYPE = "E";
+    public static final String CDE_I_TYPE = "I";
     /**
      * 일정 구성원 타입  (부서) = D
      */
@@ -56,9 +56,21 @@ public class SchConstValue {
     /**
      * 수정 권한 = W
      */
-    public static final String MODIFY_AUTORITY = "W";
+    public static final String WRITE_AUTORITY = "W";
     /**
-     * 조회 권한 = S
+     * 조회 권한 = R
      */
-    public static final String READ_AUTORITY = "S";
+    public static final String READ_AUTORITY = "R";
+    /**
+     * 데이터 상태값 = Y (사용)
+     */
+    public static final String STATUS_Y = "Y";
+    /**
+     * 데이터 상태값 = N (미사용)
+     */
+    public static final String STATUS_N = "N";
+    /**
+     * 데이터 상태값 = D (영구 삭제 대기)
+     */
+    public static final String STATUS_D = "D";
 }

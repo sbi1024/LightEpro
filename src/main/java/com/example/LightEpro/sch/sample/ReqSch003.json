@@ -5,13 +5,7 @@
     "userSeq": 1
   },
   "schedule": {
-    "schmSeq": "-1",
-    "schSeq": "77",
-    "startDate": "202306251310",
-    "endDate": "202306251510",
-    "alldayYn": "N",
-    "schTitle": "saaaaaa2",
-    "schContent": "ssssss",
-    "useYnd": ""
+    "schmSeq": "1",
+    "schSeq": "1"
   }
 }

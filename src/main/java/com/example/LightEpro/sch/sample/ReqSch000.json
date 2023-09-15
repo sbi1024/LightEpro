@@ -5,11 +5,9 @@
     "userSeq": 1
   },
   "schedule": {
-    "schmSeq": "1",
-    "schSeq": "1",
     "startDate": "202308011530",
     "endDate": "202308021630",
-    "alldayYn": "Y",
+    "allDayYn": "Y",
     "schTitle": "단일 일정 반정규화 인덱스 테스트"
   },
   "calendar": {
@@ -17,18 +15,18 @@
   },
   "participants": [
     {
-      "cdeSeq": "1000",
-      "cdeType": "E"
+      "cdeSeq": "1",
+      "cdeType": "I"
     },
     {
-      "cdeSeq": "2000",
-      "cdeType": "E"
+      "cdeSeq": "2",
+      "cdeType": "I"
     }
   ],
   "disclosureScopes": [
     {
-      "cdeSeq": "3000",
-      "cdeType": "E"
+      "cdeSeq": "3",
+      "cdeType": "I"
     }
   ]
 }

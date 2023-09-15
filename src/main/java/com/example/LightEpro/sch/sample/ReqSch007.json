@@ -5,32 +5,28 @@
     "userSeq": 1
   },
   "calendar": {
-    "calSeq": "13",
+    "calSeq": "1",
     "calTitle": "공유 캘린더 수정 테스트",
-    "calType": "M",
+    "calType": "S",
     "calContent": "공유 캘린더 수정 테스트",
     "calColor": null
   },
   "owner": {
-    "cdeSeq": 1000,
-    "cdeType": "E"
+    "cdeSeq": 1,
+    "cdeType": "I"
   },
   "managers": [
     {
-      "cdeSeq": 2000,
-      "cdeType": "E"
+      "cdeSeq": 2,
+      "cdeType": "I"
     },
     {
-      "cdeSeq": 3000,
-      "cdeType": "E"
+      "cdeSeq": 3,
+      "cdeType": "I"
     },
     {
-      "cdeSeq": 4000,
-      "cdeType": "E"
-    },
-    {
-      "cdeSeq": 5000,
-      "cdeType": "E"
+      "cdeSeq": 4,
+      "cdeType": "I"
     }
   ]
 }

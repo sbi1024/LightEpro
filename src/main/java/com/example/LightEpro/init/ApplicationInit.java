@@ -254,11 +254,11 @@ public class ApplicationInit implements InitializingBean {
             if (i % 2 != 0) {
                 // calendar 객체 데이터 할당
                 calendar.setCalTitle("테스트 init 공유 캘린더" + i);
-                calendar.setCalType("M");
+                calendar.setCalType("S");
 
                 // owner 객체 데이터 할당
                 owner.setCdeSeq(i);
-                owner.setCdeType("E");
+                owner.setCdeType("I");
 
                 // manager 객체 데이터 할당
                 manager.setCdeSeq(i + 1);
@@ -271,11 +271,11 @@ public class ApplicationInit implements InitializingBean {
             } else {
                 // calendar 객체 데이터 할당
                 calendar.setCalTitle("테스트 init 개인 캘린더" + i);
-                calendar.setCalType("E");
+                calendar.setCalType("I");
 
                 // owner 객체 데이터 할당
                 owner.setCdeSeq(i);
-                owner.setCdeType("E");
+                owner.setCdeType("I");
             }
 
             // schRqDto005 객체 데이터 할당
@@ -316,7 +316,7 @@ public class ApplicationInit implements InitializingBean {
             // schedule 객체 데이터 할당
             schedule.setStartDate(LocalDateTime.now());
             schedule.setEndDate(LocalDateTime.now());
-            schedule.setAlldayYn("N");
+            schedule.setAllDayYn("Y");
             schedule.setSchTitle("테스트 init 제목" + i);
 
             // calendar 객체 데이터 할당
@@ -325,7 +325,7 @@ public class ApplicationInit implements InitializingBean {
             if (i % 2 != 0) {
                 // participant 객체 데이터 할당
                 participant.setCdeSeq(i);
-                participant.setCdeType("E");
+                participant.setCdeType("I");
                 participants.add(participant);
 
                 // disclosureScope 객체 데이터 할당
@@ -339,7 +339,7 @@ public class ApplicationInit implements InitializingBean {
             } else {
                 // participant 객체 데이터 할당
                 participant.setCdeSeq(i);
-                participant.setCdeType("E");
+                participant.setCdeType("I");
                 participants.add(participant);
             }
 
