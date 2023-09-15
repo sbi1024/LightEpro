@@ -288,13 +288,13 @@ public class SchServiceImpl007 implements SchService007 {
         }
 
         // 캘린더 관리자 삭제 Mapper 호출
-        int updateManagersCnt = schMapper007.updateNonMatchManagers(schRqDto007);
+        int deleteNonMatchManagersCnt = schMapper007.deleteNonMatchManagers(schRqDto007);
 
         // method end log
         log.info("removeCalManagers Method Start !!!");
-        log.info("removeCalManagers Method Request Data : " + updateManagersCnt);
+        log.info("removeCalManagers Method Request Data : " + deleteNonMatchManagersCnt);
 
         // return
-        return updateManagersCnt;
+        return deleteNonMatchManagersCnt;
     }
 }

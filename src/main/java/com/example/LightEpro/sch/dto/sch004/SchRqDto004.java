@@ -39,6 +39,6 @@ public class SchRqDto004 {
     @Data
     public static class Calendar {
         @NotNull
-        private List<Integer> calSeqs; // 필수값
+        private List<Integer> calendarSequences; // 필수값
     }
 }

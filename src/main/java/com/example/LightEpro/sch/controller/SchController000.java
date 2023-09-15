@@ -67,15 +67,18 @@ public class SchController000 {
         SchRqDto000.Schedule schedule = schRqDto000.getSchedule();
         List<SchRqDto000.DisclosureScope> disclosureScopes = schRqDto000.getDisclosureScopes();
 
-        // 요청값으로 받은 시작일자 값과 , 종료일자 값을 추출한다.
-        LocalDateTime startDate = schedule.getStartDate();
-        LocalDateTime endDate = schedule.getEndDate();
-
-        // 시작일자 값이 , 종료일자보다 큰 경우 Exception 처리
-        if (startDate.isAfter(endDate)) {
-            log.error("$$$ sch000 validApiRequest fail !!! (NotValidSchStartEndDateException) $$$");
+        // 요청값으로 받은 user 객체의 데이터가 조직도 시스템에서 존재하지 않는 인원인 경우 Exception 처리
+        int selectUserCount = schMapper000.selectUserCount(schRqDto000);
+        if (selectUserCount == 0) {
+            log.error("$$$ sch000 validApiRequest fail !!! (NotFoundUserException) $$$");
             log.error("$$$ sch000 validApiRequest fail !!! (schRqDto000 : " + schRqDto000 + ") $$$");
-            throw new ExceptionCustom.NotValidSchStartEndDateException();
+            throw new ExceptionCustom.NotFoundUserException();
+        }
+        // 시작일자 값이 , 종료일자보다 큰 경우 Exception 처리
+        if (schedule.getStartDate().isAfter(schedule.getEndDate())) {
+            log.error("$$$ sch000 validApiRequest fail !!! (NotBeGreaterThanEndDateException) $$$");
+            log.error("$$$ sch000 validApiRequest fail !!! (schRqDto000 : " + schRqDto000 + ") $$$");
+            throw new ExceptionCustom.NotBeGreaterThanEndDateException();
         }
         // 요청값으로 받은 캘린더시퀀스 값을통해 , 캘린더 타입을 조회한다.
         String selectCalendarTypeValue = schMapper000.selectCalendarType(schRqDto000);
@@ -87,9 +90,9 @@ public class SchController000 {
         }
         // 개인캘린더 등록시에 , 공개범위 데이터가 포함되는 경우 Exception 처리 (disclosureScopes 값이 존재해선 안됨)
         if (selectCalendarTypeValue.equals(SchConstValue.ECAL_TYPE) && (disclosureScopes != null)) {
-            log.error("$$$ sch000 validApiRequest fail !!! (IncorrectIncludException) $$$");
+            log.error("$$$ sch000 validApiRequest fail !!! (NotBeIncludedDisclosureException) $$$");
             log.error("$$$ sch000 validApiRequest fail !!! (schRqDto000 : " + schRqDto000 + ") $$$");
-            throw new ExceptionCustom.IncorrectIncludException();
+            throw new ExceptionCustom.NotBeIncludedDisclosureException();
         }
     }
 }

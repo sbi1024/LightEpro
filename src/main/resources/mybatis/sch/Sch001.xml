@@ -2,6 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.LightEpro.sch.mapper.SchMapper001">
+    <select id="selectUserCount" resultType="int">
+        /* selectUserCount */
+        SELECT COUNT(1)
+        FROM T_EM_COMP TEC
+                 INNER JOIN T_EM_DEPT TED
+                            ON TEC.COMP_SEQ = TED.COMP_SEQ
+                                AND TEC.USE_YND = 'Y'
+                                AND TED.USE_YND = 'Y'
+                 INNER JOIN T_EM_EMP TEE
+                            ON TED.DEPT_SEQ = TEE.DEPT_SEQ
+                                AND TEE.EMP_SEQ = TEE.EMP_SEQ
+                                AND TEE.USE_YND = 'Y'
+                 INNER JOIN T_EM_EMP_MAPPING TEEM
+                            ON TEC.COMP_SEQ = TEEM.COMP_SEQ
+                                AND TED.DEPT_SEQ = TEEM.DEPT_SEQ
+                                AND TEE.EMP_SEQ = TEEM.EMP_SEQ
+                                AND TEEM.USE_YND = 'Y'
+                 INNER JOIN T_EM_EMP_ACCOUNT TEEA
+                            ON TEEM.EMP_SEQ = TEEA.EMP_SEQ
+                                AND TEEA.USE_YND = 'Y'
+        WHERE 1 = 1
+          AND TEC.COMP_SEQ = #{user.userCompSeq}
+          AND TED.DEPT_SEQ = #{user.userDeptSeq}
+          AND TEE.EMP_SEQ = #{user.userSeq}
+    </select>
 
     <select id="selectScheduleCount" parameterType="com.example.LightEpro.sch.dto.sch001.SchRqDto001" resultType="int">
         /* selectScheduleCount */
@@ -45,10 +70,11 @@
             parameterType="com.example.LightEpro.sch.dto.sch001.SchRqDto001"
             resultType="com.example.LightEpro.sch.dto.sch001.SchRsDto001$Participant">
         /* selectParticipants */
-        SELECT IFNULL(tssu.CDE_SEQ, '')            AS cdeSeq,
-               IFNULL(tssu.CDE_TYPE, '')           AS cdeType,
-               IFNULL(tssu.SCH_PARTITION_TYPE, '') AS schPartitionType,
-               IFNULL(tssu.SCH_AUTORITY, '')       AS schAutority
+        SELECT IFNULL(TSSU.CDE_SEQ, '')            AS cdeSeq,
+               IFNULL(TSSU.CDE_TYPE, '')           AS cdeType,
+               IFNULL(TSSU.SCH_PARTITION_TYPE, '') AS schPartitionType,
+               IFNULL(TSSU.SCH_AUTORITY, '')       AS schAutority,
+               IFNULL(TSSU.CAL_SEQ, '')            AS calSeq
         FROM T_SC_SCH_USER TSSU
         WHERE 1 = 1
           AND TSSU.SCHM_SEQ = #{schedule.schmSeq}
@@ -64,7 +90,8 @@
         SELECT IFNULL(TSSU.CDE_SEQ, '')            AS cdeSeq,
                IFNULL(TSSU.CDE_TYPE, '')           AS cdeType,
                IFNULL(TSSU.SCH_PARTITION_TYPE, '') AS schPartitionType,
-               IFNULL(TSSU.SCH_AUTORITY, '')       AS schAutority
+               IFNULL(TSSU.SCH_AUTORITY, '')       AS schAutority,
+               IFNULL(TSSU.CAL_SEQ, '')            AS calSeq
         FROM T_SC_SCH_USER TSSU
         WHERE 1 = 1
           AND TSSU.SCHM_SEQ = #{schedule.schmSeq}

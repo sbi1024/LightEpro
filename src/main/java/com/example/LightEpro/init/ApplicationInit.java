@@ -187,6 +187,7 @@ public class ApplicationInit implements InitializingBean {
             EmpRqDto015 empRqDto015 = new EmpRqDto015();
             EmpRqDto015.User user = new EmpRqDto015.User();
             EmpRqDto015.Emp emp = new EmpRqDto015.Emp();
+            EmpRqDto015.Dept dept = new EmpRqDto015.Dept();
             EmpRqDto015.EmpAccount empAccount = new EmpRqDto015.EmpAccount();
             EmpRqDto015.EmpMapping empMapping = new EmpRqDto015.EmpMapping();
 
@@ -199,6 +200,9 @@ public class ApplicationInit implements InitializingBean {
             emp.setEmpName("테스트 init 사원 이름" + i);
             emp.setBirthDate(LocalDate.now());
             emp.setHireDate(LocalDate.now());
+
+            // dept 객체 데이터 할당
+            dept.setDeptSeq(1);
 
             // empAccount 객체 데이터 할당
             empAccount.setUserId("테스트 init 아이디" + i);
@@ -216,6 +220,7 @@ public class ApplicationInit implements InitializingBean {
             // empRqDto015 객체 데이터 할당
             empRqDto015.setUser(user);
             empRqDto015.setEmp(emp);
+            empRqDto015.setDept(dept);
             empRqDto015.setEmpMapping(empMapping);
             empRqDto015.setEmpAccount(empAccount);
 

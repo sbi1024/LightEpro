@@ -8,6 +8,8 @@ import java.util.List;
 @Mapper
 public interface SchMapper007 {
 
+    int selectUserCount(SchRqDto007 schRqDto007) throws Exception;
+
     String selectCalendarType(SchRqDto007 schRqDto007) throws Exception;
 
     int selectOriginOwner(SchRqDto007 schRqDto007) throws Exception;
@@ -22,7 +24,7 @@ public interface SchMapper007 {
 
     int updateOriginMatchManagers(SchRqDto007 schRqDto007) throws Exception;
 
-    int updateNonMatchManagers(SchRqDto007 schRqDto007) throws Exception;
+    int deleteNonMatchManagers(SchRqDto007 schRqDto007) throws Exception;
 
 
 }

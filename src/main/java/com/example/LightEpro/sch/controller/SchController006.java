@@ -60,9 +60,16 @@ public class SchController006 {
 
     // sch006 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
     public void validApiRequest(SchRqDto006 schRqDto006) throws Exception {
+        // 요청값으로 받은 user 객체의 데이터가 조직도 시스템에서 존재하지 않는 인원인 경우 Exception 처리
+        int selectUserCount = schMapper006.selectUserCount(schRqDto006);
+        if (selectUserCount == 0) {
+            log.error("$$$ sch006 validApiRequest fail !!! (NotFoundUserException) $$$");
+            log.error("$$$ sch006 validApiRequest fail !!! (schRqDto006 : " + schRqDto006 + ") $$$");
+            throw new ExceptionCustom.NotFoundUserException();
+        }
         // 캘린더 조회 진행 전 , 요청값으로 받은 캘린더 시퀀스값을 통해 캘린더가 존재하는지 판단 후 , 존재하지 않는다면 Exception 처리
         int selectCalendarCountValue = schMapper006.selectCalendarCount(schRqDto006);
-        if(selectCalendarCountValue == 0){
+        if (selectCalendarCountValue == 0) {
             log.error("$$$ sch006 validApiRequest fail !!! (NotFoundCalException) $$$");
             log.error("$$$ sch006 validApiRequest fail !!! (schRqDto006 : " + schRqDto006 + ") $$$");
             throw new ExceptionCustom.NotFoundCalException();

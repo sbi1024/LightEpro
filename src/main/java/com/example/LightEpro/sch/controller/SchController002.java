@@ -68,15 +68,18 @@ public class SchController002 {
         List<SchRqDto002.Participant> participants = schRqDto002.getParticipants();
         List<SchRqDto002.DisclosureScope> disclosureScopes = schRqDto002.getDisclosureScopes();
 
-        // 요청값으로 받은 시작일자 값과 , 종료일자 값을 추출한다.
-        LocalDateTime startDate = schedule.getStartDate();
-        LocalDateTime endDate = schedule.getEndDate();
-
-        // 시작일자 값이 , 종료일자보다 큰 경우 Exception 처리
-        if (startDate.isAfter(endDate)) {
-            log.error("$$$ sch002 validApiRequest fail !!! (NotValidSchStartEndDateException) $$$");
+        // 요청값으로 받은 user 객체의 데이터가 조직도 시스템에서 존재하지 않는 인원인 경우 Exception 처리
+        int selectUserCount = schMapper002.selectUserCount(schRqDto002);
+        if (selectUserCount == 0) {
+            log.error("$$$ sch002 validApiRequest fail !!! (NotFoundUserException) $$$");
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
-            throw new ExceptionCustom.NotValidSchStartEndDateException();
+            throw new ExceptionCustom.NotFoundUserException();
+        }
+        // 시작일자 값이 , 종료일자보다 큰 경우 Exception 처리
+        if (schedule.getStartDate().isAfter(schedule.getEndDate())) {
+            log.error("$$$ sch002 validApiRequest fail !!! (NotBeGreaterThanEndDateException) $$$");
+            log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
+            throw new ExceptionCustom.NotBeGreaterThanEndDateException();
         }
         // 요청값으로 받은 캘린더 시퀀스 값을통해 , 캘린더 타입을 조회한다.
         String selectCalendarTypeValue = schMapper002.selectCalendarType(schRqDto002);
@@ -88,9 +91,9 @@ public class SchController002 {
         }
         // 개인캘린더에 포함된 일정 수정시에 , 공개범위 데이터가 포함되는 경우 Exception 처리
         if (selectCalendarTypeValue.equals(SchConstValue.ECAL_TYPE) && (disclosureScopes != null)) {
-            log.error("$$$ sch002 validApiRequest fail !!! (IncorrectIncludException) $$$");
+            log.error("$$$ sch002 validApiRequest fail !!! (NotBeIncludedDisclosureException) $$$");
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
-            throw new ExceptionCustom.IncorrectIncludException();
+            throw new ExceptionCustom.NotBeIncludedDisclosureException();
         }
         // 일정 수정 진행 전 , 요청값으로 받은 일정 시퀀스값을 통해 일정이 존재하는지 판단 후 , 존재하지 않는다면 Exception 처리
         int selectScheduleCountValue = schMapper002.selectScheduleCount(schRqDto002);

@@ -2,6 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.LightEpro.sch.mapper.SchMapper002">
+    <select id="selectUserCount" resultType="int">
+        /* selectUserCount */
+        SELECT COUNT(1)
+        FROM T_EM_COMP TEC
+                 INNER JOIN T_EM_DEPT TED
+                            ON TEC.COMP_SEQ = TED.COMP_SEQ
+                                AND TEC.USE_YND = 'Y'
+                                AND TED.USE_YND = 'Y'
+                 INNER JOIN T_EM_EMP TEE
+                            ON TED.DEPT_SEQ = TEE.DEPT_SEQ
+                                AND TEE.EMP_SEQ = TEE.EMP_SEQ
+                                AND TEE.USE_YND = 'Y'
+                 INNER JOIN T_EM_EMP_MAPPING TEEM
+                            ON TEC.COMP_SEQ = TEEM.COMP_SEQ
+                                AND TED.DEPT_SEQ = TEEM.DEPT_SEQ
+                                AND TEE.EMP_SEQ = TEEM.EMP_SEQ
+                                AND TEEM.USE_YND = 'Y'
+                 INNER JOIN T_EM_EMP_ACCOUNT TEEA
+                            ON TEEM.EMP_SEQ = TEEA.EMP_SEQ
+                                AND TEEA.USE_YND = 'Y'
+        WHERE 1 = 1
+          AND TEC.COMP_SEQ = #{user.userCompSeq}
+          AND TED.DEPT_SEQ = #{user.userDeptSeq}
+          AND TEE.EMP_SEQ = #{user.userSeq}
+    </select>
+
     <select id="selectCalendarType" resultType="string">
         /* selectCalendarType */
         SELECT IFNULL(MAX(TSC.CAL_TYPE), '') AS calType
@@ -107,12 +133,6 @@
                     #{user.userSeq}
                 )
             </foreach>
-        ON DUPLICATE KEY UPDATE
-        USE_YND = 'Y',
-        CREATE_DATE = NOW(),
-        CREATE_SEQ = #{user.userSeq},
-        MODIFY_DATE = NULL,
-        MODIFY_SEQ = NULL
     </insert>
 
     <update id="updateOriginMatchParticipants">
@@ -133,12 +153,10 @@
              )
     </update>
 
-    <update id="updateOriginNonMatchParticipants">
-        /* updateOriginNonMatchParticipants */
-        UPDATE T_SC_SCH_USER TSSU
-        SET TSSU.USE_YND = 'N' ,
-            TSSU.MODIFY_DATE = NOW(),
-            TSSU.MODIFY_SEQ = #{user.userSeq}
+    <delete id="deleteOriginNonMatchParticipants">
+        /* deleteOriginNonMatchParticipants */
+        DELETE TSSU
+        FROM T_SC_SCH_USER TSSU
         WHERE 1 = 1
          AND (
                  <foreach collection="originNonMatchParticipants" item="originNonMatchParticipant" open="(" separator="OR" close=")">
@@ -150,7 +168,7 @@
                        AND TSSU.USE_YND = 'Y'
                  </foreach>
              )
-    </update>
+    </delete>
 
 
 
@@ -180,12 +198,6 @@
                     #{user.userSeq}
                 )
               </foreach>
-        ON DUPLICATE KEY UPDATE
-        USE_YND = 'Y',
-        CREATE_DATE = NOW(),
-        CREATE_SEQ = #{user.userSeq},
-        MODIFY_DATE = NULL,
-        MODIFY_SEQ = NULL
     </insert>
 
     <update id="updateOriginMatchDisclosureScopes">
@@ -206,12 +218,10 @@
              )
     </update>
 
-    <update id="updateOriginNonMatchDisclosureScopes">
-        /* updateOriginNonMatchDisclosureScopes */
-        UPDATE T_SC_SCH_USER TSSU
-        SET TSSU.USE_YND = 'N' ,
-            TSSU.MODIFY_DATE = NOW(),
-            TSSU.MODIFY_SEQ = #{user.userSeq}
+    <delete id="deleteOriginNonMatchDisclosureScopes">
+        /* deleteOriginNonMatchDisclosureScopes */
+        DELETE TSSU
+        FROM T_SC_SCH_USER TSSU
         WHERE 1 = 1
          AND (
                  <foreach collection="originNonMatchDisclosureScopes" item="originNonMatchDisclosureScope" open="(" separator="OR" close=")">
@@ -223,6 +233,6 @@
                        AND TSSU.USE_YND = 'Y'
                  </foreach>
              )
-    </update>
+    </delete>
 
 </mapper>

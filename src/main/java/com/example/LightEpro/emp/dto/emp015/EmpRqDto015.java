@@ -1,5 +1,6 @@
 package com.example.LightEpro.emp.dto.emp015;
 
+import com.example.LightEpro.emp.dto.emp000.EmpRqDto000;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -16,6 +17,8 @@ public class EmpRqDto015 {
     private @Valid User user;
     @NotNull
     private @Valid Emp emp;
+    @NotNull
+    private @Valid Dept dept;
     @NotNull
     private @Valid EmpAccount empAccount;
     @NotNull
@@ -42,6 +45,12 @@ public class EmpRqDto015 {
         private LocalDate hireDate;
         private String phoneNumber;
         private String sex;
+    }
+
+    @Data
+    public static class Dept {
+        @Positive
+        private int deptSeq;
     }
 
     @Data

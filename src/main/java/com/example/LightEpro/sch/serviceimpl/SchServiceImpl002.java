@@ -411,14 +411,14 @@ public class SchServiceImpl002 implements SchService002 {
         }
 
         // 일정 참여자 삭제 Mapper 호출
-        int updateOriginNonMatchParticipantsCnt = schMapper002.updateOriginNonMatchParticipants(schRqDto002);
+        int deleteOriginNonMatchParticipantsCnt = schMapper002.deleteOriginNonMatchParticipants(schRqDto002);
 
         // method end log
-        log.info("removeParticipants Method Return Data : " + updateOriginNonMatchParticipantsCnt);
+        log.info("removeParticipants Method Return Data : " + deleteOriginNonMatchParticipantsCnt);
         log.info("removeParticipants Method End !!!");
 
         // return
-        return updateOriginNonMatchParticipantsCnt;
+        return deleteOriginNonMatchParticipantsCnt;
     }
 
     // 일정 공개범위 등록 메소드
@@ -486,13 +486,13 @@ public class SchServiceImpl002 implements SchService002 {
         }
 
         // 일정 공개범위 삭제 Mapper 호출
-        int updateOriginNonMatchDisclosureScopesCnt = schMapper002.updateOriginNonMatchDisclosureScopes(schRqDto002);
+        int deleteOriginNonMatchDisclosureScopesCnt = schMapper002.deleteOriginNonMatchDisclosureScopes(schRqDto002);
 
         // method end log
-        log.info("removeDisclosureScopes Method Return Data : " + updateOriginNonMatchDisclosureScopesCnt);
+        log.info("removeDisclosureScopes Method Return Data : " + deleteOriginNonMatchDisclosureScopesCnt);
         log.info("removeDisclosureScopes Method End !!!");
 
         // return
-        return updateOriginNonMatchDisclosureScopesCnt;
+        return deleteOriginNonMatchDisclosureScopesCnt;
     }
 }

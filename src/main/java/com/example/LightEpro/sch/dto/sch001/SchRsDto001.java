@@ -34,6 +34,7 @@ public class SchRsDto001 {
         private String cdeType;
         private String schPartitionType;
         private String schAutority;
+        private String calSeq;
     }
 
     @Data
@@ -42,5 +43,6 @@ public class SchRsDto001 {
         private String cdeType;
         private String schPartitionType;
         private String schAutority;
+        private String calSeq;
     }
 }

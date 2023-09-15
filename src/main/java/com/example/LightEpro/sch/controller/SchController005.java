@@ -3,6 +3,7 @@ package com.example.LightEpro.sch.controller;
 import com.example.LightEpro.sch.constant.SchConstValue;
 import com.example.LightEpro.sch.dto.sch005.SchRqDto005;
 import com.example.LightEpro.exception.ExceptionCustom;
+import com.example.LightEpro.sch.mapper.SchMapper005;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService005;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController005 {
-    // service 선언
+    // service , mapper 선언
     private final SchService005 schService005;
+    private final SchMapper005 schMapper005;
 
     // 캘린더 등록 API
     @RequestMapping(value = "/sch005", method = {RequestMethod.GET, RequestMethod.POST})
@@ -66,18 +68,25 @@ public class SchController005 {
         SchRqDto005.Owner owner = schRqDto005.getOwner();
         List<SchRqDto005.Manager> managers = schRqDto005.getManagers();
 
+        // 요청값으로 받은 user 객체의 데이터가 조직도 시스템에서 존재하지 않는 인원인 경우 Exception 처리
+        int selectUserCount = schMapper005.selectUserCount(schRqDto005);
+        if (selectUserCount == 0) {
+            log.error("$$$ sch005 validApiRequest fail !!! (NotFoundUserException) $$$");
+            log.error("$$$ sch005 validApiRequest fail !!! (schRqDto005 : " + schRqDto005 + ") $$$");
+            throw new ExceptionCustom.NotFoundUserException();
+        }
         // 캘린더 등록시에 , 캘린더의 소유자 cdeSeq 값이 요청자의 userSeq 일치하지 않거나 , 소유자의 타입이 E가 아닌 경우 Exception 처리
         if ((user.getUserSeq() != owner.getCdeSeq())
                 || !owner.getCdeType().equals(SchConstValue.CDE_E_TYPE)) {
-            log.error("$$$ sch005 validApiRequest fail !!! (IncorrectIncludException) $$$");
+            log.error("$$$ sch005 validApiRequest fail !!! (NotFoundOwnerException) $$$");
             log.error("$$$ sch005 validApiRequest fail !!! (schRqDto005 : " + schRqDto005 + ") $$$");
-            throw new ExceptionCustom.IncorrectIncludException();
+            throw new ExceptionCustom.NotFoundOwnerException();
         }
         // 개인캘린더 등록시에 , 관리자 요청값이 포함되어 들어오는 경우 Exception 처리
         if (calender.getCalType().equals(SchConstValue.ECAL_TYPE) && (managers != null)) {
-            log.error("$$$ sch005 validApiRequest fail !!! (IncorrectIncludException) $$$");
+            log.error("$$$ sch005 validApiRequest fail !!! (NotBeIncludedManagerException) $$$");
             log.error("$$$ sch005 validApiRequest fail !!! (schRqDto005 : " + schRqDto005 + ") $$$");
-            throw new ExceptionCustom.IncorrectIncludException();
+            throw new ExceptionCustom.NotBeIncludedManagerException();
         }
     }
 }

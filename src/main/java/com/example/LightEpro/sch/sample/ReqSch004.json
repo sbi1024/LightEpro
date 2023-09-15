@@ -4,11 +4,11 @@
     "userDeptSeq": 1,
     "userSeq": 1
   },
-  "sch": {
+  "schedule": {
     "year": 2023,
     "month": 6
   },
   "calendar": {
-    "calSeqs": [1,2,3,4,5,8]
+    "calendarSequences": [1,2,3,4,5,8]
   }
 }

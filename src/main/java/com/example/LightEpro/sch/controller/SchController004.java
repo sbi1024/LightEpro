@@ -2,6 +2,7 @@ package com.example.LightEpro.sch.controller;
 
 import com.example.LightEpro.sch.dto.sch004.SchRqDto004;
 import com.example.LightEpro.exception.ExceptionCustom;
+import com.example.LightEpro.sch.mapper.SchMapper004;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService004;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController004 {
-    // service 선언
+    // service , mapper 선언
     private final SchService004 schService004;
+    private final SchMapper004 schMapper004;
 
     // 월 기준 일정 목록 조회 API
     @RequestMapping(value = "/sch004", method = {RequestMethod.GET, RequestMethod.POST})
@@ -58,12 +60,19 @@ public class SchController004 {
 
     // sch004 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
     public void validApiRequest(SchRqDto004 schRqDto004) throws Exception {
-        // 일정 목록 리스트 조회 전 , 요청값의 캘린더 시퀀스 리스트 값의 길이 판단 후 , 0인 경우 Exception 처리
-        List<Integer> calSeqs = schRqDto004.getCalendar().getCalSeqs();
-        if (calSeqs.size() == 0) {
-            log.error("$$$ sch004 validApiRequest fail !!! (NotValidCalSeqsException) $$$");
+        // 요청값으로 받은 user 객체의 데이터가 조직도 시스템에서 존재하지 않는 인원인 경우 Exception 처리
+        int selectUserCount = schMapper004.selectUserCount(schRqDto004);
+        if (selectUserCount == 0) {
+            log.error("$$$ sch004 validApiRequest fail !!! (NotFoundUserException) $$$");
             log.error("$$$ sch004 validApiRequest fail !!! (schRqDto004 : " + schRqDto004 + ") $$$");
-            throw new ExceptionCustom.NotValidCalSeqsException();
+            throw new ExceptionCustom.NotFoundUserException();
+        }
+        // 일정 목록 리스트 조회 전 , 요청값의 캘린더 시퀀스 리스트 값의 길이 판단 후 , 0인 경우 Exception 처리
+        List<Integer> calendarSequences = schRqDto004.getCalendar().getCalendarSequences();
+        if (calendarSequences.size() == 0) {
+            log.error("$$$ sch004 validApiRequest fail !!! (NotIncludedCalendarSequencesException) $$$");
+            log.error("$$$ sch004 validApiRequest fail !!! (schRqDto004 : " + schRqDto004 + ") $$$");
+            throw new ExceptionCustom.NotIncludedCalendarSequencesException();
         }
     }
 }

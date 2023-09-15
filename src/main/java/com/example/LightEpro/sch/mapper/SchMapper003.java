@@ -6,9 +6,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface SchMapper003 {
+    int selectUserCount(SchRqDto003 schRqDto003) throws Exception;
+
     int selectScheduleCount(SchRqDto003 schRqDto003) throws Exception;
 
     int updateSchedule(SchRqDto003 schRqDto003) throws Exception;
 
     int updateScheduleUsers(SchRqDto003 schRqDto003) throws Exception;
+
 }

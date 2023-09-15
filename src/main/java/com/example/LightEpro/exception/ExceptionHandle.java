@@ -3,21 +3,24 @@ package com.example.LightEpro.exception;
 
 import com.example.LightEpro.sch.response.SchResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestControllerAdvice
 @Slf4j
 public class ExceptionHandle extends RuntimeException {
     /**
-     * Exception
+     * 최상위 Exception
      */
     @ExceptionHandler(Exception.class)
-    public SchResponse handleException(Exception e) {
+    public SchResponse InternalServerException(Exception e) {
         ExceptionCode errorCode = ExceptionCode.INTERNAL_SERVER_EXCEPTION;
         errorCode.setExceptionData(e.getMessage());
 
@@ -27,8 +30,8 @@ public class ExceptionHandle extends RuntimeException {
         schResponse.setResponseMsg(errorCode.getExceptionMsg());
         schResponse.setResponseData(errorCode.getExceptionData());
 
-        log.error("$$$ Exception !!! (Exception) $$$");
-        log.error("$$$ handleException !!! (schResponse : " + schResponse + ") $$$");
+        log.error("$$$ InternalServerException !!! (Exception) $$$");
+        log.error("$$$ INTERNAL_SERVER_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
 
         e.printStackTrace();
         e.getMessage();
@@ -38,13 +41,14 @@ public class ExceptionHandle extends RuntimeException {
 
 
     /**
-     * 유효성 검증 실패시 발생 Exception
+     * DTO 클래스의 요청값 유효성 검증 실패시 발생 Exception
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public SchResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        ExceptionCode errorCode = ExceptionCode.VALID_REQUEST_EXCEPTION;
-        List<ObjectError> allErrors = e.getBindingResult().getAllErrors();
-        errorCode.setExceptionData(String.valueOf(allErrors));
+    public SchResponse NotIncludedRequiredValueException(MethodArgumentNotValidException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_INCLUDED_REQUIRED_VALUE_EXCEPTION;
+        Map<String, String> exceptionData = new HashMap<>();
+        errorCode.setExceptionData(exceptionData);
+        e.getBindingResult().getAllErrors().forEach(allError -> exceptionData.put(((FieldError) allError).getField(), allError.getDefaultMessage()));
 
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseStatus(errorCode.getExceptionStatus());
@@ -52,8 +56,8 @@ public class ExceptionHandle extends RuntimeException {
         schResponse.setResponseMsg(errorCode.getExceptionMsg());
         schResponse.setResponseData(errorCode.getExceptionData());
 
-        log.error("$$$ MethodArgumentNotValidException !!! (Exception) $$$");
-        log.error("$$$ handleMethodArgumentNotValidException !!! (schResponse : " + schResponse + ") $$$");
+        log.error("$$$ NotIncludedRequiredValueException !!! (Exception) $$$");
+        log.error("$$$ NOT_INCLUDED_REQUIRED_VALUE_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
 
         e.printStackTrace();
         e.getMessage();
@@ -63,7 +67,7 @@ public class ExceptionHandle extends RuntimeException {
 
 
     /**
-     * 일정 조회시 , 디비상 없는 일정인 경우 발생 Exception
+     * 시스템에 존재하지 않는 일정인 경우 발생 Exception
      */
     @ExceptionHandler(ExceptionCustom.NotFoundSchException.class)
     public SchResponse NotFountSchException(ExceptionCustom.NotFoundSchException e) {
@@ -76,8 +80,8 @@ public class ExceptionHandle extends RuntimeException {
         schResponse.setResponseMsg(errorCode.getExceptionMsg());
         schResponse.setResponseData(errorCode.getExceptionData());
 
-        log.error("$$$ ExceptionCustom.NotFountSchException !!! (Exception) $$$");
-        log.error("$$$ NotFountSchException !!! (schResponse : " + schResponse + ") $$$");
+        log.error("$$$ NotFountSchException !!! (Exception) $$$");
+        log.error("$$$ NOT_FOUND_SCH_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
 
         e.printStackTrace();
         e.getMessage();
@@ -88,9 +92,9 @@ public class ExceptionHandle extends RuntimeException {
     /**
      * 시작일자 값이 종료일자 값보다 큰 경우 발생 Exception
      */
-    @ExceptionHandler(ExceptionCustom.NotValidSchStartEndDateException.class)
-    public SchResponse NotValidSchStartEndDateException(ExceptionCustom.NotValidSchStartEndDateException e) {
-        ExceptionCode errorCode = ExceptionCode.NOT_VALID_DATE_EXCEPTION;
+    @ExceptionHandler(ExceptionCustom.NotBeGreaterThanEndDateException.class)
+    public SchResponse NotBeGreaterThanEndDateException(ExceptionCustom.NotBeGreaterThanEndDateException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_BE_GREATER_THAN_END_DATE_EXCEPTION;
         errorCode.setExceptionData(e.getMessage());
 
         SchResponse schResponse = new SchResponse();
@@ -99,8 +103,8 @@ public class ExceptionHandle extends RuntimeException {
         schResponse.setResponseMsg(errorCode.getExceptionMsg());
         schResponse.setResponseData(errorCode.getExceptionData());
 
-        log.error("$$$ ExceptionCustom.NotValidSchStartEndDateException !!! (Exception) $$$");
-        log.error("$$$ NotValidSchStartEndDateException !!! (schResponse : " + schResponse + ") $$$");
+        log.error("$$$ NotBeGreaterThanEndDateException !!! (Exception) $$$");
+        log.error("$$$ NOT_BE_GREATER_THAN_END_DATE_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
 
         e.printStackTrace();
         e.getMessage();
@@ -109,12 +113,11 @@ public class ExceptionHandle extends RuntimeException {
     }
 
     /**
-     * TODO 변경 예정 > Exception을 직관적으로 세분화 할 필요성 있음
-     * 개인 캘린더에 일정등록시 , 참여자 혹은 공개범위 데이터가 포함된 요청값이 들어오는 경우 발생 Exception
+     * 개인 캘린더에 일정 등록/수정시 , 공개범위 데이터가 포함된 요청값이 들어오는 경우 발생 Exception
      */
-    @ExceptionHandler(ExceptionCustom.IncorrectIncludException.class)
-    public SchResponse IncorrectIncludException(ExceptionCustom.IncorrectIncludException e) {
-        ExceptionCode errorCode = ExceptionCode.INCORRECT_INCLUDE_EXCEPTION;
+    @ExceptionHandler(ExceptionCustom.NotBeIncludedDisclosureException.class)
+    public SchResponse NotBeIncludedDisclosureException(ExceptionCustom.NotBeIncludedDisclosureException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_BE_INCLUDED_DISCLOSURE_EXCEPTION;
         errorCode.setExceptionData(e.getMessage());
 
         SchResponse schResponse = new SchResponse();
@@ -123,8 +126,8 @@ public class ExceptionHandle extends RuntimeException {
         schResponse.setResponseMsg(errorCode.getExceptionMsg());
         schResponse.setResponseData(errorCode.getExceptionData());
 
-        log.error("$$$ ExceptionCustom.IncorrectIncludException !!! (Exception) $$$");
-        log.error("$$$ IncorrectIncludException !!! (schResponse : " + schResponse + ") $$$");
+        log.error("$$$ NotBeIncludedDisclosureException !!! (Exception) $$$");
+        log.error("$$$ NOT_BE_INCLUDED_DISCLOSURE_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
 
         e.printStackTrace();
         e.getMessage();
@@ -135,9 +138,9 @@ public class ExceptionHandle extends RuntimeException {
     /**
      * 캘린더 시퀀스 값이 유효하지 않는 경우 (요청값의 캘린더 리스트 사이즈가 0 이거나 null 인 경우)
      */
-    @ExceptionHandler(ExceptionCustom.NotValidCalSeqsException.class)
-    public SchResponse NotValidCalSeqsException(ExceptionCustom.NotValidCalSeqsException e) {
-        ExceptionCode errorCode = ExceptionCode.NOT_VALID_CAL_SEQS_EXCEPTION;
+    @ExceptionHandler(ExceptionCustom.NotIncludedCalendarSequencesException.class)
+    public SchResponse NotIncludedCalendarSequencesException(ExceptionCustom.NotIncludedCalendarSequencesException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_INCLUDED_CALENDAR_SEQUENCES_EXCEPTION;
         errorCode.setExceptionData(e.getMessage());
 
         SchResponse schResponse = new SchResponse();
@@ -146,8 +149,8 @@ public class ExceptionHandle extends RuntimeException {
         schResponse.setResponseMsg(errorCode.getExceptionMsg());
         schResponse.setResponseData(errorCode.getExceptionData());
 
-        log.error("$$$ ExceptionCustom.NotValidCalSeqsException !!! (Exception) $$$");
-        log.error("$$$ NotValidCalSeqsException !!! (schResponse : " + schResponse + ") $$$");
+        log.error("$$$ NotIncludedCalendarSequencesException !!! (Exception) $$$");
+        log.error("$$$ NOT_INCLUDED_CALENDAR_SEQUENCES_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
 
         e.printStackTrace();
         e.getMessage();
@@ -169,8 +172,8 @@ public class ExceptionHandle extends RuntimeException {
         schResponse.setResponseMsg(errorCode.getExceptionMsg());
         schResponse.setResponseData(errorCode.getExceptionData());
 
-        log.error("$$$ ExceptionCustom.NotFoundCalException !!! (Exception) $$$");
-        log.error("$$$ NotFoundCalException !!! (schResponse : " + schResponse + ") $$$");
+        log.error("$$$ NotFoundCalException !!! (Exception) $$$");
+        log.error("$$$ NOT_FOUND_CAL_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
 
         e.printStackTrace();
         e.getMessage();
@@ -183,7 +186,7 @@ public class ExceptionHandle extends RuntimeException {
      */
     @ExceptionHandler(ExceptionCustom.NotFoundRegistrantException.class)
     public SchResponse NotFoundRegistrantException(ExceptionCustom.NotFoundRegistrantException e) {
-        ExceptionCode errorCode = ExceptionCode.NOT_FOUNT_REGISTRANT_EXCEPTION;
+        ExceptionCode errorCode = ExceptionCode.NOT_FOUND_REGISTRANT_EXCEPTION;
         errorCode.setExceptionData(e.getMessage());
 
         SchResponse schResponse = new SchResponse();
@@ -192,8 +195,8 @@ public class ExceptionHandle extends RuntimeException {
         schResponse.setResponseMsg(errorCode.getExceptionMsg());
         schResponse.setResponseData(errorCode.getExceptionData());
 
-        log.error("$$$ ExceptionCustom.NotFoundRegistrant !!! (Exception) $$$");
-        log.error("$$$ NotFoundRegistrant !!! (schResponse : " + schResponse + ") $$$");
+        log.error("$$$ NotFoundRegistrantException !!! (Exception) $$$");
+        log.error("$$$ NOT_FOUND_REGISTRANT_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
 
         e.printStackTrace();
         e.getMessage();
@@ -206,7 +209,7 @@ public class ExceptionHandle extends RuntimeException {
      */
     @ExceptionHandler(ExceptionCustom.NotFoundOwnerException.class)
     public SchResponse NotFoundOwnerException(ExceptionCustom.NotFoundOwnerException e) {
-        ExceptionCode errorCode = ExceptionCode.NOT_FOUNT_OWNER_EXCEPTION;
+        ExceptionCode errorCode = ExceptionCode.NOT_FOUND_OWNER_EXCEPTION;
         errorCode.setExceptionData(e.getMessage());
 
         SchResponse schResponse = new SchResponse();
@@ -215,8 +218,8 @@ public class ExceptionHandle extends RuntimeException {
         schResponse.setResponseMsg(errorCode.getExceptionMsg());
         schResponse.setResponseData(errorCode.getExceptionData());
 
-        log.error("$$$ ExceptionCustom.NotFoundOwnerException !!! (Exception) $$$");
-        log.error("$$$ NotFoundOwnerException !!! (schResponse : " + schResponse + ") $$$");
+        log.error("$$$ NotFoundOwnerException !!! (Exception) $$$");
+        log.error("$$$ NOT_FOUND_OWNER_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
 
         e.printStackTrace();
         e.getMessage();
@@ -224,4 +227,49 @@ public class ExceptionHandle extends RuntimeException {
         return schResponse;
     }
 
+    /**
+     * 개인 캘린더 등록/수정 진행시 , 공개범위 데이터가 포함된 요청값이 들어오는 경우 발생 Exception
+     */
+    @ExceptionHandler(ExceptionCustom.NotBeIncludedManagerException.class)
+    public SchResponse NotBeIncludedManagerException(ExceptionCustom.NotBeIncludedManagerException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_BE_INCLUDED_MANAGER_EXCEPTION;
+        errorCode.setExceptionData(e.getMessage());
+
+        SchResponse schResponse = new SchResponse();
+        schResponse.setResponseStatus(errorCode.getExceptionStatus());
+        schResponse.setResponseCode(errorCode.getExceptionCode());
+        schResponse.setResponseMsg(errorCode.getExceptionMsg());
+        schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ NotBeIncludedManagerException !!! (Exception) $$$");
+        log.error("$$$ NOT_BE_INCLUDED_MANAGER_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
+
+        e.printStackTrace();
+        e.getMessage();
+
+        return schResponse;
+    }
+
+    /**
+     * 조직도 시스템에서 존재하지 않는 사용자인 경우 발생 Exception
+     */
+    @ExceptionHandler(ExceptionCustom.NotFoundUserException.class)
+    public SchResponse NotFoundUserException(ExceptionCustom.NotFoundUserException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_FOUND_USER_EXCEPTION;
+        errorCode.setExceptionData(e.getMessage());
+
+        SchResponse schResponse = new SchResponse();
+        schResponse.setResponseStatus(errorCode.getExceptionStatus());
+        schResponse.setResponseCode(errorCode.getExceptionCode());
+        schResponse.setResponseMsg(errorCode.getExceptionMsg());
+        schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ NotFoundUserException !!! (Exception) $$$");
+        log.error("$$$ NOT_FOUND_USER_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
+
+        e.printStackTrace();
+        e.getMessage();
+
+        return schResponse;
+    }
 }

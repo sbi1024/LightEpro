@@ -8,6 +8,8 @@ import java.util.List;
 
 @Mapper
 public interface SchMapper000 {
+    int selectUserCount(SchRqDto000 schRqDto000) throws Exception;
+
     String selectCalendarType(SchRqDto000 schRqDto000) throws Exception;
 
     int selectScheduleSequence() throws Exception;
@@ -17,4 +19,5 @@ public interface SchMapper000 {
     int insertParticipants(SchRqDto000 schRqDto000) throws Exception;
 
     int insertDisclosureScopes(SchRqDto000 schRqDto000) throws Exception;
+
 }

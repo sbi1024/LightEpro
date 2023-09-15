@@ -67,6 +67,13 @@ public class SchController007 {
         SchRqDto007.Owner owner = schRqDto007.getOwner();
         List<SchRqDto007.Manager> managers = schRqDto007.getManagers();
 
+        // 요청값으로 받은 user 객체의 데이터가 조직도 시스템에서 존재하지 않는 인원인 경우 Exception 처리
+        int selectUserCount = schMapper007.selectUserCount(schRqDto007);
+        if (selectUserCount == 0) {
+            log.error("$$$ sch007 validApiRequest fail !!! (NotFoundUserException) $$$");
+            log.error("$$$ sch007 validApiRequest fail !!! (schRqDto007 : " + schRqDto007 + ") $$$");
+            throw new ExceptionCustom.NotFoundUserException();
+        }
         // 요청값으로 받은 캘린더 시퀀스 값을통해 , 캘린더 타입을 조회한다.
         String selectCalendarTypeValue = schMapper007.selectCalendarType(schRqDto007);
         // 캘린더 타입의 값이 빈 값이 경우 Exception 처리
@@ -85,9 +92,9 @@ public class SchController007 {
         }
         // 개인 캘린더 타입에서의 캘린더 수정 진행시 , 관리자 데이터가 포함되는 경우 Exception 처리
         if (calendar.getCalType().equals(SchConstValue.ECAL_TYPE) && (managers != null)) {
-            log.error("$$$ sch007 validApiRequest fail !!! (IncorrectIncludException) $$$");
-            log.error("$$$ sch007 validApiRequest fail !!! (schRqDto002 : " + schRqDto007 + ") $$$");
-            throw new ExceptionCustom.IncorrectIncludException();
+            log.error("$$$ sch007 validApiRequest fail !!! (NotBeIncludedManagerException) $$$");
+            log.error("$$$ sch007 validApiRequest fail !!! (schRqDto007 : " + schRqDto007 + ") $$$");
+            throw new ExceptionCustom.NotBeIncludedManagerException();
         }
     }
 }

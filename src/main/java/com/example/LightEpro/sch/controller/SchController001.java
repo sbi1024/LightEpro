@@ -57,6 +57,13 @@ public class SchController001 {
 
     // sch001 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
     public void validApiRequest(SchRqDto001 schRqDto001) throws Exception {
+        // 요청값으로 받은 user 객체의 데이터가 조직도 시스템에서 존재하지 않는 인원인 경우 Exception 처리
+        int selectUserCount = schMapper001.selectUserCount(schRqDto001);
+        if (selectUserCount == 0) {
+            log.error("$$$ sch001 validApiRequest fail !!! (NotFoundUserException) $$$");
+            log.error("$$$ sch001 validApiRequest fail !!! (schRqDto001 : " + schRqDto001 + ") $$$");
+            throw new ExceptionCustom.NotFoundUserException();
+        }
         // 일정 조회 진행 전 , 요청값으로 받은 일정 시퀀스값을 통해 일정이 존재하는지 판단 후 , 존재하지 않는다면 Exception 처리
         int selectScheduleCountValue = schMapper001.selectScheduleCount(schRqDto001);
         if (selectScheduleCountValue == 0) {

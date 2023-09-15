@@ -143,6 +143,7 @@ CREATE TABLE IF NOT EXISTS `T_EM_EMP`
     `EMP_FIRE_DATE`    DATE        NULL COMMENT '사원 퇴사 일자',
     `EMP_PHONE_NUMBER` VARCHAR(30) NULL COMMENT '사원 휴대폰 번호',
     `EMP_SEX`          VARCHAR(3)  NULL COMMENT '성별',
+    `DEPT_SEQ`         BIGINT      NOT NULL COMMENT '부서 시퀀스',
     `USE_YND`          VARCHAR(3)  NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
     `CREATE_DATE`      DATETIME    NOT NULL DEFAULT NOW() COMMENT '최초 등록 일자',
     `CREATE_SEQ`       BIGINT      NOT NULL COMMENT '등록자 시퀀스',
@@ -150,7 +151,8 @@ CREATE TABLE IF NOT EXISTS `T_EM_EMP`
     `MODIFY_SEQ`       BIGINT      NULL COMMENT '변경자 시퀀스',
     `DELETE_DATE`      DATETIME    NULL COMMENT '최종 삭제 일자',
     `DELETE_SEQ`       BIGINT      NULL COMMENT '삭제자 시퀀스',
-    PRIMARY KEY (`EMP_SEQ`)
+    PRIMARY KEY (`EMP_SEQ`),
+    INDEX IDX_DEPT_SEQ (`DEPT_SEQ`)
 ) COMMENT '사원 테이블';;
 
 -- 6. 회사 테이블 삭제 및 생성

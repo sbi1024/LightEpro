@@ -8,6 +8,8 @@ import java.util.List;
 
 @Mapper
 public interface SchMapper006 {
+    int selectUserCount(SchRqDto006 schRqDto006) throws Exception;
+
     int selectCalendarCount(SchRqDto006 schRqDto006) throws Exception;
 
     SchRsDto006.Calendar selectCalendar(SchRqDto006 schRqDto006) throws Exception;
@@ -15,4 +17,5 @@ public interface SchMapper006 {
     SchRsDto006.Owner selectOwner(SchRqDto006 schRqDto006) throws Exception;
 
     List<SchRsDto006.Manager> selectManagers(SchRqDto006 schRqDto006) throws Exception;
+
 }

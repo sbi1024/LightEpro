@@ -61,6 +61,13 @@ public class SchController008 {
 
     // sch008 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
     public void validApiRequest(SchRqDto008 schRqDto008) throws Exception {
+        // 요청값으로 받은 user 객체의 데이터가 조직도 시스템에서 존재하지 않는 인원인 경우 Exception 처리
+        int selectUserCount = schMapper008.selectUserCount(schRqDto008);
+        if (selectUserCount == 0) {
+            log.error("$$$ sch008 validApiRequest fail !!! (NotFoundUserException) $$$");
+            log.error("$$$ sch008 validApiRequest fail !!! (schRqDto008 : " + schRqDto008 + ") $$$");
+            throw new ExceptionCustom.NotFoundUserException();
+        }
         // 요청값으로 방은 캘린더 시퀀스 값을 통해 , 캘린더 타입을 조회한다.
         String selectCalendarTypeValue = schMapper008.selectCalendarType(schRqDto008);
         // 캘린더 타입의 값이 빈 값이 경우 Exception 처리

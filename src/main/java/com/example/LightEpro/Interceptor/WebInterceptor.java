@@ -72,6 +72,6 @@ public class WebInterceptor implements HandlerInterceptor {
                 .responseBody(responseBody)
                 .build();
 
-        int insertLogInfoCnt = itMapper.insertLogInfo(itDto);
+        itMapper.insertLogInfo(itDto);
     }
 }

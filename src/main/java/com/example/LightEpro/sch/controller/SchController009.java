@@ -1,7 +1,9 @@
 package com.example.LightEpro.sch.controller;
 
+import com.example.LightEpro.exception.ExceptionCustom;
 import com.example.LightEpro.sch.dto.sch008.SchRqDto008;
 import com.example.LightEpro.sch.dto.sch009.SchRqDto009;
+import com.example.LightEpro.sch.mapper.SchMapper009;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService008;
 import com.example.LightEpro.sch.service.SchService009;
@@ -21,8 +23,9 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController009 {
-    // service 선언
+    // service , mapper 선언
     private final SchService009 schService009;
+    private final SchMapper009 schMapper009;
 
     // 나의 캘린더 목록 조회 API
     @RequestMapping(value = "/sch009", method = {RequestMethod.GET, RequestMethod.POST})
@@ -59,6 +62,12 @@ public class SchController009 {
 
     // sch009 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
     public void validApiRequest(SchRqDto009 schRqDto009) throws Exception {
-
+        // 요청값으로 받은 user 객체의 데이터가 조직도 시스템에서 존재하지 않는 인원인 경우 Exception 처리
+        int selectUserCount = schMapper009.selectUserCount(schRqDto009);
+        if (selectUserCount == 0) {
+            log.error("$$$ sch009 validApiRequest fail !!! (NotFoundUserException) $$$");
+            log.error("$$$ sch009 validApiRequest fail !!! (schRqDto009 : " + schRqDto009 + ") $$$");
+            throw new ExceptionCustom.NotFoundUserException();
+        }
     }
 }

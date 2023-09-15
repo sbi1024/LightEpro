@@ -8,5 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface SchMapper004 {
+    int selectUserCount(SchRqDto004 schRqDto004) throws Exception;
     List<SchRsDto004.Schedule> selectScheduleList(SchRqDto004 schRqDto004) throws Exception;
+
 }

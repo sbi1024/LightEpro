@@ -8,8 +8,14 @@ import java.util.Map;
 
 @Mapper
 public interface SchMapper005 {
+    int selectUserCount(SchRqDto005 schRqDto005) throws Exception;
+
     int selectCalendarSequence() throws Exception;
+
     int insertCalendar(SchRqDto005 schRqDto005) throws Exception;
+
     int insertCalendarOwner(SchRqDto005 schRqDto005) throws Exception;
+
     int insertCalendarManagers(SchRqDto005 schRqDto005) throws Exception;
+
 }
