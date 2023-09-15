@@ -10,7 +10,7 @@ public interface SchMapper007 {
 
     int selectUserCount(SchRqDto007 schRqDto007) throws Exception;
 
-    String selectCalendarType(SchRqDto007 schRqDto007) throws Exception;
+    int selectCalendarCount(SchRqDto007 schRqDto007) throws Exception;
 
     int selectOriginOwner(SchRqDto007 schRqDto007) throws Exception;
 

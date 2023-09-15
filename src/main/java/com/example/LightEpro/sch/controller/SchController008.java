@@ -69,9 +69,9 @@ public class SchController008 {
             throw new ExceptionCustom.NotFoundUserException();
         }
         // 요청값으로 방은 캘린더 시퀀스 값을 통해 , 캘린더 타입을 조회한다.
-        String selectCalendarTypeValue = schMapper008.selectCalendarType(schRqDto008);
+        int selectCalendarCountValue = schMapper008.selectCalendarCount(schRqDto008);
         // 캘린더 타입의 값이 빈 값이 경우 Exception 처리
-        if (selectCalendarTypeValue.equals(SchConstValue.EMPTY_VALUE)) {
+        if (selectCalendarCountValue == 0) {
             log.error("$$$ sch008 validApiRequest fail !!! (NotFoundCalException) $$$");
             log.error("$$$ sch008 validApiRequest fail !!! (schRqDto007 : " + schRqDto008 + ") $$$");
             throw new ExceptionCustom.NotFoundCalException();

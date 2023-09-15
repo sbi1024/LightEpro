@@ -27,9 +27,9 @@
           AND TEE.EMP_SEQ = #{user.userSeq}
     </select>
 
-    <select id="selectCalendarType" resultType="string">
-        /* selectCalendarType */
-        SELECT IFNULL(MAX(TSC.CAL_TYPE), '') AS calType
+    <select id="selectCalendarCount" resultType="int">
+        /* selectCalendarCount */
+        SELECT COUNT(1)
         FROM T_SC_CAL TSC
         WHERE 1 = 1
           AND TSC.CAL_SEQ = #{calendar.calSeq}

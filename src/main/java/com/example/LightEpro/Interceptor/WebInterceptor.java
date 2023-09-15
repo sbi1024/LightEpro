@@ -1,10 +1,10 @@
 package com.example.LightEpro.Interceptor;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.example.LightEpro.common.dto.InterceptorDto000;
+import com.example.LightEpro.common.service.InterceptorService000;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jboss.logging.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,14 +13,13 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class WebInterceptor implements HandlerInterceptor {
     private final ObjectMapper objectMapper;
-    private final ItMapper itMapper;
+    private final InterceptorService000 interceptorService000;
 
     // * 인터셉터(Interceptor)의 사용 사례
     // 1. 세부적인 보안 및 인증/인가 공통 작업
@@ -61,17 +60,9 @@ public class WebInterceptor implements HandlerInterceptor {
         if (cachingResponse.getContentType() != null && cachingResponse.getContentType().contains("application/json")) {
             if (cachingResponse.getContentAsByteArray() != null && cachingResponse.getContentAsByteArray().length != 0) {
                 responseBody = objectMapper.writeValueAsString(objectMapper.readTree(cachingResponse.getContentAsByteArray()));
-
             }
         }
 
-        ItDto itDto = ItDto.builder()
-                .transactionId(String.valueOf(MDC.get("transactionId")))
-                .apiPath(request.getRequestURI())
-                .requestBody(requestBody)
-                .responseBody(responseBody)
-                .build();
-
-        itMapper.insertLogInfo(itDto);
+        interceptorService000.createLogInfo(InterceptorDto000.builder().request(request).requestBody(requestBody).responseBody(responseBody).build());
     }
 }

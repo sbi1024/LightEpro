@@ -14,7 +14,7 @@ public class VersionCheck {
     public SchResponse versionCheck(){
         log.info("versionCheck Method Start !!!");
 
-        String version = "2023/09/14 14:37";
+        String version = "2023/09/15 15:53";
         SchResponse schResponse = new SchResponse();
         schResponse.setResponseData(version);
 

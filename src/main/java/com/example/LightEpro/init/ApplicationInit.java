@@ -31,7 +31,7 @@ public class ApplicationInit implements InitializingBean {
     private final EmpService005 empService005;
     // 부서
     private final EmpService000 empService000;
-    // 직책/직위/직급
+    // 직책 / 직위 / 직급
     private final EmpService010 empService010;
     // 사원
     private final EmpService015 empService015;

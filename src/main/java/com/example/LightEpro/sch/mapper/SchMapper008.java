@@ -8,7 +8,7 @@ public interface SchMapper008 {
 
     int selectUserCount(SchRqDto008 schRqDto008) throws Exception;
 
-    String selectCalendarType(SchRqDto008 schRqDto008) throws Exception;
+    int selectCalendarCount(SchRqDto008 schRqDto008) throws Exception;
 
     int updateCalendar(SchRqDto008 schRqDto008) throws Exception;
 
