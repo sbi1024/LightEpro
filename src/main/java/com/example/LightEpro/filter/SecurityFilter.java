@@ -1,5 +1,6 @@
 package com.example.LightEpro.filter;
 
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,10 +8,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 
-import javax.servlet.http.HttpServletRequest;
+
+import javax.servlet.DispatcherType;
 import java.util.Collections;
 
 @Configuration
@@ -47,17 +49,18 @@ public class SecurityFilter {
 
                 .csrf().disable() // csrf 미사용 설정
 
-//                .authorizeHttpRequests((authorizeRequests) -> {
-//                    authorizeRequests.requestMatchers("/user/**").authenticated();
-//                    authorizeRequests.requestMatchers("/manager/**").hasAnyRole("ADMIN", "MANAGER");
-//                    authorizeRequests.requestMatchers("/admin/**").hasRole("ADMIN");
-//                    authorizeRequests.anyRequest().permitAll();
-//                })
+                .authorizeHttpRequests(request -> request
+                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                        .antMatchers("/css/**").permitAll()
+                        .antMatchers("/", "/login", "/versionCheck", "/LightEpro/healthCheck").permitAll() // 인증에 대한 예외를 정의한다. (설정한 URL은 인증을 요구하지 않는다.)
+                        .anyRequest().authenticated() // 어떠한 요청이라도 인증을 적용한다.
+                )
 
                 .formLogin((formLogin) -> formLogin // 로그인은 form 방식으로만 설정
                         .loginPage("/login") // 로그인 페이지 설정
-                        .usernameParameter("empId") // 로그인시 아이디 키값 설정
-                        .passwordParameter("empPw") // 로그인시 패스워드 키값 설정
+                        .loginProcessingUrl("/login_proc") // 로그인 프로세스 url (form action 값 지정)
+                        .usernameParameter("userName") // 로그인시 아이디 키값 설정
+                        .passwordParameter("userPassword") // 로그인시 패스워드 키값 설정
                         .defaultSuccessUrl("/home") // 로그인 성공시 이동 페이지 설정
                 )
 

@@ -3,6 +3,20 @@ server:
   port: 8080
 
 spring:
+  # view resolver 설정
+  mvc:
+    view:
+      suffix: .html
+
+  # 프론트 개발 편의성
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+    thymeleaf:
+      cache: false
+
   # security 관련 설정
   security:
     user:

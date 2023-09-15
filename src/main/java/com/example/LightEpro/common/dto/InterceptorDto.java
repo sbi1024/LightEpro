@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Data
 @Builder
-public class InterceptorDto000 {
+public class InterceptorDto {
     private HttpServletRequest request;
     private String requestBody;
     private String responseBody;

@@ -1,7 +1,7 @@
 package com.example.LightEpro.Interceptor;
 
-import com.example.LightEpro.common.dto.InterceptorDto000;
-import com.example.LightEpro.common.service.InterceptorService000;
+import com.example.LightEpro.common.dto.InterceptorDto;
+import com.example.LightEpro.common.service.InterceptorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 public class WebInterceptor implements HandlerInterceptor {
     private final ObjectMapper objectMapper;
-    private final InterceptorService000 interceptorService000;
+    private final InterceptorService interceptorService;
 
     // * 인터셉터(Interceptor)의 사용 사례
     // 1. 세부적인 보안 및 인증/인가 공통 작업
@@ -63,6 +63,6 @@ public class WebInterceptor implements HandlerInterceptor {
             }
         }
 
-        interceptorService000.createLogInfo(InterceptorDto000.builder().request(request).requestBody(requestBody).responseBody(responseBody).build());
+        interceptorService.createLogInfo(InterceptorDto.builder().request(request).requestBody(requestBody).responseBody(responseBody).build());
     }
 }

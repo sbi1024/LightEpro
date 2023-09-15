@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.LightEpro.common.mapper.InterceptorMapper000">
+<mapper namespace="com.example.LightEpro.common.mapper.InterceptorMapper">
     <insert id="insertLog">
         /* insertLog */
         INSERT INTO T_IN_LOG (LOG_SEQ,

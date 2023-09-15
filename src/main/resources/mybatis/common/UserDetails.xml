@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.LightEpro.common.mapper.UserDetailMapper">
+    <select id="selectUser" resultType="com.example.LightEpro.common.dto.UserDetailsDto">
+        SELECT TEEA.EMP_ID AS Id,
+               TEEA.EMP_PW AS Pw
+        FROM T_EM_EMP_ACCOUNT TEEA
+        WHERE 1 = 1
+          AND TEEA.EMP_ID = #{username}
+          AND TEEA.USE_YND = 'Y'
+    </select>
+</mapper>
