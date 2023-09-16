@@ -3,6 +3,17 @@ server:
   port: 8080
 
 spring:
+  # redis 설정
+  redis:
+    host: localhost
+    port: 6379
+  session:
+    timeout: 300
+    store-type: redis
+    redis:
+      flush-mode: on-save
+      namespace: spring:session
+
   # view resolver 설정
   mvc:
     view:
@@ -14,8 +25,6 @@ spring:
       enabled: true
     restart:
       enabled: true
-    thymeleaf:
-      cache: false
 
   # security 관련 설정
   security:
@@ -50,9 +59,9 @@ logging:
 management:
   endpoints:
     web:
-      base-path: /LightEpro
+      base-path: /
       path-mapping:
-        health: healthCheck
+        health: health
   endpoint:
     health:
       show-details: always

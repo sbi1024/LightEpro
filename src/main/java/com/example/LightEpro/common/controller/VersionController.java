@@ -1,4 +1,4 @@
-package com.example.LightEpro.version;
+package com.example.LightEpro.common.controller;
 
 import com.example.LightEpro.sch.response.SchResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -9,17 +9,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @ResponseBody
 @Slf4j
-public class VersionCheck {
-    @RequestMapping("/versionCheck")
-    public SchResponse versionCheck(){
-        log.info("versionCheck Method Start !!!");
+public class VersionController {
+    @RequestMapping("/version")
+    public String version() {
+        log.info("version Method Start !!!");
 
         String version = "2023/09/15 15:53";
-        SchResponse schResponse = new SchResponse();
-        schResponse.setResponseData(version);
 
-        log.info("versionCheck Method Return Data : " + schResponse);
+        log.info("versionCheck Method Return Data : " + version);
         log.info("versionCheck Method End !!!");
-        return schResponse;
+
+        return version;
     }
 }

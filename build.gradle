@@ -54,6 +54,10 @@ dependencies {
 
 	// 프론트 화면 변경시 빠른 확인을 위한 설정
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+	// redis 설정
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation 'org.springframework.session:spring-session-data-redis'
 }
 
 tasks.named('test') {

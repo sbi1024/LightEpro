@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -51,8 +52,7 @@ public class SecurityFilter {
 
                 .authorizeHttpRequests(request -> request
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .antMatchers("/css/**").permitAll() // 인증에 대한 예외를 정의한다 (1) (설정한 URL은 인증을 요구하지 않는다.)
-                        .antMatchers("/", "/login", "/versionCheck", "/LightEpro/healthCheck").permitAll() // 인증에 대한 예외를 정의한다 (2) (설정한 URL은 인증을 요구하지 않는다.)
+                        .antMatchers("/css/**", "/img/**", "/js/**", "/", "/login", "/version", "/health").permitAll() // 인증에 대한 예외를 정의한다 (설정한 URL은 인증을 요구하지 않는다.)
                         .anyRequest().authenticated() // 어떠한 요청이라도 인증을 적용한다.
                 )
 
