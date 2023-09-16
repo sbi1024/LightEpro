@@ -51,8 +51,8 @@ public class SecurityFilter {
 
                 .authorizeHttpRequests(request -> request
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .antMatchers("/css/**").permitAll()
-                        .antMatchers("/", "/login", "/versionCheck", "/LightEpro/healthCheck").permitAll() // 인증에 대한 예외를 정의한다. (설정한 URL은 인증을 요구하지 않는다.)
+                        .antMatchers("/css/**").permitAll() // 인증에 대한 예외를 정의한다 (1) (설정한 URL은 인증을 요구하지 않는다.)
+                        .antMatchers("/", "/login", "/versionCheck", "/LightEpro/healthCheck").permitAll() // 인증에 대한 예외를 정의한다 (2) (설정한 URL은 인증을 요구하지 않는다.)
                         .anyRequest().authenticated() // 어떠한 요청이라도 인증을 적용한다.
                 )
 
@@ -62,6 +62,7 @@ public class SecurityFilter {
                         .usernameParameter("userName") // 로그인시 아이디 키값 설정
                         .passwordParameter("userPassword") // 로그인시 패스워드 키값 설정
                         .defaultSuccessUrl("/home") // 로그인 성공시 이동 페이지 설정
+                        .failureUrl("/login") // 로그인 실패시 이동 페이지 설정
                 )
 
                 .logout((logout) -> logout
