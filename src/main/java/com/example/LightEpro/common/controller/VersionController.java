@@ -16,8 +16,8 @@ public class VersionController {
 
         String version = "2023/09/15 15:53";
 
-        log.info("versionCheck Method Return Data : " + version);
-        log.info("versionCheck Method End !!!");
+        log.info("version Method Return Data : " + version);
+        log.info("version Method End !!!");
 
         return version;
     }

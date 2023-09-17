@@ -14,17 +14,23 @@ spring:
       flush-mode: on-save
       namespace: spring:session
 
-  # view resolver 설정
-  mvc:
-    view:
-      suffix: .html
-
   # 프론트 개발 편의성
   devtools:
     livereload:
       enabled: true
     restart:
       enabled: true
+
+  # 프론트 타임리프 설정
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+
+  # view resolver 설정
+  mvc:
+    view:
+      prefix: classpath:/templates/
+      suffix: .html
 
   # security 관련 설정
   security:

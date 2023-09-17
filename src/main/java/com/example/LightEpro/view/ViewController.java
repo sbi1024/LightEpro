@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ViewController {
     @RequestMapping(value = "/", method = {RequestMethod.GET})
     public String slash() throws Exception {
-        return "login";
+        return "pages/login";
     }
 
     @RequestMapping(value = "/login", method = {RequestMethod.GET})
     public String login() throws Exception {
-        return "login";
+        return "pages/login";
     }
 
     @RequestMapping(value = "/home", method = {RequestMethod.GET})
     public String home() throws Exception {
-        return "home";
+        return "pages/home";
     }
 }

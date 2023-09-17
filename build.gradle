@@ -52,12 +52,16 @@ dependencies {
 	// security 설정
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
-	// 프론트 화면 변경시 빠른 확인을 위한 설정
-	developmentOnly("org.springframework.boot:spring-boot-devtools")
-
 	// redis 설정
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	implementation 'org.springframework.session:spring-session-data-redis'
+
+	// 프론트 화면 변경시 빠른 확인을 위한 설정
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+	// 타임리프 설정
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 }
 
 tasks.named('test') {
