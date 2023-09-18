@@ -1,28 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="/css/login.css">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script
+            src="https://kit.fontawesome.com/64d58efce2.js"
+            crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <title>Light Erp System</title>
 </head>
+
 <body>
-<div class="login-wrapper">
-    <form method="post" action="/login_proc" id="login-form">
-        <h2>SIGN IN</h2>
-        <div id="idDiv">
-            <label id="idLabel"><input id="idInputImage" type="image" src="/image/idImage.png"
-                                       style="width:22px; height:22px;"></label>
-            <input id="idInput" type="text" name="userName" placeholder=" Please enter your user ID">
+<div class="container">
+    <div class="forms-container">
+        <div class="signin-signup">
+            <form action="/login_proc" class="sign-in-form">
+                <h2 class="title">SIGN IN</h2>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="userName" placeholder="Please Enter Your UserName"/>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="userPassword" placeholder="Please Enter Your PassWord"/>
+                </div>
+                <input type="submit" value="Login" class="btn solid"/>
+            </form>
+        </div>
+    </div>
+
+    <div class="panels-container">
+        <div class="panel left-panel">
+            <div class="content">
+                <h3>Do you have any questions about this system?</h3>
+                <p>
+                    Experience a lightweight groupware system!
+                </p>
+                <button class="btn transparent" id="sign-up-btn">
+                    Ask
+                </button>
+            </div>
+            <img src="/img/loginLogo.svg" class="image" alt=""/>
         </div>
 
-        <div id="pwDiv">
-            <label id="pwLabel"><input id="pwInputImage" type="image" src="/image/pwImage.png"
-                                       style="width:22px; height:22px;"></label>
-            <input id="pwInput" type="password" name="userPassword" placeholder="   Please enter your user PassWord">
-        </div>
-
-        <input id="loginInput" type="submit" value="SIGN IN">
-    </form>
+    </div>
 </div>
+
+<script src="/js/app.js"></script>
 </body>
 </html>

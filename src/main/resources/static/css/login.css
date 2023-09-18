@@ -19,8 +19,14 @@ body {
     height: calc(100vh - 48px);
 }
 
+#signInImageId {
+    width: 20%;
+    height: 340px;
+    margin-right: auto;
+}
+
 #login-form {
-    width: 700px;
+    width: 35%;
     height: 340px;
     padding: 40px;
     box-sizing: border-box;
@@ -60,11 +66,15 @@ body {
 #idLabel {
     margin-top: 13px;
     margin-right: 10px;
+    pointer-events: none;
+    outline: none;
 }
 
 #pwLabel {
     margin-top: 13px;
     margin-right: 10px;
+    pointer-events: none;
+    outline: none;
 }
 
 #login-form > input::placeholder {
