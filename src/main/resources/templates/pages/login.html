@@ -8,10 +8,20 @@
 <body>
 <div class="login-wrapper">
     <form method="post" action="/login_proc" id="login-form">
-        <h2>Login Page</h2>
-        <input id="idInput" type="text" name="userName" placeholder="   Please enter your user ID">
-        <input id="pwInput" type="password" name="userPassword" placeholder="   Please enter your user PassWord">
-        <input id="loginInput" type="submit" value="Login">
+        <h2>SIGN IN</h2>
+        <div id="idDiv">
+            <label id="idLabel"><input id="idInputImage" type="image" src="/image/idImage.png"
+                                       style="width:22px; height:22px;"></label>
+            <input id="idInput" type="text" name="userName" placeholder=" Please enter your user ID">
+        </div>
+
+        <div id="pwDiv">
+            <label id="pwLabel"><input id="pwInputImage" type="image" src="/image/pwImage.png"
+                                       style="width:22px; height:22px;"></label>
+            <input id="pwInput" type="password" name="userPassword" placeholder="   Please enter your user PassWord">
+        </div>
+
+        <input id="loginInput" type="submit" value="SIGN IN">
     </form>
 </div>
 </body>

@@ -52,7 +52,7 @@ public class SecurityFilter {
 
                 .authorizeHttpRequests(request -> request
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .antMatchers("/css/**", "/img/**", "/js/**", "/", "/login", "/layouts/**", "/fragments/**", "/version", "/health").permitAll() // 인증에 대한 예외를 정의한다 (설정한 URL은 인증을 요구하지 않는다.)
+                        .antMatchers("/css/**", "/image/**", "/js/**", "/", "/login", "/layouts/**", "/fragments/**", "/version", "/health").permitAll() // 인증에 대한 예외를 정의한다 (설정한 URL은 인증을 요구하지 않는다.)
                         .anyRequest().authenticated() // 어떠한 요청이라도 인증을 적용한다.
                 )
 
