@@ -9,6 +9,10 @@ public class SchConstValue {
      */
     public static final String EMPTY_VALUE = "";
     /**
+     * 0 문자열 변수 = ""
+     */
+    public static final String ZERO_VALUE = "0";
+    /**
      * 캘린더 타입 개인 캘린더 = I
      */
     public static final String CAL_I_TYPE = "I";

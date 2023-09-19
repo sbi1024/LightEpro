@@ -58,12 +58,23 @@
                    ELSE
                        ''
                    END                                    AS modifyDate,
-               IFNULL(TSS.MODIFY_SEQ, '')                 AS modifySeq
+               IFNULL(TSS.MODIFY_SEQ, '')                 AS modifySeq,
+
+               IFNULL(TSSU.CAL_SEQ, 0)                    AS calSeq
+
         FROM T_SC_SCH TSS
+                 INNER JOIN T_SC_SCH_USER TSSU
+                            ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
+                                AND TSS.SCH_SEQ = TSSU.SCH_SEQ
+                                AND TSSU.CDE_TYPE = 'I'
+                                AND TSSU.SCH_PARTITION_TYPE = 10
+                                AND TSSU.SCH_AUTHORITY = 'M'
+                                AND TSSU.CAL_SEQ != 0
+                                AND TSS.USE_YND = 'Y'
+                                AND TSSU.USE_YND = 'Y'
         WHERE 1 = 1
           AND TSS.SCHM_SEQ = #{schedule.schmSeq}
           AND TSS.SCH_SEQ = #{schedule.schSeq}
-          AND TSS.USE_YND = 'Y'
     </select>
 
     <select id="selectParticipants"
@@ -73,7 +84,7 @@
         SELECT IFNULL(TSSU.CDE_SEQ, '')            AS cdeSeq,
                IFNULL(TSSU.CDE_TYPE, '')           AS cdeType,
                IFNULL(TSSU.SCH_PARTITION_TYPE, '') AS schPartitionType,
-               IFNULL(TSSU.SCH_AUTHORITY, '')       AS schAuthority,
+               IFNULL(TSSU.SCH_AUTHORITY, '')      AS schAuthority,
                IFNULL(TSSU.CAL_SEQ, '')            AS calSeq
         FROM T_SC_SCH_USER TSSU
         WHERE 1 = 1
@@ -90,7 +101,7 @@
         SELECT IFNULL(TSSU.CDE_SEQ, '')            AS cdeSeq,
                IFNULL(TSSU.CDE_TYPE, '')           AS cdeType,
                IFNULL(TSSU.SCH_PARTITION_TYPE, '') AS schPartitionType,
-               IFNULL(TSSU.SCH_AUTHORITY, '')       AS schAuthority,
+               IFNULL(TSSU.SCH_AUTHORITY, '')      AS schAuthority,
                IFNULL(TSSU.CAL_SEQ, '')            AS calSeq
         FROM T_SC_SCH_USER TSSU
         WHERE 1 = 1

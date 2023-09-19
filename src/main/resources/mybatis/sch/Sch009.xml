@@ -28,60 +28,52 @@
     </select>
 
 
-    <select id="selectCalendarList" resultType="com.example.LightEpro.sch.dto.sch009.SchRsDto009$Calendar">
-        /* selectCalendarList */
+    <select id="selectMyCalendarList" resultType="com.example.LightEpro.sch.dto.sch009.SchRsDto009$Calendar">
+        /* selectMyCalendarList */
         SELECT IFNULL(TSC.CAL_SEQ, '')     AS calSeq,
                IFNULL(TSC.CAL_TYPE, '')    AS calType,
                IFNULL(TSC.CAL_TITLE, '')   AS calTitle,
                IFNULL(TSC.CAL_CONTENT, '') AS calContent,
                IFNULL(TSC.CAL_COLOR, '')   AS calColor
         FROM T_SC_CAL TSC
-                 INNER JOIN T_SC_CAL_USER TSCU
-                            ON TSC.CAL_SEQ = TSCU.CAL_SEQ
-                                AND TSC.USE_YND = 'Y'
-                                AND TSCU.USE_YND = 'Y'
         WHERE 1 = 1
+          AND TSC.CAL_SEQ > 0
+          AND EXISTS(
+                SELECT TSCU.CAL_SEQ
+                FROM T_SC_CAL_USER TSCU
+                WHERE 1 = 1
+                  AND TSCU.CAL_SEQ = TSC.CAL_SEQ
+                  AND (TSCU.CDE_SEQ = #{user.userCompSeq} AND TSCU.CDE_TYPE = 'C' OR
+                       TSCU.CDE_SEQ = #{user.userDeptSeq} AND TSCU.CDE_TYPE = 'D' OR
+                       TSCU.CDE_SEQ = #{user.userSeq} AND TSCU.CDE_TYPE = 'I')
+                  AND TSCU.USE_YND = 'Y'
+                  AND TSC.USE_YND = 'Y'
 
-          AND (EXISTS(WITH RECURSIVE CTE AS (SELECT TEC.COMP_SEQ,
-                                                    TEC.PARENT_COMP_SEQ
-                                             FROM T_EM_COMP TEC
-                                             WHERE 1 = 1
-                                               AND TEC.COMP_SEQ = #{user.userCompSeq}
+                UNION ALL
 
-                                             UNION ALL
-
-                                             SELECT TEC.COMP_SEQ,
-                                                    TEC.PARENT_COMP_SEQ
-                                             FROM T_EM_COMP TEC
-                                                      INNER JOIN CTE CTE
-                                                                 ON TEC.COMP_SEQ = CTE.PARENT_COMP_SEQ)
-                      SELECT CTE.COMP_SEQ        AS compSeq,
-                             CTE.PARENT_COMP_SEQ AS parentCompSeq
-                      FROM CTE
+                SELECT T_BEFORE_UNION_CAL_USER.CAL_SEQ
+                FROM (SELECT IF(TSSU.CAL_SEQ = 0, (SELECT TSSU_CAL.CAL_SEQ
+                                                   FROM T_SC_SCH_USER TSSU_CAL
+                                                   WHERE 1 = 1
+                                                     AND TSSU_CAL.SCHM_SEQ = TSSU.SCHM_SEQ
+                                                     AND TSSU_CAL.SCH_SEQ = TSSU.SCH_SEQ
+                                                     AND TSSU_CAL.SCH_PARTITION_TYPE = 10
+                                                     AND TSSU_CAL.SCH_AUTHORITY = 'M'), TSSU.CAL_SEQ) AS CAL_SEQ
+                      FROM T_SC_SCH TSS
+                               INNER JOIN T_SC_SCH_USER TSSU
+                                          ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
+                                              AND TSS.SCH_SEQ = TSSU.SCH_SEQ
+                                              AND (TSSU.CDE_SEQ = #{user.userCompSeq} AND TSSU.CDE_TYPE = 'C' OR
+                                                   TSSU.CDE_SEQ = #{user.userDeptSeq} AND TSSU.CDE_TYPE = 'D' OR
+                                                   TSSU.CDE_SEQ = #{user.userSeq} AND TSSU.CDE_TYPE = 'I')
                       WHERE 1 = 1
-                        AND TSCU.CDE_TYPE = 'C'
-                        AND TSCU.CDE_SEQ = CTE.COMP_SEQ)
-
-            OR EXISTS(WITH RECURSIVE CTE AS (SELECT TED.DEPT_SEQ,
-                                                    TED.PARENT_DEPT_SEQ
-                                             FROM T_EM_DEPT TED
-                                             WHERE 1 = 1
-                                               AND TED.DEPT_SEQ = #{user.userDeptSeq}
-                                               AND TED.COMP_SEQ = #{user.userCompSeq}
-
-                                             UNION ALL
-
-                                             SELECT TED.DEPT_SEQ,
-                                                    TED.PARENT_DEPT_SEQ
-                                             FROM T_EM_DEPT TED
-                                                      INNER JOIN CTE CTE
-                                                                 ON TED.DEPT_SEQ = CTE.PARENT_DEPT_SEQ)
-                      SELECT CTE.DEPT_SEQ AS deptSeq
-                      FROM CTE
-                      WHERE 1 = 1
-                        AND TSCU.CDE_TYPE = 'D'
-                        AND TSCU.CDE_SEQ = CTE.DEPT_SEQ)
-
-            OR (TSCU.CDE_TYPE = 'I' AND TSCU.CDE_SEQ = #{user.userSeq}))
+                        AND TSS.SCHM_SEQ > 0
+                        AND TSS.SCH_SEQ > 0
+                        AND TSS.USE_YND = 'Y'
+                        AND TSSU.USE_YND = 'Y') AS T_BEFORE_UNION_CAL_USER
+                WHERE 1 = 1
+                  AND TSC.CAL_SEQ = T_BEFORE_UNION_CAL_USER.CAL_SEQ
+            )
+          AND TSC.USE_YND = 'Y'
     </select>
 </mapper>

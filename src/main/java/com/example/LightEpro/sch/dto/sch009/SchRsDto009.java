@@ -8,8 +8,8 @@ import java.util.List;
 @Data
 @Builder
 public class SchRsDto009 {
-    private List<Calendar> calendarList;
-    private int calendarListCnt;
+    private List<Calendar> myCalendarList;
+    private int myCalendarListCnt;
 
     @Data
     public static class Calendar {

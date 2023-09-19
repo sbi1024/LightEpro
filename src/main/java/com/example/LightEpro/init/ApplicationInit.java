@@ -46,7 +46,7 @@ public class ApplicationInit implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         // 차후에 배포시 주석처리하여 배포
-        // init();
+        init();
     }
 
     // init 메소드 구성

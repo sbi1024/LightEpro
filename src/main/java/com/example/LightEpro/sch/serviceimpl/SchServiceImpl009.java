@@ -29,14 +29,14 @@ public class SchServiceImpl009 implements SchService009 {
         log.info("findMyCalendarListInfo Method Request Data : " + schRqDto009);
 
         // 나의 캘린더 목록 조회 메소드 호출
-        List<SchRsDto009.Calendar> calendarList = findMyCalendarList(schRqDto009);
+        List<SchRsDto009.Calendar> myCalendarList = findMyCalendarList(schRqDto009);
         // 나의 캘린더 목록 카운팅 메소드 호출
-        int calendarListCnt = calendarList == null ? 0 : calendarList.size();
+        int myCalendarListCnt = myCalendarList == null ? 0 : myCalendarList.size();
 
         // schRsDto009 객체 builder 패턴을 통해 객체 생성
         SchRsDto009 schRsDto009 = SchRsDto009.builder()
-                .calendarList(calendarList)
-                .calendarListCnt(calendarListCnt)
+                .myCalendarList(myCalendarList)
+                .myCalendarListCnt(myCalendarListCnt)
                 .build();
 
         // method end log
@@ -54,13 +54,13 @@ public class SchServiceImpl009 implements SchService009 {
         log.info("findMyCalendarList Method Request Data : " + schRqDto009);
 
         // 캘린더 목록 조회 Mapper 호출
-        List<SchRsDto009.Calendar> calendarList = schMapper009.selectCalendarList(schRqDto009);
+        List<SchRsDto009.Calendar> myCalendarList = schMapper009.selectMyCalendarList(schRqDto009);
 
         // method end log
-        log.info("findMyCalendarListInfo Method Return Data : " + calendarList);
+        log.info("findMyCalendarListInfo Method Return Data : " + myCalendarList);
         log.info("findMyCalendarListInfo Method End !!!");
 
         // return
-        return calendarList;
+        return myCalendarList;
     }
 }
