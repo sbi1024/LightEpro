@@ -47,6 +47,7 @@ public class SchServiceImpl009 implements SchService009 {
         return schRsDto009;
     }
 
+    // 나의 캘린더 목록 조회 메소드
     @Override
     public List<SchRsDto009.Calendar> findMyCalendarList(SchRqDto009 schRqDto009) throws Exception {
         // method start log
