@@ -104,4 +104,55 @@
                                     #{calendar.calendarSequence}
                                 </foreach>
     </select>
+
+
+    <select id="test">
+        -- insert/update 하는 방식을 변경해야함
+        SELECT TSS.SCHM_SEQ, TSS.SCH_SEQ, TSC.CAL_SEQ
+        FROM T_SC_SCH TSS
+                 INNER JOIN T_SC_SCH_USER TSSU
+                            ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
+                                AND TSS.SCH_SEQ = TSSU.SCH_SEQ
+                                AND (TSSU.CDE_SEQ = 1 AND TSSU.CDE_TYPE = 'C' OR
+                                     TSSU.CDE_SEQ = 1 AND TSSU.CDE_TYPE = 'D' OR
+                                     TSSU.CDE_SEQ = 2 AND TSSU.CDE_TYPE = 'I')
+                                AND TSS.USE_YND = 'Y'
+                                AND TSSU.USE_YND = 'Y'
+                 INNER JOIN T_SC_CAL TSC
+                            ON TSSU.CAL_SEQ = TSC.CAL_SEQ
+                                AND TSC.CAL_SEQ IN ('1', '3')
+                                AND TSC.USE_YND = 'Y'
+        WHERE 1 = 1
+          AND TSS.SCHM_SEQ > 0
+          AND TSS.SCH_SEQ > 0
+          AND EXISTS(
+                SELECT T_EXISTS_SCH.SCHM_SEQ, T_EXISTS_SCH.SCH_SEQ
+                FROM T_SC_SCH T_EXISTS_SCH
+                WHERE 1 = 1
+                  AND (T_EXISTS_SCH.START_DATE_YEAR = 2023 AND T_EXISTS_SCH.START_DATE_MONTH = 9)
+                  AND T_EXISTS_SCH.SCHM_SEQ = TSS.SCHM_SEQ
+                  AND T_EXISTS_SCH.SCH_SEQ = TSS.SCH_SEQ
+
+                UNION ALL
+
+                SELECT T_EXISTS_SCH.SCHM_SEQ, T_EXISTS_SCH.SCH_SEQ
+                FROM T_SC_SCH T_EXISTS_SCH
+                WHERE 1 = 1
+                  AND (T_EXISTS_SCH.END_DATE_YEAR = 2023 AND T_EXISTS_SCH.END_DATE_MONTH = 9)
+                  AND T_EXISTS_SCH.SCHM_SEQ = TSS.SCHM_SEQ
+                  AND T_EXISTS_SCH.SCH_SEQ = TSS.SCH_SEQ
+
+                UNION ALL
+
+                SELECT T_EXISTS_SCH.SCHM_SEQ, T_EXISTS_SCH.SCH_SEQ
+                FROM T_SC_SCH T_EXISTS_SCH
+                WHERE 1 = 1
+                  AND (
+                        (T_EXISTS_SCH.START_DATE_YEAR <= 2023 AND T_EXISTS_SCH.START_DATE_MONTH < 9) AND
+                        (T_EXISTS_SCH.END_DATE_YEAR >= 2023 AND T_EXISTS_SCH.END_DATE_MONTH > 9)
+                    )
+                  AND T_EXISTS_SCH.SCHM_SEQ = TSS.SCHM_SEQ
+                  AND T_EXISTS_SCH.SCH_SEQ = TSS.SCH_SEQ
+            )
+    </select>
 </mapper>
