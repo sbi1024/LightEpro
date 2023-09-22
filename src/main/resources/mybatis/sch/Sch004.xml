@@ -45,26 +45,8 @@
                        THEN DATE_FORMAT(TSS.MODIFY_DATE, '%Y%m%d%H%i')
                    ELSE
                        ''
-                   END                                    AS modifyDate,
-
-               IFNULL(TSSU.CAL_SEQ, '')                   AS calSeq,
-
-               IFNULL(TSC.CAL_TITLE, '')                  AS calTitle,
-               IFNULL(TSC.CAL_TYPE, '')                   AS calType,
-               IFNULL(TSC.CAL_CONTENT, '')                AS calContent,
-               IFNULL(TSC.CAL_COLOR, '#748FFC')           AS calColor
+                   END                                    AS modifyDate
         FROM T_SC_SCH TSS
-                 INNER JOIN T_SC_SCH_USER TSSU
-                            ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
-                                AND TSS.SCH_SEQ = TSSU.SCH_SEQ
-                                AND TSS.USE_YND = 'Y'
-                                AND TSSU.USE_YND = 'Y'
-                 INNER JOIN T_SC_CAL TSC
-                            ON TSSU.CAL_SEQ = TSC.CAL_SEQ
-                                AND TSC.CAL_SEQ IN <foreach collection="calendar.authorizedCalendarSequences" item="calendar.authorizedCalendarSequence" open="(" separator="," close=")">
-                                                        #{calendar.authorizedCalendarSequence}
-                                                   </foreach>
-                                AND TSC.USE_YND = 'Y'
         WHERE 1 = 1
           AND TSS.SCHM_SEQ > 0
           AND TSS.SCH_SEQ > 0
@@ -95,10 +77,25 @@
                         (T_EXISTS_SCH.START_DATE_YEAR <= #{schedule.year} AND T_EXISTS_SCH.START_DATE_MONTH < #{schedule.month}) AND
                         (T_EXISTS_SCH.END_DATE_YEAR >= #{schedule.year} AND T_EXISTS_SCH.END_DATE_MONTH > #{schedule.month})
                         ]]>
-                      )
+                    )
                   AND T_EXISTS_SCH.SCHM_SEQ = TSS.SCHM_SEQ
                   AND T_EXISTS_SCH.SCH_SEQ = TSS.SCH_SEQ
             )
+          AND EXISTS(
+                SELECT TSSU.CAL_SEQ
+                FROM T_SC_SCH_USER TSSU
+                         INNER JOIN T_SC_CAL TSC
+                                    ON TSSU.CAL_SEQ = TSC.CAL_SEQ
+                                        AND TSC.CAL_SEQ IN <foreach collection="calendar.authorizedCalendarSequences" item="calendar.authorizedCalendarSequence" open="(" separator="," close=")">
+                                                                #{calendar.authorizedCalendarSequence}
+                                                           </foreach>
+                                        AND TSSU.USE_YND = 'Y'
+                                        AND TSC.USE_YND = 'Y'
+                WHERE 1 = 1
+                  AND TSS.SCHM_SEQ = TSSU.SCHM_SEQ
+                  AND TSS.SCH_SEQ = TSSU.SCH_SEQ
+            )
+          AND TSS.USE_YND = 'Y'
     </select>
 
     <select id="selectSchedulesByUnAuthorizedCalendarSequencesAndDate" resultType="com.example.LightEpro.sch.dto.sch004.SchRsDto004$Schedule">
@@ -118,29 +115,8 @@
                        THEN DATE_FORMAT(TSS.MODIFY_DATE, '%Y%m%d%H%i')
                    ELSE
                        ''
-                   END                                    AS modifyDate,
-
-               IFNULL(TSSU.CAL_SEQ, '')                   AS calSeq,
-
-               IFNULL(TSC.CAL_TITLE, '')                  AS calTitle,
-               IFNULL(TSC.CAL_TYPE, '')                   AS calType,
-               IFNULL(TSC.CAL_CONTENT, '')                AS calContent,
-               IFNULL(TSC.CAL_COLOR, '#748FFC')           AS calColor
+                   END                                    AS modifyDate
         FROM T_SC_SCH TSS
-                 INNER JOIN T_SC_SCH_USER TSSU
-                            ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
-                                AND TSS.SCH_SEQ = TSSU.SCH_SEQ
-                                AND (TSSU.CDE_SEQ = #{user.userCompSeq} AND TSSU.CDE_TYPE = 'C' OR
-                                     TSSU.CDE_SEQ = #{user.userDeptSeq} AND TSSU.CDE_TYPE = 'D' OR
-                                     TSSU.CDE_SEQ = #{user.userSeq} AND TSSU.CDE_TYPE = 'I')
-                                AND TSS.USE_YND = 'Y'
-                                AND TSSU.USE_YND = 'Y'
-                 INNER JOIN T_SC_CAL TSC
-                            ON TSSU.CAL_SEQ = TSC.CAL_SEQ
-                                AND TSC.CAL_SEQ IN <foreach collection="calendar.UnAuthorizedCalendarSequences" item="calendar.UnAuthorizedCalendarSequence" open="(" separator="," close=")">
-                                                        #{calendar.UnAuthorizedCalendarSequence}
-                                                   </foreach>
-                                AND TSC.USE_YND = 'Y'
         WHERE 1 = 1
           AND TSS.SCHM_SEQ > 0
           AND TSS.SCH_SEQ > 0
@@ -171,9 +147,27 @@
                         (T_EXISTS_SCH.START_DATE_YEAR <= #{schedule.year} AND T_EXISTS_SCH.START_DATE_MONTH < #{schedule.month}) AND
                         (T_EXISTS_SCH.END_DATE_YEAR >= #{schedule.year} AND T_EXISTS_SCH.END_DATE_MONTH > #{schedule.month})
                         ]]>
-                      )
+                    )
                   AND T_EXISTS_SCH.SCHM_SEQ = TSS.SCHM_SEQ
                   AND T_EXISTS_SCH.SCH_SEQ = TSS.SCH_SEQ
             )
+          AND EXISTS(
+                SELECT TSSU.CAL_SEQ
+                FROM T_SC_SCH_USER TSSU
+                         INNER JOIN T_SC_CAL TSC
+                                    ON TSSU.CAL_SEQ = TSC.CAL_SEQ
+                                        AND (TSSU.CDE_SEQ = #{user.userCompSeq} AND TSSU.CDE_TYPE = 'C' OR
+                                             TSSU.CDE_SEQ = #{user.userDeptSeq} AND TSSU.CDE_TYPE = 'D' OR
+                                             TSSU.CDE_SEQ = #{user.userSeq} AND TSSU.CDE_TYPE = 'I')
+                                        AND TSC.CAL_SEQ IN <foreach collection="calendar.unAuthorizedCalendarSequences" item="calendar.unAuthorizedCalendarSequence" open="(" separator="," close=")">
+                                                                #{calendar.unAuthorizedCalendarSequence}
+                                                           </foreach>
+                                        AND TSSU.USE_YND = 'Y'
+                                        AND TSC.USE_YND = 'Y'
+                WHERE 1 = 1
+                  AND TSSU.SCHM_SEQ = TSS.SCHM_SEQ
+                  AND TSSU.SCH_SEQ = TSS.SCH_SEQ
+            )
+          AND TSS.USE_YND = 'Y'
     </select>
 </mapper>

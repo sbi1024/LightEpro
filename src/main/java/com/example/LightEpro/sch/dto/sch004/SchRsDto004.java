@@ -24,12 +24,5 @@ public class SchRsDto004 {
         private String createDate;
         private String modifySeq;
         private String modifyDate;
-
-        private String calSeq;
-
-        private String calTitle;
-        private String calType;
-        private String calContent;
-        private String calColor;
     }
 }
