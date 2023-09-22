@@ -65,8 +65,8 @@
 
     <select id="selectParticipants" resultType="com.example.LightEpro.sch.dto.sch002.SchRqDto002$Participant">
         /* selectParticipants */
-        SELECT IFNULL(TSSU.CDE_SEQ, 0)            AS cdeSeq,
-               IFNULL(TSSU.CDE_TYPE, '')          AS cdeType
+        SELECT IFNULL(TSSU.CDE_SEQ, '')  AS cdeSeq,
+               IFNULL(TSSU.CDE_TYPE, '') AS cdeType
         FROM T_SC_SCH_USER TSSU
         WHERE 1 = 1
           AND TSSU.SCHM_SEQ = #{schedule.schmSeq}
@@ -77,7 +77,7 @@
 
     <select id="selectDisclosureScopes" resultType="com.example.LightEpro.sch.dto.sch002.SchRqDto002$DisclosureScope">
         /* selectDisclosureScopes */
-        SELECT IFNULL(TSSU.CDE_SEQ, 0)            AS cdeSeq,
+        SELECT IFNULL(TSSU.CDE_SEQ, '')            AS cdeSeq,
                IFNULL(TSSU.CDE_TYPE, '')          AS cdeType
         FROM T_SC_SCH_USER TSSU
         WHERE 1 = 1
@@ -127,7 +127,7 @@
                     #{requestNonMatchParticipant.cdeType},
                     '10',
                     'W',
-                    '0',
+                    #{calendar.calSeq},
                     'Y',
                     NOW(),
                     #{user.userSeq}
@@ -138,7 +138,8 @@
     <update id="updateOriginMatchParticipants">
         /* updateOriginMatchParticipants */
         UPDATE T_SC_SCH_USER TSSU
-        SET TSSU.MODIFY_DATE = NOW(),
+        SET TSSU.CAL_SEQ = #{calendar.calSeq},
+            TSSU.MODIFY_DATE = NOW(),
             TSSU.MODIFY_SEQ = #{user.userSeq}
         WHERE 1 = 1
          AND (
@@ -192,7 +193,7 @@
                     #{requestNonMatchDisclosureScope.cdeType},
                     '20',
                     'R',
-                    '0',
+                    #{calendar.calSeq},
                     'Y',
                     NOW(),
                     #{user.userSeq}
@@ -203,7 +204,8 @@
     <update id="updateOriginMatchDisclosureScopes">
         /* updateOriginMatchDisclosureScopes */
         UPDATE T_SC_SCH_USER TSSU
-        SET TSSU.MODIFY_DATE = NOW(),
+        SET TSSU.CAL_SEQ = #{calendar.calSeq},
+            TSSU.MODIFY_DATE = NOW(),
             TSSU.MODIFY_SEQ = #{user.userSeq}
         WHERE 1 = 1
          AND (

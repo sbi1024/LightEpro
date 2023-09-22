@@ -26,7 +26,6 @@ public class SchRsDto001 {
         private String createSeq;
         private String modifyDate;
         private String modifySeq;
-        private String calSeq;
     }
 
     @Data

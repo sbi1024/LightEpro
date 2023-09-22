@@ -5,8 +5,8 @@
     "userSeq": 1
   },
   "schedule": {
-    "startDate": "202308011530",
-    "endDate": "202308021630",
+    "startDate": "202309011530",
+    "endDate": "202309021630",
     "allDayYn": "Y",
     "schTitle": "단일 일정 반정규화 인덱스 테스트"
   },

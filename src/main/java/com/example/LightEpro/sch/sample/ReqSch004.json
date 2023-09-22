@@ -9,6 +9,7 @@
     "month": 9
   },
   "calendar": {
-    "calendarSequences": [1,2,3,4,5,8]
+    "authorizedCalendarSequences": [1,6],
+    "unAuthorizedCalendarSequences": [7]
   }
 }

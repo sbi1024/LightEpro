@@ -68,9 +68,9 @@
                           AND TSSU.CAL_SEQ = #{calendar.calSeq}
                           AND TSSU.SCH_PARTITION_TYPE = 10
                           AND TSSU.SCH_AUTHORITY = 'M'
-                          AND TSSU.USE_YND = 'Y') AS ADMIN_USER
-            ON TSS.SCHM_SEQ = ADMIN_USER.SCHM_SEQ
-                AND TSS.SCH_SEQ = ADMIN_USER.SCH_SEQ
+                          AND TSSU.USE_YND = 'Y') AS T_ADMIN_USER
+            ON TSS.SCHM_SEQ = T_ADMIN_USER.SCHM_SEQ
+                AND TSS.SCH_SEQ = T_ADMIN_USER.SCH_SEQ
         SET TSS.USE_YND     = 'N',
             TSS.MODIFY_DATE = NOW(),
             TSS.MODIFY_SEQ  = #{user.userSeq}
@@ -88,9 +88,9 @@
                           AND TSSU.CAL_SEQ = #{calendar.calSeq}
                           AND TSSU.SCH_PARTITION_TYPE = 10
                           AND TSSU.SCH_AUTHORITY = 'M'
-                          AND TSSU.USE_YND = 'Y') AS ADMIN_USER
-            ON TSSU.SCHM_SEQ = ADMIN_USER.SCHM_SEQ
-                AND TSSU.SCH_SEQ = ADMIN_USER.SCH_SEQ
+                          AND TSSU.USE_YND = 'Y') AS T_ADMIN_USER
+            ON TSSU.SCHM_SEQ = T_ADMIN_USER.SCHM_SEQ
+                AND TSSU.SCH_SEQ = T_ADMIN_USER.SCH_SEQ
         SET TSSU.USE_YND     = 'N',
             TSSU.MODIFY_DATE = NOW(),
             TSSU.MODIFY_SEQ  = #{user.userSeq}

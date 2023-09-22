@@ -13,9 +13,4 @@ public interface SchService001 {
     List<SchRsDto001.Participant> findParticipants(SchRqDto001 schRqDto001) throws Exception;
 
     List<SchRsDto001.DisclosureScope> findDisclosureScopes(SchRqDto001 schRqDto001) throws Exception;
-
-    void assignObject(SchRsDto001 schRsDto001) throws Exception;
-
-    void confirmScheduleUserCalendarSequence(SchRsDto001 schRsDto001) throws Exception;
-
 }

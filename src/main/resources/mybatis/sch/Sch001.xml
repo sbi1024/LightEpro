@@ -58,9 +58,7 @@
                    ELSE
                        ''
                    END                                    AS modifyDate,
-               IFNULL(TSS.MODIFY_SEQ, '')                 AS modifySeq,
-
-               IFNULL(TSSU.CAL_SEQ, 0)                    AS calSeq
+               IFNULL(TSS.MODIFY_SEQ, '')                 AS modifySeq
 
         FROM T_SC_SCH TSS
                  INNER JOIN T_SC_SCH_USER TSSU
@@ -69,7 +67,6 @@
                                 AND TSSU.CDE_TYPE = 'I'
                                 AND TSSU.SCH_PARTITION_TYPE = 10
                                 AND TSSU.SCH_AUTHORITY = 'M'
-                                AND TSSU.CAL_SEQ != 0
                                 AND TSS.USE_YND = 'Y'
                                 AND TSSU.USE_YND = 'Y'
         WHERE 1 = 1

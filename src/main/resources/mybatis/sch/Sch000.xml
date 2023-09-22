@@ -102,14 +102,7 @@
                                 'W'
                             </otherwise>
                         </choose>,
-                        <choose>
-                            <when test="participant.cdeSeq == user.userSeq">
-                                #{calendar.calSeq}
-                            </when>
-                            <otherwise>
-                                '0'
-                            </otherwise>
-                        </choose>,
+                        #{calendar.calSeq},
                         'Y',
                         now(),
                         #{user.userSeq}
@@ -138,7 +131,7 @@
                         #{disclosureScope.cdeType},
                         '20',
                         'R',
-                        '0',
+                        #{calendar.calSeq},
                         'Y',
                         now(),
                         #{user.userSeq}

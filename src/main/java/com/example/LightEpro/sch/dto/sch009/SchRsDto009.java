@@ -18,5 +18,6 @@ public class SchRsDto009 {
         private String calTitle;
         private String calContent;
         private String calColor;
+        private String calAuthorized;
     }
 }

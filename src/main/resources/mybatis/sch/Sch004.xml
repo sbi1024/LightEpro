@@ -28,99 +28,42 @@
           AND TEE.EMP_SEQ = #{user.userSeq}
     </select>
 
-    <select id="selectScheduleList" resultType="com.example.LightEpro.sch.dto.sch004.SchRsDto004$Schedule">
-        /* selectScheduleList */
-        SELECT IFNULL(TSS.SCHM_SEQ,'')                                        AS schmSeq,
-               IFNULL(TSS.SCH_SEQ,'')                                         AS schSeq,
-               IFNULL(TSS.SCH_TITLE,'')                                       AS schTitle,
-               IFNULL(TSS.SCH_CONTENT,'')                                     AS schContent,
-               DATE_FORMAT(TSS.START_DATE,'%Y%m%d%H%i')                       AS startDate,
-               DATE_FORMAT(TSS.END_DATE,'%Y%m%d%H%i')                         AS endDate,
-               IFNULL(TSS.ALL_DAY_YN,'')                                      AS allDayYn,
-               IFNULL(TSS.CREATE_SEQ,'')                                      AS createSeq,
-               DATE_FORMAT(TSS.CREATE_DATE,'%Y%m%d%H%i')                      AS createDate,
-               IFNULL(TSS.MODIFY_SEQ,'')                                      AS modifySeq,
+    <select id="selectSchedulesByAuthorizedCalendarSequencesAndDate" resultType="com.example.LightEpro.sch.dto.sch004.SchRsDto004$Schedule">
+        /* selectSchedulesByAuthorizedCalendarSequencesAndDate */
+        SELECT IFNULL(TSS.SCHM_SEQ, '')                   AS schmSeq,
+               IFNULL(TSS.SCH_SEQ, '')                    AS schSeq,
+               IFNULL(TSS.SCH_TITLE, '')                  AS schTitle,
+               IFNULL(TSS.SCH_CONTENT, '')                AS schContent,
+               DATE_FORMAT(TSS.START_DATE, '%Y%m%d%H%i')  AS startDate,
+               DATE_FORMAT(TSS.END_DATE, '%Y%m%d%H%i')    AS endDate,
+               IFNULL(TSS.ALL_DAY_YN, '')                 AS allDayYn,
+               IFNULL(TSS.CREATE_SEQ, '')                 AS createSeq,
+               DATE_FORMAT(TSS.CREATE_DATE, '%Y%m%d%H%i') AS createDate,
+               IFNULL(TSS.MODIFY_SEQ, '')                 AS modifySeq,
                CASE
                    WHEN TSS.MODIFY_DATE IS NOT NULL
-                       THEN DATE_FORMAT(TSS.MODIFY_DATE,'%Y%m%d%H%i')
+                       THEN DATE_FORMAT(TSS.MODIFY_DATE, '%Y%m%d%H%i')
                    ELSE
                        ''
-               END                                                            AS modifyDate,
+                   END                                    AS modifyDate,
 
-               IFNULL(TSSU.CAL_SEQ,'')                                        AS calSeq,
+               IFNULL(TSSU.CAL_SEQ, '')                   AS calSeq,
 
-               IFNULL(TSC.CAL_TITLE,'')                                       AS calTitle,
-               IFNULL(TSC.CAL_TYPE,'')                                        AS calType,
-               IFNULL(TSC.CAL_CONTENT,'')                                     AS calContent,
-               IFNULL(TSC.CAL_COLOR,'#748FFC')                                AS calColor
-
-
+               IFNULL(TSC.CAL_TITLE, '')                  AS calTitle,
+               IFNULL(TSC.CAL_TYPE, '')                   AS calType,
+               IFNULL(TSC.CAL_CONTENT, '')                AS calContent,
+               IFNULL(TSC.CAL_COLOR, '#748FFC')           AS calColor
         FROM T_SC_SCH TSS
-
-                 INNER JOIN (SELECT DATE_TSS.SCHM_SEQ, DATE_TSS.SCH_SEQ
-                             FROM (
-                                   SELECT TSS.SCHM_SEQ, TSS.SCH_SEQ
-                                   FROM T_SC_SCH TSS
-                                   WHERE 1 = 1
-                                    AND (TSS.START_DATE_YEAR = #{schedule.year} AND TSS.START_DATE_MONTH = #{schedule.month})
-
-                                   UNION ALL
-
-                                   SELECT TSS.SCHM_SEQ, TSS.SCH_SEQ
-                                   FROM T_SC_SCH TSS
-                                   WHERE 1 = 1
-                                    AND (TSS.END_DATE_YEAR = #{schedule.year} AND TSS.END_DATE_MONTH = #{schedule.month})
-
-                                   UNION ALL
-
-                                   SELECT TSS.SCHM_SEQ, TSS.SCH_SEQ
-                                   FROM T_SC_SCH TSS
-                                    WHERE 1 = 1
-                                    AND (
-                                         <![CDATA[
-                                             (TSS.START_DATE_YEAR <= #{schedule.year} AND TSS.START_DATE_MONTH < #{schedule.month}) AND
-                                             (TSS.END_DATE_YEAR >= #{schedule.year} AND TSS.END_DATE_MONTH > #{schedule.month})
-                                         ]]>
-                                        )
-                                    ) AS DATE_TSS
-                                    GROUP BY DATE_TSS.SCHM_SEQ, DATE_TSS.SCH_SEQ
-                             ) AS UNION_DATE_SCH
-                            ON TSS.SCHM_SEQ = UNION_DATE_SCH.SCHM_SEQ
-                                AND TSS.SCH_SEQ = UNION_DATE_SCH.SCH_SEQ
-
                  INNER JOIN T_SC_SCH_USER TSSU
                             ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
                                 AND TSS.SCH_SEQ = TSSU.SCH_SEQ
                                 AND TSS.USE_YND = 'Y'
                                 AND TSSU.USE_YND = 'Y'
-
                  INNER JOIN T_SC_CAL TSC
                             ON TSSU.CAL_SEQ = TSC.CAL_SEQ
-                                AND TSC.USE_YND = 'Y'
-
-        WHERE 1 = 1
-
-            AND TSSU.CAL_SEQ IN <foreach collection="calendar.calendarSequences" item="calendar.calendarSequence" open="(" separator="," close=")">
-                                    #{calendar.calendarSequence}
-                                </foreach>
-    </select>
-
-
-    <select id="test">
-        -- insert/update 하는 방식을 변경해야함
-        SELECT TSS.SCHM_SEQ, TSS.SCH_SEQ, TSC.CAL_SEQ
-        FROM T_SC_SCH TSS
-                 INNER JOIN T_SC_SCH_USER TSSU
-                            ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
-                                AND TSS.SCH_SEQ = TSSU.SCH_SEQ
-                                AND (TSSU.CDE_SEQ = 1 AND TSSU.CDE_TYPE = 'C' OR
-                                     TSSU.CDE_SEQ = 1 AND TSSU.CDE_TYPE = 'D' OR
-                                     TSSU.CDE_SEQ = 2 AND TSSU.CDE_TYPE = 'I')
-                                AND TSS.USE_YND = 'Y'
-                                AND TSSU.USE_YND = 'Y'
-                 INNER JOIN T_SC_CAL TSC
-                            ON TSSU.CAL_SEQ = TSC.CAL_SEQ
-                                AND TSC.CAL_SEQ IN ('1', '3')
+                                AND TSC.CAL_SEQ IN <foreach collection="calendar.authorizedCalendarSequences" item="calendar.authorizedCalendarSequence" open="(" separator="," close=")">
+                                                        #{calendar.authorizedCalendarSequence}
+                                                   </foreach>
                                 AND TSC.USE_YND = 'Y'
         WHERE 1 = 1
           AND TSS.SCHM_SEQ > 0
@@ -129,7 +72,7 @@
                 SELECT T_EXISTS_SCH.SCHM_SEQ, T_EXISTS_SCH.SCH_SEQ
                 FROM T_SC_SCH T_EXISTS_SCH
                 WHERE 1 = 1
-                  AND (T_EXISTS_SCH.START_DATE_YEAR = 2023 AND T_EXISTS_SCH.START_DATE_MONTH = 9)
+                  AND (T_EXISTS_SCH.START_DATE_YEAR = #{schedule.year} AND T_EXISTS_SCH.START_DATE_MONTH = #{schedule.month})
                   AND T_EXISTS_SCH.SCHM_SEQ = TSS.SCHM_SEQ
                   AND T_EXISTS_SCH.SCH_SEQ = TSS.SCH_SEQ
 
@@ -138,7 +81,7 @@
                 SELECT T_EXISTS_SCH.SCHM_SEQ, T_EXISTS_SCH.SCH_SEQ
                 FROM T_SC_SCH T_EXISTS_SCH
                 WHERE 1 = 1
-                  AND (T_EXISTS_SCH.END_DATE_YEAR = 2023 AND T_EXISTS_SCH.END_DATE_MONTH = 9)
+                  AND (T_EXISTS_SCH.END_DATE_YEAR = #{schedule.year} AND T_EXISTS_SCH.END_DATE_MONTH = #{schedule.month})
                   AND T_EXISTS_SCH.SCHM_SEQ = TSS.SCHM_SEQ
                   AND T_EXISTS_SCH.SCH_SEQ = TSS.SCH_SEQ
 
@@ -148,9 +91,87 @@
                 FROM T_SC_SCH T_EXISTS_SCH
                 WHERE 1 = 1
                   AND (
-                        (T_EXISTS_SCH.START_DATE_YEAR <= 2023 AND T_EXISTS_SCH.START_DATE_MONTH < 9) AND
-                        (T_EXISTS_SCH.END_DATE_YEAR >= 2023 AND T_EXISTS_SCH.END_DATE_MONTH > 9)
-                    )
+                        <![CDATA[
+                        (T_EXISTS_SCH.START_DATE_YEAR <= #{schedule.year} AND T_EXISTS_SCH.START_DATE_MONTH < #{schedule.month}) AND
+                        (T_EXISTS_SCH.END_DATE_YEAR >= #{schedule.year} AND T_EXISTS_SCH.END_DATE_MONTH > #{schedule.month})
+                        ]]>
+                      )
+                  AND T_EXISTS_SCH.SCHM_SEQ = TSS.SCHM_SEQ
+                  AND T_EXISTS_SCH.SCH_SEQ = TSS.SCH_SEQ
+            )
+    </select>
+
+    <select id="selectSchedulesByUnAuthorizedCalendarSequencesAndDate" resultType="com.example.LightEpro.sch.dto.sch004.SchRsDto004$Schedule">
+        /* selectSchedulesByUnAuthorizedCalendarSequencesAndDate */
+        SELECT IFNULL(TSS.SCHM_SEQ, '')                   AS schmSeq,
+               IFNULL(TSS.SCH_SEQ, '')                    AS schSeq,
+               IFNULL(TSS.SCH_TITLE, '')                  AS schTitle,
+               IFNULL(TSS.SCH_CONTENT, '')                AS schContent,
+               DATE_FORMAT(TSS.START_DATE, '%Y%m%d%H%i')  AS startDate,
+               DATE_FORMAT(TSS.END_DATE, '%Y%m%d%H%i')    AS endDate,
+               IFNULL(TSS.ALL_DAY_YN, '')                 AS allDayYn,
+               IFNULL(TSS.CREATE_SEQ, '')                 AS createSeq,
+               DATE_FORMAT(TSS.CREATE_DATE, '%Y%m%d%H%i') AS createDate,
+               IFNULL(TSS.MODIFY_SEQ, '')                 AS modifySeq,
+               CASE
+                   WHEN TSS.MODIFY_DATE IS NOT NULL
+                       THEN DATE_FORMAT(TSS.MODIFY_DATE, '%Y%m%d%H%i')
+                   ELSE
+                       ''
+                   END                                    AS modifyDate,
+
+               IFNULL(TSSU.CAL_SEQ, '')                   AS calSeq,
+
+               IFNULL(TSC.CAL_TITLE, '')                  AS calTitle,
+               IFNULL(TSC.CAL_TYPE, '')                   AS calType,
+               IFNULL(TSC.CAL_CONTENT, '')                AS calContent,
+               IFNULL(TSC.CAL_COLOR, '#748FFC')           AS calColor
+        FROM T_SC_SCH TSS
+                 INNER JOIN T_SC_SCH_USER TSSU
+                            ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
+                                AND TSS.SCH_SEQ = TSSU.SCH_SEQ
+                                AND (TSSU.CDE_SEQ = #{user.userCompSeq} AND TSSU.CDE_TYPE = 'C' OR
+                                     TSSU.CDE_SEQ = #{user.userDeptSeq} AND TSSU.CDE_TYPE = 'D' OR
+                                     TSSU.CDE_SEQ = #{user.userSeq} AND TSSU.CDE_TYPE = 'I')
+                                AND TSS.USE_YND = 'Y'
+                                AND TSSU.USE_YND = 'Y'
+                 INNER JOIN T_SC_CAL TSC
+                            ON TSSU.CAL_SEQ = TSC.CAL_SEQ
+                                AND TSC.CAL_SEQ IN <foreach collection="calendar.UnAuthorizedCalendarSequences" item="calendar.UnAuthorizedCalendarSequence" open="(" separator="," close=")">
+                                                        #{calendar.UnAuthorizedCalendarSequence}
+                                                   </foreach>
+                                AND TSC.USE_YND = 'Y'
+        WHERE 1 = 1
+          AND TSS.SCHM_SEQ > 0
+          AND TSS.SCH_SEQ > 0
+          AND EXISTS(
+                SELECT T_EXISTS_SCH.SCHM_SEQ, T_EXISTS_SCH.SCH_SEQ
+                FROM T_SC_SCH T_EXISTS_SCH
+                WHERE 1 = 1
+                  AND (T_EXISTS_SCH.START_DATE_YEAR = #{schedule.year} AND T_EXISTS_SCH.START_DATE_MONTH = #{schedule.month})
+                  AND T_EXISTS_SCH.SCHM_SEQ = TSS.SCHM_SEQ
+                  AND T_EXISTS_SCH.SCH_SEQ = TSS.SCH_SEQ
+
+                UNION ALL
+
+                SELECT T_EXISTS_SCH.SCHM_SEQ, T_EXISTS_SCH.SCH_SEQ
+                FROM T_SC_SCH T_EXISTS_SCH
+                WHERE 1 = 1
+                  AND (T_EXISTS_SCH.END_DATE_YEAR = #{schedule.year} AND T_EXISTS_SCH.END_DATE_MONTH = #{schedule.month})
+                  AND T_EXISTS_SCH.SCHM_SEQ = TSS.SCHM_SEQ
+                  AND T_EXISTS_SCH.SCH_SEQ = TSS.SCH_SEQ
+
+                UNION ALL
+
+                SELECT T_EXISTS_SCH.SCHM_SEQ, T_EXISTS_SCH.SCH_SEQ
+                FROM T_SC_SCH T_EXISTS_SCH
+                WHERE 1 = 1
+                  AND (
+                        <![CDATA[
+                        (T_EXISTS_SCH.START_DATE_YEAR <= #{schedule.year} AND T_EXISTS_SCH.START_DATE_MONTH < #{schedule.month}) AND
+                        (T_EXISTS_SCH.END_DATE_YEAR >= #{schedule.year} AND T_EXISTS_SCH.END_DATE_MONTH > #{schedule.month})
+                        ]]>
+                      )
                   AND T_EXISTS_SCH.SCHM_SEQ = TSS.SCHM_SEQ
                   AND T_EXISTS_SCH.SCH_SEQ = TSS.SCH_SEQ
             )

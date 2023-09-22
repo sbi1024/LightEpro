@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -54,14 +56,107 @@ public class SchServiceImpl009 implements SchService009 {
         log.info("findMyCalendarList Method Start !!!");
         log.info("findMyCalendarList Method Request Data : " + schRqDto009);
 
-        // 캘린더 목록 조회 Mapper 호출
-        List<SchRsDto009.Calendar> myCalendarList = schMapper009.selectMyCalendarList(schRqDto009);
+        // 권한 있는 캘린더 목록 리스트 조회 메소드 호출
+        List<SchRsDto009.Calendar> authorizedCalendarList = confirmAuthorizedCalendarList(schRqDto009);
+        // 권한 없는 캘린더 목록 리스트 조회 메소드 호출
+        List<SchRsDto009.Calendar> unAuthorizedCalendarList = confirmUnAuthorizedCalendarList(schRqDto009);
+        // 나의 캘린더 리스트 = 권한 있는 캘린더 목록 리스트 + 권한 없는 캘린더 목록 리스트
+        List<SchRsDto009.Calendar> myCalendarList = Stream.of(authorizedCalendarList, unAuthorizedCalendarList)
+                .flatMap(calendarList -> calendarList.stream())
+                .collect(Collectors.toList());
 
         // method end log
-        log.info("findMyCalendarListInfo Method Return Data : " + myCalendarList);
-        log.info("findMyCalendarListInfo Method End !!!");
+        log.info("findMyCalendarList Method Return Data : " + myCalendarList);
+        log.info("findMyCalendarList Method End !!!");
 
         // return
         return myCalendarList;
+    }
+
+    // 권한 있는 캘린더 목록 조회 및 schRqDto009 객체 데이터 재 할당 메소드
+    @Override
+    public List<SchRsDto009.Calendar> confirmAuthorizedCalendarList(SchRqDto009 schRqDto009) throws Exception {
+        // method start log
+        log.info("confirmAuthorizedCalendarList Method Start !!!");
+        log.info("confirmAuthorizedCalendarList Method Request Data : " + schRqDto009);
+
+        // authorizedCalendarList null 검증
+        List<SchRsDto009.Calendar> authorizedCalendarList = findAuthorizedCalendarList(schRqDto009);
+        if (authorizedCalendarList == null) {
+            log.info("confirmAuthorizedCalendarList Method authorizedCalendarList == null");
+            return new ArrayList<>();
+        }
+
+        // authorizedCalendarList 캘린더 시퀀스 값 추출 및 schRqDto009 객체에 할당
+        schRqDto009.setAuthorizedCalendarList(authorizedCalendarList.stream()
+                .map(authorizedCalendar -> authorizedCalendar.getCalSeq())
+                .collect(Collectors.toList()));
+
+        // method end log
+        log.info("confirmAuthorizedCalendarList Method Return Data : " + authorizedCalendarList);
+        log.info("confirmAuthorizedCalendarList Method End !!!");
+
+        // return
+        return authorizedCalendarList;
+    }
+
+    // 권한 없는 캘린더 목록 조회 및 schRqDto009 객체 데이터 재 할당 메소드
+    @Override
+    public List<SchRsDto009.Calendar> confirmUnAuthorizedCalendarList(SchRqDto009 schRqDto009) throws Exception {
+        // method start log
+        log.info("confirmUnAuthorizedCalendarList Method Start !!!");
+        log.info("confirmUnAuthorizedCalendarList Method Request Data : " + schRqDto009);
+
+        List<SchRsDto009.Calendar> unAuthorizedCalendarList = findUnAuthorizedCalendarList(schRqDto009);
+        if (unAuthorizedCalendarList == null) {
+            log.info("confirmUnAuthorizedCalendarList Method unAuthorizedCalendarList == null");
+            return new ArrayList<>();
+        }
+        schRqDto009.setAuthorizedCalendarList(unAuthorizedCalendarList.stream()
+                .map(unAuthorizedCalendar -> unAuthorizedCalendar.getCalSeq())
+                .collect(Collectors.toList()));
+
+        // method end log
+        log.info("confirmUnAuthorizedCalendarList Method Return Data : " + unAuthorizedCalendarList);
+        log.info("confirmUnAuthorizedCalendarList Method End !!!");
+
+        // return
+        return unAuthorizedCalendarList;
+    }
+
+    // 권한 있는 캘린더 목록 리스트 조회 메소드
+    @Override
+    public List<SchRsDto009.Calendar> findAuthorizedCalendarList(SchRqDto009 schRqDto009) throws Exception {
+        // method start log
+        log.info("findAuthorizedCalendarList Method Start !!!");
+        log.info("findAuthorizedCalendarList Method Request Data : " + schRqDto009);
+
+        // 권한 있는 캘린더 목록 조회 Mapper 호출
+        List<SchRsDto009.Calendar> authorizedCalendarList = schMapper009.selectAuthorizedCalendarList(schRqDto009);
+
+        // method end log
+        log.info("findAuthorizedCalendarList Method Return Data : " + authorizedCalendarList);
+        log.info("findAuthorizedCalendarList Method End !!!");
+
+        // return
+        return authorizedCalendarList;
+    }
+
+    // 권한 없는 캘린더 목록 리스트 조회 메소드
+    @Override
+    public List<SchRsDto009.Calendar> findUnAuthorizedCalendarList(SchRqDto009 schRqDto009) throws Exception {
+        // method start log
+        log.info("findAuthorizedCalendarList Method Start !!!");
+        log.info("findAuthorizedCalendarList Method Request Data : " + schRqDto009);
+
+        // 권한 없는 캘린더 목록 조회 Mapper 호출
+        List<SchRsDto009.Calendar> unAuthorizedCalendarList = schMapper009.selectUnAuthorizedCalendarList(schRqDto009);
+
+        // method end log
+        log.info("findAuthorizedCalendarList Method Return Data : " + unAuthorizedCalendarList);
+        log.info("findAuthorizedCalendarList Method End !!!");
+
+        // return
+        return unAuthorizedCalendarList;
     }
 }

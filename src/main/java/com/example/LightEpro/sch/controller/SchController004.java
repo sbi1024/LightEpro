@@ -2,6 +2,7 @@ package com.example.LightEpro.sch.controller;
 
 import com.example.LightEpro.sch.dto.sch004.SchRqDto004;
 import com.example.LightEpro.exception.ExceptionCustom;
+import com.example.LightEpro.sch.dto.sch009.SchRsDto009;
 import com.example.LightEpro.sch.mapper.SchMapper004;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService004;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 @ResponseBody
@@ -45,7 +48,7 @@ public class SchController004 {
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch004 API SUCCESS");
-        schResponse.setResponseData(schService004.findScheduleListInfo(schRqDto004));
+        schResponse.setResponseData(schService004.findSchedulesInfo(schRqDto004));
 
         // stopWatch 종료
         stopWatch.stop();
@@ -68,7 +71,12 @@ public class SchController004 {
             throw new ExceptionCustom.NotFoundUserException();
         }
         // 일정 목록 리스트 조회 전 , 요청값의 캘린더 시퀀스 리스트 값의 길이 판단 후 , 0인 경우 Exception 처리
-        List<Integer> calendarSequences = schRqDto004.getCalendar().getCalendarSequences();
+        List<Integer> authorizedCalendarSequences = schRqDto004.getCalendar().getAuthorizedCalendarSequences();
+        List<Integer> unAuthorizedCalendarSequences = schRqDto004.getCalendar().getUnAuthorizedCalendarSequences();
+        // calendarSequences = authorizedCalendarSequences + unAuthorizedCalendarSequences
+        List<Integer> calendarSequences = Stream.of(authorizedCalendarSequences, unAuthorizedCalendarSequences)
+                .flatMap(calendarList -> calendarList.stream())
+                .collect(Collectors.toList());
         if (calendarSequences.size() == 0) {
             log.error("$$$ sch004 validApiRequest fail !!! (NotIncludedCalendarSequencesException) $$$");
             log.error("$$$ sch004 validApiRequest fail !!! (schRqDto004 : " + schRqDto004 + ") $$$");

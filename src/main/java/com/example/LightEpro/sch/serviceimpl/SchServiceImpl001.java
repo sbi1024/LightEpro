@@ -42,9 +42,6 @@ public class SchServiceImpl001 implements SchService001 {
                 .disclosureScopes(disclosureScopes)
                 .build();
 
-        // 객체 데이터 재 주입 메소드 호출
-        assignObject(schRsDto001);
-
         // method end log
         log.info("findScheduleInfo Method Return Data : " + schRsDto001);
         log.info("findScheduleInfo Method End !!!");
@@ -105,58 +102,5 @@ public class SchServiceImpl001 implements SchService001 {
 
         // return
         return disclosureScopes;
-    }
-
-    // schRsDto001 객체 데이터 재 주입 메소드
-    @Override
-    public void assignObject(SchRsDto001 schRsDto001) throws Exception {
-        // method start log
-        log.info("assignObject Method Start !!!");
-        log.info("assignObject Method Request Data : " + schRsDto001);
-
-        // 일정 구성원 calSeq 값 재 할당 메소드 호출
-        confirmScheduleUserCalendarSequence(schRsDto001);
-
-        // method end log
-        log.info("assignObject Method Return Data : " + schRsDto001);
-        log.info("assignObject Method End !!!");
-    }
-
-    // 일정 구성원 calSeq 값 재 할당 메소드
-    @Override
-    public void confirmScheduleUserCalendarSequence(SchRsDto001 schRsDto001) throws Exception {
-        // method start log
-        log.info("confirmScheduleUserCalendarSequence Method Start !!!");
-        log.info("confirmScheduleUserCalendarSequence Method Request Data : " + schRsDto001);
-
-        // schRsDto001 객체로부터 schedule , participants , disclosureScopes 추출
-        SchRsDto001.Schedule schedule = schRsDto001.getSchedule();
-        List<SchRsDto001.Participant> participants = schRsDto001.getParticipants();
-        List<SchRsDto001.DisclosureScope> disclosureScopes = schRsDto001.getDisclosureScopes();
-
-        // participants 중 등록자를 제외한 인원에 대해  일정 등록자의 calSeq 값으로 재 할당
-        for (SchRsDto001.Participant participant : participants) {
-            if ((participant.getCalSeq().equals(SchConstValue.ZERO_VALUE))) {
-                participant.setCalSeq(schedule.getCalSeq());
-            }
-        }
-
-        // disclosureScopes null 및 size 검증 (null 이거나 size 값이 0인 경우)
-        if (disclosureScopes == null || disclosureScopes.size() == 0) {
-            log.info("confirmScheduleUserCalendarSequence Method disclosureScopes Data : null or size = 0");
-        }
-        // disclosureScopes null 및 size 검증 (null 이 아니며 size 값이 0이 아닌 경우)
-        else {
-            // disclosureScopes 중 등록자를 제외한 인원에 대해  일정 등록자의 calSeq 값으로 재 할당
-            for (SchRsDto001.DisclosureScope disclosureScope : disclosureScopes) {
-                if ((disclosureScope.getCalSeq().equals(SchConstValue.ZERO_VALUE))) {
-                    disclosureScope.setCalSeq(schedule.getCalSeq());
-                }
-            }
-        }
-
-        // method end log
-        log.info("confirmScheduleUserCalendarSequence Method Return Data : " + schRsDto001);
-        log.info("confirmScheduleUserCalendarSequence Method End !!!");
     }
 }

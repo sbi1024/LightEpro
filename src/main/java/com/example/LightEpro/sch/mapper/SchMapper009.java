@@ -8,7 +8,8 @@ import java.util.List;
 
 @Mapper
 public interface SchMapper009 {
-    List<SchRsDto009.Calendar> selectMyCalendarList(SchRqDto009 schRqDto009) throws Exception;
-
     int selectUserCount(SchRqDto009 schRqDto009) throws Exception;
+    List<SchRsDto009.Calendar> selectAuthorizedCalendarList(SchRqDto009 schRqDto009) throws Exception;
+    List<SchRsDto009.Calendar> selectUnAuthorizedCalendarList(SchRqDto009 schRqDto009) throws Exception;
+
 }
