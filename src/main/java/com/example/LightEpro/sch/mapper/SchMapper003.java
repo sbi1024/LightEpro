@@ -10,8 +10,6 @@ public interface SchMapper003 {
 
     int selectScheduleCount(SchRqDto003 schRqDto003) throws Exception;
 
-    int updateSchedule(SchRqDto003 schRqDto003) throws Exception;
-
-    int updateScheduleUsers(SchRqDto003 schRqDto003) throws Exception;
+    int updateScheduleAndUsers(SchRqDto003 schRqDto003) throws Exception;
 
 }

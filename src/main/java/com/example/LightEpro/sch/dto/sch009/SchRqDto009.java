@@ -11,8 +11,8 @@ import java.util.List;
 public class SchRqDto009 {
     @NotNull
     private @Valid User user; // 필수값
-    private List<Integer> authorizedCalendarList; // 필수값이 아님
-    private List<Integer> unAuthorizedCalendarList; // 필수값이 아님
+    private List<Integer> authorizedCalendars; // 필수값이 아님
+    private List<Integer> unAuthorizedCalendars; // 필수값이 아님
 
     @Data
     public static class User {

@@ -22,6 +22,7 @@ public class SchRsDto001 {
         private String startDate;
         private String endDate;
         private String allDayYn;
+        private String calSeq;
         private String createDate;
         private String createSeq;
         private String modifyDate;
@@ -34,7 +35,6 @@ public class SchRsDto001 {
         private String cdeType;
         private String schPartitionType;
         private String schAuthority;
-        private String calSeq;
     }
 
     @Data
@@ -43,6 +43,5 @@ public class SchRsDto001 {
         private String cdeType;
         private String schPartitionType;
         private String schAuthority;
-        private String calSeq;
     }
 }

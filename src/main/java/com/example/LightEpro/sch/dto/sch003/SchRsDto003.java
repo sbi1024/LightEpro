@@ -8,6 +8,5 @@ import lombok.Data;
 public class SchRsDto003 {
     private int schmSeq;
     private int schSeq;
-    private int removeScheduleCnt;
-    private int removeScheduleUsersCnt;
+    private int removeScheduleAndUsersCnt;
 }

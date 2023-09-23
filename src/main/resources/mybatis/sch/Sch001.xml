@@ -12,7 +12,6 @@
                                 AND TED.USE_YND = 'Y'
                  INNER JOIN T_EM_EMP TEE
                             ON TED.DEPT_SEQ = TEE.DEPT_SEQ
-                                AND TEE.EMP_SEQ = TEE.EMP_SEQ
                                 AND TEE.USE_YND = 'Y'
                  INNER JOIN T_EM_EMP_MAPPING TEEM
                             ON TEC.COMP_SEQ = TEEM.COMP_SEQ
@@ -39,9 +38,7 @@
     </select>
 
 
-    <select id="selectSchedule"
-            parameterType="com.example.LightEpro.sch.dto.sch001.SchRqDto001"
-            resultType="com.example.LightEpro.sch.dto.sch001.SchRsDto001$Schedule">
+    <select id="selectSchedule" resultType="com.example.LightEpro.sch.dto.sch001.SchRsDto001$Schedule">
         /* selectSchedule */
         SELECT IFNULL(TSS.SCHM_SEQ, '')                   AS schmSeq,
                IFNULL(TSS.SCH_SEQ, '')                    AS schSeq,
@@ -50,6 +47,7 @@
                DATE_FORMAT(TSS.START_DATE, '%Y%m%d%H%i')  AS startDate,
                DATE_FORMAT(TSS.END_DATE, '%Y%m%d%H%i')    AS endDate,
                IFNULL(TSS.ALL_DAY_YN, '')                 AS allDayYn,
+               IFNULL(TSS.CAL_SEQ, '')                    AS calSeq,
                DATE_FORMAT(TSS.CREATE_DATE, '%Y%m%d%H%i') AS createDate,
                IFNULL(TSS.CREATE_SEQ, '')                 AS createSeq,
                CASE
@@ -61,28 +59,18 @@
                IFNULL(TSS.MODIFY_SEQ, '')                 AS modifySeq
 
         FROM T_SC_SCH TSS
-                 INNER JOIN T_SC_SCH_USER TSSU
-                            ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
-                                AND TSS.SCH_SEQ = TSSU.SCH_SEQ
-                                AND TSSU.CDE_TYPE = 'I'
-                                AND TSSU.SCH_PARTITION_TYPE = 10
-                                AND TSSU.SCH_AUTHORITY = 'M'
-                                AND TSS.USE_YND = 'Y'
-                                AND TSSU.USE_YND = 'Y'
         WHERE 1 = 1
           AND TSS.SCHM_SEQ = #{schedule.schmSeq}
           AND TSS.SCH_SEQ = #{schedule.schSeq}
+          AND TSS.USE_YND = 'Y'
     </select>
 
-    <select id="selectParticipants"
-            parameterType="com.example.LightEpro.sch.dto.sch001.SchRqDto001"
-            resultType="com.example.LightEpro.sch.dto.sch001.SchRsDto001$Participant">
+    <select id="selectParticipants" resultType="com.example.LightEpro.sch.dto.sch001.SchRsDto001$Participant">
         /* selectParticipants */
         SELECT IFNULL(TSSU.CDE_SEQ, '')            AS cdeSeq,
                IFNULL(TSSU.CDE_TYPE, '')           AS cdeType,
                IFNULL(TSSU.SCH_PARTITION_TYPE, '') AS schPartitionType,
-               IFNULL(TSSU.SCH_AUTHORITY, '')      AS schAuthority,
-               IFNULL(TSSU.CAL_SEQ, '')            AS calSeq
+               IFNULL(TSSU.SCH_AUTHORITY, '')      AS schAuthority
         FROM T_SC_SCH_USER TSSU
         WHERE 1 = 1
           AND TSSU.SCHM_SEQ = #{schedule.schmSeq}
@@ -91,15 +79,12 @@
           AND TSSU.USE_YND = 'Y'
     </select>
 
-    <select id="selectDisclosureScopes"
-            parameterType="com.example.LightEpro.sch.dto.sch001.SchRqDto001"
-            resultType="com.example.LightEpro.sch.dto.sch001.SchRsDto001$DisclosureScope">
+    <select id="selectDisclosureScopes" resultType="com.example.LightEpro.sch.dto.sch001.SchRsDto001$DisclosureScope">
         /* selectDisclosureScopes */
         SELECT IFNULL(TSSU.CDE_SEQ, '')            AS cdeSeq,
                IFNULL(TSSU.CDE_TYPE, '')           AS cdeType,
                IFNULL(TSSU.SCH_PARTITION_TYPE, '') AS schPartitionType,
-               IFNULL(TSSU.SCH_AUTHORITY, '')      AS schAuthority,
-               IFNULL(TSSU.CAL_SEQ, '')            AS calSeq
+               IFNULL(TSSU.SCH_AUTHORITY, '')      AS schAuthority
         FROM T_SC_SCH_USER TSSU
         WHERE 1 = 1
           AND TSSU.SCHM_SEQ = #{schedule.schmSeq}

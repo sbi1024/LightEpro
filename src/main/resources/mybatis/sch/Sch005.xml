@@ -11,7 +11,6 @@
                                 AND TED.USE_YND = 'Y'
                  INNER JOIN T_EM_EMP TEE
                             ON TED.DEPT_SEQ = TEE.DEPT_SEQ
-                                AND TEE.EMP_SEQ = TEE.EMP_SEQ
                                 AND TEE.USE_YND = 'Y'
                  INNER JOIN T_EM_EMP_MAPPING TEEM
                             ON TEC.COMP_SEQ = TEEM.COMP_SEQ

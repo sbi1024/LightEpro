@@ -12,7 +12,6 @@
                                 AND TED.USE_YND = 'Y'
                  INNER JOIN T_EM_EMP TEE
                             ON TED.DEPT_SEQ = TEE.DEPT_SEQ
-                                AND TEE.EMP_SEQ = TEE.EMP_SEQ
                                 AND TEE.USE_YND = 'Y'
                  INNER JOIN T_EM_EMP_MAPPING TEEM
                             ON TEC.COMP_SEQ = TEEM.COMP_SEQ
@@ -55,6 +54,7 @@
                               ALL_DAY_YN,
                               SCH_TITLE,
                               SCH_CONTENT,
+                              CAL_SEQ,
                               USE_YND,
                               CREATE_DATE,
                               CREATE_SEQ)
@@ -69,6 +69,7 @@
                 #{schedule.allDayYn},
                 #{schedule.schTitle},
                 #{schedule.schContent},
+                #{calendar.calSeq},
                 'Y',
                 now(),
                 #{user.userSeq})
@@ -83,7 +84,6 @@
                                    CDE_TYPE,
                                    SCH_PARTITION_TYPE,
                                    SCH_AUTHORITY,
-                                   CAL_SEQ,
                                    USE_YND,
                                    CREATE_DATE,
                                    CREATE_SEQ)
@@ -102,7 +102,6 @@
                                 'W'
                             </otherwise>
                         </choose>,
-                        #{calendar.calSeq},
                         'Y',
                         now(),
                         #{user.userSeq}
@@ -119,7 +118,6 @@
                                    CDE_TYPE,
                                    SCH_PARTITION_TYPE,
                                    SCH_AUTHORITY,
-                                   CAL_SEQ,
                                    USE_YND,
                                    CREATE_DATE,
                                    CREATE_SEQ)
@@ -131,7 +129,6 @@
                         #{disclosureScope.cdeType},
                         '20',
                         'R',
-                        #{calendar.calSeq},
                         'Y',
                         now(),
                         #{user.userSeq}

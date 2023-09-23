@@ -171,10 +171,15 @@ public class SchServiceImpl002 implements SchService002 {
 
 
         // 기존에 존재하는 일정 공개범위 데이터 / 요청값의 일정 공개범위 데이터 추출 (만약 null 값이라면, 빈 리스트 값으로 할당)
-        List<SchRqDto002.DisclosureScope> originDisclosureScopes = schMapper002.selectDisclosureScopes(schRqDto002) == null ?
-                new ArrayList<>() : schMapper002.selectDisclosureScopes(schRqDto002);
-        List<SchRqDto002.DisclosureScope> requestDisclosureScopes = schRqDto002.getDisclosureScopes() == null ?
-                new ArrayList<>() : schRqDto002.getDisclosureScopes();
+        List<SchRqDto002.DisclosureScope> originDisclosureScopes = schMapper002.selectDisclosureScopes(schRqDto002);
+        if (originDisclosureScopes == null || originDisclosureScopes.size() == 0) {
+            originDisclosureScopes = new ArrayList<>();
+        }
+        List<SchRqDto002.DisclosureScope> requestDisclosureScopes = schRqDto002.getDisclosureScopes();
+        if (requestDisclosureScopes == null || requestDisclosureScopes.size() == 0) {
+            requestDisclosureScopes = new ArrayList<>();
+        }
+
 
         // 비 일치하는 일정 공개범위 추출 (요청값으로 받은 일정 공개범위 <-> 기존 일정 공개범위)
         List<SchRqDto002.DisclosureScope> requestNonMatchDisclosureScopes = confirmRequestNonMatchDisclosureScopes(originDisclosureScopes, requestDisclosureScopes);

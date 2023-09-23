@@ -11,7 +11,6 @@
                                 AND TED.USE_YND = 'Y'
                  INNER JOIN T_EM_EMP TEE
                             ON TED.DEPT_SEQ = TEE.DEPT_SEQ
-                                AND TEE.EMP_SEQ = TEE.EMP_SEQ
                                 AND TEE.USE_YND = 'Y'
                  INNER JOIN T_EM_EMP_MAPPING TEEM
                             ON TEC.COMP_SEQ = TEEM.COMP_SEQ
@@ -36,65 +35,33 @@
           AND TSC.USE_YND = 'Y'
     </select>
 
-    <update id="updateCalendar">
-        /* updateCalendar */
+    <update id = "updateCalendarAndSchedulesAndUsers">
+        /* updateCalendarAndSchedulesAndUsers */
         UPDATE T_SC_CAL TSC
+                 INNER JOIN T_SC_CAL_USER TSCU
+                            ON TSC.CAL_SEQ = TSCU.CAL_SEQ
+                                AND TSC.USE_YND = 'Y'
+                                AND TSCU.USE_YND = 'Y'
+                 INNER JOIN T_SC_SCH TSS
+                            ON TSC.CAL_SEQ = TSS.CAL_SEQ
+                                AND TSS.USE_YND = 'Y'
+                 INNER JOIN T_SC_SCH_USER TSSU
+                            ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
+                                AND TSS.SCH_SEQ = TSSU.SCH_SEQ
+                                AND TSSU.USE_YND = 'Y'
         SET TSC.USE_YND     = 'N',
             TSC.MODIFY_DATE = NOW(),
-            TSC.MODIFY_SEQ  = #{user.userSeq}
-        WHERE 1 = 1
-          AND TSC.CAL_SEQ = #{calendar.calSeq}
-          AND TSC.USE_YND = 'Y'
-    </update>
-
-    <update id="updateCalendarUsers">
-        /* updateCalendarUsers */
-        UPDATE T_SC_CAL_USER TSCU
-        SET TSCU.USE_YND = 'N',
+            TSC.MODIFY_SEQ  = #{user.userSeq},
+            TSCU.USE_YND     = 'N',
             TSCU.MODIFY_DATE = NOW(),
-            TSCU.MODIFY_SEQ  = #{user.userSeq}
-        WHERE 1 = 1
-          AND TSCU.CAL_SEQ = #{calendar.calSeq}
-          AND TSCU.USE_YND = 'Y'
-    </update>
-
-    <update id="updateSchedule">
-        /* updateSchedule */
-        UPDATE T_SC_SCH TSS
-            INNER JOIN (SELECT TSSU.SCHM_SEQ,
-                               TSSU.SCH_SEQ
-                        FROM T_SC_SCH_USER TSSU
-                        WHERE 1 = 1
-                          AND TSSU.CAL_SEQ = #{calendar.calSeq}
-                          AND TSSU.SCH_PARTITION_TYPE = 10
-                          AND TSSU.SCH_AUTHORITY = 'M'
-                          AND TSSU.USE_YND = 'Y') AS T_ADMIN_USER
-            ON TSS.SCHM_SEQ = T_ADMIN_USER.SCHM_SEQ
-                AND TSS.SCH_SEQ = T_ADMIN_USER.SCH_SEQ
-        SET TSS.USE_YND     = 'N',
+            TSCU.MODIFY_SEQ  = #{user.userSeq},
+            TSS.USE_YND     = 'N',
             TSS.MODIFY_DATE = NOW(),
-            TSS.MODIFY_SEQ  = #{user.userSeq}
-        WHERE 1 = 1
-          AND TSS.USE_YND = 'Y'
-    </update>
-
-    <update id="updateScheduleUsers">
-        /* updateScheduleUsers */
-        UPDATE T_SC_SCH_USER TSSU
-            INNER JOIN (SELECT TSSU.SCHM_SEQ,
-                               TSSU.SCH_SEQ
-                        FROM T_SC_SCH_USER TSSU
-                        WHERE 1 = 1
-                          AND TSSU.CAL_SEQ = #{calendar.calSeq}
-                          AND TSSU.SCH_PARTITION_TYPE = 10
-                          AND TSSU.SCH_AUTHORITY = 'M'
-                          AND TSSU.USE_YND = 'Y') AS T_ADMIN_USER
-            ON TSSU.SCHM_SEQ = T_ADMIN_USER.SCHM_SEQ
-                AND TSSU.SCH_SEQ = T_ADMIN_USER.SCH_SEQ
-        SET TSSU.USE_YND     = 'N',
+            TSS.MODIFY_SEQ  = #{user.userSeq},
+            TSSU.USE_YND     = 'N',
             TSSU.MODIFY_DATE = NOW(),
             TSSU.MODIFY_SEQ  = #{user.userSeq}
         WHERE 1 = 1
-          AND TSSU.USE_YND = 'Y'
+            AND TSC.CAL_SEQ = #{calendar.calSeq}
     </update>
 </mapper>

@@ -24,17 +24,14 @@ public class SchServiceImpl003 implements SchService003 {
         log.info("removeScheduleInfo Method Start !!!");
         log.info("removeScheduleInfo Method Request Data : " + schRqDto003);
 
-        // 일정 삭제 메소드 호출
-        int removeScheduleCnt = removeSchedule(schRqDto003);
-        // 일정 구성원 삭제 메소드 호출
-        int removeScheduleUsersCnt = removeScheduleUsers(schRqDto003);
+        // 일정 및 구성원 삭제 메소드 호출
+        int removeScheduleAndUsersCnt = removeScheduleAndUsers(schRqDto003);
 
         // schRsDto003 객체 builder 패턴을 통해 객체 생성
         SchRsDto003 schRsDto003 = SchRsDto003.builder()
                 .schmSeq(schRqDto003.getSchedule().getSchmSeq())
                 .schSeq(schRqDto003.getSchedule().getSchSeq())
-                .removeScheduleCnt(removeScheduleCnt)
-                .removeScheduleUsersCnt(removeScheduleUsersCnt)
+                .removeScheduleAndUsersCnt(removeScheduleAndUsersCnt)
                 .build();
 
         // method end log
@@ -45,15 +42,15 @@ public class SchServiceImpl003 implements SchService003 {
         return schRsDto003;
     }
 
-    // 일정 삭제 메소드
+    // 일정 및 구성원 삭제 메소드
     @Override
-    public int removeSchedule(SchRqDto003 schRqDto003) throws Exception {
+    public int removeScheduleAndUsers(SchRqDto003 schRqDto003) throws Exception {
         // method start log
         log.info("removeSchedule Method Start !!!");
         log.info("removeSchedule Method Request Data : " + schRqDto003);
 
         // 일정 삭제 Mapper 호출
-        int updateScheduleCnt = schMapper003.updateSchedule(schRqDto003);
+        int updateScheduleCnt = schMapper003.updateScheduleAndUsers(schRqDto003);
 
         // method end log
         log.info("removeSchedule Method Return Data : " + updateScheduleCnt);
@@ -61,23 +58,5 @@ public class SchServiceImpl003 implements SchService003 {
 
         // return
         return updateScheduleCnt;
-    }
-
-    // 일정 구성원 삭제 메소드
-    @Override
-    public int removeScheduleUsers(SchRqDto003 schRqDto003) throws Exception {
-        // method start log
-        log.info("removeScheduleUsers Method Start !!!");
-        log.info("removeScheduleUsers Method Request Data : " + schRqDto003);
-
-        // 일정 구성원 삭제 Mapper 호출
-        int updateScheduleUsersCnt = schMapper003.updateScheduleUsers(schRqDto003);
-
-        // method end log
-        log.info("removeScheduleUsers Method Return Data : " + updateScheduleUsersCnt);
-        log.info("removeScheduleUsers Method End !!!");
-
-        // return
-        return updateScheduleUsersCnt;
     }
 }

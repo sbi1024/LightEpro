@@ -12,7 +12,6 @@
                                 AND TED.USE_YND = 'Y'
                  INNER JOIN T_EM_EMP TEE
                             ON TED.DEPT_SEQ = TEE.DEPT_SEQ
-                                AND TEE.EMP_SEQ = TEE.EMP_SEQ
                                 AND TEE.USE_YND = 'Y'
                  INNER JOIN T_EM_EMP_MAPPING TEEM
                             ON TEC.COMP_SEQ = TEEM.COMP_SEQ
@@ -56,6 +55,8 @@
                                 AND TSS.SCH_SEQ = TSSU.SCH_SEQ
                                 AND TSS.CREATE_SEQ = TSSU.CDE_SEQ
                                 AND TSSU.CDE_TYPE = 'I'
+                                AND TSSU.SCH_PARTITION_TYPE = 10
+                                AND TSSU.SCH_AUTHORITY = 'M'
                                 AND TSS.USE_YND = 'Y'
                                 AND TSSU.USE_YND = 'Y'
         WHERE 1 = 1
@@ -99,6 +100,7 @@
             TSS.ALL_DAY_YN       = #{schedule.allDayYn},
             TSS.SCH_TITLE        = #{schedule.schTitle},
             TSS.SCH_CONTENT      = #{schedule.schContent},
+            TSS.CAL_SEQ          = #{calendar.calSeq},
             TSS.MODIFY_DATE      = NOW(),
             TSS.MODIFY_SEQ       = #{user.userSeq}
         WHERE 1 = 1
@@ -115,7 +117,6 @@
                                     CDE_TYPE,
                                     SCH_PARTITION_TYPE,
                                     SCH_AUTHORITY,
-                                    CAL_SEQ,
                                     USE_YND,
                                     CREATE_DATE,
                                     CREATE_SEQ)
@@ -127,7 +128,6 @@
                     #{requestNonMatchParticipant.cdeType},
                     '10',
                     'W',
-                    #{calendar.calSeq},
                     'Y',
                     NOW(),
                     #{user.userSeq}
@@ -138,8 +138,7 @@
     <update id="updateOriginMatchParticipants">
         /* updateOriginMatchParticipants */
         UPDATE T_SC_SCH_USER TSSU
-        SET TSSU.CAL_SEQ = #{calendar.calSeq},
-            TSSU.MODIFY_DATE = NOW(),
+        SET TSSU.MODIFY_DATE = NOW(),
             TSSU.MODIFY_SEQ = #{user.userSeq}
         WHERE 1 = 1
          AND (
@@ -181,7 +180,6 @@
                                    CDE_TYPE,
                                    SCH_PARTITION_TYPE,
                                    SCH_AUTHORITY,
-                                   CAL_SEQ,
                                    USE_YND,
                                    CREATE_DATE,
                                    CREATE_SEQ)
@@ -193,7 +191,6 @@
                     #{requestNonMatchDisclosureScope.cdeType},
                     '20',
                     'R',
-                    #{calendar.calSeq},
                     'Y',
                     NOW(),
                     #{user.userSeq}
@@ -204,8 +201,7 @@
     <update id="updateOriginMatchDisclosureScopes">
         /* updateOriginMatchDisclosureScopes */
         UPDATE T_SC_SCH_USER TSSU
-        SET TSSU.CAL_SEQ = #{calendar.calSeq},
-            TSSU.MODIFY_DATE = NOW(),
+        SET TSSU.MODIFY_DATE = NOW(),
             TSSU.MODIFY_SEQ = #{user.userSeq}
         WHERE 1 = 1
          AND (

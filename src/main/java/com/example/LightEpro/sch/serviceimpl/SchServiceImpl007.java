@@ -83,10 +83,14 @@ public class SchServiceImpl007 implements SchService007 {
         log.info("confirmCalendarUsers Method Request Data : " + schRqDto007);
 
         // 기존에 존재하는 캘린더 관리자 데이터 / 요청값의 캘린더 관리자 데이터 추출 (만약 null 값이라면, 빈 리스트 값으로 할당)
-        List<SchRqDto007.Manager> originManagers = schMapper007.selectManagers(schRqDto007) == null ?
-                new ArrayList<>() : schMapper007.selectManagers(schRqDto007);
-        List<SchRqDto007.Manager> requestManagers = schRqDto007.getManagers() == null ?
-                new ArrayList<>() : schRqDto007.getManagers();
+        List<SchRqDto007.Manager> originManagers = schMapper007.selectManagers(schRqDto007);
+        if (originManagers == null || originManagers.size() == 0) {
+            originManagers = new ArrayList<>();
+        }
+        List<SchRqDto007.Manager> requestManagers = schRqDto007.getManagers();
+        if (requestManagers == null || requestManagers.size() == 0) {
+            requestManagers = new ArrayList<>();
+        }
 
         // 비 일치하는 캘린더 구성원 추출 (요청값으로 받은 캘린더 관리자 <-> 기존 캘린더 관리자)
         List<SchRqDto007.Manager> requestNonMatchManagers = confirmRequestNonMatchManagers(originManagers, requestManagers);

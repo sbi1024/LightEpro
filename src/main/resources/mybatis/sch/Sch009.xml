@@ -11,7 +11,6 @@
                                 AND TED.USE_YND = 'Y'
                  INNER JOIN T_EM_EMP TEE
                             ON TED.DEPT_SEQ = TEE.DEPT_SEQ
-                                AND TEE.EMP_SEQ = TEE.EMP_SEQ
                                 AND TEE.USE_YND = 'Y'
                  INNER JOIN T_EM_EMP_MAPPING TEEM
                             ON TEC.COMP_SEQ = TEEM.COMP_SEQ
@@ -27,8 +26,8 @@
           AND TEE.EMP_SEQ = #{user.userSeq}
     </select>
 
-    <select id="selectAuthorizedCalendarList" resultType="com.example.LightEpro.sch.dto.sch009.SchRsDto009$Calendar">
-        /* selectAuthorizedCalendarList */
+    <select id="selectAuthorizedCalendars" resultType="com.example.LightEpro.sch.dto.sch009.SchRsDto009$Calendar">
+        /* selectAuthorizedCalendars */
         SELECT IFNULL(TSC.CAL_SEQ, '')     AS calSeq,
                IFNULL(TSC.CAL_TYPE, '')    AS calType,
                IFNULL(TSC.CAL_TITLE, '')   AS calTitle,
@@ -38,21 +37,19 @@
         FROM T_SC_CAL TSC
         WHERE 1 = 1
           AND TSC.CAL_SEQ > 0
-          AND EXISTS(
-                SELECT TSCU.CAL_SEQ
-                FROM T_SC_CAL_USER TSCU
-                WHERE 1 = 1
-                  AND TSC.CAL_SEQ = TSCU.CAL_SEQ
-                  AND (TSCU.CDE_SEQ = #{user.userCompSeq} AND TSCU.CDE_TYPE = 'C' OR
-                       TSCU.CDE_SEQ = #{user.userDeptSeq} AND TSCU.CDE_TYPE = 'D' OR
-                       TSCU.CDE_SEQ = #{user.userSeq} AND TSCU.CDE_TYPE = 'I')
-                  AND TSCU.USE_YND = 'Y'
-            )
+          AND EXISTS(SELECT TSCU.CAL_SEQ
+                          FROM T_SC_CAL_USER TSCU
+                          WHERE 1 = 1
+                            AND TSC.CAL_SEQ = TSCU.CAL_SEQ
+                            AND (TSCU.CDE_SEQ = #{user.userCompSeq} AND TSCU.CDE_TYPE = 'C' OR
+                                 TSCU.CDE_SEQ = #{user.userDeptSeq} AND TSCU.CDE_TYPE = 'D' OR
+                                 TSCU.CDE_SEQ = #{user.userSeq} AND TSCU.CDE_TYPE = 'I')
+                            AND TSCU.USE_YND = 'Y')
           AND TSC.USE_YND = 'Y'
     </select>
 
-    <select id="selectUnAuthorizedCalendarList" resultType="com.example.LightEpro.sch.dto.sch009.SchRsDto009$Calendar">
-        /* selectUnAuthorizedCalendarList */
+    <select id="selectUnAuthorizedCalendars" resultType="com.example.LightEpro.sch.dto.sch009.SchRsDto009$Calendar">
+        /* selectUnAuthorizedCalendars */
         SELECT IFNULL(TSC.CAL_SEQ, '')     AS calSeq,
                IFNULL(TSC.CAL_TYPE, '')    AS calType,
                IFNULL(TSC.CAL_TITLE, '')   AS calTitle,
@@ -62,24 +59,22 @@
         FROM T_SC_CAL TSC
         WHERE 1 = 1
           AND TSC.CAL_SEQ > 0
-          AND EXISTS(
-                (SELECT TSSU.CAL_SEQ
-                 FROM T_SC_SCH TSS
-                          INNER JOIN T_SC_SCH_USER TSSU
-                                     ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
-                                         AND TSS.SCH_SEQ = TSSU.SCH_SEQ
-                                         AND (TSSU.CDE_SEQ = #{user.userCompSeq} AND TSSU.CDE_TYPE = 'C' OR
-                                              TSSU.CDE_SEQ = #{user.userDeptSeq} AND TSSU.CDE_TYPE = 'D' OR
-                                              TSSU.CDE_SEQ = #{user.userSeq} AND TSSU.CDE_TYPE = 'I')
-                 WHERE 1 = 1
-                   AND TSC.CAL_SEQ = TSSU.CAL_SEQ
-                   AND TSS.SCHM_SEQ > 0
-                   AND TSS.SCH_SEQ > 0
-                   AND TSS.USE_YND = 'Y'
-                   AND TSSU.USE_YND = 'Y')
-          )
+          AND EXISTS(SELECT TSS.CAL_SEQ
+                           FROM T_SC_SCH TSS
+                                    INNER JOIN T_SC_SCH_USER TSSU
+                                               ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
+                                                   AND TSS.SCH_SEQ = TSSU.SCH_SEQ
+                                                   AND (TSSU.CDE_SEQ = #{user.userCompSeq} AND TSSU.CDE_TYPE = 'C' OR
+                                                        TSSU.CDE_SEQ = #{user.userDeptSeq} AND TSSU.CDE_TYPE = 'D' OR
+                                                        TSSU.CDE_SEQ = #{user.userSeq} AND TSSU.CDE_TYPE = 'I')
+                           WHERE 1 = 1
+                             AND TSS.CAL_SEQ = TSC.CAL_SEQ
+                             AND TSS.SCHM_SEQ > 0
+                             AND TSS.SCH_SEQ > 0
+                             AND TSS.USE_YND = 'Y'
+                             AND TSSU.USE_YND = 'Y')
           AND TSC.USE_YND = 'Y'
-          AND TSC.CAL_SEQ NOT IN <foreach collection="authorizedCalendarList" item="authorizedCalendar" open="(" separator="," close=")">
+          AND TSC.CAL_SEQ NOT IN <foreach collection="authorizedCalendars" item="authorizedCalendar" open="(" separator="," close=")">
                                     #{authorizedCalendar}
                                 </foreach>
     </select>

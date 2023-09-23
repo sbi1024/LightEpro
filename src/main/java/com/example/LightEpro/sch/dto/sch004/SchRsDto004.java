@@ -20,6 +20,7 @@ public class SchRsDto004 {
         private String startDate;
         private String endDate;
         private String allDayYn;
+        private String calSeq;
         private String createSeq;
         private String createDate;
         private String modifySeq;

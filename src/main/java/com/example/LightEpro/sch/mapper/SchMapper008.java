@@ -5,17 +5,9 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface SchMapper008 {
-
     int selectUserCount(SchRqDto008 schRqDto008) throws Exception;
 
     int selectCalendarCount(SchRqDto008 schRqDto008) throws Exception;
 
-    int updateCalendar(SchRqDto008 schRqDto008) throws Exception;
-
-    int updateCalendarUsers(SchRqDto008 schRqDto008) throws Exception;
-
-    int updateSchedule(SchRqDto008 schRqDto008) throws Exception;
-
-    int updateScheduleUsers(SchRqDto008 schRqDto008) throws Exception;
-
+    int updateCalendarAndSchedulesAndUsers(SchRqDto008 schRqDto008) throws Exception;
 }

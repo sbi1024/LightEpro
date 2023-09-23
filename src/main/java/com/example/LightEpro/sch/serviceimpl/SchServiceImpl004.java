@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -62,7 +63,7 @@ public class SchServiceImpl004 implements SchService004 {
         List<SchRsDto004.Schedule> schedulesByUnAuthorizedCalendarSequencesAndDate = confirmSchedulesByUnAuthorizedCalendarSequencesAndDate(schRqDto004);
         // 일정 목록 = 권한 있는 캘린더에서의 일정 목록 + 권한 없는 캘린더에서의 일정 목록
         List<SchRsDto004.Schedule> schedules = Stream.of(schedulesByAuthorizedCalendarSequencesAndDate, schedulesByUnAuthorizedCalendarSequencesAndDate)
-                .flatMap(schedule -> schedule.stream())
+                .flatMap(Collection::stream)
                 .collect(Collectors.toList());
 
         // method end log

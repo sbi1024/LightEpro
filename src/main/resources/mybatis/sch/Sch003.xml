@@ -12,7 +12,6 @@
                                 AND TED.USE_YND = 'Y'
                  INNER JOIN T_EM_EMP TEE
                             ON TED.DEPT_SEQ = TEE.DEPT_SEQ
-                                AND TEE.EMP_SEQ = TEE.EMP_SEQ
                                 AND TEE.USE_YND = 'Y'
                  INNER JOIN T_EM_EMP_MAPPING TEEM
                             ON TEC.COMP_SEQ = TEEM.COMP_SEQ
@@ -38,27 +37,22 @@
           AND TSS.USE_YND = 'Y'
     </select>
 
-    <update id="updateSchedule" parameterType="com.example.LightEpro.sch.dto.sch003.SchRqDto003">
-        /* updateSchedule */
+    <update id="updateScheduleAndUsers" parameterType="com.example.LightEpro.sch.dto.sch003.SchRqDto003">
+        /* 일정 시퀀스값에 해당하는 일정 구성원 삭제 쿼리 */
         UPDATE T_SC_SCH TSS
-        SET TSS.USE_YND     = 'N',
-            TSS.MODIFY_DATE = NOW(),
-            TSS.MODIFY_SEQ  = #{user.userSeq}
-        WHERE 1 = 1
-          AND TSS.SCHM_SEQ = #{schedule.schmSeq}
-          AND TSS.SCH_SEQ = #{schedule.schSeq}
-          AND TSS.USE_YND = 'Y'
-    </update>
-
-    <update id="updateScheduleUsers" parameterType="com.example.LightEpro.sch.dto.sch003.SchRqDto003">
-        /* updateScheduleUsers */
-        UPDATE T_SC_SCH_USER TSSU
-        SET TSSU.USE_YND     = 'N',
+                 INNER JOIN T_SC_SCH_USER TSSU
+                            ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
+                                AND TSS.SCH_SEQ = TSSU.SCH_SEQ
+                                AND TSS.USE_YND = 'Y'
+                                AND TSSU.USE_YND = 'Y'
+        SET TSS.USE_YND      = 'Y',
+            TSS.MODIFY_DATE  = NOW(),
+            TSS.MODIFY_SEQ   = #{user.userSeq},
+            TSSU.USE_YND     = 'N',
             TSSU.MODIFY_DATE = NOW(),
             TSSU.MODIFY_SEQ  = #{user.userSeq}
         WHERE 1 = 1
-          AND TSSU.SCHM_SEQ = #{schedule.schmSeq}
-          AND TSSU.SCH_SEQ = #{schedule.schSeq}
-          AND TSSU.USE_YND = 'Y'
+          AND TSS.SCHM_SEQ = #{schedule.schmSeq}
+          AND TSS.SCH_SEQ = #{schedule.schSeq}
     </update>
 </mapper>

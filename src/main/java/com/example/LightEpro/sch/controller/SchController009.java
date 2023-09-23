@@ -47,7 +47,7 @@ public class SchController009 {
         schResponse.setResponseStatus("SUCCESS");
         schResponse.setResponseCode(200);
         schResponse.setResponseMsg("sch009 API SUCCESS");
-        schResponse.setResponseData(schService009.findMyCalendarListInfo(schRqDto009));
+        schResponse.setResponseData(schService009.findMyCalendarsInfo(schRqDto009));
 
         // stopWatch 종료
         stopWatch.stop();
