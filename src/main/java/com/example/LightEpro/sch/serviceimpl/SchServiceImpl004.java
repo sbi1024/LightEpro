@@ -2,7 +2,6 @@ package com.example.LightEpro.sch.serviceimpl;
 
 import com.example.LightEpro.sch.dto.sch004.SchRqDto004;
 import com.example.LightEpro.sch.dto.sch004.SchRsDto004;
-import com.example.LightEpro.sch.dto.sch009.SchRsDto009;
 import com.example.LightEpro.sch.mapper.SchMapper004;
 import com.example.LightEpro.sch.service.SchService004;
 import lombok.RequiredArgsConstructor;
@@ -111,19 +110,19 @@ public class SchServiceImpl004 implements SchService004 {
         log.info("findSchedulesByAuthorizedCalendarSequencesAndDate Method Request Data : " + schRqDto004);
 
         // 권한 있는 캘린더 목록 리스트/일자 값을 통해 일정 목록 조회 Mapper 호출
-        List<SchRsDto004.Schedule> schedules = schMapper004.selectSchedulesByAuthorizedCalendarSequencesAndDate(schRqDto004);
-        // schedules null 및 size 검증
-        if (schedules == null || schedules.size() == 0) {
-            log.info("findSchedulesByAuthorizedCalendarSequencesAndDate Method schedules == null or schedules.size() == 0");
+        List<SchRsDto004.Schedule> schedulesByAuthorizedCalendarSequencesAndDate = schMapper004.selectSchedulesByAuthorizedCalendarSequencesAndDate(schRqDto004);
+        // schedulesByAuthorizedCalendarSequencesAndDate null 및 size 검증
+        if (schedulesByAuthorizedCalendarSequencesAndDate == null || schedulesByAuthorizedCalendarSequencesAndDate.size() == 0) {
+            log.info("findSchedulesByAuthorizedCalendarSequencesAndDate Method schedulesByAuthorizedCalendarSequencesAndDate == null or schedulesByAuthorizedCalendarSequencesAndDate.size() == 0");
             return new ArrayList<>();
         }
 
         // method end log
-        log.info("findSchedulesByAuthorizedCalendarSequencesAndDate Method Return Data : " + schedules);
+        log.info("findSchedulesByAuthorizedCalendarSequencesAndDate Method Return Data : " + schedulesByAuthorizedCalendarSequencesAndDate);
         log.info("findSchedulesByAuthorizedCalendarSequencesAndDate Method End !!!");
 
         // return
-        return schedules;
+        return schedulesByAuthorizedCalendarSequencesAndDate;
     }
 
     // 권한 없는 캘린더 시퀀스/일자 값을 통해 일정 목록 검증 메소드
@@ -134,11 +133,11 @@ public class SchServiceImpl004 implements SchService004 {
         log.info("confirmSchedulesByUnAuthorizedCalendarSequencesAndDate Method Request Data : " + schRqDto004);
 
         // 요청값으로 받은 권한 있는 캘린더 시퀀스/일자 값을 통해 일정 목록 조회 결과값을 담기 위한 변수 선언
-        List<SchRsDto004.Schedule> schedulesByUnAuthorizedCalendarSequencesAndDate;
+        List<SchRsDto004.Schedule> schedulesByUnAuthorizedCalendarSequencesAndDate; //schedulesByUnAuthorizedCalendarSequencesAndDate
 
         // 요청값으로 받은 권한 없는 캘린더 시퀀스 값 추출
         List<Integer> unAuthorizedCalendarSequences = schRqDto004.getCalendar().getUnAuthorizedCalendarSequences();
-        // schedules null 및 size 검증
+        // unAuthorizedCalendarSequences null 및 size 검증
         if (unAuthorizedCalendarSequences == null || unAuthorizedCalendarSequences.size() == 0) {
             log.info("confirmSchedulesByUnAuthorizedCalendarSequencesAndDate Method unAuthorizedCalendarSequences == null or unAuthorizedCalendarSequences.size() == 0");
             return new ArrayList<>();
@@ -163,18 +162,18 @@ public class SchServiceImpl004 implements SchService004 {
         log.info("findSchedulesByUnAuthorizedCalendarSequencesAndDate Method Request Data : " + schRqDto004);
 
         // 권한 없는 캘린더 목록 리스트/일자 값을 통해 일정 목록 조회 Mapper 호출
-        List<SchRsDto004.Schedule> schedules = schMapper004.selectSchedulesByUnAuthorizedCalendarSequencesAndDate(schRqDto004);
-        // schedules null 및 size 검증
-        if (schedules == null || schedules.size() == 0) {
-            log.info("findSchedulesByUnAuthorizedCalendarSequencesAndDate Method schedules == null or schedules.size() == 0");
+        List<SchRsDto004.Schedule> schedulesByUnAuthorizedCalendarSequencesAndDate = schMapper004.selectSchedulesByUnAuthorizedCalendarSequencesAndDate(schRqDto004);
+        // schedulesByUnAuthorizedCalendarSequencesAndDate null 및 size 검증
+        if (schedulesByUnAuthorizedCalendarSequencesAndDate == null || schedulesByUnAuthorizedCalendarSequencesAndDate.size() == 0) {
+            log.info("findSchedulesByUnAuthorizedCalendarSequencesAndDate Method schedulesByUnAuthorizedCalendarSequencesAndDate == null or schedulesByUnAuthorizedCalendarSequencesAndDate.size() == 0");
             return new ArrayList<>();
         }
 
         // method end log
-        log.info("findSchedulesByUnAuthorizedCalendarSequencesAndDate Method Return Data : " + schedules);
+        log.info("findSchedulesByUnAuthorizedCalendarSequencesAndDate Method Return Data : " + schedulesByUnAuthorizedCalendarSequencesAndDate);
         log.info("findSchedulesByUnAuthorizedCalendarSequencesAndDate Method End !!!");
 
         // return
-        return schedules;
+        return schedulesByUnAuthorizedCalendarSequencesAndDate;
     }
 }

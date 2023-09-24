@@ -57,21 +57,21 @@ public class SchServiceImpl009 implements SchService009 {
         log.info("findMyCalendars Method Start !!!");
         log.info("findMyCalendars Method Request Data : " + schRqDto009);
 
-        // 권한 있는 캘린더 목록 리스트 조회 메소드 호출
+        // 권한 있는 캘린더 목록 조회 메소드 호출
         List<SchRsDto009.Calendar> authorizedCalendars = confirmAuthorizedCalendars(schRqDto009);
-        // 권한 없는 캘린더 목록 리스트 조회 메소드 호출
+        // 권한 없는 캘린더 목록 조회 메소드 호출
         List<SchRsDto009.Calendar> unAuthorizedCalendars = confirmUnAuthorizedCalendars(schRqDto009);
-        // 나의 캘린더 리스트 = 권한 있는 캘린더 목록 리스트 + 권한 없는 캘린더 목록 리스트
-        List<SchRsDto009.Calendar> myCalendarList = Stream.of(authorizedCalendars, unAuthorizedCalendars)
+        // 나의 캘린더 목록 = 권한 있는 캘린더 목록 + 권한 없는 캘린더 목록
+        List<SchRsDto009.Calendar> myCalendars = Stream.of(authorizedCalendars, unAuthorizedCalendars)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
 
         // method end log
-        log.info("findMyCalendars Method Return Data : " + myCalendarList);
+        log.info("findMyCalendars Method Return Data : " + myCalendars);
         log.info("findMyCalendars Method End !!!");
 
         // return
-        return myCalendarList;
+        return myCalendars;
     }
 
     // 권한 있는 캘린더 목록 조회 및 schRqDto009 객체 데이터 재 할당 메소드
@@ -81,14 +81,14 @@ public class SchServiceImpl009 implements SchService009 {
         log.info("confirmAuthorizedCalendars Method Start !!!");
         log.info("confirmAuthorizedCalendars Method Request Data : " + schRqDto009);
 
-        // authorizedCalendarList null 검증
+        // authorizedCalendars null 검증
         List<SchRsDto009.Calendar> authorizedCalendars = findAuthorizedCalendars(schRqDto009);
         if (authorizedCalendars == null || authorizedCalendars.size() == 0) {
             log.info("confirmAuthorizedCalendars Method authorizedCalendars == null or authorizedCalendars.size() == 0");
             return new ArrayList<>();
         }
 
-        // authorizedCalendarList 캘린더 시퀀스 값 추출 및 schRqDto009 객체에 할당
+        // authorizedCalendars 캘린더 시퀀스 값 추출 및 schRqDto009 객체에 할당
         schRqDto009.setAuthorizedCalendars(authorizedCalendars.stream()
                 .map(SchRsDto009.Calendar::getCalSeq)
                 .collect(Collectors.toList()));
@@ -131,11 +131,14 @@ public class SchServiceImpl009 implements SchService009 {
         log.info("confirmUnAuthorizedCalendars Method Start !!!");
         log.info("confirmUnAuthorizedCalendars Method Request Data : " + schRqDto009);
 
+        // unAuthorizedCalendars null 검증
         List<SchRsDto009.Calendar> unAuthorizedCalendars = findUnAuthorizedCalendars(schRqDto009);
         if (unAuthorizedCalendars == null || unAuthorizedCalendars.size() == 0) {
             log.info("confirmUnAuthorizedCalendars Method unAuthorizedCalendars == null or unAuthorizedCalendars.size() == 0");
             return new ArrayList<>();
         }
+
+        // unAuthorizedCalendars 캘린더 시퀀스 값 추출 및 schRqDto009 객체에 할당
         schRqDto009.setAuthorizedCalendars(unAuthorizedCalendars.stream()
                 .map(SchRsDto009.Calendar::getCalSeq)
                 .collect(Collectors.toList()));

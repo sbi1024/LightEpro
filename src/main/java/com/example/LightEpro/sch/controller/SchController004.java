@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -75,12 +76,13 @@ public class SchController004 {
         List<Integer> unAuthorizedCalendarSequences = schRqDto004.getCalendar().getUnAuthorizedCalendarSequences();
         // calendarSequences = authorizedCalendarSequences + unAuthorizedCalendarSequences
         List<Integer> calendarSequences = Stream.of(authorizedCalendarSequences, unAuthorizedCalendarSequences)
-                .flatMap(calendarList -> calendarList.stream())
+                .flatMap(Collection::stream)
                 .collect(Collectors.toList());
         if (calendarSequences.size() == 0) {
             log.error("$$$ sch004 validApiRequest fail !!! (NotIncludedCalendarSequencesException) $$$");
             log.error("$$$ sch004 validApiRequest fail !!! (schRqDto004 : " + schRqDto004 + ") $$$");
             throw new ExceptionCustom.NotIncludedCalendarSequencesException();
         }
+        // TODO 권한있는 캘린더 요청값인지 혹은 권한없는 캘린더 시퀀스 값인지 검증 필요
     }
 }
