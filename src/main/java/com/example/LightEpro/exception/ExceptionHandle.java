@@ -272,4 +272,50 @@ public class ExceptionHandle extends RuntimeException {
 
         return schResponse;
     }
+
+    /**
+     * 잘못된 권한 있는 캘린더 시퀀스 값이 요청값에 포함되는 경우 발생 Exception
+     */
+    @ExceptionHandler(ExceptionCustom.NotMatchAuthorizedCalendarSequencesException.class)
+    public SchResponse NotMatchAuthorizedCalendarSequencesException(ExceptionCustom.NotMatchAuthorizedCalendarSequencesException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_MATCH_AUTHORIZED_CALENDAR_SEQUENCES_EXCEPTION;
+        errorCode.setExceptionData(e.getMessage());
+
+        SchResponse schResponse = new SchResponse();
+        schResponse.setResponseStatus(errorCode.getExceptionStatus());
+        schResponse.setResponseCode(errorCode.getExceptionCode());
+        schResponse.setResponseMsg(errorCode.getExceptionMsg());
+        schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ NotMatchAuthorizedCalendarSequencesException !!! (Exception) $$$");
+        log.error("$$$ NOT_MATCH_AUTHORIZED_CALENDAR_SEQUENCES_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
+
+        e.printStackTrace();
+        e.getMessage();
+
+        return schResponse;
+    }
+
+    /**
+     * 잘못된 권한 없는 캘린더 시퀀스 값이 요청값에 포함되는 경우 발생 Exception
+     */
+    @ExceptionHandler(ExceptionCustom.NotMatchUnAuthorizedCalendarSequencesException.class)
+    public SchResponse NotMatchUnAuthorizedCalendarSequencesException(ExceptionCustom.NotMatchUnAuthorizedCalendarSequencesException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_MATCH_UNAUTHORIZED_CALENDAR_SEQUENCES_EXCEPTION;
+        errorCode.setExceptionData(e.getMessage());
+
+        SchResponse schResponse = new SchResponse();
+        schResponse.setResponseStatus(errorCode.getExceptionStatus());
+        schResponse.setResponseCode(errorCode.getExceptionCode());
+        schResponse.setResponseMsg(errorCode.getExceptionMsg());
+        schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ NotMatchUnAuthorizedCalendarSequencesException !!! (Exception) $$$");
+        log.error("$$$ NOT_MATCH_UNAUTHORIZED_CALENDAR_SEQUENCES_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
+
+        e.printStackTrace();
+        e.getMessage();
+
+        return schResponse;
+    }
 }

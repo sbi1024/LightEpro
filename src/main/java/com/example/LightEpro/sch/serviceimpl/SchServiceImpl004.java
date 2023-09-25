@@ -133,7 +133,7 @@ public class SchServiceImpl004 implements SchService004 {
         log.info("confirmSchedulesByUnAuthorizedCalendarSequencesAndDate Method Request Data : " + schRqDto004);
 
         // 요청값으로 받은 권한 있는 캘린더 시퀀스/일자 값을 통해 일정 목록 조회 결과값을 담기 위한 변수 선언
-        List<SchRsDto004.Schedule> schedulesByUnAuthorizedCalendarSequencesAndDate; //schedulesByUnAuthorizedCalendarSequencesAndDate
+        List<SchRsDto004.Schedule> schedulesByUnAuthorizedCalendarSequencesAndDate;
 
         // 요청값으로 받은 권한 없는 캘린더 시퀀스 값 추출
         List<Integer> unAuthorizedCalendarSequences = schRqDto004.getCalendar().getUnAuthorizedCalendarSequences();

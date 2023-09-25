@@ -57,6 +57,14 @@
                IFNULL(TSC.CAL_COLOR, '')   AS calColor,
                'N'                         AS calAuthorized
         FROM T_SC_CAL TSC
+            INNER JOIN T_SC_CAL_USER TSCU
+                        ON TSC.CAL_SEQ = TSCU.CAL_SEQ
+                            AND TSC.CREATE_SEQ = TSCU.CDE_SEQ
+                            AND TSCU.CDE_TYPE = 'I'
+                            AND TSCU.CAL_PARTITION_TYPE = 100
+                            AND TSCU.CAL_AUTHORITY = 'M'
+                            AND TSC.USE_YND = 'Y'
+                            AND TSCU.USE_YND = 'Y'
         WHERE 1 = 1
           AND TSC.CAL_SEQ > 0
           AND EXISTS(SELECT TSS.CAL_SEQ
@@ -73,9 +81,8 @@
                              AND TSS.SCH_SEQ > 0
                              AND TSS.USE_YND = 'Y'
                              AND TSSU.USE_YND = 'Y')
-          AND TSC.USE_YND = 'Y'
           AND TSC.CAL_SEQ NOT IN <foreach collection="authorizedCalendars" item="authorizedCalendar" open="(" separator="," close=")">
                                     #{authorizedCalendar}
-                                </foreach>
+                                 </foreach>
     </select>
 </mapper>

@@ -18,6 +18,9 @@ public class SchRqDto004 {
     @NotNull
     private @Valid Calendar calendar; // 필수값
 
+    private List<Integer> originAuthorizedCalendarSequences; // 필수값이 아님
+    private List<Integer> originUnAuthorizedCalendarSequences; // 필수값이 아님
+
     @Data
     public static class User {
         @Positive

@@ -10,6 +10,10 @@ import java.util.List;
 public interface SchMapper004 {
     int selectUserCount(SchRqDto004 schRqDto004) throws Exception;
 
+    List<Integer> selectAuthorizedCalendarSequences(SchRqDto004 schRqDto004) throws Exception;
+
+    List<Integer> selectUnAuthorizedCalendarSequences(SchRqDto004 schRqDto004) throws Exception;
+
     List<SchRsDto004.Schedule> selectSchedulesByAuthorizedCalendarSequencesAndDate(SchRqDto004 schRqDto004) throws Exception;
 
     List<SchRsDto004.Schedule> selectSchedulesByUnAuthorizedCalendarSequencesAndDate(SchRqDto004 schRqDto004) throws Exception;

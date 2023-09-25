@@ -72,17 +72,52 @@ public class SchController004 {
             throw new ExceptionCustom.NotFoundUserException();
         }
         // 일정 목록 리스트 조회 전 , 요청값의 캘린더 시퀀스 리스트 값의 길이 판단 후 , 0인 경우 Exception 처리
-        List<Integer> authorizedCalendarSequences = schRqDto004.getCalendar().getAuthorizedCalendarSequences();
-        List<Integer> unAuthorizedCalendarSequences = schRqDto004.getCalendar().getUnAuthorizedCalendarSequences();
-        // calendarSequences = authorizedCalendarSequences + unAuthorizedCalendarSequences
-        List<Integer> calendarSequences = Stream.of(authorizedCalendarSequences, unAuthorizedCalendarSequences)
+        List<Integer> requestAuthorizedCalendarSequences = schRqDto004.getCalendar().getAuthorizedCalendarSequences();
+        List<Integer> requestUnAuthorizedCalendarSequences = schRqDto004.getCalendar().getUnAuthorizedCalendarSequences();
+        // calendarSequences = requestAuthorizedCalendarSequences(요청값으로 받은 권한 있는 캘린더 시퀀스) + requestUnAuthorizedCalendarSequences(요청값으로 받은 권한 없는 캘린더 시퀀스)
+        List<Integer> requestCalendarSequences = Stream.of(requestAuthorizedCalendarSequences, requestUnAuthorizedCalendarSequences)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
-        if (calendarSequences.size() == 0) {
+        if (requestCalendarSequences.size() == 0) {
             log.error("$$$ sch004 validApiRequest fail !!! (NotIncludedCalendarSequencesException) $$$");
             log.error("$$$ sch004 validApiRequest fail !!! (schRqDto004 : " + schRqDto004 + ") $$$");
             throw new ExceptionCustom.NotIncludedCalendarSequencesException();
         }
-        // TODO 권한있는 캘린더 요청값인지 혹은 권한없는 캘린더 시퀀스 값인지 검증 필요
+        // 요청값으로 받은 authorizedCalendarSequences 값에 대한 검증 진행 후 , 권한이 없는 캘린더 시퀀스 값을 받은 경우 Exception 처리
+        if (requestAuthorizedCalendarSequences != null && requestAuthorizedCalendarSequences.size() > 0) {
+            List<Integer> originAuthorizedCalendarSequences = schMapper004.selectAuthorizedCalendarSequences(schRqDto004);
+            schRqDto004.setOriginAuthorizedCalendarSequences(originAuthorizedCalendarSequences);
+            List<Integer> requestNonMatchAuthorizedCalendarSequences = requestAuthorizedCalendarSequences.stream()
+                    .filter(requestAuthorizedCalendarSequence ->
+                            originAuthorizedCalendarSequences.stream().noneMatch(
+                                    originAuthorizedCalendarSequence -> (requestAuthorizedCalendarSequence.equals(originAuthorizedCalendarSequence))
+                            )
+                    )
+                    .collect(Collectors.toList());
+            // 요청값으로 받은 권한있는 캘린더 시퀀스 값 중 , 서버측에서 확인한 권한있는 캘린더 시퀀스 값과 비일치 하는 값이 존재하는 경우 Exception 처리
+            if (requestNonMatchAuthorizedCalendarSequences != null && requestNonMatchAuthorizedCalendarSequences.size() > 0) {
+                log.error("$$$ sch004 validApiRequest fail !!! (NotMatchAuthorizedCalendarSequencesException) $$$");
+                log.error("$$$ sch004 validApiRequest fail !!! (schRqDto004 : " + schRqDto004 + ") $$$");
+                throw new ExceptionCustom.NotMatchAuthorizedCalendarSequencesException();
+            }
+        }
+        // 요청값으로 받은 requestUnAuthorizedCalendarSequences 값에 대한 검증 진행 후 , 권한이 없는 캘린더 시퀀스 값을 받은 경우 Exception 처리
+        if (requestUnAuthorizedCalendarSequences != null && requestUnAuthorizedCalendarSequences.size() > 0) {
+            List<Integer> originUnAuthorizedCalendarSequences = schMapper004.selectUnAuthorizedCalendarSequences(schRqDto004);
+            schRqDto004.setOriginUnAuthorizedCalendarSequences(originUnAuthorizedCalendarSequences);
+            List<Integer> requestNonMatchUnAuthorizedCalendarSequences = requestUnAuthorizedCalendarSequences.stream()
+                    .filter(requestUnAuthorizedCalendarSequence ->
+                            originUnAuthorizedCalendarSequences.stream().noneMatch(
+                                    originUnAuthorizedCalendarSequence -> (requestUnAuthorizedCalendarSequence.equals(originUnAuthorizedCalendarSequence))
+                            )
+                    )
+                    .collect(Collectors.toList());
+            // 요청값으로 받은 권한없는 캘린더 시퀀스 값 중 , 서버측에서 확인한 권한없는 캘린더 시퀀스 값과 비일치 하는 값이 존재하는 경우 Exception 처리
+            if (requestNonMatchUnAuthorizedCalendarSequences != null && requestNonMatchUnAuthorizedCalendarSequences.size() > 0) {
+                log.error("$$$ sch004 validApiRequest fail !!! (NotMatchUnAuthorizedCalendarSequencesException) $$$");
+                log.error("$$$ sch004 validApiRequest fail !!! (schRqDto004 : " + schRqDto004 + ") $$$");
+                throw new ExceptionCustom.NotMatchUnAuthorizedCalendarSequencesException();
+            }
+        }
     }
 }

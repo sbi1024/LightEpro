@@ -59,4 +59,18 @@ public class ExceptionCustom {
     public static class NotFoundUserException extends Exception {
 
     }
+
+    /**
+     * 잘못된 권한 있는 캘린더 시퀀스 값이 요청값에 포함되는 경우 발생 Exception
+     */
+    public static class NotMatchAuthorizedCalendarSequencesException extends Exception {
+
+    }
+
+    /**
+     * 잘못된 권한 없는 캘린더 시퀀스 값이 요청값에 포함되는 경우 발생 Exception
+     */
+    public static class NotMatchUnAuthorizedCalendarSequencesException extends Exception {
+
+    }
 }
