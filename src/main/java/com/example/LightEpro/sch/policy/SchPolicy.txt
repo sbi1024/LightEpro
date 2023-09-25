@@ -135,6 +135,34 @@ WHERE 1 = 1
   AND TSS.USE_YND = 'Y'
   AND TSSU.USE_YND = 'Y';
 
+[상세 확인 필요]
+SELECT TSSU.SCHM_SEQ,
+       TSSU.SCH_SEQ,
+       TSSU.CDE_SEQ,
+       TSSU.CDE_TYPE,
+       TSSU.SCH_PARTITION_TYPE,
+       TSSU.SCH_AUTHORITY
+FROM T_SC_SCH TSS
+         INNER JOIN T_SC_SCH_USER TSSU
+                    ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
+                        AND TSS.SCH_SEQ = TSSU.SCH_SEQ
+                        AND TSS.SCHM_SEQ = 1
+                        AND TSS.SCH_SEQ = 1
+WHERE 1 = 1
+  AND (TSSU.CDE_SEQ = 1 AND TSSU.CDE_TYPE = 'C' OR
+       TSSU.CDE_SEQ = 1 AND TSSU.CDE_TYPE = 'D' OR
+       TSSU.CDE_SEQ = 0 AND TSSU.CDE_TYPE = 'I')
+  AND TSS.USE_YND = 'Y'
+  AND TSSU.USE_YND = 'Y'
+ORDER BY CASE
+             WHEN TSSU.SCH_AUTHORITY = 'M'
+                 THEN 1
+             WHEN TSSU.SCH_AUTHORITY = 'W'
+                 THEN 2
+             WHEN TSSU.SCH_AUTHORITY = 'R'
+                 THEN 3
+             END
+LIMIT 1;
 ------------------------------------------------------------------
 ■ 반복일정 정책 ■
 TODO 확립된 정책 필요 (디비상의 컬럼 및 전반적인 로직이 변경되어야 할 필요성이 있음.)
