@@ -25,6 +25,33 @@
                      END
         LIMIT 1
     </select>
+    <select id="confirmScheduleAuthorityByCalendar" resultType="com.example.LightEpro.sch.dto.sch999.SchRsDto999">
+        /* confirmScheduleAuthorityByCalendar */
+        SELECT TSSU.CDE_SEQ            AS cdeSeq,
+               TSSU.CDE_TYPE           AS cdeType,
+               TSSU.SCH_PARTITION_TYPE AS partitionType,
+               TSSU.SCH_AUTHORITY      AS authority
+        FROM T_SC_SCH TSS
+                 INNER JOIN T_SC_SCH_USER TSSU
+                            ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
+                                AND TSS.SCH_SEQ = TSSU.SCH_SEQ
+                                AND TSS.CAL_SEQ = #{calendar.calSeq}
+                                AND TSS.USE_YND = 'Y'
+                                AND TSSU.USE_YND = 'Y'
+        WHERE 1 = 1
+          AND (TSSU.CDE_SEQ = #{user.userCompSeq} AND TSSU.CDE_TYPE = 'C' OR
+               TSSU.CDE_SEQ = #{user.userDeptSeq} AND TSSU.CDE_TYPE = 'D' OR
+               TSSU.CDE_SEQ = #{user.userSeq} AND TSSU.CDE_TYPE = 'I')
+        ORDER BY CASE
+                     WHEN TSSU.SCH_AUTHORITY = 'M'
+                         THEN 1
+                     WHEN TSSU.SCH_AUTHORITY = 'W'
+                         THEN 2
+                     WHEN TSSU.SCH_AUTHORITY = 'R'
+                         THEN 3
+                     END
+        LIMIT 1
+    </select>
 
     <select id="confirmScheduleAuthority" resultType="com.example.LightEpro.sch.dto.sch999.SchRsDto999">
         /* confirmScheduleAuthority */

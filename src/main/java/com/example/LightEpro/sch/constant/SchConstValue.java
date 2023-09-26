@@ -66,6 +66,10 @@ public class SchConstValue {
      */
     public static final String READ_AUTHORITY = "R";
     /**
+     * 조회 권한 = R
+     */
+    public static final String UNKNOWN_AUTHORITY = "U";
+    /**
      * 데이터 상태값 = Y (사용)
      */
     public static final String STATUS_Y = "Y";

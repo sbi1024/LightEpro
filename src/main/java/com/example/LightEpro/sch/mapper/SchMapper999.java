@@ -8,5 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface SchMapper999 {
     SchRsDto999 confirmCalendarAuthority(SchRqDto999 schRqDto999) throws Exception;
 
+    SchRsDto999 confirmScheduleAuthorityByCalendar(SchRqDto999 schRqDto999) throws Exception;
+
     SchRsDto999 confirmScheduleAuthority(SchRqDto999 schRqDto999) throws Exception;
 }
