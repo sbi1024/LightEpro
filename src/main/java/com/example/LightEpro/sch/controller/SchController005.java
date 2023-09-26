@@ -3,7 +3,10 @@ package com.example.LightEpro.sch.controller;
 import com.example.LightEpro.sch.constant.SchConstValue;
 import com.example.LightEpro.sch.dto.sch005.SchRqDto005;
 import com.example.LightEpro.exception.ExceptionCustom;
+import com.example.LightEpro.sch.dto.sch999.SchRqDto999;
+import com.example.LightEpro.sch.helper.SchAuthorityHelper;
 import com.example.LightEpro.sch.mapper.SchMapper005;
+import com.example.LightEpro.sch.mapper.SchMapper999;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService005;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +29,7 @@ public class SchController005 {
     // service , mapper 선언
     private final SchService005 schService005;
     private final SchMapper005 schMapper005;
+    private final SchAuthorityHelper schAuthorityHelper;
 
     // 캘린더 등록 API
     @RequestMapping(value = "/sch005", method = {RequestMethod.GET, RequestMethod.POST})
@@ -41,6 +45,9 @@ public class SchController005 {
         // 유효성 검사 메소드 호출
         validApiRequest(schRqDto005);
         log.info("sch005 validApiRequest Success !!! ");
+        // API 권한 검사 메소드 호출
+        validApiAuthority(schRqDto005);
+        log.info("sch005 validApiAuthority Success !!! ");
 
         // SchResponse 객체 데이터 생성 및 할당
         SchResponse schResponse = new SchResponse();
@@ -59,6 +66,7 @@ public class SchController005 {
         // return
         return schResponse;
     }
+
 
     // sch005 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
     public void validApiRequest(SchRqDto005 schRqDto005) throws Exception {
@@ -87,6 +95,32 @@ public class SchController005 {
             log.error("$$$ sch005 validApiRequest fail !!! (NotBeIncludedManagerException) $$$");
             log.error("$$$ sch005 validApiRequest fail !!! (schRqDto005 : " + schRqDto005 + ") $$$");
             throw new ExceptionCustom.NotBeIncludedManagerException();
+        }
+    }
+
+    private void validApiAuthority(SchRqDto005 schRqDto005) throws Exception {
+        SchRqDto005.User user = schRqDto005.getUser();
+        SchRqDto005.Calendar calendar = schRqDto005.getCalendar();
+
+        SchRqDto999.User requestUser = new SchRqDto999.User();
+        requestUser.setUserCompSeq(user.getUserCompSeq());
+        requestUser.setUserDeptSeq(user.getUserDeptSeq());
+        requestUser.setUserSeq(user.getUserSeq());
+
+        SchRqDto999.Calendar requestCalendar = new SchRqDto999.Calendar();
+        requestCalendar.setCalSeq(calendar.getCalSeq());
+
+        SchRqDto999 schRqDto999 = SchRqDto999.builder()
+                .user(requestUser)
+                .calendar(requestCalendar)
+                .moduleApiType(SchConstValue.CALENDAR_TYPE)
+                .moduleApiPersonality(SchConstValue.CREATE_PERSONALITY)
+                .build();
+
+        boolean AuthorityDetermine = schAuthorityHelper.confirmAuthorityInfo(schRqDto999);
+
+        if (AuthorityDetermine == false) {
+            throw new Exception("권한이 존재하지 않습니다.");
         }
     }
 }

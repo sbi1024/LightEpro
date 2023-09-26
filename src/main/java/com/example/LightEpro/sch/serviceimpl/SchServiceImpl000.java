@@ -4,6 +4,7 @@ import com.example.LightEpro.sch.constant.SchConstValue;
 import com.example.LightEpro.sch.dto.sch000.SchRqDto000;
 import com.example.LightEpro.sch.dto.sch000.SchRsDto000;
 import com.example.LightEpro.sch.dto.sch002.SchRqDto002;
+import com.example.LightEpro.sch.helper.SchAuthorityHelper;
 import com.example.LightEpro.sch.mapper.SchMapper000;
 import com.example.LightEpro.sch.service.SchService000;
 import lombok.RequiredArgsConstructor;

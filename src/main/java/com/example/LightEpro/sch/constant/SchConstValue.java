@@ -56,15 +56,15 @@ public class SchConstValue {
     /**
      * 마스터 권한 = M
      */
-    public static final String MASTER_AUTORITY = "M";
+    public static final String MASTER_AUTHORITY = "M";
     /**
      * 수정 권한 = W
      */
-    public static final String WRITE_AUTORITY = "W";
+    public static final String WRITE_AUTHORITY = "W";
     /**
      * 조회 권한 = R
      */
-    public static final String READ_AUTORITY = "R";
+    public static final String READ_AUTHORITY = "R";
     /**
      * 데이터 상태값 = Y (사용)
      */
@@ -77,4 +77,31 @@ public class SchConstValue {
      * 데이터 상태값 = D (영구 삭제 대기)
      */
     public static final String STATUS_D = "D";
+
+    /**
+     * 일정 모듈 API 타입 (캘린더에 관한 것인지,일정에 관한것인지)
+     */
+    public static final String SCHEDULE_TYPE = "SCHEDULE";
+
+    /**
+     * 일정 모듈 API 타입 (캘린더에 관한 것인지,일정에 관한것인지)
+     */
+    public static final String CALENDAR_TYPE = "CALENDAR";
+
+    /**
+     * API 등록 성격
+     */
+    public static final String CREATE_PERSONALITY = "CREATE";
+    /**
+     * API 조회 성격
+     */
+    public static final String FIND_PERSONALITY = "FIND";
+    /**
+     * API 수정 성격
+     */
+    public static final String MODIFY_PERSONALITY = "MODIFY";
+    /**
+     * API 삭제 성격
+     */
+    public static final String REMOVE_PERSONALITY = "REMOVE";
 }
