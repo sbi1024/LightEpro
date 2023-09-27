@@ -49,6 +49,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.3.1'
 
+	// 객체 자동 매핑 의존성 추가 (dto <> dto 변환)
+	implementation 'org.modelmapper:modelmapper:2.4.2'
+
 	// security 설정
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 

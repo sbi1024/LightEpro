@@ -2,9 +2,10 @@ package com.example.LightEpro.sch.dto.sch999;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
+@NoArgsConstructor
 public class SchRqDto999 {
     private User user;
     private Schedule schedule;

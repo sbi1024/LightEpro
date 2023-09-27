@@ -86,28 +86,6 @@ public class SchController006 {
     }
 
     private void validApiAuthority(SchRqDto006 schRqDto006) throws Exception {
-        SchRqDto006.User user = schRqDto006.getUser();
-        SchRqDto006.Calendar calendar = schRqDto006.getCalendar();
 
-        SchRqDto999.User requestUser = new SchRqDto999.User();
-        requestUser.setUserCompSeq(user.getUserCompSeq());
-        requestUser.setUserDeptSeq(user.getUserDeptSeq());
-        requestUser.setUserSeq(user.getUserSeq());
-
-        SchRqDto999.Calendar requestCalendar = new SchRqDto999.Calendar();
-        requestCalendar.setCalSeq(calendar.getCalSeq());
-
-        SchRqDto999 schRqDto999 = SchRqDto999.builder()
-                .user(requestUser)
-                .calendar(requestCalendar)
-                .moduleApiType(SchConstValue.CALENDAR_TYPE)
-                .moduleApiPersonality(SchConstValue.FIND_PERSONALITY)
-                .build();
-
-        boolean AuthorityDetermine = schAuthorityHelper.confirmAuthorityInfo(schRqDto999);
-
-        if (AuthorityDetermine == false) {
-            throw new Exception("권한이 존재하지 않습니다.");
-        }
     }
 }

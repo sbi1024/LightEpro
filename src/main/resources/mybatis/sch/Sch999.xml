@@ -10,13 +10,13 @@
         FROM T_SC_CAL TSC
                  INNER JOIN T_SC_CAL_USER TSCU
                             ON TSC.CAL_SEQ = TSCU.CAL_SEQ
-                                AND TSC.CAL_SEQ = #{calendar.calSeq}
+                                    AND TSC.CAL_SEQ = #{calendar.calSeq}
+                                    AND TSC.USE_YND = 'Y'
+                                    AND TSCU.USE_YND = 'Y'
         WHERE 1 = 1
           AND (TSCU.CDE_SEQ = #{user.userCompSeq} AND TSCU.CDE_TYPE = 'C' OR
                TSCU.CDE_SEQ = #{user.userDeptSeq} AND TSCU.CDE_TYPE = 'D' OR
                TSCU.CDE_SEQ = #{user.userSeq} AND TSCU.CDE_TYPE = 'I')
-          AND TSC.USE_YND = 'Y'
-          AND TSCU.USE_YND = 'Y'
         ORDER BY CASE
                      WHEN TSCU.CAL_AUTHORITY = 'M'
                          THEN 1
@@ -66,12 +66,12 @@
                                 AND TSS.SCHM_SEQ = #{schedule.schmSeq}
                                 AND TSS.SCH_SEQ = #{schedule.schSeq}
                                 AND TSS.CAl_SEQ = #{calendar.calSeq}
+                                AND TSS.USE_YND = 'Y'
+                                AND TSSU.USE_YND = 'Y'
         WHERE 1 = 1
           AND (TSSU.CDE_SEQ = #{user.userCompSeq} AND TSSU.CDE_TYPE = 'C' OR
                TSSU.CDE_SEQ = #{user.userDeptSeq} AND TSSU.CDE_TYPE = 'D' OR
                TSSU.CDE_SEQ = #{user.userSeq} AND TSSU.CDE_TYPE = 'I')
-          AND TSS.USE_YND = 'Y'
-          AND TSSU.USE_YND = 'Y'
         ORDER BY CASE
                      WHEN TSSU.SCH_AUTHORITY = 'M'
                          THEN 1
@@ -79,6 +79,39 @@
                          THEN 2
                      WHEN TSSU.SCH_AUTHORITY = 'R'
                          THEN 3
+                     END
+        LIMIT 1
+    </select>
+
+    <select id="confirmCalendarAuthorityBySchedule" resultType="com.example.LightEpro.sch.dto.sch999.SchRsDto999">
+        /* confirmCalendarAuthorityBySchedule */
+        SELECT TSCU.CDE_SEQ            AS cdeSeq,
+               TSCU.CDE_TYPE           AS cdeType,
+               TSCU.CAL_PARTITION_TYPE AS partitionType,
+               TSCU.CAL_AUTHORITY      AS authority
+        FROM T_SC_CAL TSC
+                 INNER JOIN T_SC_CAL_USER TSCU
+                            ON TSC.CAL_SEQ = TSCU.CAL_SEQ
+                                AND TSC.USE_YND = 'Y'
+                                AND TSCU.USE_YND = 'Y'
+                 INNER JOIN T_SC_SCH TSS
+                            ON TSC.CAL_SEQ = TSS.CAL_SEQ
+                                AND TSS.SCHM_SEQ = #{schedule.schmSeq}
+                                AND TSS.SCH_SEQ = #{schedule.schSeq}
+                                AND TSS.USE_YND = 'Y'
+                 INNER JOIN T_SC_SCH_USER TSSU
+                            ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
+                                AND TSS.SCH_SEQ = TSSU.SCH_SEQ
+                                AND TSSU.USE_YND = 'Y'
+        WHERE 1 = 1
+          AND (TSCU.CDE_SEQ = #{user.userCompSeq} AND TSCU.CDE_TYPE = 'C' OR
+               TSCU.CDE_SEQ = #{user.userDeptSeq} AND TSCU.CDE_TYPE = 'D' OR
+               TSCU.CDE_SEQ = #{user.userSeq} AND TSCU.CDE_TYPE = 'I')
+        ORDER BY CASE
+                     WHEN TSCU.CAL_AUTHORITY = 'M'
+                         THEN 1
+                     WHEN TSCU.CAL_AUTHORITY = 'W'
+                         THEN 2
                      END
         LIMIT 1
     </select>
