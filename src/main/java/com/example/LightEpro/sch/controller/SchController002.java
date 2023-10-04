@@ -30,7 +30,6 @@ public class SchController002 {
     // service , mapper , schAuthorityHelper 선언
     private final SchService002 schService002;
     private final SchMapper002 schMapper002;
-
     private final SchAuthorityHelper schAuthorityHelper;
 
     // 단일 일정 수정 API

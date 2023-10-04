@@ -3,11 +3,14 @@ package com.example.LightEpro.sch.controller;
 import com.example.LightEpro.exception.ExceptionCustom;
 import com.example.LightEpro.sch.constant.SchConstValue;
 import com.example.LightEpro.sch.dto.sch007.SchRqDto007;
+import com.example.LightEpro.sch.dto.sch999.SchRqDto999;
+import com.example.LightEpro.sch.helper.SchAuthorityHelper;
 import com.example.LightEpro.sch.mapper.SchMapper007;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService007;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,9 +26,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController007 {
-    // service , mapper 선언
+    // service , mapper , schAuthorityHelper 선언
     private final SchService007 schService007;
     private final SchMapper007 schMapper007;
+    private final SchAuthorityHelper schAuthorityHelper;
 
     // 단일 캘린더 수정 API
     @RequestMapping(value = "/sch007", method = {RequestMethod.GET, RequestMethod.POST})
@@ -41,6 +45,9 @@ public class SchController007 {
         // 유효성 검사 메소드 호출
         validApiRequest(schRqDto007);
         log.info("sch007 validApiRequest Success !!! ");
+        // API 권한 검사 메소드 호출
+        validApiAuthority(schRqDto007);
+        log.info("sch007 validApiAuthority Success !!! ");
 
         // SchResponse 객체 데이터 생성 및 할당
         SchResponse schResponse = new SchResponse();
@@ -95,6 +102,20 @@ public class SchController007 {
             log.error("$$$ sch007 validApiRequest fail !!! (NotBeIncludedManagerException) $$$");
             log.error("$$$ sch007 validApiRequest fail !!! (schRqDto007 : " + schRqDto007 + ") $$$");
             throw new ExceptionCustom.NotBeIncludedManagerException();
+        }
+    }
+
+    // sch007 API 권한 검증 진행
+    private void validApiAuthority(SchRqDto007 schRqDto007) throws Exception {
+        ModelMapper modelMapper = new ModelMapper();
+        SchRqDto999 schRqDto999 = modelMapper.map(schRqDto007, SchRqDto999.class);
+        schRqDto999.setModuleApiType(SchConstValue.CALENDAR_TYPE);
+        schRqDto999.setModuleApiPersonality(SchConstValue.MODIFY_PERSONALITY);
+        boolean authority = schAuthorityHelper.confirmAuthorityInfo(schRqDto999);
+        if (!authority) {
+            log.error("$$$ sch007 validApiAuthority fail !!! (NotAuthorizedForCalModifyException) $$$");
+            log.error("$$$ sch007 validApiAuthority fail !!! (schRqDto007 : " + schRqDto007 + ") $$$");
+            throw new ExceptionCustom.NotAuthorizedForCalModifyException();
         }
     }
 }

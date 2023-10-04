@@ -3,11 +3,14 @@ package com.example.LightEpro.sch.controller;
 import com.example.LightEpro.exception.ExceptionCustom;
 import com.example.LightEpro.sch.constant.SchConstValue;
 import com.example.LightEpro.sch.dto.sch008.SchRqDto008;
+import com.example.LightEpro.sch.dto.sch999.SchRqDto999;
+import com.example.LightEpro.sch.helper.SchAuthorityHelper;
 import com.example.LightEpro.sch.mapper.SchMapper008;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService008;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +25,10 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController008 {
-    // service , mapper 선언
+    // service , mapper , schAuthorityHelper 선언
     private final SchService008 schService008;
     private final SchMapper008 schMapper008;
+    private final SchAuthorityHelper schAuthorityHelper;
 
     // 단일 캘린더 삭제 API
     @RequestMapping(value = "/sch008", method = {RequestMethod.GET, RequestMethod.POST})
@@ -40,6 +44,9 @@ public class SchController008 {
         // 유효성 검사 메소드 호출
         validApiRequest(schRqDto008);
         log.info("sch008 validApiRequest Success !!! ");
+        // API 권한 검사 메소드 호출
+        validApiAuthority(schRqDto008);
+        log.info("sch008 validApiAuthority Success !!! ");
 
         // SchResponse 객체 데이터 생성 및 할당
         SchResponse schResponse = new SchResponse();
@@ -75,6 +82,20 @@ public class SchController008 {
             log.error("$$$ sch008 validApiRequest fail !!! (NotFoundCalException) $$$");
             log.error("$$$ sch008 validApiRequest fail !!! (schRqDto007 : " + schRqDto008 + ") $$$");
             throw new ExceptionCustom.NotFoundCalException();
+        }
+    }
+
+    // sch008 API 권한 검증 진행
+    private void validApiAuthority(SchRqDto008 schRqDto008) throws Exception {
+        ModelMapper modelMapper = new ModelMapper();
+        SchRqDto999 schRqDto999 = modelMapper.map(schRqDto008, SchRqDto999.class);
+        schRqDto999.setModuleApiType(SchConstValue.CALENDAR_TYPE);
+        schRqDto999.setModuleApiPersonality(SchConstValue.REMOVE_PERSONALITY);
+        boolean authority = schAuthorityHelper.confirmAuthorityInfo(schRqDto999);
+        if (!authority) {
+            log.error("$$$ sch008 validApiAuthority fail !!! (NotAuthorizedForCalRemoveException) $$$");
+            log.error("$$$ sch008 validApiAuthority fail !!! (schRqDto008 : " + schRqDto008 + ") $$$");
+            throw new ExceptionCustom.NotAuthorizedForCalRemoveException();
         }
     }
 }

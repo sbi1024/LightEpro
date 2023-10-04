@@ -1,14 +1,18 @@
 package com.example.LightEpro.sch.controller;
 
 import com.example.LightEpro.exception.ExceptionCustom;
+import com.example.LightEpro.sch.constant.SchConstValue;
 import com.example.LightEpro.sch.dto.sch008.SchRqDto008;
 import com.example.LightEpro.sch.dto.sch009.SchRqDto009;
+import com.example.LightEpro.sch.dto.sch999.SchRqDto999;
+import com.example.LightEpro.sch.helper.SchAuthorityHelper;
 import com.example.LightEpro.sch.mapper.SchMapper009;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService008;
 import com.example.LightEpro.sch.service.SchService009;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,9 +27,10 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController009 {
-    // service , mapper 선언
+    // service , mapper , schAuthorityHelper 선언
     private final SchService009 schService009;
     private final SchMapper009 schMapper009;
+    private final SchAuthorityHelper schAuthorityHelper;
 
     // 나의 캘린더 목록 조회 API
     @RequestMapping(value = "/sch009", method = {RequestMethod.GET, RequestMethod.POST})
@@ -41,6 +46,9 @@ public class SchController009 {
         // 유효성 검사 메소드 호출
         validApiRequest(schRqDto009);
         log.info("sch009 validApiRequest Success !!! ");
+        // API 권한 검사 메소드 호출
+        validApiAuthority(schRqDto009);
+        log.info("sch009 validApiAuthority Success !!! ");
 
         // SchResponse 객체 데이터 생성 및 할당
         SchResponse schResponse = new SchResponse();
@@ -68,6 +76,20 @@ public class SchController009 {
             log.error("$$$ sch009 validApiRequest fail !!! (NotFoundUserException) $$$");
             log.error("$$$ sch009 validApiRequest fail !!! (schRqDto009 : " + schRqDto009 + ") $$$");
             throw new ExceptionCustom.NotFoundUserException();
+        }
+    }
+
+    // sch009 API 권한 검증 진행
+    private void validApiAuthority(SchRqDto009 schRqDto009) throws Exception {
+        ModelMapper modelMapper = new ModelMapper();
+        SchRqDto999 schRqDto999 = modelMapper.map(schRqDto009, SchRqDto999.class);
+        schRqDto999.setModuleApiType(SchConstValue.CALENDAR_TYPE);
+        schRqDto999.setModuleApiPersonality(SchConstValue.FIND_PERSONALITY);
+        boolean authority = schAuthorityHelper.confirmAuthorityInfo(schRqDto999);
+        if (!authority) {
+            log.error("$$$ sch009 validApiAuthority fail !!! (NotAuthorizedForCalFindException) $$$");
+            log.error("$$$ sch009 validApiAuthority fail !!! (schRqDto009 : " + schRqDto009 + ") $$$");
+            throw new ExceptionCustom.NotAuthorizedForCalFindException();
         }
     }
 }

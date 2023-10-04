@@ -10,6 +10,7 @@ import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService006;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -85,7 +86,17 @@ public class SchController006 {
         }
     }
 
+    // sch006 API 권한 검증 진행
     private void validApiAuthority(SchRqDto006 schRqDto006) throws Exception {
-
+        ModelMapper modelMapper = new ModelMapper();
+        SchRqDto999 schRqDto999 = modelMapper.map(schRqDto006, SchRqDto999.class);
+        schRqDto999.setModuleApiType(SchConstValue.CALENDAR_TYPE);
+        schRqDto999.setModuleApiPersonality(SchConstValue.FIND_PERSONALITY);
+        boolean authority = schAuthorityHelper.confirmAuthorityInfo(schRqDto999);
+        if (!authority) {
+            log.error("$$$ sch006 validApiAuthority fail !!! (NotAuthorizedForCalFindException) $$$");
+            log.error("$$$ sch006 validApiAuthority fail !!! (schRqDto006 : " + schRqDto006 + ") $$$");
+            throw new ExceptionCustom.NotAuthorizedForCalFindException();
+        }
     }
 }

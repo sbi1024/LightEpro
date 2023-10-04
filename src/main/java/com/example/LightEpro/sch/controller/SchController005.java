@@ -11,6 +11,7 @@ import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService005;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController005 {
-    // service , mapper 선언
+    // service , mapper , schAuthorityHelper 선언
     private final SchService005 schService005;
     private final SchMapper005 schMapper005;
     private final SchAuthorityHelper schAuthorityHelper;
@@ -98,7 +99,17 @@ public class SchController005 {
         }
     }
 
+    // sch005 API 권한 검증 진행
     private void validApiAuthority(SchRqDto005 schRqDto005) throws Exception {
-
+        ModelMapper modelMapper = new ModelMapper();
+        SchRqDto999 schRqDto999 = modelMapper.map(schRqDto005, SchRqDto999.class);
+        schRqDto999.setModuleApiType(SchConstValue.CALENDAR_TYPE);
+        schRqDto999.setModuleApiPersonality(SchConstValue.CREATE_PERSONALITY);
+        boolean authority = schAuthorityHelper.confirmAuthorityInfo(schRqDto999);
+        if (!authority) {
+            log.error("$$$ sch005 validApiAuthority fail !!! (NotAuthorizedForCalCreateException) $$$");
+            log.error("$$$ sch005 validApiAuthority fail !!! (schRqDto005 : " + schRqDto005 + ") $$$");
+            throw new ExceptionCustom.NotAuthorizedForCalCreateException();
+        }
     }
 }

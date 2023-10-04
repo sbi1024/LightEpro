@@ -1,12 +1,16 @@
 package com.example.LightEpro.sch.controller;
 
 import com.example.LightEpro.exception.ExceptionCustom;
+import com.example.LightEpro.sch.constant.SchConstValue;
+import com.example.LightEpro.sch.dto.sch999.SchRqDto999;
+import com.example.LightEpro.sch.helper.SchAuthorityHelper;
 import com.example.LightEpro.sch.mapper.SchMapper003;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.dto.sch003.SchRqDto003;
 import com.example.LightEpro.sch.service.SchService003;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,13 +25,14 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController003 {
-    // service , mapper 선언
+    // service , mapper , schAuthorityHelper 선언
     private final SchService003 schService003;
     private final SchMapper003 schMapper003;
+    private final SchAuthorityHelper schAuthorityHelper;
 
     // 단일 일정 삭제 API
     @RequestMapping(value = "/sch003", method = {RequestMethod.GET, RequestMethod.POST})
-    public SchResponse sch003(@RequestBody @Valid SchRqDto003 schRqDto003) throws Exception{
+    public SchResponse sch003(@RequestBody @Valid SchRqDto003 schRqDto003) throws Exception {
         log.info("sch003 API START !!!");
         log.info("sch003 REQUEST DATA : " + schRqDto003);
 
@@ -38,6 +43,9 @@ public class SchController003 {
         // 유효성 검사 메소드 호출
         validApiRequest(schRqDto003);
         log.info("sch003 validApiRequest Success !!! ");
+        // API 권한 검사 메소드 호출
+        validApiAuthority(schRqDto003);
+        log.info("sch003 validApiAuthority Success !!! ");
 
         // SchResponse 객체 데이터 생성 및 할당
         SchResponse schResponse = new SchResponse();
@@ -72,6 +80,20 @@ public class SchController003 {
             log.error("$$$ sch003 validApiRequest fail !!! (NotFoundSchException) $$$");
             log.error("$$$ sch003 validApiRequest fail !!! (schRqDto003 : " + schRqDto003 + ") $$$");
             throw new ExceptionCustom.NotFoundSchException();
+        }
+    }
+
+    // sch003 API 권한 검증 진행
+    private void validApiAuthority(SchRqDto003 schRqDto003) throws Exception {
+        ModelMapper modelMapper = new ModelMapper();
+        SchRqDto999 schRqDto999 = modelMapper.map(schRqDto003, SchRqDto999.class);
+        schRqDto999.setModuleApiType(SchConstValue.SCHEDULE_TYPE);
+        schRqDto999.setModuleApiPersonality(SchConstValue.REMOVE_PERSONALITY);
+        boolean authority = schAuthorityHelper.confirmAuthorityInfo(schRqDto999);
+        if (!authority) {
+            log.error("$$$ sch003 validApiAuthority fail !!! (NotAuthorizedForSchRemoveException) $$$");
+            log.error("$$$ sch003 validApiAuthority fail !!! (schRqDto003 : " + schRqDto003 + ") $$$");
+            throw new ExceptionCustom.NotAuthorizedForSchRemoveException();
         }
     }
 }

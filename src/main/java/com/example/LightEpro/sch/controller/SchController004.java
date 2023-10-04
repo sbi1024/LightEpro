@@ -1,13 +1,17 @@
 package com.example.LightEpro.sch.controller;
 
+import com.example.LightEpro.sch.constant.SchConstValue;
 import com.example.LightEpro.sch.dto.sch004.SchRqDto004;
 import com.example.LightEpro.exception.ExceptionCustom;
 import com.example.LightEpro.sch.dto.sch009.SchRsDto009;
+import com.example.LightEpro.sch.dto.sch999.SchRqDto999;
+import com.example.LightEpro.sch.helper.SchAuthorityHelper;
 import com.example.LightEpro.sch.mapper.SchMapper004;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService004;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,9 +30,10 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController004 {
-    // service , mapper 선언
+    // service , mapper , schAuthorityHelper 선언
     private final SchService004 schService004;
     private final SchMapper004 schMapper004;
+    private final SchAuthorityHelper schAuthorityHelper;
 
     // 월 기준 일정 목록 조회 API
     @RequestMapping(value = "/sch004", method = {RequestMethod.GET, RequestMethod.POST})
@@ -43,6 +48,9 @@ public class SchController004 {
         // 유효성 검사 메소드 호출
         validApiRequest(schRqDto004);
         log.info("sch004 validApiRequest Success !!! ");
+        // API 권한 검사 메소드 호출
+        validApiAuthority(schRqDto004);
+        log.info("sch004 validApiAuthority Success !!! ");
 
         // SchResponse 객체 데이터 생성 및 할당
         SchResponse schResponse = new SchResponse();
@@ -118,6 +126,20 @@ public class SchController004 {
                 log.error("$$$ sch004 validApiRequest fail !!! (schRqDto004 : " + schRqDto004 + ") $$$");
                 throw new ExceptionCustom.NotMatchUnAuthorizedCalendarSequencesException();
             }
+        }
+    }
+
+    // sch004 API 권한 검증 진행
+    private void validApiAuthority(SchRqDto004 schRqDto004) throws Exception {
+        ModelMapper modelMapper = new ModelMapper();
+        SchRqDto999 schRqDto999 = modelMapper.map(schRqDto004, SchRqDto999.class);
+        schRqDto999.setModuleApiType(SchConstValue.SCHEDULE_TYPE);
+        schRqDto999.setModuleApiPersonality(SchConstValue.FIND_PERSONALITY);
+        boolean authority = schAuthorityHelper.confirmAuthorityInfo(schRqDto999);
+        if (!authority) {
+            log.error("$$$ sch001 validApiAuthority fail !!! (NotAuthorizedForSchFindException) $$$");
+            log.error("$$$ sch001 validApiAuthority fail !!! (schRqDto004 : " + schRqDto004 + ") $$$");
+            throw new ExceptionCustom.NotAuthorizedForSchFindException();
         }
     }
 }
