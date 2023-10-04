@@ -3,11 +3,14 @@ package com.example.LightEpro.sch.controller;
 import com.example.LightEpro.sch.constant.SchConstValue;
 import com.example.LightEpro.sch.dto.sch002.SchRqDto002;
 import com.example.LightEpro.exception.ExceptionCustom;
+import com.example.LightEpro.sch.dto.sch999.SchRqDto999;
+import com.example.LightEpro.sch.helper.SchAuthorityHelper;
 import com.example.LightEpro.sch.mapper.SchMapper002;
 import com.example.LightEpro.sch.response.SchResponse;
 import com.example.LightEpro.sch.service.SchService002;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,9 +27,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController002 {
-    // service , mapper 선언
+    // service , mapper , schAuthorityHelper 선언
     private final SchService002 schService002;
     private final SchMapper002 schMapper002;
+
+    private final SchAuthorityHelper schAuthorityHelper;
 
     // 단일 일정 수정 API
     @RequestMapping(value = "/sch002", method = {RequestMethod.GET, RequestMethod.POST})
@@ -42,6 +47,9 @@ public class SchController002 {
         // 유효성 검사 메소드 호출
         validApiRequest(schRqDto002);
         log.info("sch002 validApiRequest Success !!! ");
+        // API 권한 검사 메소드 호출
+        validApiAuthority(schRqDto002);
+        log.info("sch002 validApiAuthority Success !!! ");
 
         // SchResponse 객체 데이터 생성 및 할당
         SchResponse schResponse = new SchResponse();
@@ -60,6 +68,7 @@ public class SchController002 {
         // return
         return schResponse;
     }
+
 
     // sch002 API 요청값 중 필요한 추가적 객체 데이터 재 검증 진행
     public void validApiRequest(SchRqDto002 schRqDto002) throws Exception {
@@ -111,6 +120,20 @@ public class SchController002 {
             log.error("$$$ sch002 validApiRequest fail !!! (NotFoundRegistrantException) $$$");
             log.error("$$$ sch002 validApiRequest fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
             throw new ExceptionCustom.NotFoundRegistrantException();
+        }
+    }
+
+    // sch002 API 권한 검증 진행
+    private void validApiAuthority(SchRqDto002 schRqDto002) throws Exception {
+        ModelMapper modelMapper = new ModelMapper();
+        SchRqDto999 schRqDto999 = modelMapper.map(schRqDto002, SchRqDto999.class);
+        schRqDto999.setModuleApiType(SchConstValue.SCHEDULE_TYPE);
+        schRqDto999.setModuleApiPersonality(SchConstValue.MODIFY_PERSONALITY);
+        boolean authority = schAuthorityHelper.confirmAuthorityInfo(schRqDto999);
+        if (!authority) {
+            log.error("$$$ sch002 validApiAuthority fail !!! (NotAuthorizedForSchModifyException) $$$");
+            log.error("$$$ sch002 validApiAuthority fail !!! (schRqDto002 : " + schRqDto002 + ") $$$");
+            throw new ExceptionCustom.NotAuthorizedForSchModifyException();
         }
     }
 }

@@ -73,4 +73,60 @@ public class ExceptionCustom {
     public static class NotMatchUnAuthorizedCalendarSequencesException extends Exception {
 
     }
+
+    /**
+     * 일정 등록 권한이 없는 경우 발생 Exception
+     */
+    public static class NotAuthorizedForSchCreateException extends Exception {
+
+    }
+
+    /**
+     * 일정 조회 권한이 없는 경우 발생 Exception
+     */
+    public static class NotAuthorizedForSchFindException extends Exception {
+
+    }
+
+    /**
+     * 일정 수정 권한이 없는 경우 발생 Exception
+     */
+    public static class NotAuthorizedForSchModifyException extends Exception {
+
+    }
+
+    /**
+     * 일정 삭제 권한이 없는 경우 발생 Exception
+     */
+    public static class NotAuthorizedForSchRemoveException extends Exception {
+
+    }
+    
+    /**
+     * 캘린더 등록 권한이 없는 경우 발생 Exception
+     */
+    public static class NotAuthorizedForCalCreateException extends Exception {
+
+    }
+
+    /**
+     * 캘린더 조회 권한이 없는 경우 발생 Exception
+     */
+    public static class NotAuthorizedForCalFindException extends Exception {
+
+    }
+
+    /**
+     * 캘린더 수정 권한이 없는 경우 발생 Exception
+     */
+    public static class NotAuthorizedForCalModifyException extends Exception {
+
+    }
+
+    /**
+     * 캘린더 삭제 권한이 없는 경우 발생 Exception
+     */
+    public static class NotAuthorizedForCalRemoveException extends Exception {
+
+    }
 }

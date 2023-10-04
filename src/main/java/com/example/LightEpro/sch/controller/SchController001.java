@@ -22,7 +22,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Slf4j
 public class SchController001 {
-    // service , mapper 선언
+    // service , mapper , schAuthorityHelper 선언
     private final SchService001 schService001;
     private final SchMapper001 schMapper001;
     private final SchAuthorityHelper schAuthorityHelper;
@@ -82,17 +82,17 @@ public class SchController001 {
         }
     }
 
+    // sch001 API 권한 검증 진행
     private void validApiAuthority(SchRqDto001 schRqDto001) throws Exception {
-        // TODO 해당 부분 추가 수정 및 확장 필요
         ModelMapper modelMapper = new ModelMapper();
         SchRqDto999 schRqDto999 = modelMapper.map(schRqDto001, SchRqDto999.class);
         schRqDto999.setModuleApiType(SchConstValue.SCHEDULE_TYPE);
         schRqDto999.setModuleApiPersonality(SchConstValue.FIND_PERSONALITY);
         boolean authority = schAuthorityHelper.confirmAuthorityInfo(schRqDto999);
         if (!authority) {
-            log.error("$$$ sch001 validApiAuthority fail !!! () $$$");
+            log.error("$$$ sch001 validApiAuthority fail !!! (NotAuthorizedForSchFindException) $$$");
             log.error("$$$ sch001 validApiAuthority fail !!! (schRqDto001 : " + schRqDto001 + ") $$$");
-            throw new Exception("조회 권한이 존재하지 않습니다.");
+            throw new ExceptionCustom.NotAuthorizedForSchFindException();
         }
     }
 }

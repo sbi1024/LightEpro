@@ -318,4 +318,188 @@ public class ExceptionHandle extends RuntimeException {
 
         return schResponse;
     }
+
+    /**
+     * 일정 등록 권한이 없는 경우 발생 Exception
+     */
+    @ExceptionHandler(ExceptionCustom.NotAuthorizedForSchCreateException.class)
+    public SchResponse NotAuthorizedForSchCreateException(ExceptionCustom.NotAuthorizedForSchCreateException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_AUTHORIZED_FOR_SCH_CREATE_EXCEPTION;
+        errorCode.setExceptionData(e.getMessage());
+
+        SchResponse schResponse = new SchResponse();
+        schResponse.setResponseStatus(errorCode.getExceptionStatus());
+        schResponse.setResponseCode(errorCode.getExceptionCode());
+        schResponse.setResponseMsg(errorCode.getExceptionMsg());
+        schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ NotAuthorizedForSchCreateException !!! (Exception) $$$");
+        log.error("$$$ NOT_AUTHORIZED_FOR_SCH_CREATE_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
+
+        e.printStackTrace();
+        e.getMessage();
+
+        return schResponse;
+    }
+
+    /**
+     * 일정 조회 권한이 없는 경우 발생 Exception
+     */
+    @ExceptionHandler(ExceptionCustom.NotAuthorizedForSchFindException.class)
+    public SchResponse NotAuthorizedForSchFindException(ExceptionCustom.NotAuthorizedForSchFindException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_AUTHORIZED_FOR_SCH_FIND_EXCEPTION;
+        errorCode.setExceptionData(e.getMessage());
+
+        SchResponse schResponse = new SchResponse();
+        schResponse.setResponseStatus(errorCode.getExceptionStatus());
+        schResponse.setResponseCode(errorCode.getExceptionCode());
+        schResponse.setResponseMsg(errorCode.getExceptionMsg());
+        schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ NotAuthorizedForSchFindException !!! (Exception) $$$");
+        log.error("$$$ NOT_AUTHORIZED_FOR_SCH_FIND_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
+
+        e.printStackTrace();
+        e.getMessage();
+
+        return schResponse;
+    }
+
+    /**
+     * 일정 수정 권한이 없는 경우 발생 Exception
+     */
+    @ExceptionHandler(ExceptionCustom.NotAuthorizedForSchModifyException.class)
+    public SchResponse NotAuthorizedForSchModifyException(ExceptionCustom.NotAuthorizedForSchModifyException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_AUTHORIZED_FOR_SCH_MODIFY_EXCEPTION;
+        errorCode.setExceptionData(e.getMessage());
+
+        SchResponse schResponse = new SchResponse();
+        schResponse.setResponseStatus(errorCode.getExceptionStatus());
+        schResponse.setResponseCode(errorCode.getExceptionCode());
+        schResponse.setResponseMsg(errorCode.getExceptionMsg());
+        schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ NotAuthorizedForSchModifyException !!! (Exception) $$$");
+        log.error("$$$ NOT_AUTHORIZED_FOR_SCH_MODIFY_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
+
+        e.printStackTrace();
+        e.getMessage();
+
+        return schResponse;
+    }
+
+    /**
+     * 일정 삭제 권한이 없는 경우 발생 Exception
+     */
+    @ExceptionHandler(ExceptionCustom.NotAuthorizedForSchRemoveException.class)
+    public SchResponse NotAuthorizedForSchRemoveException(ExceptionCustom.NotAuthorizedForSchRemoveException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_AUTHORIZED_FOR_SCH_REMOVE_EXCEPTION;
+        errorCode.setExceptionData(e.getMessage());
+
+        SchResponse schResponse = new SchResponse();
+        schResponse.setResponseStatus(errorCode.getExceptionStatus());
+        schResponse.setResponseCode(errorCode.getExceptionCode());
+        schResponse.setResponseMsg(errorCode.getExceptionMsg());
+        schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ NotAuthorizedForSchRemoveException !!! (Exception) $$$");
+        log.error("$$$ NOT_AUTHORIZED_FOR_SCH_REMOVE_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
+
+        e.printStackTrace();
+        e.getMessage();
+
+        return schResponse;
+    }
+
+    /**
+     * 캘린더 등록 권한이 없는 경우 발생 Exception
+     */
+    @ExceptionHandler(ExceptionCustom.NotAuthorizedForCalCreateException.class)
+    public SchResponse NotAuthorizedForCalCreateException(ExceptionCustom.NotAuthorizedForCalCreateException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_AUTHORIZED_FOR_CAL_CREATE_EXCEPTION;
+        errorCode.setExceptionData(e.getMessage());
+
+        SchResponse schResponse = new SchResponse();
+        schResponse.setResponseStatus(errorCode.getExceptionStatus());
+        schResponse.setResponseCode(errorCode.getExceptionCode());
+        schResponse.setResponseMsg(errorCode.getExceptionMsg());
+        schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ NotAuthorizedForCalCreateException !!! (Exception) $$$");
+        log.error("$$$ NOT_AUTHORIZED_FOR_CAL_CREATE_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
+
+        e.printStackTrace();
+        e.getMessage();
+
+        return schResponse;
+    }
+
+    /**
+     * 캘린더 조회 권한이 없는 경우 발생 Exception
+     */
+    @ExceptionHandler(ExceptionCustom.NotAuthorizedForCalFindException.class)
+    public SchResponse NotAuthorizedForCalFindException(ExceptionCustom.NotAuthorizedForCalFindException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_AUTHORIZED_FOR_CAL_FIND_EXCEPTION;
+        errorCode.setExceptionData(e.getMessage());
+
+        SchResponse schResponse = new SchResponse();
+        schResponse.setResponseStatus(errorCode.getExceptionStatus());
+        schResponse.setResponseCode(errorCode.getExceptionCode());
+        schResponse.setResponseMsg(errorCode.getExceptionMsg());
+        schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ NotAuthorizedForCalFindException !!! (Exception) $$$");
+        log.error("$$$ NOT_AUTHORIZED_FOR_CAL_FIND_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
+
+        e.printStackTrace();
+        e.getMessage();
+
+        return schResponse;
+    }
+
+    /**
+     * 캘린더 수정 권한이 없는 경우 발생 Exception
+     */
+    @ExceptionHandler(ExceptionCustom.NotAuthorizedForCalModifyException.class)
+    public SchResponse NotAuthorizedForCalModifyException(ExceptionCustom.NotAuthorizedForCalModifyException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_AUTHORIZED_FOR_CAL_MODIFY_EXCEPTION;
+        errorCode.setExceptionData(e.getMessage());
+
+        SchResponse schResponse = new SchResponse();
+        schResponse.setResponseStatus(errorCode.getExceptionStatus());
+        schResponse.setResponseCode(errorCode.getExceptionCode());
+        schResponse.setResponseMsg(errorCode.getExceptionMsg());
+        schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ NotAuthorizedForCalModifyException !!! (Exception) $$$");
+        log.error("$$$ NOT_AUTHORIZED_FOR_CAL_MODIFY_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
+
+        e.printStackTrace();
+        e.getMessage();
+
+        return schResponse;
+    }
+
+    /**
+     * 캘린더 삭제 권한이 없는 경우 발생 Exception
+     */
+    @ExceptionHandler(ExceptionCustom.NotAuthorizedForCalRemoveException.class)
+    public SchResponse NotAuthorizedForCalRemoveException(ExceptionCustom.NotAuthorizedForCalRemoveException e) {
+        ExceptionCode errorCode = ExceptionCode.NOT_AUTHORIZED_FOR_CAL_REMOVE_EXCEPTION;
+        errorCode.setExceptionData(e.getMessage());
+
+        SchResponse schResponse = new SchResponse();
+        schResponse.setResponseStatus(errorCode.getExceptionStatus());
+        schResponse.setResponseCode(errorCode.getExceptionCode());
+        schResponse.setResponseMsg(errorCode.getExceptionMsg());
+        schResponse.setResponseData(errorCode.getExceptionData());
+
+        log.error("$$$ NotAuthorizedForCalRemoveException !!! (Exception) $$$");
+        log.error("$$$ NOT_AUTHORIZED_FOR_CAL_REMOVE_EXCEPTION !!! (schResponse : " + schResponse + ") $$$");
+
+        e.printStackTrace();
+        e.getMessage();
+
+        return schResponse;
+    }
 }
