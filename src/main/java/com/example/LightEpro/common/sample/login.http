@@ -1,0 +1,9 @@
+### 로그인 페이지 이동
+GET localhost:8080/
+
+
+### 로그인 성공 API
+POST localhost:8080/login_proc?userName=테스트 init 아이디1&userPassword=테스트 init 비밀번호1
+Content-Type: application/x-www-form-urlencoded
+
+
