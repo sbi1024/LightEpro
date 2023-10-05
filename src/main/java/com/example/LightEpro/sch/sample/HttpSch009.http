@@ -1,0 +1,11 @@
+### 캘린더 목록 조회 API
+POST http://localhost:8080/sch009
+Content-Type: application/json
+
+{
+  "user": {
+    "userCompSeq": 1,
+    "userDeptSeq": 1,
+    "userSeq": 2
+  }
+}

@@ -1,8 +1,12 @@
+### 일정 삭제 API
+POST http://localhost:8080/sch003
+Content-Type: application/json
+
 {
   "user": {
     "userCompSeq": 1,
     "userDeptSeq": 1,
-    "userSeq": 1
+    "userSeq": 3
   },
   "schedule": {
     "schmSeq": "1",

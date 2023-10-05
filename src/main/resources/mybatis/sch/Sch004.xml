@@ -59,22 +59,25 @@
         WHERE 1 = 1
           AND TSC.CAL_SEQ > 0
           AND EXISTS(SELECT TSS.CAL_SEQ
-                           FROM T_SC_SCH TSS
-                                    INNER JOIN T_SC_SCH_USER TSSU
-                                               ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
-                                                   AND TSS.SCH_SEQ = TSSU.SCH_SEQ
-                                                   AND (TSSU.CDE_SEQ = #{user.userCompSeq} AND TSSU.CDE_TYPE = 'C' OR
-                                                        TSSU.CDE_SEQ = #{user.userDeptSeq} AND TSSU.CDE_TYPE = 'D' OR
-                                                        TSSU.CDE_SEQ = #{user.userSeq} AND TSSU.CDE_TYPE = 'I')
-                           WHERE 1 = 1
-                             AND TSS.CAL_SEQ = TSC.CAL_SEQ
-                             AND TSS.SCHM_SEQ > 0
-                             AND TSS.SCH_SEQ > 0
-                             AND TSS.USE_YND = 'Y'
-                             AND TSSU.USE_YND = 'Y')
-          AND TSC.CAL_SEQ NOT IN <foreach collection="originAuthorizedCalendarSequences" item="originAuthorizedCalendarSequence" open="(" separator="," close=")">
-                                    #{originAuthorizedCalendarSequence}
-                                 </foreach>
+                     FROM T_SC_SCH TSS
+                        INNER JOIN T_SC_SCH_USER TSSU
+                            ON TSS.SCHM_SEQ = TSSU.SCHM_SEQ
+                             AND TSS.SCH_SEQ = TSSU.SCH_SEQ
+                             AND (TSSU.CDE_SEQ = #{user.userCompSeq} AND TSSU.CDE_TYPE = 'C' OR
+                                  TSSU.CDE_SEQ = #{user.userDeptSeq} AND TSSU.CDE_TYPE = 'D' OR
+                                  TSSU.CDE_SEQ = #{user.userSeq} AND TSSU.CDE_TYPE = 'I')
+                     WHERE 1 = 1
+                      AND TSS.CAL_SEQ = TSC.CAL_SEQ
+                      AND TSS.SCHM_SEQ > 0
+                      AND TSS.SCH_SEQ > 0
+                      AND TSS.USE_YND = 'Y'
+                      AND TSSU.USE_YND = 'Y')
+        <if test='originAuthorizedCalendarSequences != null and originAuthorizedCalendarSequences.size > 0'>
+            AND TSC.CAL_SEQ NOT IN
+            <foreach collection="originAuthorizedCalendarSequences" item="originAuthorizedCalendarSequence" open="(" separator="," close=")">
+                #{originAuthorizedCalendarSequence}
+            </foreach>
+        </if>
     </select>
 
     <select id="selectSchedulesByAuthorizedCalendarSequencesAndDate" resultType="com.example.LightEpro.sch.dto.sch004.SchRsDto004$Schedule">

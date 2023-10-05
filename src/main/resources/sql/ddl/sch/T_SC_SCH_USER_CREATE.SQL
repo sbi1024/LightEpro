@@ -13,5 +13,5 @@ CREATE TABLE `T_SC_SCH_USER`
     `MODIFY_SEQ`         BIGINT      NULL COMMENT '변경자 시퀀스',
     `DELETE_DATE`        DATETIME    NULL COMMENT '최종 삭제 일자',
     `DELETE_SEQ`         BIGINT      NULL COMMENT '삭제자 시퀀스',
-    PRIMARY KEY (`SCHM_SEQ`, `SCH_SEQ`, `CDE_SEQ`, `CDE_TYPE`)
+    PRIMARY KEY (`SCHM_SEQ`, `SCH_SEQ`, `CDE_SEQ`, `CDE_TYPE`, `SCH_PARTITION_TYPE`)
 ) COMMENT '일정 구성원 테이블';

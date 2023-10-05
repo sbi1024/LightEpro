@@ -3,6 +3,7 @@
 
 <mapper namespace="com.example.LightEpro.common.mapper.UserDetailMapper">
     <select id="selectUser" resultType="com.example.LightEpro.common.dto.UserDetailsDto">
+        /* selectUser */
         SELECT TEEA.EMP_ID AS Id,
                TEEA.EMP_PW AS Pw
         FROM T_EM_EMP_ACCOUNT TEEA

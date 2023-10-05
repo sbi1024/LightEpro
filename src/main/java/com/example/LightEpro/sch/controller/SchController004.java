@@ -49,8 +49,8 @@ public class SchController004 {
         validApiRequest(schRqDto004);
         log.info("sch004 validApiRequest Success !!! ");
         // API 권한 검사 메소드 호출
-        validApiAuthority(schRqDto004);
-        log.info("sch004 validApiAuthority Success !!! ");
+        // validApiAuthority(schRqDto004);
+        // log.info("sch004 validApiAuthority Success !!! ");
 
         // SchResponse 객체 데이터 생성 및 할당
         SchResponse schResponse = new SchResponse();

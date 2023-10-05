@@ -1,3 +1,7 @@
+### 캘린더 수정 API
+POST http://localhost:8080/sch007
+Content-Type: application/json
+
 {
   "user": {
     "userCompSeq": 1,

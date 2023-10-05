@@ -1,3 +1,7 @@
+### 일정 등록 API
+POST http://localhost:8080/sch000
+Content-Type: application/json
+
 {
   "user": {
     "userCompSeq": 1,
@@ -5,13 +9,10 @@
     "userSeq": 1
   },
   "schedule": {
-    "schmSeq": "1",
-    "schSeq": "1",
-    "startDate": "202306251510",
-    "endDate": "202306251510",
-    "allDayYn": "N",
-    "schTitle": "수정 테스트",
-    "schContent": "수정 테스트"
+    "startDate": "202309011530",
+    "endDate": "202309021630",
+    "allDayYn": "Y",
+    "schTitle": "단일 일정 반정규화 인덱스 테스트"
   },
   "calendar": {
     "calSeq": "1"
