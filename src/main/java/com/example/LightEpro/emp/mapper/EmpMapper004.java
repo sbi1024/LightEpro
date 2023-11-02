@@ -8,5 +8,5 @@ import java.util.List;
 
 @Mapper
 public interface EmpMapper004 {
-    List<EmpRsDto004.DeptInfo> selectDeptInfoList(EmpRqDto004 empRqDto004) throws Exception;
+    List<EmpRsDto004.Department> selectDepartments(EmpRqDto004 empRqDto004) throws Exception;
 }

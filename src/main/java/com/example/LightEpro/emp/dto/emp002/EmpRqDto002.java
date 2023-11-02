@@ -12,30 +12,26 @@ import javax.validation.constraints.Positive;
 @Data
 public class EmpRqDto002 {
     @NotNull
-    private @Valid Emp emp;
+    private @Valid User user; // 필수값
     @NotNull
-    private @Valid Comp comp;
-    @NotNull
-    private @Valid Dept dept;
+    private @Valid Dept dept; // 필수값
 
     @Data
-    public static class Emp {
+    public static class User {
         @Positive
-        private int empSeq;
-    }
-
-    @Data
-    public static class Comp {
+        private int userCompSeq; // 필수값
         @Positive
-        private int compSeq;
+        private int userDeptSeq; // 필수값
+        @Positive
+        private int userSeq; // 필수값
     }
 
     @Data
     public static class Dept {
         @Positive
-        private int deptSeq;
-        private int parentDeptSeq;
+        private int deptSeq; // 필수값
+        private int parentDeptSeq; // 필수값이 아님
         @NotBlank
-        private String deptName;
+        private String deptName; // 필수값
     }
 }

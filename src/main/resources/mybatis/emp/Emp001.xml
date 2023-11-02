@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.LightEpro.emp.mapper.EmpMapper001">
-    <select id="selectDeptInfo" resultType="com.example.LightEpro.emp.dto.emp001.EmpRsDto001$DeptInfo">
-        /* selectDeptInfo */
+    <select id="selectDepartment" resultType="com.example.LightEpro.emp.dto.emp001.EmpRsDto001$Department">
+        /* selectDepartment */
         SELECT IFNULL(TED.DEPT_SEQ, '')                   AS deptSeq,
                IFNULL(TED.PARENT_DEPT_SEQ, '')            AS parentDeptSeq,
                IFNULL(TED.DEPT_NAME, '')                  AS deptName,

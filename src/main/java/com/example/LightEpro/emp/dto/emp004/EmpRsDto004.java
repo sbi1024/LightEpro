@@ -9,10 +9,11 @@ import java.util.List;
 @Data
 @Builder
 public class EmpRsDto004 {
-    private List<DeptInfo> deptInfos;
+    private List<Department> departments;
+    private int departmentsCnt;
 
     @Data
-    public static class DeptInfo {
+    public static class Department {
         private String deptSeq;
         private String parentDeptSeq;
         private String deptPath;

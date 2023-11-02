@@ -29,8 +29,8 @@ public class SchServiceImpl000 implements SchService000 {
     @Override
     public SchRsDto000 createScheduleInfo(SchRqDto000 schRqDto000) throws Exception {
         // method start log
-        log.info("createSingleSch Method Start !!!");
-        log.info("createSingleSch Method Request Data : " + schRqDto000);
+        log.info("createScheduleInfo Method Start !!!");
+        log.info("createScheduleInfo Method Request Data : " + schRqDto000);
 
         // 객체 데이터 재 주입 메소드 호출
         assignObject(schRqDto000);
@@ -51,8 +51,8 @@ public class SchServiceImpl000 implements SchService000 {
                 .build();
 
         // method end log
-        log.info("createSingleSch Method Return Data : " + schRsDto000);
-        log.info("createSingleSch Method End !!!");
+        log.info("createScheduleInfo Method Return Data : " + schRsDto000);
+        log.info("createScheduleInfo Method End !!!");
 
         // return
         return schRsDto000;

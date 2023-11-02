@@ -1,29 +1,31 @@
 package com.example.LightEpro.emp.dto.emp006;
 
-import com.example.LightEpro.emp.dto.emp005.EmpRqDto005;
 import lombok.Data;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @Data
 public class EmpRqDto006 {
     @NotNull
-    private @Valid Emp emp;
+    private @Valid User user; // 필수값
     @NotNull
-    private @Valid Comp comp;
+    private @Valid Comp comp; // 필수값
 
     @Data
-    public static class Emp {
+    public static class User {
         @Positive
-        private int empSeq;
+        private int userCompSeq; // 필수값
+        @Positive
+        private int userDeptSeq; // 필수값
+        @Positive
+        private int userSeq; // 필수값
     }
 
     @Data
     public static class Comp {
         @Positive
-        private int compSeq;
+        private int compSeq; // 필수값
     }
 }

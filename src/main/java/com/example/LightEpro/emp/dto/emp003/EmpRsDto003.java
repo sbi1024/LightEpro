@@ -11,5 +11,5 @@ import java.util.List;
 public class EmpRsDto003 {
     private int deptSeq;
     private int removeDeptInfoCnt;
-    private int removeMappingDeptInfoCnt;
+    private int removeDepartmentCnt;
 }

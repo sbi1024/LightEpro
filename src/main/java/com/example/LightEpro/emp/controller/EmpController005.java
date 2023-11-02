@@ -22,9 +22,10 @@ import javax.validation.Valid;
 @Slf4j
 public class EmpController005 {
 
+    // empService005 선언
     private final EmpService005 empService005;
 
-    // 회사 등록 API
+    // 단일 회사 등록 API
     @RequestMapping(value = "/emp005", method = {RequestMethod.GET, RequestMethod.POST})
     public EmpResponse emp005(@RequestBody @Valid EmpRqDto005 empRqDto005) throws Exception {
         log.info("emp005 API Start !!!");
@@ -44,7 +45,7 @@ public class EmpController005 {
         empResponse.setResponseStatus("SUCCESS");
         empResponse.setResponseCode(200);
         empResponse.setResponseMsg("emp005 API SUCCESS");
-        empResponse.setResponseData(empService005.createSingleComp(empRqDto005));
+        empResponse.setResponseData(empService005.createCompanyInfo(empRqDto005));
 
         // stopWatch 종료
         stopWatch.stop();

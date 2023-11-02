@@ -19,14 +19,14 @@ public class EmpServiceImpl005 implements EmpService005 {
 
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public EmpRsDto005 createSingleComp(EmpRqDto005 empRqDto005) throws Exception {
+    public EmpRsDto005 createCompanyInfo(EmpRqDto005 empRqDto005) throws Exception {
         // method start log
-        log.info("createSingleComp Method Start !!!");
-        log.info("createSingleComp Method Request Data : " + empRqDto005);
+        log.info("createCompanyInfo Method Start !!!");
+        log.info("createCompanyInfo Method Request Data : " + empRqDto005);
 
         // 객체 데이터 재 주입 메소드 호출
         assignObject(empRqDto005);
-        // 부서 등록 메소드 호출
+        // 회사 등록 메소드 호출
         int createCompanyCnt = createCompany(empRqDto005);
 
         // empRsDto005 객체 builder 패턴을 통해 객체 생성
@@ -36,56 +36,77 @@ public class EmpServiceImpl005 implements EmpService005 {
                 .build();
 
         // method end log
-        log.info("createSingleComp Method Return Data : " + empRsDto005);
-        log.info("createSingleComp Method End !!!");
+        log.info("createCompanyInfo Method Return Data : " + empRsDto005);
+        log.info("createCompanyInfo Method End !!!");
 
         // return
         return empRsDto005;
     }
 
+    // empRqDto005 객체 데이터 재 주입 메소드
     @Override
     public void assignObject(EmpRqDto005 empRqDto005) throws Exception {
         // method start log
         log.info("assignObject Method Start !!!");
         log.info("assignObject Method Request Data : " + empRqDto005);
-
-        // 부서 시퀀스 할당
-        empRqDto005.getComp().setCompSeq(findCurrentCompValue());
+        
+        // 회사 시퀀스 값 할당 메소드 호출
+        confirmCompanySequence(empRqDto005);
 
         // method end log
         log.info("assignObject Method End !!!");
     }
 
+    // 회사 객체에 회사 시퀀스 값 할당 메소드
     @Override
-    public int findCurrentCompValue() throws Exception {
+    public void confirmCompanySequence(EmpRqDto005 empRqDto005) throws Exception {
         // method start log
-        log.info("findCurrentCompValue Method Start !!!");
+        log.info("confirmCompanySequence Method Start !!!");
+        log.info("confirmCompanySequence Method Request Data : " + empRqDto005);
 
-        // 부서 시퀀스 채번
-        int currentCompValue = empMapper005.findCurrentCompValue();
+        // 회사 객체 생성
+        EmpRqDto005.Comp comp = empRqDto005.getComp();
+        // 회사 시퀀스 값 채번
+        int findCompanySequenceValue = findCompanySequence();
+        // comp 객체에 회사 시퀀스 할당
+        comp.setCompSeq(findCompanySequenceValue);
 
         // method end log
-        log.info("findCurrentCompValue Method Return Data : " + currentCompValue);
-        log.info("findCurrentCompValue Method End !!!");
-
-        // return
-        return currentCompValue;
+        log.info("confirmCompanySequence Method End !!!");
     }
 
+    // 회사 시퀀스 번호 채번 메소드
+    @Override
+    public int findCompanySequence() throws Exception {
+        // method start log
+        log.info("findCompanySequence Method Start !!!");
+
+        // 회사 시퀀스 채번
+        int selectCompanySequenceValue = empMapper005.selectCompanySequence();
+
+        // method end log
+        log.info("findCompanySequence Method Return Data : " + selectCompanySequenceValue);
+        log.info("findCompanySequence Method End !!!");
+
+        // return
+        return selectCompanySequenceValue;
+    }
+    
+    // 회사 등록 메소드
     @Override
     public int createCompany(EmpRqDto005 empRqDto005) throws Exception {
         // method start log
         log.info("createCompany Method Start !!!");
         log.info("createCompany Method Request Data : " + empRqDto005);
 
-        // 부서 생성
-        int insertDeptCnt = empMapper005.insertComp(empRqDto005);
+        // 회사 등록 Mapper 호출
+        int insertCompCnt = empMapper005.insertCompany(empRqDto005);
 
         // method end log
         log.info("createCompany Method Return Data : " + empRqDto005);
         log.info("createCompany Method End !!!");
 
         // return
-        return insertDeptCnt;
+        return insertCompCnt;
     }
 }

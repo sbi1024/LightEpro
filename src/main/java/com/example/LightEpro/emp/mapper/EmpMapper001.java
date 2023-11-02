@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface EmpMapper001 {
-    EmpRsDto001.DeptInfo selectDeptInfo(EmpRqDto001 empRqDto001) throws Exception;
+    EmpRsDto001.Department selectDepartment(EmpRqDto001 empRqDto001) throws Exception;
 }

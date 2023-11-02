@@ -19,40 +19,47 @@ public class EmpServiceImpl004 implements EmpService004 {
     // EmpMapper004 선언
     private final EmpMapper004 empMapper004;
 
+    // 부서 조직도 조회 메소드 (하위 부서 포함)
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public EmpRsDto004 findDeptList(EmpRqDto004 empRqDto004) throws Exception {
+    public EmpRsDto004 findDepartmentsInfo(EmpRqDto004 empRqDto004) throws Exception {
         // method start log
-        log.info("findDeptList Method Start !!!");
-        log.info("findDeptList Method Request Data : " + empRqDto004);
+        log.info("findDepartmentsInfo Method Start !!!");
+        log.info("findDepartmentsInfo Method Request Data : " + empRqDto004);
 
-        // 부서 조직도 목록 리스트를 조회한다.
-        List<EmpRsDto004.DeptInfo> findDeptInfoList = findDeptInfoList(empRqDto004);
+        // 부서 조직도 목록 조회 메소드 호출
+        List<EmpRsDto004.Department> departments = findDepartments(empRqDto004);
+        // 부서 조직도 목록 카운팅
+        int departmentsCnt = departments == null ? 0 : departments.size();
+
 
         // empRsDto004 객체 builder 패턴을 통해 객체 생성
         EmpRsDto004 empRsDto004 = EmpRsDto004.builder()
-                .deptInfos(findDeptInfoList)
+                .departments(departments)
+                .departmentsCnt(departmentsCnt)
                 .build();
 
         // method end log
-        log.info("findDeptList Method Return Data : " + empRsDto004);
-        log.info("findDeptList Method End !!!");
+        log.info("findDepartmentsInfo Method Return Data : " + empRsDto004);
+        log.info("findDepartmentsInfo Method End !!!");
 
         // return
         return empRsDto004;
     }
 
+    // 부서 조직도 목록 조회 메소드 (하위 부서 포함)
     @Override
-    public List<EmpRsDto004.DeptInfo> findDeptInfoList(EmpRqDto004 empRqDto004) throws Exception {
+    public List<EmpRsDto004.Department> findDepartments(EmpRqDto004 empRqDto004) throws Exception {
         // method start log
-        log.info("findDeptInfoList Method Start !!!");
-        log.info("findDeptInfoList Method Request Data : " + empRqDto004);
-
-        List<EmpRsDto004.DeptInfo> selectDeptInfoList = empMapper004.selectDeptInfoList(empRqDto004);
+        log.info("findDepartments Method Start !!!");
+        log.info("findDepartments Method Request Data : " + empRqDto004);
+        
+        // 부서 조직도 목록 조회 Mapper 호출
+        List<EmpRsDto004.Department> selectDeptInfoList = empMapper004.selectDepartments(empRqDto004);
 
         // method end log
-        log.info("findDeptInfoList Method Return Data : " + selectDeptInfoList);
-        log.info("findDeptInfoList Method End !!!");
+        log.info("findDepartments Method Return Data : " + selectDeptInfoList);
+        log.info("findDepartments Method End !!!");
 
         return selectDeptInfoList;
     }

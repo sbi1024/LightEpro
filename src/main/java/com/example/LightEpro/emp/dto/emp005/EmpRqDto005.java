@@ -11,9 +11,9 @@ import javax.validation.constraints.Positive;
 @Data
 public class EmpRqDto005 {
     @NotNull
-    private @Valid User user;
+    private @Valid User user; // 필수값
     @NotNull
-    private @Valid Comp comp;
+    private @Valid Comp comp; // 필수값
 
     @Data
     public static class User {
@@ -27,9 +27,9 @@ public class EmpRqDto005 {
 
     @Data
     public static class Comp {
-        private int compSeq;
-        private int parentCompSeq;
+        private int compSeq; // 필수값이 아님
+        private int parentCompSeq; // 필수값이 아님
         @NotBlank
-        private String compName;
+        private String compName; // 필수값
     }
 }

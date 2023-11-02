@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface EmpMapper006 {
-    EmpRsDto006.CompInfo selectCompInfo(EmpRqDto006 empRqDto006) throws Exception;
+    EmpRsDto006.CompInfo selectCompany(EmpRqDto006 empRqDto006) throws Exception;
 }

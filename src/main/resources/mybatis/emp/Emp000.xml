@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.LightEpro.emp.mapper.EmpMapper000">
-    <select id="findCurrentDeptValue" resultType="int">
-        /* findCurrentDeptValue */
+    <select id="selectDepartmentSequence" resultType="int">
+        /* selectDepartmentSequence */
         SELECT practice.nextval('dept') FROM dual;
     </select>
 
-    <insert id="insertDept">
-        /* insertDept */
+    <insert id="insertDepartment">
+        /* insertDepartment */
         INSERT INTO T_EM_DEPT (DEPT_SEQ,
                                PARENT_DEPT_SEQ,
                                DEPT_NAME,

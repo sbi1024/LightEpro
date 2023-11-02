@@ -19,9 +19,11 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Slf4j
 public class EmpController004 {
+
+    // empService004 선언
     private final EmpService004 empService004;
 
-    // 부서 조직도 조회 API
+    // 부서 조직도 조회 (하위 부서 포함) API
     @RequestMapping(value = "/emp004", method = {RequestMethod.GET, RequestMethod.POST})
     public EmpResponse emp004(@RequestBody @Valid EmpRqDto004 empRqDto004) throws Exception {
         log.info("emp004 API Start !!!");
@@ -41,7 +43,7 @@ public class EmpController004 {
         empResponse.setResponseStatus("SUCCESS");
         empResponse.setResponseCode(200);
         empResponse.setResponseMsg("emp004 API SUCCESS");
-        empResponse.setResponseData(empService004.findDeptList(empRqDto004));
+        empResponse.setResponseData(empService004.findDepartmentsInfo(empRqDto004));
 
         // stopWatch 종료
         stopWatch.stop();

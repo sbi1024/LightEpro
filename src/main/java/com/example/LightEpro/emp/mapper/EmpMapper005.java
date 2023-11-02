@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface EmpMapper005 {
-    int findCurrentCompValue() throws Exception;
+    int selectCompanySequence() throws Exception;
 
-    int insertComp(EmpRqDto005 empRqDto005) throws Exception;
+    int insertCompany(EmpRqDto005 empRqDto005) throws Exception;
 }

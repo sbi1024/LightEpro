@@ -11,19 +11,23 @@ import javax.validation.constraints.Positive;
 @Data
 public class EmpRqDto003 {
     @NotNull
-    private @Valid Emp emp;
+    private @Valid User user; // 필수값
     @NotNull
-    private @Valid Dept dept;
+    private @Valid Dept dept; // 필수값
 
     @Data
-    public static class Emp {
+    public static class User {
         @Positive
-        private int empSeq;
+        private int userCompSeq; // 필수값
+        @Positive
+        private int userDeptSeq; // 필수값
+        @Positive
+        private int userSeq; // 필수값
     }
 
     @Data
     public static class Dept {
         @Positive
-        private int deptSeq;
+        private int deptSeq; // 필수값
     }
 }

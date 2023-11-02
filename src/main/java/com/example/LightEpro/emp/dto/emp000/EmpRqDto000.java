@@ -11,11 +11,11 @@ import java.util.List;
 @Data
 public class EmpRqDto000 {
     @NotNull
-    private @Valid User user;
+    private @Valid User user; // 필수값
     @NotNull
-    private @Valid Comp comp;
+    private @Valid Comp comp; // 필수값
     @NotNull
-    private @Valid Dept dept;
+    private @Valid Dept dept; // 필수값
 
     @Data
     public static class User {
@@ -30,13 +30,13 @@ public class EmpRqDto000 {
     @Data
     public static class Comp {
         @Positive
-        private int compSeq;
+        private int compSeq; // 필수값
     }
     @Data
     public static class Dept {
-        private int deptSeq;
-        private int parentDeptSeq;
+        private int deptSeq; // 필수값이 아님
+        private int parentDeptSeq; // 필수값이 아님
         @NotBlank
-        private String deptName;
+        private String deptName; // 필수값
     }
 }

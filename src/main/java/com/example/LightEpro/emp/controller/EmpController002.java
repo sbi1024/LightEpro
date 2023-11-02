@@ -22,7 +22,7 @@ public class EmpController002 {
 
     private final EmpService002 empService002;
 
-    // 부서 수정 API
+    // 단일 부서 수정 API
     @RequestMapping(value = "/emp002", method = {RequestMethod.GET, RequestMethod.POST})
     public EmpResponse emp002(@RequestBody @Valid EmpRqDto002 empRqDto002) throws Exception {
         log.info("emp002 API Start !!!");
@@ -42,7 +42,7 @@ public class EmpController002 {
         empResponse.setResponseStatus("SUCCESS");
         empResponse.setResponseCode(200);
         empResponse.setResponseMsg("emp002 API SUCCESS");
-        empResponse.setResponseData(empService002.modifySingleDept(empRqDto002));
+        empResponse.setResponseData(empService002.modifyDepartmentInfo(empRqDto002));
 
         // stopWatch 종료
         stopWatch.stop();

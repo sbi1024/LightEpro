@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.LightEpro.emp.mapper.EmpMapper005">
-    <select id="findCurrentCompValue" resultType="int">
-        /* findCurrentCompValue */
+    <select id="selectCompanySequence" resultType="int">
+        /* selectCompanySequence */
         SELECT practice.nextval('comp') FROM dual;
     </select>
 
-    <insert id="insertComp">
-        /* insertComp */
+    <insert id="insertCompany">
+        /* insertCompany */
         INSERT INTO T_EM_COMP (COMP_SEQ,
                                PARENT_COMP_SEQ,
                                COMP_NAME,

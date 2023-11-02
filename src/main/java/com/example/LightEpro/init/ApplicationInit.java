@@ -90,7 +90,7 @@ public class ApplicationInit implements InitializingBean {
             empRqDto005.setComp(comp);
 
             // 회사 등록
-            empService005.createSingleComp(empRqDto005);
+            empService005.createCompanyInfo(empRqDto005);
         }
 
         // method end log
@@ -127,7 +127,7 @@ public class ApplicationInit implements InitializingBean {
             empRqDto000.setDept(dept);
 
             // 부서 등록
-            empService000.createSingleDept(empRqDto000);
+            empService000.createDepartmentInfo(empRqDto000);
         }
 
         // method end log
@@ -205,8 +205,8 @@ public class ApplicationInit implements InitializingBean {
             dept.setDeptSeq(1);
 
             // empAccount 객체 데이터 할당
-            empAccount.setUserId("테스트 init 아이디" + i);
-            empAccount.setUserPw("테스트 init 비밀번호" + i);
+            empAccount.setUserId("admin" + i);
+            empAccount.setUserPw("admin" + i);
 
             // empMapping 객체 데이터 할당
             empMapping.setCompSeq(1);

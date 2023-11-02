@@ -7,6 +7,6 @@ import java.util.List;
 
 @Mapper
 public interface EmpMapper000 {
-    int findCurrentDeptValue() throws Exception;
-    int insertDept(EmpRqDto000 empRqDto000) throws Exception;
+    int selectDepartmentSequence() throws Exception;
+    int insertDepartment(EmpRqDto000 empRqDto000) throws Exception;
 }

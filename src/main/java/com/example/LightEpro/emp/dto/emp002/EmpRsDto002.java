@@ -8,6 +8,5 @@ import lombok.Data;
 @Builder
 public class EmpRsDto002 {
     private int deptSeq;
-    private int modifyDeptInfoCnt;
-    private int modifyMappingDeptInfoCnt;
+    private int modifyDepartmentCnt;
 }

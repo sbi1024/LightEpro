@@ -7,10 +7,10 @@ import lombok.Data;
 @Data
 @Builder
 public class EmpRsDto001 {
-    private DeptInfo deptInfo;
+    private Department department;
 
     @Data
-    public static class DeptInfo {
+    public static class Department {
         private String deptSeq;
         private String parentDeptSeq;
         private String deptName;

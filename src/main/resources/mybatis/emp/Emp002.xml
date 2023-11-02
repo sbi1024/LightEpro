@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.LightEpro.emp.mapper.EmpMapper002">
-    <update id="updateDeptInfo">
-        /* updateDeptInfo */
+    <update id="updateDepartment">
+        /* updateDepartment */
         UPDATE T_EM_DEPT TED
         SET TED.PARENT_DEPT_SEQ = #{dept.parentDeptSeq},
             TED.DEPT_NAME       = #{dept.deptName},
-            TED.COMP_SEQ        = #{comp.compSeq},
             TED.MODIFY_DATE     = NOW(),
             TED.MODIFY_SEQ      = #{emp.empSeq}
         WHERE 1 = 1
           AND TED.DEPT_SEQ = #{dept.deptSeq}
           AND TED.USE_YND = 'Y'
-    </update>
-
-    <update id="updateMappingDeptInfo">
-        /* updateMappingDeptInfo */
     </update>
 </mapper>

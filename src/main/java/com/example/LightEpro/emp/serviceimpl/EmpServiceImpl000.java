@@ -14,14 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class EmpServiceImpl000 implements EmpService000 {
 
+    // empMapper000 선언
     private final EmpMapper000 empMapper000;
 
+    // 단일 부서 정보 등록 메소드
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public EmpRsDto000 createSingleDept(EmpRqDto000 empRqDto000) throws Exception {
+    public EmpRsDto000 createDepartmentInfo(EmpRqDto000 empRqDto000) throws Exception {
         // method start log
-        log.info("createSingleDept Method Start !!!");
-        log.info("createSingleDept Method Request Data : " + empRqDto000);
+        log.info("createDepartmentInfo Method Start !!!");
+        log.info("createDepartmentInfo Method Request Data : " + empRqDto000);
 
         // 객체 데이터 재 주입 메소드 호출
         assignObject(empRqDto000);
@@ -35,33 +37,53 @@ public class EmpServiceImpl000 implements EmpService000 {
                 .build();
 
         // method end log
-        log.info("createSingleDept Method Return Data : " + empRsDto000);
-        log.info("createSingleDept Method End !!!");
+        log.info("createDepartmentInfo Method Return Data : " + empRsDto000);
+        log.info("createDepartmentInfo Method End !!!");
 
         // return
         return empRsDto000;
     }
 
+    // empRqDto000 객체 데이터 재 주입 메소드
     @Override
     public void assignObject(EmpRqDto000 empRqDto000) throws Exception {
         // method start log
         log.info("assignObject Method Start !!!");
         log.info("assignObject Method Request Data : " + empRqDto000);
 
-        // 부서 시퀀스 할당
-        empRqDto000.getDept().setDeptSeq(findCurrentDeptValue());
+        // 부서 시퀀스 값 할당 메소드 호출
+        confirmDepartmentSequence(empRqDto000);
 
         // method end log
         log.info("assignObject Method End !!!");
     }
 
+    // 부서 객체에 부서 시퀀스 값 할당 메소드
     @Override
-    public int findCurrentDeptValue() throws Exception {
+    public void confirmDepartmentSequence(EmpRqDto000 empRqDto000) throws Exception {
+        // method start log
+        log.info("assignObject Method Start !!!");
+        log.info("assignObject Method Request Data : " + empRqDto000);
+
+        // 부서 객체 생성
+        EmpRqDto000.Dept dept = empRqDto000.getDept();
+        // 부서 시퀀스 값 채번
+        int findDepartmentSequenceValue = findDepartmentSequence();
+        // dept 객체에 부서 시퀀스 할당
+        dept.setDeptSeq(findDepartmentSequenceValue);
+
+        // method end log
+        log.info("assignObject Method End !!!");
+    }
+
+    // 부서 시퀀스 번호 채번 메소드
+    @Override
+    public int findDepartmentSequence() throws Exception {
         // method start log
         log.info("findCurrentDeptValue Method Start !!!");
 
         // 부서 시퀀스 채번
-        int currentDeptValue = empMapper000.findCurrentDeptValue();
+        int currentDeptValue = empMapper000.selectDepartmentSequence();
 
         // method end log
         log.info("findCurrentDeptValue Method Return Data : " + currentDeptValue);
@@ -71,14 +93,15 @@ public class EmpServiceImpl000 implements EmpService000 {
         return currentDeptValue;
     }
 
+    // 부서 등록 메소드
     @Override
     public int createDepartment(EmpRqDto000 empRqDto000) throws Exception {
         // method start log
         log.info("createDepartment Method Start !!!");
         log.info("createDepartment Method Request Data : " + empRqDto000);
 
-        // 부서 생성
-        int insertDeptCnt = empMapper000.insertDept(empRqDto000);
+        // 부서 등록 Mapper 호출
+        int insertDeptCnt = empMapper000.insertDepartment(empRqDto000);
 
         // method end log
         log.info("createDepartment Method Return Data : " + empRqDto000);

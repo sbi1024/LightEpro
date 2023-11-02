@@ -33,7 +33,7 @@ public class SchServiceImpl004 implements SchService004 {
 
         // 일정 목록 조회 메소드 호출
         List<SchRsDto004.Schedule> schedules = findSchedules(schRqDto004);
-        // 일정 목록 카운팅 메소드 호출
+        // 일정 목록 카운팅
         int schedulesCnt = schedules == null ? 0 : schedules.size();
         // schRsDto004 객체 builder 패턴을 통해 객체 생성
         SchRsDto004 schRsDto004 = SchRsDto004.builder()
@@ -49,7 +49,7 @@ public class SchServiceImpl004 implements SchService004 {
         return schRsDto004;
     }
 
-    // 일정 목록 조회 메소드
+    // 월 기준 일정 목록 조회 메소드
     @Override
     public List<SchRsDto004.Schedule> findSchedules(SchRqDto004 schRqDto004) throws Exception {
         // method start log
