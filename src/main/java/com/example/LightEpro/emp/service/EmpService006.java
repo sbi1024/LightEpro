@@ -8,5 +8,5 @@ import com.example.LightEpro.emp.dto.emp006.EmpRsDto006;
 public interface EmpService006 {
     EmpRsDto006 findCompanyInfo(EmpRqDto006 empRqDto006) throws Exception;
 
-    EmpRsDto006.CompInfo findCompany(EmpRqDto006 empRqDto006) throws Exception;
+    EmpRsDto006.Company findCompany(EmpRqDto006 empRqDto006) throws Exception;
 }

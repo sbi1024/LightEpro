@@ -7,10 +7,10 @@ import lombok.Data;
 @Data
 @Builder
 public class EmpRsDto006 {
-    private CompInfo compInfo;
+    private Company company;
 
     @Data
-    public static class CompInfo {
+    public static class Company {
         private String compSeq;
         private String parentCompSeq;
         private String compName;

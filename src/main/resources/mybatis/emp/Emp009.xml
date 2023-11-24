@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.LightEpro.emp.mapper.EmpMapper009">
-    <select id="selectCompInfoList" resultType="com.example.LightEpro.emp.dto.emp009.EmpRsDto009$CompInfo">
-        /* selectCompInfoList */
+    <select id="selectCompanies" resultType="com.example.LightEpro.emp.dto.emp009.EmpRsDto009$Company">
+        /* selectCompanies */
         WITH RECURSIVE CTE AS (SELECT TEC.COMP_SEQ,
                                       TEC.PARENT_COMP_SEQ,
                                       CAST(TEC.COMP_SEQ AS CHAR(100)) AS COMP_PATH

@@ -19,6 +19,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Slf4j
 public class EmpController015 {
+    // empService015 선언
     private final EmpService015 empService015;
 
     // 사원 등록 API
@@ -41,7 +42,7 @@ public class EmpController015 {
         empResponse.setResponseStatus("SUCCESS");
         empResponse.setResponseCode(200);
         empResponse.setResponseMsg("emp015 API SUCCESS");
-        empResponse.setResponseData(empService015.createSingleEmp(empRqDto015));
+        empResponse.setResponseData(empService015.createEmployee(empRqDto015));
 
         // stopWatch 종료
         stopWatch.stop();

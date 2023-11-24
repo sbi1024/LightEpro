@@ -10,14 +10,18 @@ import javax.validation.constraints.Positive;
 @Data
 public class EmpRqDto009 {
     @NotNull
-    private @Valid Emp emp;
+    private @Valid User user;
     @NotNull
     private @Valid Comp comp;
 
     @Data
-    public static class Emp {
+    public static class User {
         @Positive
-        private int empSeq;
+        private int userCompSeq; // 필수값
+        @Positive
+        private int userDeptSeq; // 필수값
+        @Positive
+        private int userSeq; // 필수값
     }
 
     @Data

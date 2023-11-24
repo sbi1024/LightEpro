@@ -20,9 +20,10 @@ import javax.validation.Valid;
 @Slf4j
 public class EmpController007 {
 
+    // empService007 선언
     private final EmpService007 empService007;
 
-    // 회사 수정 API
+    // 단일 회사 수정 API
     @RequestMapping(value = "/emp007", method = {RequestMethod.GET, RequestMethod.POST})
     public EmpResponse emp007(@RequestBody @Valid EmpRqDto007 empRqDto007) throws Exception {
         log.info("emp007 API Start !!!");
@@ -42,7 +43,7 @@ public class EmpController007 {
         empResponse.setResponseStatus("SUCCESS");
         empResponse.setResponseCode(200);
         empResponse.setResponseMsg("emp007 API SUCCESS");
-        empResponse.setResponseData(empService007.modifySingleComp(empRqDto007));
+        empResponse.setResponseData(empService007.modifyCompanyInfo(empRqDto007));
 
         // stopWatch 종료
         stopWatch.stop();

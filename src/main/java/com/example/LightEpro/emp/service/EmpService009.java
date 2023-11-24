@@ -8,7 +8,7 @@ import com.example.LightEpro.emp.dto.emp009.EmpRsDto009;
 import java.util.List;
 
 public interface EmpService009 {
-    EmpRsDto009 findCompList(EmpRqDto009 empRqDto009) throws Exception;
+    EmpRsDto009 findCompaniesInfo(EmpRqDto009 empRqDto009) throws Exception;
 
-    List<EmpRsDto009.CompInfo> findCompInfoList(EmpRqDto009 empRqDto009) throws Exception;
+    List<EmpRsDto009.Company> findCompanies(EmpRqDto009 empRqDto009) throws Exception;
 }

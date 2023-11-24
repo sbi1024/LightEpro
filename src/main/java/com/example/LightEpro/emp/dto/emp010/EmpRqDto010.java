@@ -1,6 +1,5 @@
 package com.example.LightEpro.emp.dto.emp010;
 
-import com.example.LightEpro.emp.dto.emp015.EmpRqDto015;
 import lombok.Data;
 
 import javax.validation.Valid;

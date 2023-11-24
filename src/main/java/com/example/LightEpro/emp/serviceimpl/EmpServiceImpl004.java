@@ -55,12 +55,13 @@ public class EmpServiceImpl004 implements EmpService004 {
         log.info("findDepartments Method Request Data : " + empRqDto004);
         
         // 부서 조직도 목록 조회 Mapper 호출
-        List<EmpRsDto004.Department> selectDeptInfoList = empMapper004.selectDepartments(empRqDto004);
+        List<EmpRsDto004.Department> selectDepartments = empMapper004.selectDepartments(empRqDto004);
 
         // method end log
-        log.info("findDepartments Method Return Data : " + selectDeptInfoList);
+        log.info("findDepartments Method Return Data : " + selectDepartments);
         log.info("findDepartments Method End !!!");
 
-        return selectDeptInfoList;
+        // return
+        return selectDepartments;
     }
 }

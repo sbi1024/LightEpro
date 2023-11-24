@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface EmpMapper010 {
-    int findCurrentPositionValue() throws Exception;
+    int selectPositionSequence() throws Exception;
 
     int insertPosition(EmpRqDto010 empRqDto010);
 }

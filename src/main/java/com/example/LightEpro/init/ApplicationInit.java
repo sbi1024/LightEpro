@@ -46,7 +46,7 @@ public class ApplicationInit implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         // 차후에 배포시 주석처리하여 배포
-        init();
+        // init();
     }
 
     // init 메소드 구성
@@ -170,7 +170,7 @@ public class ApplicationInit implements InitializingBean {
             empRqDto010.setPosition(position);
 
             // 직급 직책 직위 등록
-            empService010.createSinglePosition(empRqDto010);
+            empService010.createPositionInfo(empRqDto010);
         }
 
         // method end log
@@ -225,7 +225,7 @@ public class ApplicationInit implements InitializingBean {
             empRqDto015.setEmpAccount(empAccount);
 
             // 사원 등록
-            empService015.createSingleEmp(empRqDto015);
+            empService015.createEmployee(empRqDto015);
         }
 
         // method end log

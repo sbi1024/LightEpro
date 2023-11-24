@@ -7,6 +7,5 @@ import lombok.Data;
 @Builder
 public class EmpRsDto008 {
     private int compSeq;
-    private int removeCompInfoCnt;
-    private int removeMappingCompInfoCnt;
+    private int removeCompanyCnt;
 }

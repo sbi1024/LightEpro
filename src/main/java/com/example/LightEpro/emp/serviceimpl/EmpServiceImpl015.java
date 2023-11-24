@@ -21,11 +21,11 @@ public class EmpServiceImpl015 implements EmpService015 {
 
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public EmpRsDto015 createSingleEmp(EmpRqDto015 empRqDto015) throws Exception {
+    public EmpRsDto015 createEmployee(EmpRqDto015 empRqDto015) throws Exception {
 
         // method start log
-        log.info("createSingleEmp Method Start !!!");
-        log.info("createSingleEmp Method Request Data : " + empRqDto015);
+        log.info("createEmployee Method Start !!!");
+        log.info("createEmployee Method Request Data : " + empRqDto015);
 
         // 객체 데이터 재 할당
         assignObject(empRqDto015);

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.LightEpro.emp.mapper.EmpMapper010">
-    <select id="findCurrentPositionValue" resultType="int">
-        /* findCurrentPositionValue */
+    <select id="selectPositionSequence" resultType="int">
+        /* selectPositionSequence */
         SELECT practice.nextval('position') FROM dual;
     </select>
 
     <insert id="insertPosition">
+        /* insertPosition */
         INSERT INTO T_EM_POSITION (POSITION_CODE_SEQ,
                                    POSITION_CODE_TYPE,
                                    POSITION_CODE_INFO,

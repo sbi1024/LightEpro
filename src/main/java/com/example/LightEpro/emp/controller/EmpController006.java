@@ -24,7 +24,7 @@ public class EmpController006 {
     // empService006  선언
     private final EmpService006 empService006;
 
-    // 단이 회사 상세 조회 API
+    // 단일 회사 상세 조회 API
     @RequestMapping(value = "/emp006", method = {RequestMethod.GET, RequestMethod.POST})
     public EmpResponse emp006(@RequestBody @Valid EmpRqDto006 empRqDto006) throws Exception {
         log.info("emp006 API Start !!!");

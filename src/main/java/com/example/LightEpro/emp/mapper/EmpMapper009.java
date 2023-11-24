@@ -10,5 +10,5 @@ import java.util.List;
 
 @Mapper
 public interface EmpMapper009 {
-    List<EmpRsDto009.CompInfo> selectCompInfoList(EmpRqDto009 empRqDto009) throws Exception;
+    List<EmpRsDto009.Company> selectCompanies(EmpRqDto009 empRqDto009) throws Exception;
 }

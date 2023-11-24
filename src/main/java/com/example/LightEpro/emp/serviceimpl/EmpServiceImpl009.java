@@ -21,42 +21,49 @@ public class EmpServiceImpl009 implements EmpService009 {
     // EmpMapper009 선언
     private final EmpMapper009 empMapper009;
 
+    // 회사 조직도 조회 메소드 (하위 회사 포함)
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public EmpRsDto009 findCompList(EmpRqDto009 empRqDto009) throws Exception {
+    public EmpRsDto009 findCompaniesInfo(EmpRqDto009 empRqDto009) throws Exception {
 
         // method start log
-        log.info("findCompList Method Start !!!");
-        log.info("findCompList Method Request Data : " + empRqDto009);
+        log.info("findCompaniesInfo Method Start !!!");
+        log.info("findCompaniesInfo Method Request Data : " + empRqDto009);
 
-        // 부서 조직도 목록 리스트를 조회한다.
-        List<EmpRsDto009.CompInfo> findDeptInfoList = findCompInfoList(empRqDto009);
+        // 회사 조직도 목록 리스트를 조회한다.
+        List<EmpRsDto009.Company> companies = findCompanies(empRqDto009);
+        // 회사 조직도 목록 카운팅
+        int companiesCnt = companies == null ? 0 : companies.size();
 
         // empRqDto009 객체 builder 패턴을 통해 객체 생성
         EmpRsDto009 empRsDto009 = EmpRsDto009.builder()
-                .compInfos(findDeptInfoList)
+                .companies(companies)
+                .companiesCnt(companiesCnt)
                 .build();
 
         // method end log
-        log.info("findCompList Method Return Data : " + empRsDto009);
-        log.info("findCompList Method End !!!");
+        log.info("findCompaniesInfo Method Return Data : " + empRsDto009);
+        log.info("findCompaniesInfo Method End !!!");
 
         // return
         return empRsDto009;
     }
 
+    // 회사 조직도 조회 메소드 (하위 회사 포함)
     @Override
-    public List<EmpRsDto009.CompInfo> findCompInfoList(EmpRqDto009 empRqDto009) throws Exception {
+    public List<EmpRsDto009.Company> findCompanies(EmpRqDto009 empRqDto009) throws Exception {
         // method start log
-        log.info("findCompInfoList Method Start !!!");
-        log.info("findCompInfoList Method Request Data : " + empRqDto009);
-
-        List<EmpRsDto009.CompInfo> selectCompInfoList = empMapper009.selectCompInfoList(empRqDto009);
+        log.info("findCompanies Method Start !!!");
+        log.info("findCompanies Method Request Data : " + empRqDto009);
+        
+        // 회사 조직도 목록 조회 Mapper 호출
+        List<EmpRsDto009.Company> selectCompanies = empMapper009.selectCompanies(empRqDto009);
 
         // method end log
-        log.info("findCompInfoList Method Return Data : " + selectCompInfoList);
-        log.info("findCompInfoList Method End !!!");
+        log.info("findCompanies Method Return Data : " + selectCompanies);
+        log.info("findCompanies Method End !!!");
 
-        return selectCompInfoList;
+        // return
+        return selectCompanies;
     }
 }

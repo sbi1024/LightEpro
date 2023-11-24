@@ -14,65 +14,49 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class EmpServiceImpl008 implements EmpService008 {
 
-    // EmpMapper002 선언
+    // empMapper008 선언
     private final EmpMapper008 empMapper008;
 
+    // 단일 회사 정보 삭제 메소드
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public EmpRsDto008 removeSingleComp(EmpRqDto008 empRqDto008) throws Exception {
+    public EmpRsDto008 removeCompanyInfo(EmpRqDto008 empRqDto008) throws Exception {
         // method start log
-        log.info("removeSingleComp Method Start !!!");
-        log.info("removeSingleComp Method Request Data : " + empRqDto008);
+        log.info("removeCompanyInfo Method Start !!!");
+        log.info("removeCompanyInfo Method Request Data : " + empRqDto008);
 
-        // 부서 정보를 삭제한다.
-        int removeCompInfoCnt = removeCompInfo(empRqDto008);
-        // 매핑 부서의 정보를 삭제한다. (removeMappingDeptInfo(empRqDto002))
-        int removeMappingCompInfoCnt = 0;
+        // 회사 정보를 삭제한다.
+        int removeCompanyCnt = removeCompany(empRqDto008);
 
         // empRsDto008 객체 builder 패턴을 통해 객체 생성
         EmpRsDto008 empRsDto008 = EmpRsDto008.builder()
                 .compSeq(empRqDto008.getComp().getCompSeq())
-                .removeCompInfoCnt(removeCompInfoCnt)
-                .removeMappingCompInfoCnt(removeMappingCompInfoCnt)
+                .removeCompanyCnt(removeCompanyCnt)
                 .build();
 
         // method end log
-        log.info("removeSingleComp Method Return Data : " + empRsDto008);
-        log.info("removeSingleComp Method End !!!");
+        log.info("removeCompanyInfo Method Return Data : " + empRsDto008);
+        log.info("removeCompanyInfo Method End !!!");
 
         // return
         return empRsDto008;
     }
 
+    // 회사 삭제 메소드
     @Override
-    public int removeCompInfo(EmpRqDto008 empRqDto008) throws Exception {
+    public int removeCompany(EmpRqDto008 empRqDto008) throws Exception {
         // method start log
-        log.info("removeCompInfo Method Start !!!");
-        log.info("removeCompInfo Method Request Data : " + empRqDto008);
+        log.info("removeCompany Method Start !!!");
+        log.info("removeCompany Method Request Data : " + empRqDto008);
 
-        int updateCompInfoCnt = empMapper008.updateCompInfo(empRqDto008);
+        // 회사 삭제 Mapper 호출
+        int updateCompanyCnt = empMapper008.updateCompany(empRqDto008);
 
         // method end log
-        log.info("removeCompInfo Method Return Data : " + updateCompInfoCnt);
-        log.info("removeCompInfo Method End !!!");
+        log.info("removeCompany Method Return Data : " + updateCompanyCnt);
+        log.info("removeCompany Method End !!!");
 
         // return
-        return updateCompInfoCnt;
-    }
-
-    @Override
-    public int removeMappingCompInfo(EmpRqDto008 empRqDto008) throws Exception {
-        // method start log
-        log.info("removeMappingCompInfo Method Start !!!");
-        log.info("removeMappingCompInfo Method Request Data : " + empRqDto008);
-
-        int updateMappingCompInfoCnt = empMapper008.updateMappingCompInfo(empRqDto008);
-
-        // method end log
-        log.info("removeMappingCompInfo Method Return Data : " + updateMappingCompInfoCnt);
-        log.info("removeMappingCompInfo Method End !!!");
-
-        // return
-        return updateMappingCompInfoCnt;
+        return updateCompanyCnt;
     }
 }

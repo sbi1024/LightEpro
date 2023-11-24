@@ -4,7 +4,7 @@ import com.example.LightEpro.emp.dto.emp015.EmpRqDto015;
 import com.example.LightEpro.emp.dto.emp015.EmpRsDto015;
 
 public interface EmpService015 {
-    EmpRsDto015 createSingleEmp(EmpRqDto015 empRqDto015) throws Exception;
+    EmpRsDto015 createEmployee(EmpRqDto015 empRqDto015) throws Exception;
 
     void assignObject(EmpRqDto015 empRqDto015) throws Exception;
 

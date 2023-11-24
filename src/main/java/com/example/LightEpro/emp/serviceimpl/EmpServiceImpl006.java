@@ -24,20 +24,20 @@ public class EmpServiceImpl006 implements EmpService006 {
     @Override
     public EmpRsDto006 findCompanyInfo(EmpRqDto006 empRqDto006) throws Exception {
         // method start log
-        log.info("findSingleComp Method Start !!!");
-        log.info("findSingleComp Method Request Data : " + empRqDto006);
+        log.info("findCompanyInfo Method Start !!!");
+        log.info("findCompanyInfo Method Request Data : " + empRqDto006);
 
         // 회사 정보를 조회한다.
-        EmpRsDto006.CompInfo compInfo = findCompany(empRqDto006);
+        EmpRsDto006.Company company = findCompany(empRqDto006);
 
         // empRsDto006 객체 builder 패턴을 통해 객체 생성
         EmpRsDto006 empRsDto006 = EmpRsDto006.builder()
-                .compInfo(compInfo)
+                .company(company)
                 .build();
 
         // method end log
-        log.info("findSingleComp Method Return Data : " + empRsDto006);
-        log.info("findSingleComp Method End !!!");
+        log.info("findCompanyInfo Method Return Data : " + empRsDto006);
+        log.info("findCompanyInfo Method End !!!");
 
         //return
         return empRsDto006;
@@ -45,19 +45,19 @@ public class EmpServiceImpl006 implements EmpService006 {
     
     // 회사 정보 조회 메소드
     @Override
-    public EmpRsDto006.CompInfo findCompany(EmpRqDto006 empRqDto006) throws Exception {
+    public EmpRsDto006.Company findCompany(EmpRqDto006 empRqDto006) throws Exception {
         // method start log
-        log.info("findDeptInfo Method Start !!!");
-        log.info("findDeptInfo Method Request Data : " + empRqDto006);
+        log.info("findCompany Method Start !!!");
+        log.info("findCompany Method Request Data : " + empRqDto006);
         
         // 회사 정보 조회 Mapper 호출
-        EmpRsDto006.CompInfo selectCompany = empMapper006.selectCompany(empRqDto006);
+        EmpRsDto006.Company company = empMapper006.selectCompany(empRqDto006);
 
         // method end log
-        log.info("findDeptInfo Method Return Data : " + selectCompany);
-        log.info("findDeptInfo Method End !!!");
+        log.info("findCompany Method Return Data : " + company);
+        log.info("findCompany Method End !!!");
 
         // return
-        return selectCompany;
+        return company;
     }
 }

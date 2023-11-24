@@ -6,6 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface EmpMapper008 {
-    int updateCompInfo(EmpRqDto008 empRqDto008) throws Exception;
-    int updateMappingCompInfo(EmpRqDto008 empRqDto008) throws Exception;
+    int updateCompany(EmpRqDto008 empRqDto008) throws Exception;
 }
